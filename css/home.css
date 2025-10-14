@@ -1,0 +1,167 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f4f4;
+    }
+
+    /* Container with rounded corners */
+    .main-wrapper {
+      width: 95%;
+      max-width: 95%;
+      margin: 20px auto;
+      background: none;
+      border-radius: 25px;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* Navbar */
+.navbar {
+  position: absolute;    /* Position it relative to the hero */
+  top: 20px;             /* Adjust distance from the top */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-sizing: border-box;
+}
+
+/* Logo */
+.navbar .logo {
+  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
+  padding: 7px 20px;                     /* Padding for pill shape */
+  border-radius: 40px;                   /* Rounded corners */
+  backdrop-filter: blur(8px);            /* Blurry background effect */
+  display: flex;                         /* Flex container */
+  align-items: center;                   /* Center the image vertically */
+  justify-content: center;               /* Center the image horizontally */
+}
+.navbar .logo img {
+  height: 40px;                          /* Set a default height for the image */
+  width: auto;                           /* Maintain aspect ratio */
+  max-width: 100%;                       /* Ensure it doesn't overflow */
+}
+
+/* Center Pill Container */
+.nav-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 20px;
+  border-radius: 40px;
+  backdrop-filter: blur(8px);
+  display: flex;
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* Active Tab Highlight */
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Right Button */
+.nav-btn {
+  background: #1E8E55;
+  color: white;
+  height: 50px;
+  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  border-radius: 40px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;      /* Required for absolute positioning of arrow */
+}
+
+.nav-btn .arrow-icon {
+  background: white;
+  color: #1E8E55;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      background: url('../graphics/heroImage.jpg') center/cover no-repeat;
+      padding: 200px 30px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .hero-btn {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 17px 30px;
+      border-radius: 40px;
+      backdrop-filter: blur(8px);
+      color: white;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+    }

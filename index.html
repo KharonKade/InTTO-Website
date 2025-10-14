@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <div class="main-wrapper">
+
+   <div class="hero">
+
+  <!-- Navbar (now inside hero) -->
+  <div class="navbar">
+    <div class="logo">
+        <img src="graphics\InTTOLogo.png" alt="logo">
+    </div>
+
+    <div class="nav-wrapper">
+      <div class="nav-links">
+        <a href="#" class="active">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Startups</a>
+        <a href="#">Events</a>
+      </div>
+    </div>
+    <a href="#" class="nav-btn">Apply for Incubation <span class="arrow-icon">→</span></a>
+  </div>
+
+  <!-- Hero Content -->
+  <h1>Driving the Culture<br>of Innovation</h1>
+  <p>We provide business and technology transfer opportunities among faculty, students, alumni, and the community.</p>
+  <div class="hero-buttons">
+    <a href="#" class="nav-btn">Apply for Incubation <span class="arrow-icon">→</span></a>
+    <a href="#" class="hero-btn" style="background: rgba(255,255,255,0.2);">View Programs</a>
+  </div>
+
+  </div>
+  </div>
+  <script>
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function () {
+      // Remove active class from all links
+      navLinks.forEach(nav => nav.classList.remove('active'));
+      // Add active class to the clicked link
+      this.classList.add('active');
+    });
+  });
+</script>
+
+
+</body>
+</html>
