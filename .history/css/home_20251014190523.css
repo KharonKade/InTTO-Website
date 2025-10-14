@@ -114,6 +114,8 @@
   transform: translateY(-50%);
 }
 
+
+
     /* Hero Section */
     .hero {
       position: relative;
@@ -216,7 +218,7 @@
 }
 
 .gallery-left {
-  flex: 1.5; /* Left side gets more width */
+  flex: 2; /* Left side gets more width */
 }
 
 .gallery-left img {

@@ -114,15 +114,15 @@
   transform: translateY(-50%);
 }
 
+
+
     /* Hero Section */
     .hero {
       position: relative;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                  url('../graphics/heroImage.jpg') center/cover no-repeat;
+      background: url('../graphics/heroImage.jpg') center/cover no-repeat;
       padding: 200px 30px;
       text-align: center;
     }
-
 
     .hero h1 {
       font-size: 48px;
@@ -216,7 +216,7 @@
 }
 
 .gallery-left {
-  flex: 1.5; /* Left side gets more width */
+  flex: 2; /* Left side gets more width */
 }
 
 .gallery-left img {
