@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/abouTUs.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="main-wrapper">
+    <div class="navbar">
+        <div class="logo">
+            <img src="graphics\InTTOLogo.png" alt="logo">
+        </div>
+
+        <div class="nav-wrapper">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="aboutUs.html" class="active">About</a>
+            <a href="#">Services</a>
+            <a href="#">Startups</a>
+            <a href="#">Events</a>
+        </div>
+        </div>
+        <a href="#" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+    </div>
+  </div>
+
+    <section class="about-section">
+        <div class="about-content">
+            <h2>About UC InTTO</h2>
+            <p>
+            At the UC Innovation and Technology Transfer Office (InTTO), our mission is to drive a culture of innovation within the university community, fostering an environment where creativity and forward-thinking thrive among students, faculty, and staff. We nurture the development of ideas from all stakeholders, ensuring a collaborative approach that harnesses a diverse range of perspectives and insights.
+            </p>
+
+            <a href="#" class="about-btn">Explore Our Programs <span class="arrow-icon">➜</span></a>
+        </div>
+
+        <div class="about-image">
+            <img src="graphics/heroImage.jpg" alt="UC Community">
+        </div>
+    </section>
+
+    <!-- Origins Section -->
+
+    <section class="origins-section">
+        <div class="origin-container">
+        <div class="origins-image">
+            <img src="graphics/handShake.png" alt="Founding Moment">
+        </div>
+
+        <div class="origins-content">
+            <h2>The UC InTTO traces its origins to June 2021</h2>
+            <p>
+            when it was established as an integral part of the University following the successful implementation of two key projects:
+            the DOST-HEIRIT Project Grant for the Establishment of the UC Innovation and Nurturing Space (UCIANS) and the DOST IMPACT
+            Program Grant for the Establishment of the Knowledge and Technology Transfer Office of the University of the Cordilleras (KTTO).<br><br>
+
+            These initiatives, concluded in June 2021 and April 2022, respectively, laid the foundation for InTTO's mission to become a
+            pivotal player in the country's innovation ecosystem. Operating under the Office of the Vice President of Research, Innovation
+            and Institutional Planning, InTTO aims to foster disruptive and innovative ideas, incubate promising concepts, and facilitate
+            intellectual property protection and technology transfer opportunities to address societal challenges effectively. This mission
+            is realized through its two subunits: the UC Innovation and Nurturing Space and the Knowledge and Technology Transfer Office.
+            </p>
+
+            <a href="#" class="about-btn">Explore Our Programs <span class="arrow-icon">➜</span></a>
+        </div>
+        </div>
+    </section>
+
+    <section class="our-services">
+       <!-- Section Title -->
+        <h2 class="service-title">Our 2 Core Units</h2>
+
+        <!-- Services Section -->
+        <div class="services">
+
+            <!-- Card 1 -->
+            <div class="service-card">
+                <img src="graphics/services1.png" alt="">
+                <h3>UCIANS TBI</h3>
+                <p style="color: #1C7F56; font-size: 20px;">UC Innovation and Nurturing Space</p>
+                <p>UCIANS TBI aims to nurture ideas and early stage startups by providing startup development services to aid in the development of the startup ecosystem of the Philippines.</p>
+            </div>
+
+            <div class="service-card">
+                <img src="graphics/services1.png" alt="">
+                <h3>UC KTTO</h3>
+                <P style="color: #1C7F56; font-size: 20px;">UC Knowledge and Technology Transfer Office </P>
+                <p>KTTO functions as the conduit of knowledge and technology housed in the University to the industries through offering IP Protection, IP education, technology transfer, and publication support services to its stakeholders.</p>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card"><span>77</span><p>Startups Incubated</p></div>
+                <div class="stat-card"><span>₱11.6M+</span><p>Investments Received</p></div>
+                <div class="stat-card"><span>30+</span><p>IPs Protected</p></div>
+                <div class="stat-card"><span>28</span><p>Jobs Generated</p></div>
+            </div>
+        </div>
+   </section>
+
+
+
+
+  <script>
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+        // Remove active class from all links
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        // Add active class to the clicked link
+        this.classList.add('active');
+        });
+    });
+    </script>
+</body>
+</html>
+

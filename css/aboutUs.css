@@ -1,0 +1,327 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #ffff;
+    }
+
+    /* Container with rounded corners */
+    .main-wrapper {
+      width: 95%;
+      max-width: 95%;
+      margin: 20px auto;
+      background: none;
+      border-radius: 25px;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* Navbar */
+.navbar {
+  position: absolute;       /* Positioned at the top */
+  top: 40px;
+  left: 50%;                /* Move to the middle */
+  transform: translateX(-50%);  /* Pull it back by half its width */
+  width: 95%;       /* Optional: limit how wide it gets */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  background: #166647;
+  border-radius: 48px;
+}
+
+/* Logo */
+.navbar .logo {
+  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
+  padding: 7px 20px;                     /* Padding for pill shape */
+  border-radius: 40px;                   /* Rounded corners */
+  backdrop-filter: blur(8px);            /* Blurry background effect */
+  display: flex;                         /* Flex container */
+  align-items: center;                   /* Center the image vertically */
+  justify-content: center;               /* Center the image horizontally */
+}
+.navbar .logo img {
+  height: 40px;                          /* Set a default height for the image */
+  width: auto;                           /* Maintain aspect ratio */
+  max-width: 100%;                       /* Ensure it doesn't overflow */
+}
+
+/* Center Pill Container */
+.nav-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 20px;
+  border-radius: 40px;
+  backdrop-filter: blur(8px);
+  display: flex;
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* Active Tab Highlight */
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Right Button */
+.nav-btn {
+  background: #1C7F56;
+  color: white;
+  height: 50px;
+  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  border-radius: 40px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;      /* Required for absolute positioning of arrow */
+}
+
+.nav-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* About Section Layout */
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 90%;
+  margin: 200px auto 0; /* push it down after the navbar */
+  padding: 40px 20px;
+  color: #1a1a1a;
+}
+
+.about-content {
+  width: 50%;
+}
+
+.about-content h2 {
+  font-size: 56px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #0b1215; /* almost black */
+}
+
+.about-content p {
+  font-size: 20px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+  color: #444;
+}
+
+/* Button Matching Your Style */
+.about-btn {
+  background: #1C7F56;
+  color: white;
+  padding: 12px 50px 12px 24px;
+  height: 50px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  width: 338px;
+  text-align: center;
+}
+
+.about-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Right Image */
+.about-image img {
+  width: 626px;
+  height: 541px;
+  border-radius: 30px;
+  object-fit: cover;
+  filter: brightness(40%);
+}
+
+.origin-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 150px auto;
+  padding: 40px 20px;
+  color: #1a1a1a;
+}
+/* Origins Section Layout */
+.origins-section {
+  background-color: #EFFAF4;
+}
+
+.origins-image img {
+  width: 669px;
+  border-radius: 48px;
+  height: 738;
+  object-fit: cover;
+}
+
+.origins-content {
+  width: 50%;
+  padding-left: 40px;
+}
+
+.origins-content h2 {
+  font-size: 56px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #0b1215;
+}
+
+.origins-content p {
+  font-size: 20px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+  color: #444;
+}
+
+.our-services {
+  width: 90%;
+  margin: 100px auto;
+  text-align: center;
+}
+.service-title {
+  text-align: center;
+  font-size: 56px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+/* Services Container */
+.services {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Bigger Card - 2 per row */
+.service-card {
+  background: white;
+  width: 45%;          /* Ensures only 2 cards per row */
+  min-width: 450px;     /* Keeps them sturdy on large screens */
+  border-radius: 20px;
+  padding: 30px;        /* More inner spacing */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* Bigger Image */
+.service-card img {
+  width: 553px;
+  height: 360px;      /* Taller for stronger emphasis */
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* Bigger Title */
+.service-card h3 {
+  margin-top: 20px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Bigger Text */
+.service-card p {
+  font-size: 16px;
+  color: #555;
+  margin: 12px 0 22px;
+}
+
+:root{
+  --green:#1C7F56;
+  --white:#fff;
+  --muted:#6b6b6b;
+  --card-radius:20px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;                /* larger padding */
+  width: 283px;     
+  height: 133px;            /* wider cards */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.stat-card span {
+  font-size: 48px;             /* larger number */
+  font-weight: bold;
+  color: #1C7F56;
+}
+
+.stat-card p {
+  font-size: 16px;
+  color: #666;
+  margin-top: 10px;
+}
+
