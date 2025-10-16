@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/startups.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">
+            <img src="graphics\InTTOLogo.png" alt="logo">
+        </div>
+
+        <div class="nav-wrapper">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="aboutUs.html" >About</a>
+            <a href="services.html">Services</a>
+            <a href="startups.html" class="active">Startups</a>
+            <a href="#">Events</a>
+        </div>
+        </div>
+        <a href="#" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+    </div>
+
+    <section class="startups-section">
+        <div class="section-label">⬤ Our Startups</div>
+        <h2 class="service-title">Meet Our Startups</h2>
+
+        <!-- Filter bar -->
+        <div class="filters-wrap">
+            <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="agritech">AgriTech</button>
+            <button class="filter-btn" data-filter="tourism">Tourism &amp; Mobility</button>
+            <button class="filter-btn" data-filter="healthtech">HealthTech</button>
+            <button class="filter-btn" data-filter="crimintech">CriminTech</button>
+            <button class="filter-btn" data-filter="cleantech">CleanTech</button>
+            <button class="filter-btn" data-filter="fintech">FinTech</button>
+            </div>
+            <button class="view-all-btn">View all <span class="btn-arrow">➜</span></button>
+        </div>
+
+        <!-- Green container with cards -->
+        <div class="startups-container">
+            <div class="cards-grid" id="cardsGrid">
+
+            <!-- Example startup cards (flexible & data-driven) -->
+            <!-- data-category can be a space-separated list for multi-category items -->
+            <article class="startup-card" data-category="cleantech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="Sunshare logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">Sunshare</h3>
+                    <div class="tags">
+                    <span class="tag">CleanTech</span>
+                    <span class="tag small">TRL 7</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">A blockchain marketplace for community to exchange solar-energy.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="agritech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">AgroPulse</h3>
+                    <div class="tags">
+                    <span class="tag">AgriTech</span>
+                    <span class="tag small">TRL 5</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Smart sensors and forecasting tools for smallholder farms.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="healthtech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">MediTrack</h3>
+                    <div class="tags">
+                    <span class="tag">HealthTech</span>
+                    <span class="tag small">TRL 6</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">A telehealth toolkit for remote clinics and students.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="tourism">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">Tourify</h3>
+                    <div class="tags">
+                    <span class="tag">Tourism &amp; Mobility</span>
+                    <span class="tag small">TRL 4</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Platform for community-led local tourism experiences.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="cleantech fintech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">EcoPay</h3>
+                    <div class="tags">
+                    <span class="tag">CleanTech</span>
+                    <span class="tag small">TRL 7</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Incentive payments for verified carbon-saving actions.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="crimintech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">SafeCity</h3>
+                    <div class="tags">
+                    <span class="tag">CriminTech</span>
+                    <span class="tag small">TRL 6</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Community reporting + analytics for safer neighborhoods.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            </div> <!-- /.cards-grid -->
+        </div> <!-- /.startups-container -->
+
+        <!-- CTA Footer Block -->
+        <div class="join-cta">
+            <div class="cta-content">
+            <h3>Want to join a Startup?</h3>
+            <p>Connect with student founders and contribute your skills to real innovation projects.</p>
+            </div>
+            <a href="#" class="primary-cta">View Active Projects <span class="cta-arrow">➜</span></a>
+        </div>
+    </section>

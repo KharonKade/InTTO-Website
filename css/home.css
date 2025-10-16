@@ -42,20 +42,30 @@
   display: flex;                         /* Flex container */
   align-items: center;                   /* Center the image vertically */
   justify-content: center;               /* Center the image horizontally */
+  width: 137px;
+  height: 64px;
 }
 .navbar .logo img {
-  height: 40px;                          /* Set a default height for the image */
-  width: auto;                           /* Maintain aspect ratio */
+  height: 45px;                          /* Set a default height for the image */
+  width: 93px;                           /* Maintain aspect ratio */
   max-width: 100%;                       /* Ensure it doesn't overflow */
 }
 
 /* Center Pill Container */
 .nav-wrapper {
   background: rgba(255, 255, 255, 0.1);
-  padding: 8px 20px;
-  border-radius: 40px;
+  padding: 12px 12px;
+  border-radius: 32px;
   backdrop-filter: blur(8px);
   display: flex;
+  justify-content: center; /* center links horizontally */
+  align-items: center;     /* center links vertically */
+  width: 493px;
+  height: 64px;
+  gap: 8px; /* spacing between links */
+  position: absolute;     /* Take it out of normal flex flow */
+  left: 50%;              /* Move to the center horizontally */
+  transform: translateX(-50%); /
 }
 
 /* Nav Links */
@@ -64,13 +74,20 @@
   gap: 20px;
 }
 
+/* Individual links */
 .nav-links a {
   color: white;
   text-decoration: none;
-  padding: 8px 16px;
+  padding: 16px 8px;
   border-radius: 20px;
   opacity: 0.7;
   transition: 0.3s;
+  display: flex;
+  align-items: center; /* vertically center text inside each link */
+  justify-content: center;
+  font-size: 16px;
+  width: 66px;
+  height: 40px;
 }
 
 .nav-links a:hover {
@@ -81,29 +98,34 @@
 .nav-links a.active {
   background: rgba(255, 255, 255, 0.2);
   opacity: 1;
+  width: 81px;
+  height: 40px;
 }
+
 
 /* Right Button */
 .nav-btn {
   background: #1C7F56;
   color: white;
-  height: 50px;
+  height: 64px;
+  width: 271px;
   padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
-  border-radius: 40px;
+  border-radius: 32px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  position: relative;      /* Required for absolute positioning of arrow */
+  position: relative;    
+  gap: 8px;  /* Required for absolute positioning of arrow */
 }
 
 .nav-btn .arrow-icon {
   background: white;
   color: #1C7F56;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -121,11 +143,14 @@
                   url('../graphics/heroImage.jpg') center/cover no-repeat;
       padding: 200px 30px;
       text-align: center;
+      height: 760px;
+      width: auto;
+
     }
 
 
     .hero h1 {
-      font-size: 48px;
+      font-size: 80px;
       font-weight: bold;
       margin-bottom: 10px;
     }
@@ -140,19 +165,24 @@
     }
 
     .hero-buttons {
-      display: flex;
+      display: flex; 
       justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
     }
     .hero-btn {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 17px 30px;
+      padding: 16px 8px;
       border-radius: 40px;
       backdrop-filter: blur(8px);
       color: white;
       display: inline-block;
       text-decoration: none;
+      width: 181px;
+      height: 64px;
+      font-size: 16px;
+      display: flex;           
+      align-items: center;     
+      justify-content: center; 
     }
 
     .about-section {
@@ -165,14 +195,14 @@
   display: inline-block;
   background: #E5FAEA;
   color: #1C7F56;
-  padding: 6px 16px;
+  padding: 12px 24px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 
 .section-title {
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.6;
   color: #333;
   max-width: 800px;
@@ -190,13 +220,19 @@
   background: white;
   border-radius: 20px;
   padding: 40px;                /* larger padding */
-  width: 250px;                 /* wider cards */
+  width: 283px;     
+  height: 133px;            /* wider cards */
   box-shadow: 0 6px 15px rgba(0,0,0,0.06);
   text-align: center;
+
+  display: flex;               /* make it a flexbox */
+  flex-direction: column;      /* stack number and text vertically */
+  align-items: center;         /* center horizontally */
+  justify-content: center; 
 }
 
 .stat-card span {
-  font-size: 42px;             /* larger number */
+  font-size: 48px;             /* larger number */
   font-weight: bold;
   color: #1C7F56;
 }
@@ -250,7 +286,7 @@
 }
 .service-title {
   text-align: center;
-  font-size: 42px;
+  font-size: 56px;
   font-weight: 700;
   margin-bottom: 30px;
   color: #111;
@@ -268,7 +304,8 @@
 /* Individual Card */
 .service-card {
   background: white;
-  width: 30%;
+  width: 437px;
+  height: 572px;
   min-width: 320px;
   border-radius: 20px;
   padding: 20px;
@@ -284,24 +321,24 @@
 
 /* Card Image */
 .service-card img {
-  width: 100%;
-  height: 180px;
+  width: 392px;
+  height: 283px;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 24px;
 }
 
 /* Card Title */
 .service-card h3 {
   margin-top: 15px;
-  font-size: 20px;
+  font-size: 28px;
   font-weight: 700;
   color: #111;
 }
 
 /* Card Text */
 .service-card p {
-  font-size: 14px;
-  color: #555;
+  font-size: 16px;
+  color: black;
   margin: 10px 0 20px;
 }
 
@@ -317,7 +354,28 @@
   align-items: center;
   gap: 8px;
   transition: background 0.2s;
+  width: 394px;
+  height: 64px;
+  position: relative;  /* ✅ Add this */
+  margin-top: 20px;
 }
+
+.service-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 4px;       /* Fine-tuned spacing */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 
 .service-btn:hover {
   background: #166c41;
@@ -337,6 +395,7 @@
 /* Section base */
 .startups-section{
   width: 90%;
+  height: auto;
   margin: 60px auto;
   text-align: center;
   font-family: Arial, sans-serif;
@@ -360,16 +419,18 @@
   justify-content:center;
 }
 .filter-btn{
-  background:transparent;
-  color: var(--white);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding:8px 18px;
-  border-radius:30px;
-  cursor:pointer;
-  font-weight:600;
-  display:inline-block;
   background: rgba(255,255,255,0.05);
   color: var(--white);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 20px;         /* ✅ Use padding instead of fixed width */
+  border-radius: 30px;
+  cursor:pointer;
+  font-weight:600;
+  font-size: 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space: nowrap;       /* ✅ Prevent text from wrapping */
   transition: transform .15s, box-shadow .15s, background .15s;
 }
 .filter-btn.active{
@@ -383,15 +444,18 @@
   border-radius: 30px;
   color: var(--white);
   cursor:pointer;
-  min-width:120px;
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
 }
 
 /* Green container behind cards */
 .startups-container{
   background: var(--green);
-  padding: 28px;
-  border-radius: 28px;
-  margin-bottom: 28px;
+  padding: 28px 28px;
+  border-radius: 48px;
+  width: 1360px;
+  height: 777;
 }
 
 /* Cards grid */
@@ -412,7 +476,8 @@
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  min-height: 220px;
+  width: 402px;
+  height: 314px;
   transition: transform .18s, box-shadow .18s;
   position: relative;
 }
@@ -427,8 +492,8 @@
   align-items:center;
 }
 .startup-logo{
-  width:56px;
-  height:56px;
+  width:96px;
+  height:96px;
   border-radius:50%;
   object-fit:cover;
   background:#f3f3f3;
@@ -436,7 +501,7 @@
 }
 .card-meta .startup-name{
   margin:0;
-  font-size:18px;
+  font-size:24px;
   font-weight:700;
   color:#111;
 }
@@ -450,9 +515,15 @@
   background: rgba(30,142,85,0.08);
   color: var(--green);
   padding:6px 10px;
-  border-radius: 12px;
+  border-radius: 16px;
   font-size:12px;
   font-weight:700;
+  width: 85px;
+  height: 26px;
+  display: flex;               /* make it a flexbox */
+  flex-direction: column;      /* stack number and text vertically */
+  align-items: center;         /* center horizontally */
+  justify-content: center;
 }
 .tag.small{
   background: #f2f2f2;
@@ -465,7 +536,7 @@
 /* Description */
 .startup-desc{
   color: #666;
-  font-size:14px;
+  font-size:16px;
   margin: 12px 0 18px;
   line-height:1.45;
 }
@@ -474,13 +545,14 @@
 .card-cta{
   background: var(--green);
   color: var(--white);
-  padding: 12px 22px;
-  border-radius: 28px;
+  padding: 12px 12px;
+  border-radius: 32px;
   text-decoration:none;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width: calc(100% - 18px); /* leave small inner margin */
+  width: 360px;
+  height: 64px;
   gap:12px;
   position: relative;
   font-weight:700;
@@ -488,8 +560,8 @@
 .card-cta .cta-circle{
   background: white;
   color: #1C7F56;
-  width: 35px;
-  height: 35px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -519,23 +591,28 @@
 .join-cta{
   background: var(--green);
   color: var(--white);
-  padding: 26px 22px;
-  border-radius: 22px;
+  padding: 26px 60px;   /* ⬅️ Increased left & right padding */
+  border-radius: 32px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:16px;
   margin-top: 12px;
+  width: 1360px;
+  height: 196px;
 }
 .join-cta .cta-content h3{
   margin:0 0 6px;
-  font-size:28px;
+  font-size:48px;
   font-weight:800;
+  text-align: left;
 }
 .join-cta .cta-content p{
   margin:0;
   color: rgba(255,255,255,0.9);
+  font-size: 20px;
 }
+
 .primary-cta{
   background: rgba(255,255,255,0.12);
   color: var(--white);
@@ -543,9 +620,12 @@
   border-radius:999px;
   text-decoration:none;
   font-weight:700;
-  display:inline-flex;
-  align-items:center;
+  display:flex;              /* Change to flex for full control */
+  align-items:center;        /* Vertical centering */
+  justify-content:center;    /* Horizontal centering */
   gap:10px;
+  width: 241px;
+  height: 48px;
 }
 
  .news-section {
@@ -570,18 +650,53 @@
   display: inline-block;
   background: #E5FAEA;
   color: #1C7F56;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 16px;
   margin-bottom: 20px;
+  width: 172px;
+  height: 43px;
 }
 
 .section-title-news {
   text-align: left;
-  font-size: 42px;
+  font-size: 56px;
   font-weight: 700;
   margin-bottom: 30px;
   color: #111;
+}
+
+.news-nav-btn {
+  background: #1C7F56;
+  color: white;
+  height: 64px;
+  width: 168px;
+  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  border-radius: 32px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;    
+  gap: 8px;  /* Required for absolute positioning of arrow */
+
+}
+
+.news-nav-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .news-cards {
@@ -597,11 +712,13 @@
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     padding: 20px;
+    width: 439px;
+    height: 518px;
 }
 
 .news-card img {
-    width: 100%;
-    height: 200px;
+    width: 391px;
+    height: 245x;
     object-fit: cover;
     border-radius: 24px;
 }
@@ -611,28 +728,40 @@
 }
 
 .news-meta {
+    display: flex;
+    align-items: center;   /* ✅ Ensures both tag and date align vertically */
+    gap: 10px;
+    margin-bottom: 12px;
     font-size: 12px;
     color: #777;
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px; /* More gap below */
+    width: 109px;
+    height: 37px;
 }
 
 .tag {
     background: #F0F0F0;
-    padding: 4px 10px; /* Slightly larger for cleaner look */
+    padding: 10px 12px;
     border-radius: 6px;
+    font-size: 14px;
+}
+
+.date {
+    padding: 4px 0;        /* ✅ Gives equal height without box */
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    white-space: nowrap;
 }
 
 .news-title {
-    font-size: 18px; /* Slightly larger */
+    font-size: 20px; /* Slightly larger */
     font-weight: bold;
     margin: 0 0 12px 0; /* More bottom margin */
     line-height: 1.4; /* Better readability */
 }
 
 .news-desc {
-    font-size: 14px;
+    font-size: 16px;
     color: #555;
     margin-bottom: 16px; /* More breathing room before read more */
     line-height: 1.6;
@@ -645,6 +774,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px; /* Add spacing between text and arrow if icon is used */
+    font-size: 16px;
 }
 
 .read-more:hover {
@@ -654,14 +784,13 @@
 /* Contact Section */
 .contact-section {
     width: 90%;
-    max-width: 1200px;
     margin: auto;
     padding: 80px 0;
 }
 
 .contact-title {
     text-align: center;
-    font-size: 42px;
+    font-size: 56px;
     font-weight: 700;
     margin-bottom: 30px;
     color: #111;
@@ -687,6 +816,11 @@
     margin-bottom: 8px;
 }
 
+.info-block p {
+  font-size: 24px;
+  margin-bottom: 80px;
+}
+
 .social-icons a {
     background: #1C7F56;
     color: white;
@@ -703,24 +837,26 @@
 
 /* Form */
 .contact-form {
-    flex: 1.5;
-    background: #dedede;
+    background: #F2F2F2;
     padding: 30px;
     border-radius: 40px;
+    width: 673px;
+    height: 700px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .form-group label {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 6px;
 }
 
 input, textarea {
-    width: 100%;
+    width: 597px;
+    height: 56px;
     padding: 12px;
     border-radius: 16px;
     border: none;
@@ -736,7 +872,7 @@ textarea {
     background: #1C7F56;
     color: white;
     border: none;
-    height: 50px;
+    height: 64px;
     padding: 0 24px; /* Equal padding on sides */
     border-radius: 30px;
     font-weight: bold;
@@ -751,15 +887,16 @@ textarea {
 .arrow-contact {
     background: white;
     color: #1C7F56;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    border-radius: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
     position: absolute;
     right: 2px; /* Push to the far right without affecting text */
+    margin-right: 3px;
 }
 
 .contact-btn:hover {
@@ -782,16 +919,21 @@ textarea {
   padding: 60px 40px;
   border-radius: 48px;
   margin-bottom: 60px;
+  height: 459px;
+  display: flex;              /* Enable flexbox */
+  flex-direction: column;     /* Stack items vertically */
+  justify-content: center;    /* Center vertically */
+  align-items: center; 
 }
 
 .cta-box h2 {
-  font-size: 32px;
+  font-size: 48px;
   font-weight: bold;
   margin-bottom: 12px;
 }
 
 .cta-box p {
-  font-size: 16px;
+  font-size: 24px;
   opacity: 0.9;
   margin-bottom: 30px;
 }
@@ -811,6 +953,12 @@ textarea {
   text-decoration: none;
   font-weight: 500;
   transition: background 0.3s ease;
+  width: 223px;
+  height: 64px;
+  font-size: 16px;
+  display: flex;            /* ✅ Enable flex layout */
+  justify-content: center;  /* ✅ Center horizontally */
+  align-items: center;
 }
 
 .cta-btn:hover {

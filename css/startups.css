@@ -1,0 +1,388 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #ffff;
+    }
+
+    /* Container with rounded corners */
+
+    /* Navbar */
+.navbar {
+  position: absolute;
+  top: 20px;
+  left: 50%;                     /* Move to the horizontal middle */
+  transform: translateX(-50%);   /* Pull it back by half its width */
+  width: 95%;                    /* Keep your chosen width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  background: #166647;
+  border-radius: 48px;
+  height: 138px;
+}
+
+
+/* Logo */
+.navbar .logo {
+  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
+  padding: 7px 20px;                     /* Padding for pill shape */
+  border-radius: 40px;                   /* Rounded corners */
+  backdrop-filter: blur(8px);            /* Blurry background effect */
+  display: flex;                         /* Flex container */
+  align-items: center;                   /* Center the image vertically */
+  justify-content: center;               /* Center the image horizontally */
+  width: 137px;
+  height: 64px;
+}
+.navbar .logo img {
+  height: 45px;                          /* Set a default height for the image */
+  width: 93px;                           /* Maintain aspect ratio */
+  max-width: 100%;                       /* Ensure it doesn't overflow */
+}
+
+/* Center Pill Container */
+.nav-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 12px;
+  border-radius: 32px;
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center; /* center links horizontally */
+  align-items: center;     /* center links vertically */
+  width: 493px;
+  height: 64px;
+  gap: 8px; /* spacing between links */
+  position: absolute;     /* Take it out of normal flex flow */
+  left: 50%;              /* Move to the center horizontally */
+  transform: translateX(-50%); /
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 16px 8px;
+  border-radius: 20px;
+  opacity: 0.7;
+  transition: 0.3s;
+  display: flex;
+  align-items: center; /* vertically center text inside each link */
+  justify-content: center;
+  font-size: 16px;
+  width: 66px;
+  height: 40px;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* Active Tab Highlight */
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Right Button */
+.nav-btn {
+  background: #1C7F56;
+  color: white;
+  height: 64px;
+  width: 271px;
+  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  border-radius: 32px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;    
+  gap: 8px;  /* Required for absolute positioning of arrow */
+}
+
+.nav-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+/* Section base */
+.startups-section{
+  width: 90%;
+  height: auto;
+  margin: 60px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 300px auto 100px auto;
+}
+
+.section-label {
+  display: inline-block;
+  background: #E5FAEA;
+  color: #1C7F56;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 172px;
+  height: 43px;
+}
+
+.service-title {
+  text-align: center;
+  font-size: 56px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+/* Filters bar */
+.filters-wrap{
+  background-color: #1C7F56;
+  padding: 20px 30px;
+  border-radius: 50px;
+  display:flex;
+  gap:16px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 20px;
+}
+.filters{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.filter-btn{
+  background: rgba(255,255,255,0.05);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 20px;         /* ✅ Use padding instead of fixed width */
+  border-radius: 30px;
+  cursor:pointer;
+  font-weight:600;
+  font-size: 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space: nowrap;       /* ✅ Prevent text from wrapping */
+  transition: transform .15s, box-shadow .15s, background .15s;
+}
+.filter-btn.active{
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.view-all-btn{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding:8px 16px;
+  border-radius: 30px;
+  color: var(--white);
+  cursor:pointer;
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+}
+
+/* Green container behind cards */
+.startups-container{
+  background: var(--green);
+  padding: 28px 28px;
+  border-radius: 48px;
+  width: 1360px;
+  height: 777;
+}
+
+/* Cards grid */
+.cards-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  align-items:stretch;
+}
+
+/* Card */
+.startup-card{
+  background: var(--white);
+  padding: 18px;
+  border-radius: var(--card-radius);
+  text-align:left;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  width: 402px;
+  height: 314px;
+  transition: transform .18s, box-shadow .18s;
+  position: relative;
+}
+.startup-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+.card-head{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+.startup-logo{
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#f3f3f3;
+  padding:6px;
+}
+.card-meta .startup-name{
+  margin:0;
+  font-size:24px;
+  font-weight:700;
+  color:#111;
+}
+.tags{
+  margin-top:6px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.tag{
+  background: rgba(30,142,85,0.08);
+  color: var(--green);
+  padding:6px 10px;
+  border-radius: 16px;
+  font-size:12px;
+  font-weight:700;
+  width: 85px;
+  height: 26px;
+  display: flex;               /* make it a flexbox */
+  flex-direction: column;      /* stack number and text vertically */
+  align-items: center;         /* center horizontally */
+  justify-content: center;
+}
+.tag.small{
+  background: #f2f2f2;
+  color:#666;
+  padding:5px 8px;
+  border-radius:10px;
+  font-weight:600;
+}
+
+/* Description */
+.startup-desc{
+  color: #666;
+  font-size:16px;
+  margin: 12px 0 18px;
+  line-height:1.45;
+}
+
+/* CTA inside card */
+.card-cta{
+  background: var(--green);
+  color: var(--white);
+  padding: 12px 12px;
+  border-radius: 32px;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width: 360px;
+  height: 64px;
+  gap:12px;
+  position: relative;
+  font-weight:700;
+}
+.card-cta .cta-circle{
+  background: white;
+  color: #1C7F56;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* CTA on small screens should shrink */
+@media (max-width:900px){
+  .cards-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Single column mobile */
+@media (max-width:600px){
+  .section-title{ font-size:28px; }
+  .filters-wrap{ flex-direction:column; gap:12px; align-items:center; }
+  .cards-grid{ grid-template-columns: 1fr; }
+  .filter-btn, .view-all-btn{ min-width: unset; }
+  .card-cta{ width:100%; }
+}
+
+/* Footer CTA block */
+.join-cta{
+  background: var(--green);
+  color: var(--white);
+  padding: 26px 60px;   /* ⬅️ Increased left & right padding */
+  border-radius: 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-top: 12px;
+  width: 1360px;
+  height: 196px;
+}
+.join-cta .cta-content h3{
+  margin:0 0 6px;
+  font-size:48px;
+  font-weight:800;
+  text-align: left;
+}
+.join-cta .cta-content p{
+  margin:0;
+  color: rgba(255,255,255,0.9);
+  font-size: 20px;
+}
+
+.primary-cta{
+  background: rgba(255,255,255,0.12);
+  color: var(--white);
+  padding:10px 18px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:700;
+  display:flex;              /* Change to flex for full control */
+  align-items:center;        /* Vertical centering */
+  justify-content:center;    /* Horizontal centering */
+  gap:10px;
+  width: 241px;
+  height: 48px;
+}
+

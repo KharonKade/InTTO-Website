@@ -1,4 +1,4 @@
-    * {
+* {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -10,15 +10,6 @@
     }
 
     /* Container with rounded corners */
-    .main-wrapper {
-      width: 95%;
-      max-width: 95%;
-      margin: 20px auto;
-      background: none;
-      border-radius: 25px;
-      overflow: hidden;
-      color: #fff;
-    }
 
     /* Navbar */
 .navbar {
@@ -137,122 +128,11 @@
   transform: translateY(-50%);
 }
 
-/* About Section Layout */
-.about-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 90%;
-  margin: 200px auto 0; /* push it down after the navbar */
-  padding: 40px 20px;
-  color: #1a1a1a;
-}
-
-.about-content {
-  width: 50%;
-}
-
-.about-content h2 {
-  font-size: 56px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #0b1215; /* almost black */
-}
-
-.about-content p {
-  font-size: 20px;
-  line-height: 1.7;
-  margin-bottom: 30px;
-  color: #444;
-}
-
-/* Button Matching Your Style */
-.about-btn {
-  background: #1C7F56;
-  color: white;
-  padding: 12px 70px 12px 24px; /* Extra right padding for arrow space */
-  height: 64px;
-  border-radius: 40px;
-  text-decoration: none;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center; /* ✅ Center the text */
-  position: relative;
-  width: 338px;
-  text-align: center;
-}
-
-.about-btn .arrow-icon {
-  background: white;
-  color: #1C7F56;
-  width: 56px;
-  height: 56px;
-  border-radius: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  position: absolute;
-  right: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-
-/* Right Image */
-.about-image img {
-  width: 626px;
-  height: 541px;
-  border-radius: 30px;
-  object-fit: cover;
-  filter: brightness(40%);
-}
-
-.origin-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  margin: 150px auto;
-  padding: 40px 20px;
-  color: #1a1a1a;
-}
-/* Origins Section Layout */
-.origins-section {
-  background-color: #EFFAF4;
-}
-
-.origins-image img {
-  width: 669px;
-  border-radius: 48px;
-  height: 738;
-  object-fit: cover;
-}
-
-.origins-content {
-  width: 50%;
-  padding-left: 40px;
-}
-
-.origins-content h2 {
-  font-size: 56px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #0b1215;
-}
-
-.origins-content p {
-  font-size: 20px;
-  line-height: 1.7;
-  margin-bottom: 30px;
-  color: #444;
-}
-
 .our-services {
   width: 90%;
   margin: 100px auto;
   text-align: center;
+  margin: 300px auto 100px auto;
 }
 .service-title {
   text-align: center;
@@ -265,246 +145,13 @@
 /* Services Container */
 .services {
   display: flex;
-  gap: 30px;
+  gap: 25px;
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 20px;
 }
 
-/* Bigger Card - 2 per row */
-.service-card {
-  background: white;
-  width: 45%;          /* Ensures only 2 cards per row */
-  min-width: 450px;     /* Keeps them sturdy on large screens */
-  border-radius: 20px;
-  padding: 30px;        /* More inner spacing */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  text-align: left;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
-
-/* Bigger Image */
-.service-card img {
-  width: 553px;
-  height: 360px;      /* Taller for stronger emphasis */
-  object-fit: cover;
-  border-radius: 15px;
-}
-
-/* Bigger Title */
-.service-card h3 {
-  margin-top: 20px;
-  font-size: 40px;
-  font-weight: 700;
-  color: #111;
-}
-
-/* Bigger Text */
-.service-card p {
-  font-size: 16px;
-  color: #555;
-  margin: 12px 0 22px;
-}
-
-:root{
-  --green:#1C7F56;
-  --white:#fff;
-  --muted:#6b6b6b;
-  --card-radius:20px;
-}
-
-.stats-row {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 50px;
-}
-
-.stat-card {
-  background: white;
-  border-radius: 20px;
-  padding: 40px;                /* larger padding */
-  width: 283px;     
-  height: 133px;            /* wider cards */
-  box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-  text-align: center;
-
-  display: flex;               /* make it a flexbox */
-  flex-direction: column;      /* stack number and text vertically */
-  align-items: center;         /* center horizontally */
-  justify-content: center; 
-}
-
-.stat-card span {
-  font-size: 48px;             /* larger number */
-  font-weight: bold;
-  color: #1C7F56;
-}
-
-.stat-card p {
-  font-size: 16px;
-  color: #666;
-  margin-top: 10px;
-}
-
-.team-section {
-  padding: 60px 8%;
-  background: #f0fff7;
-  border-radius: 30px;
-  width: 95%;
-  margin: 0 auto;
-  margin-bottom: 90px;
-}
-
-.team-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start; /* Align children to the top */
-  margin-bottom: 40px;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;  /* or shorthand: margin: 0 auto; */
-}
-
-
-.team-label {
-  font-size: 16px;
-  font-weight: 500;
-  background: #e6fff1;
-  padding: 5px 15px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;   /* ✅ Centers content horizontally */
-  gap: 6px;
-  width: 111px;
-  height: 43px;
-  position: relative;
-  top: 20px;
-  z-index: 2;
-}
-
-
-.team-label .dot {
-  width: 8px;
-  height: 8px;
-  background: #1C7F56;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.team-title {
-  font-size: 56px;
-  font-weight: 700;
-  color: #0d0d0d;
-  margin-bottom: 40px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%; /* match the wrapper width if needed */
-  text-align: left; /* ensures text stays left-aligned */
-}
-
-
-.view-all-btn {
-  background: #1C7F56;
-  color: white;
-  height: 64px;
-  width: 168px;
-  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
-  border-radius: 32px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  font-size: 16px;
-  font-weight: 500;
-  position: relative;    
-  gap: 8px;  /* Required for absolute positioning of arrow */
-}
-
-.view-all-btn .arrow-icon {
-  background: white;
-  color: #1C7F56;
-  width: 56px;
-  height: 56px;
-  border-radius: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  position: absolute;
-  right: 2px;   /* Move more right without affecting button width */
-  top: 50%;
-  transform: translateY(-50%);
-}
-.team-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* always 3 per row */
-  gap: 24px;
-}
-
-.team-card {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  text-align: left;
-  flex: 1;
-  width: 402px;
-  height: 535px;
-}
-
-.team-card img {
-  width: 402px;
-  height: 535px;
-  object-fit: cover;
-  display: block;
-  border-radius: 40px;
-}
-
-.team-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 20px;
-  color: white;
-}
-
-.team-info h3 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.team-info p {
-  font-size: 16px;
-  margin-top: 6px;
-  color: rgba(255,255,255,0.9);
-}
-
-.news-section {
-  width: 100%;
-  background: #EFFAF4;
-  padding: 60px 0;
-}
-
-.news-container {
-  width: 90%;
-  margin: 20px auto;
-}
-
-.news-wrap {
-    display: flex;
-    justify-content: space-between; /* pushes items to edges */
-    align-items: center;            /* vertically center them */
-    margin-bottom: 20px;            /* optional spacing below */
-}
-
-.section-label-news {
+.section-label {
   display: inline-block;
   background: #E5FAEA;
   color: #1C7F56;
@@ -516,32 +163,66 @@
   height: 43px;
 }
 
-.section-title-news {
+/* Individual Card */
+.service-card {
+  background: white;
+  width: 437px;
+  height: 572px;
+  min-width: 320px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   text-align: left;
-  font-size: 56px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Card Image */
+.service-card img {
+  width: 392px;
+  height: 283px;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+/* Card Title */
+.service-card h3 {
+  margin-top: 15px;
+  font-size: 28px;
   font-weight: 700;
-  margin-bottom: 30px;
   color: #111;
 }
 
-.news-nav-btn {
-  background: #1C7F56;
-  color: white;
-  height: 64px;
-  width: 168px;
-  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
-  border-radius: 32px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
+/* Card Text */
+.service-card p {
   font-size: 16px;
-  font-weight: 500;
-  position: relative;    
-  gap: 8px;  /* Required for absolute positioning of arrow */
-
+  color: black;
+  margin: 10px 0 20px;
 }
 
-.news-nav-btn .arrow-icon {
+/* CTA Button */
+.service-btn {
+  background: #1C7F56;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+  width: 394px;
+  height: 64px;
+  position: relative;  /* ✅ Add this */
+  margin-top: 20px;
+}
+
+.service-btn .arrow-icon {
   background: white;
   color: #1C7F56;
   width: 56px;
@@ -552,91 +233,25 @@
   justify-content: center;
   font-size: 30px;
   position: absolute;
-  right: 2px;   /* Move more right without affecting button width */
+  right: 4px;       /* Fine-tuned spacing */
   top: 50%;
   transform: translateY(-50%);
 }
 
-.news-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
+
+.service-btn:hover {
+  background: #166c41;
 }
 
-.news-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    padding: 20px;
-    width: 439px;
-    height: 518px;
+.arrow-icon {
+  font-size: 18px;
 }
 
-.news-card img {
-    width: 391px;
-    height: 245x;
-    object-fit: cover;
-    border-radius: 24px;
-}
-
-.news-content {
-    padding: 20px; /* Increased internal padding */
-}
-
-.news-meta {
-    display: flex;
-    align-items: center;   /* ✅ Ensures both tag and date align vertically */
-    gap: 10px;
-    margin-bottom: 12px;
-    font-size: 12px;
-    color: #777;
-    width: 109px;
-    height: 37px;
-}
-
-.tag {
-    background: #F0F0F0;
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.date {
-    padding: 4px 0;        /* ✅ Gives equal height without box */
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.news-title {
-    font-size: 20px; /* Slightly larger */
-    font-weight: bold;
-    margin: 0 0 12px 0; /* More bottom margin */
-    line-height: 1.4; /* Better readability */
-}
-
-.news-desc {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 16px; /* More breathing room before read more */
-    line-height: 1.6;
-}
-
-.read-more {
-    font-weight: 500;
-    text-decoration: none;
-    color: #1C7F56; /* green accent */
-    display: inline-flex;
-    align-items: center;
-    gap: 6px; /* Add spacing between text and arrow if icon is used */
-    font-size: 16px;
-}
-
-.read-more:hover {
-    text-decoration: underline;
+:root{
+  --green:#1C7F56;
+  --white:#fff;
+  --muted:#6b6b6b;
+  --card-radius:20px;
 }
 
 /* Contact Section */
