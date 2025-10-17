@@ -1,0 +1,733 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #ffff;
+    }
+
+    /* Container with rounded corners */
+
+    /* Navbar */
+.navbar {
+  position: absolute;
+  top: 20px;
+  left: 50%;                     /* Move to the horizontal middle */
+  transform: translateX(-50%);   /* Pull it back by half its width */
+  width: 95%;                    /* Keep your chosen width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  background: #166647;
+  border-radius: 48px;
+  height: 138px;
+}
+
+
+/* Logo */
+.navbar .logo {
+  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
+  padding: 7px 20px;                     /* Padding for pill shape */
+  border-radius: 40px;                   /* Rounded corners */
+  backdrop-filter: blur(8px);            /* Blurry background effect */
+  display: flex;                         /* Flex container */
+  align-items: center;                   /* Center the image vertically */
+  justify-content: center;               /* Center the image horizontally */
+  width: 137px;
+  height: 64px;
+}
+.navbar .logo img {
+  height: 45px;                          /* Set a default height for the image */
+  width: 93px;                           /* Maintain aspect ratio */
+  max-width: 100%;                       /* Ensure it doesn't overflow */
+}
+
+/* Center Pill Container */
+.nav-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 12px;
+  border-radius: 32px;
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center; /* center links horizontally */
+  align-items: center;     /* center links vertically */
+  width: 493px;
+  height: 64px;
+  gap: 8px; /* spacing between links */
+  position: absolute;     /* Take it out of normal flex flow */
+  left: 50%;              /* Move to the center horizontally */
+  transform: translateX(-50%); /
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 16px 8px;
+  border-radius: 20px;
+  opacity: 0.7;
+  transition: 0.3s;
+  display: flex;
+  align-items: center; /* vertically center text inside each link */
+  justify-content: center;
+  font-size: 16px;
+  width: 66px;
+  height: 40px;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* Active Tab Highlight */
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Right Button */
+.nav-btn {
+  background: #1C7F56;
+  color: white;
+  height: 64px;
+  width: 271px;
+  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  border-radius: 32px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;    
+  gap: 8px;  /* Required for absolute positioning of arrow */
+}
+
+.nav-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Section base */
+.news-section{
+  width: 90%;
+  height: auto;
+  margin: 60px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 210px auto 100px auto;
+}
+
+.section-label {
+  display: inline-block;
+  background: #E5FAEA;
+  color: #1C7F56;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 172px;
+  height: 43px;
+  margin-top: 6.7%;
+}
+
+.service-title {
+  text-align: center;
+  font-size: 56px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+/* New Filter Bar Style (Matching Image) */
+.filter-bar {
+    background: #E5FAEA; /* Light mint background */
+    padding: 15px 25px;
+    border-radius: 50px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4%;
+    height: 96px;
+}
+
+/* Search input stretches */
+.filter-item.search {
+    background: white;
+    border-radius: 50px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    flex: 1;                /* <-- Makes it stretch */
+    height: 56px;
+}
+
+.filter-item.search input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #777;
+    width: 100%;
+}
+
+.filter-item.search i {
+    color: #1C7F56;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* Filter Buttons on the right */
+.filter-btn {
+    background: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 24px;
+    color: #1C7F56;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+    width: 112px;
+    height: 56px;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #1C7F56;
+    color: white;
+}
+
+/* Results Count Text */
+.message-news {
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+    margin: -5px 0 10px 10px; 
+    line-height: 24px;
+}
+
+.page-container {
+    max-width: 1400px; /* Adjust as needed */
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    /* News list takes a flexible amount of space, sidebar takes a fixed width */
+    grid-template-columns: 1fr 350px; 
+    gap: 40px;
+}
+
+/* --- News Cards (Incorporating your provided CSS) --- */
+
+.news-list-area {
+    /* No specific styling needed, acts as a container for news-cards and pagination */
+}
+
+.news-cards {
+    display: grid;
+    /* Adjusted to better fit the layout. Uses minmax for responsiveness. */
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
+    gap: 30px;
+    margin-top: 0; /* Remove top margin here, use padding/margin on main container if needed */
+}
+
+/* Your news card styles */
+.news-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    /* Adjust width/height to be more fluid in the grid */
+    width: auto; 
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card img {
+    width: 100%; /* Make image fill the card width */
+    max-height: 245px; 
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.news-content {
+    padding: 20px 0 0 0; /* Adjusted padding as the news card has padding already */
+    flex-grow: 1; /* Allows content to take up remaining space */
+    text-align: left;
+}
+
+.news-meta {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #777;
+    width: auto; /* Remove fixed width */
+    height: auto; /* Remove fixed height */
+}
+
+.tag {
+    background: #F0F0F0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.date {
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.news-title {
+    font-size: 20px; 
+    font-weight: 700;
+    margin: 0 0 12px 0; 
+    line-height: 1.4; 
+    text-align: left;
+}
+
+.news-desc {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 16px; 
+    line-height: 1.6;
+    text-align: left;
+}
+
+.read-more {
+    font-weight: 500;
+    text-decoration: none;
+    color: #1C7F56; 
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; 
+    font-size: 16px;
+    margin-top: auto; /* Pushes 'Read More' to the bottom of the card content */
+    align-self: flex-start;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+.sidebar {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.upcoming-events-box {
+    background-color: #1C7F56; /* Dark Green background */
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    color: white;
+    width: 437px;
+    height: 727px;
+}
+
+.events-heading {
+    font-size: 32px; /* Increased size */
+    font-weight: 700;
+    margin: 0 0 50px 0;
+    padding-bottom: 0; /* Removed padding */
+    border-bottom: none; /* Removed line under heading */
+    text-align: left;
+}
+
+/* Container for a single event */
+.event-item {
+    display: flex;
+    /* Changed to align items vertically at the top */
+    align-items: flex-start;
+    gap: 15px;
+    /* Added margin to separate the stacked event items */
+    margin: 0 0 25px 0; 
+    padding-bottom: 25px; 
+    /* The separator line is now implemented by the bottom border of the event item itself */
+    width: 368px;
+    height: 168px;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+}
+
+/* Remove border/margin from the last event item */
+.event-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.event-image-container {
+    flex-shrink: 0;
+    /* Adjusted sizing to make the image wider, about half the container width */
+    width: 140px; 
+    height: 168px; 
+    overflow: hidden;
+}
+
+.event-image {
+    width: 146px;
+    height: 168px;
+    object-fit: cover;
+}
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    /* Allow text to take the remaining space */
+    flex-grow: 1; 
+    margin-top: 20px;
+}
+
+.event-title {
+    font-weight: 700;
+    font-size: 18px; 
+    margin: 0 0 10px 0;
+    max-width: 80%; 
+    text-align: left;
+}
+
+.event-date-time {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Increased space between date and time */
+}
+
+/* Styling for the icons (assuming you use a general icon font or similar) */
+.event-date-time span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Assuming date/time text starts with an icon/emoji */
+.event-date-time span:nth-child(1):before {
+    content: '📅'; /* Placeholder for calendar icon */
+    font-size: 16px;
+}
+
+.event-date-time span:nth-child(2):before {
+    content: '⏰'; /* Placeholder for clock icon */
+    font-size: 16px;
+}
+
+.learn-more {
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    text-align: left;
+}
+
+.learn-more:hover {
+    text-decoration: underline;
+}
+
+.event-separator {
+    display: none; /* Separator element is no longer needed */
+}
+
+
+/* --- Pagination --- */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 6%;
+}
+
+.page-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1C7F56;
+    border: 1px solid rgba(28, 127, 86, 0.2);
+    transition: all 0.2s ease-in-out;
+}
+
+.page-btn i {
+  font-size: 16px;
+}
+
+.page-btn.active {
+    background: #1C7F56;
+    color: white;
+    border-color: #1C7F56;
+}
+
+.page-btn:hover {
+    background: rgba(28, 127, 86, 0.1);
+}
+
+.page-btn.arrow {
+    font-weight: bold;
+}
+
+.page-btn.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+
+/* --- Media Queries for Responsiveness --- */
+
+@media (max-width: 1200px) {
+    .page-container {
+        /* Stack the layout on smaller screens */
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .sidebar {
+        position: static;
+        top: auto;
+    }
+}
+
+/* Closing Section Wrapper */
+.closing-section {
+  width: 90%;
+  padding: 60px 0;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+/* Green CTA Box */
+.cta-box {
+  background: #1C7F56;
+  color: white;
+  text-align: center;
+  padding: 60px 40px;
+  border-radius: 48px;
+  margin-bottom: 60px;
+  height: 459px;
+  display: flex;              /* Enable flexbox */
+  flex-direction: column;     /* Stack items vertically */
+  justify-content: center;    /* Center vertically */
+  align-items: center; 
+}
+
+.cta-box h2 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.cta-box p {
+  font-size: 24px;
+  opacity: 0.9;
+  margin-bottom: 30px;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cta-btn {
+  padding: 12px 32px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 30px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+  width: 223px;
+  height: 64px;
+  font-size: 16px;
+  display: flex;            /* ✅ Enable flex layout */
+  justify-content: center;  /* ✅ Center horizontally */
+  align-items: center;
+}
+
+.cta-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* Footer Row (Logo Left + Text Right) */
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo-img {
+  width: 198px;      /* Adjust as needed */
+  height: 96px;     /* Keeps aspect ratio */
+  display: block;
+  margin-bottom: 6px;
+}
+
+.logo-placeholder {
+  width: 80px;
+  height: 50px;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.footer-small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-tagline {
+  font-size: 24px;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-right: 20px;
+}
+
+.footer-section {
+  width: 100%;
+  background: white;
+  padding: 60px 0;
+  box-sizing: border-box;
+}
+
+.footer-divider {
+  width: 90%;
+  margin: 0 auto;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.footer-divider.bottom-line {
+  margin-top: 60px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.footer-small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-column h4 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 6px;
+  font-size: 20px;
+  opacity: 40%;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.contact-item span {
+  margin-right: 6px;
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.social-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1C7F56;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.social-icon:hover {
+  opacity: 1;
+}
+
+.map-container {
+  width: 260px;
+  height: 150px;
+  background: #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.footer-bottom {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 40%;
+  padding-top: 16px;
+}
+
+

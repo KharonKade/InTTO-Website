@@ -20,7 +20,7 @@
             <a href="aboutUs.html" >About</a>
             <a href="services.html">Services</a>
             <a href="startups.html" class="active">Startups</a>
-            <a href="#">Events</a>
+            <a href="events.html">Events</a>
         </div>
         </div>
         <a href="#" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
@@ -30,19 +30,29 @@
         <div class="section-label">⬤ Our Startups</div>
         <h2 class="service-title">Meet Our Startups</h2>
 
-        <!-- Filter bar -->
-        <div class="filters-wrap">
-            <div class="filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="agritech">AgriTech</button>
-            <button class="filter-btn" data-filter="tourism">Tourism &amp; Mobility</button>
-            <button class="filter-btn" data-filter="healthtech">HealthTech</button>
-            <button class="filter-btn" data-filter="crimintech">CriminTech</button>
-            <button class="filter-btn" data-filter="cleantech">CleanTech</button>
-            <button class="filter-btn" data-filter="fintech">FinTech</button>
-            </div>
-            <button class="view-all-btn">View all <span class="btn-arrow">➜</span></button>
-        </div>
+          <div class="filter-bar">
+              <div class="filter-item search">
+                  <i class="fa fa-search"></i>
+                  <input type="text" placeholder="Enter your Name">
+              </div>
+
+              <div class="filter-item dropdown">
+                  <span>Industry</span>
+                  <i class="fa fa-chevron-down"></i>
+              </div>
+
+              <div class="filter-item dropdown">
+                  <span>All TRLs</span>
+                  <i class="fa fa-chevron-down"></i>
+              </div>
+
+              <div class="filter-item dropdown">
+                  <span>Newest First</span>
+                  <i class="fa fa-chevron-down"></i>
+              </div>
+          </div>
+
+          <p class="results-count">Showing 6 of 8 startups</p>
 
         <!-- Green container with cards -->
         <div class="startups-container">
@@ -139,16 +149,96 @@
                 <p class="startup-desc">Community reporting + analytics for safer neighborhoods.</p>
                 <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
             </article>
-
-            </div> <!-- /.cards-grid -->
-        </div> <!-- /.startups-container -->
-
-        <!-- CTA Footer Block -->
-        <div class="join-cta">
-            <div class="cta-content">
-            <h3>Want to join a Startup?</h3>
-            <p>Connect with student founders and contribute your skills to real innovation projects.</p>
-            </div>
-            <a href="#" class="primary-cta">View Active Projects <span class="cta-arrow">➜</span></a>
-        </div>
+            </div> 
+        </div> 
     </section>
+    
+      <div class="pagination">
+          <a href="#" class="page-btn arrow disabled"><i class="fa-solid fa-chevron-left"></i></a>
+          <a href="#" class="page-btn active">1</a>
+          <a href="#" class="page-btn">2</a>
+          <a href="#" class="page-btn">3</a>
+          <a href="#" class="page-btn arrow"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+
+
+
+    <section class="closing-section">
+
+      <!-- Green CTA Box -->
+      <div class="cta-box">
+        <h2>Have a Startup or Idea?</h2>
+        <p>Join UC InTTO's incubation program and become part of the<br> region's growing innovation ecosystem.</p>
+        <div class="cta-buttons">
+          <a href="#" class="cta-btn">Apply for Incubation</a>
+          <a href="#" class="cta-btn">Join a Startup Team</a>
+        </div>
+      </div>
+
+
+      <!-- Logo + Tagline Row -->
+      <div class="footer-row">
+        <div class="footer-logo">
+          <!-- Placeholder Logo (replace with your real <img>) -->
+          <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
+        </div>
+
+        <div class="footer-tagline">
+          Driving the Culture of Innovation
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-divider"></div>
+
+    <footer class="footer-section">
+      <div class="footer-top">
+
+        <!-- Services -->
+        <div class="footer-column">
+          <h4>Our Services</h4>
+          <ul>
+            <li>Incubation Programs</li>
+            <li>Intellectual Property</li>
+            <li>TBI Assesment</li>
+            <li>Train the Trainers</li>
+            <li>Internship</li>
+          </ul>
+        </div>
+
+        <!-- Startups -->
+        <div class="footer-column">
+          <h4>Startups</h4>
+          <ul>
+            <li>Startup Portfolio</li>
+            <li>Join a Team</li>
+            <li>Be a Mentor</li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="footer-column">
+          <h4>Contact Info</h4>
+          <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="footer-column">
+          <h4>Visit Us</h4>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d537.8547548220233!2d120.59130577428844!3d16.4101724118376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a10062bd2aaf%3A0x4a6a895d930a3b3b!2sUniversity%20of%20the%20Cordilleras%20Innovation%20and%20Technology%20Transfer%20Office!5e1!3m2!1sen!2sph!4v1760499396401!5m2!1sen!2sph" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider bottom-line"></div>
+      <div class="footer-bottom">
+        <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
+      </div>
+    </footer>
+    </body>
+    </html>

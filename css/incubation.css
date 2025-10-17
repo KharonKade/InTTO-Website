@@ -1,0 +1,287 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #ffff;
+    }
+
+    /* Container with rounded corners */
+
+    /* Navbar */
+.navbar {
+  position: absolute;
+  top: 20px;
+  left: 50%;                     /* Move to the horizontal middle */
+  transform: translateX(-50%);   /* Pull it back by half its width */
+  width: 95%;                    /* Keep your chosen width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  background: #166647;
+  border-radius: 48px;
+  height: 138px;
+}
+
+
+/* Logo */
+.navbar .logo {
+  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
+  padding: 7px 20px;                     /* Padding for pill shape */
+  border-radius: 40px;                   /* Rounded corners */
+  backdrop-filter: blur(8px);            /* Blurry background effect */
+  display: flex;                         /* Flex container */
+  align-items: center;                   /* Center the image vertically */
+  justify-content: center;               /* Center the image horizontally */
+  width: 137px;
+  height: 64px;
+}
+.navbar .logo img {
+  height: 45px;                          /* Set a default height for the image */
+  width: 93px;                           /* Maintain aspect ratio */
+  max-width: 100%;                       /* Ensure it doesn't overflow */
+}
+
+/* Center Pill Container */
+.nav-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 12px;
+  border-radius: 32px;
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center; /* center links horizontally */
+  align-items: center;     /* center links vertically */
+  width: 493px;
+  height: 64px;
+  gap: 8px; /* spacing between links */
+  position: absolute;     /* Take it out of normal flex flow */
+  left: 50%;              /* Move to the center horizontally */
+  transform: translateX(-50%); /
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 16px 8px;
+  border-radius: 20px;
+  opacity: 0.7;
+  transition: 0.3s;
+  display: flex;
+  align-items: center; /* vertically center text inside each link */
+  justify-content: center;
+  font-size: 16px;
+  width: 66px;
+  height: 40px;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* Active Tab Highlight */
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+/* Right Button */
+.nav-btn {
+  background: #1C7F56;
+  color: white;
+  height: 64px;
+  width: 271px;
+  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  border-radius: 32px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;    
+  gap: 8px;  /* Required for absolute positioning of arrow */
+}
+
+.nav-btn .arrow-icon {
+  background: white;
+  color: #1C7F56;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 2px;   /* Move more right without affecting button width */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Section base */
+.news-section{
+  width: 90%;
+  height: auto;
+  margin: 60px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 210px auto 100px auto;
+}
+
+.section-label {
+  display: inline-block;
+  background: #E5FAEA;
+  color: #1C7F56;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 172px;
+  height: 43px;
+  margin-top: 6.7%;
+}
+
+.service-title {
+  text-align: center;
+  font-size: 56px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  height: 450px; /* increase overall height */
+  margin-top: 5%;
+}
+
+.gallery-left {
+  flex: 1.5; /* Left side gets more width */
+  width: 784px;
+  height: 600px;
+}
+
+.gallery-left img {
+  width: 100%;
+  height: 100%; /* Important: ensures the image fills the container height */
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.gallery-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1; /* Right side gets less width */
+  width: 553px;
+  height: 300px;
+  flex-shrink: 0;
+}
+
+.gallery-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+ 
+/* Base Styles for the Section */
+.incubation-support {
+  background-color: #f7f9f7; /* Light background color for the section */
+  padding: 80px 40px;
+  text-align: center;
+  border-radius: 20px; /* Outer rounded corners */
+  max-width: 1200px; /* Constrain the width */
+  margin: 0 auto; /* Center the entire section */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.incubation-support h2 {
+  font-family: Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+/* --- CSS Grid Layout for Cards --- */
+.support-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 20px; /* Space between the cards */
+}
+
+/* Card Styling */
+.support-card {
+  background-color: white;
+  padding: 30px;
+  text-align: left;
+  border-radius: 20px;
+  min-height: 220px; /* Ensures all cards have a consistent minimum height */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Card shadow for depth */
+  transition: transform 0.2s;
+}
+
+.support-card:hover {
+    transform: translateY(-5px); /* Simple hover effect */
+}
+
+.support-card h3 {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.support-card p {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6a6a6a;
+}
+
+/* Icon/Circle Styling */
+.card-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #e6f3e6; /* Light green background for all circles */
+  border-radius: 50%;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  top: 0; /* Align icon position similar to the image */
+  left: 0;
+}
+
+/* Specific styling for the first, darker green icon */
+.card-icon.icon-green {
+    background-color: #4CAF50; /* A darker, vibrant green */
+    color: white;
+    font-size: 24px;
+}
+
+/* Optional: Basic responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .support-cards-container {
+    grid-template-columns: 1fr; /* Stack cards on top of each other on mobile */
+  }
+}
