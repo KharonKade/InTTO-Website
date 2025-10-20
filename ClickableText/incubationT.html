@@ -82,28 +82,25 @@
 <body class="bg-primary-bg font-sans text-text-main min-h-screen">
 
     <!-- Header & Navigation (Adapted for light mode text colors) -->
-    <header class="sticky top-0 z-20 bg-dark-green shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <a href="#" class="text-xl font-extrabold flex items-center space-x-2">
-                <!-- Logo Placeholder -->
-                <svg width="30" height="30" viewBox="0 0 100 100" class="text-accent-green" fill="currentColor">
-                    <path d="M50 0 L10 20 L10 80 L50 100 L90 80 L90 20 Z M50 20 L25 35 L25 65 L50 80 L75 65 L75 35 Z M50 30 L65 40 L50 50 L35 40 Z"/>
-                </svg>
-                <span class="text-white">InTTO</span>
-            </a>
-            <nav class="flex items-center space-x-3 sm:space-x-6 text-sm font-medium text-white">
+    <header class="flex flex-col md:flex-row sticky top z-20 bg-dark-green justify-between px-[60px]">
+        <div>
+            <img class="h-[46px]" src="../graphics/ucintoLogo.png" alt="">
+        </div>
+        <div>
+            <nav class="flex items-center space-x-3 sm:space-x-6 text-sm font-medium text-white h-full w-full bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
                 <a href="#" class="hidden md:inline hover:text-accent-green transition duration-300 rounded-lg p-2">Home</a>
                 <a href="#" class="hidden md:inline hover:text-accent-green transition duration-300 rounded-lg p-2">About</a>
                 <a href="#" class="hidden md:inline hover:text-accent-green transition duration-300 rounded-lg p-2">Services</a>
                 <a href="#" class="hover:text-accent-green transition duration-300 rounded-lg p-2">Startups</a>
                 <a href="#" class="hover:text-accent-green transition duration-300 rounded-lg p-2">Events</a>
-                
-                <a href="#apply" 
-                    class="bg-accent-green text-dark-green font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-emerald-600 transition duration-300 ml-4 whitespace-nowrap flex items-center space-x-1">
-                    <span>Apply for Incubation</span>
-                    <i class="ph ph-arrow-right text-base"></i>
-                </a>
             </nav>
+        </div>
+        <div>
+            <a href="#apply"
+                class="bg-accent-green text-dark-green font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-emerald-600 transition duration-300 ml-4 whitespace-nowrap flex items-center space-x-1">
+                <span>Apply for Incubation</span>
+                <i class="ph ph-arrow-right text-base"></i>
+            </a>
         </div>
     </header>
 
@@ -351,7 +348,7 @@
                     <h5 class="text-lg font-semibold text-accent-green mb-4">Services</h5>
                     <ul class="space-y-2 text-gray-300 text-sm">
                         <li><a href="#" class="hover:text-white transition">Incubation Program</a></li>
-                        <li><a href="#" class="hover:text-white transition">Intellectual Property</a></li>
+                        <li><a href="./intellectualpropertyT.html" class="hover:text-white transition">Intellectual Property</a></li>
                         <li><a href="#" class="hover:text-white transition">TBI Assessment</a></li>
                         <li><a href="#" class="hover:text-white transition">Train the Trainers</a></li>
                         <li><a href="#" class="hover:text-white transition">Internship</a></li>
@@ -362,7 +359,7 @@
                 <div>
                     <h5 class="text-lg font-semibold text-accent-green mb-4">Startups</h5>
                     <ul class="space-y-2 text-gray-300 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Startup Portfolio</a></li>
+                        <li><a href="https://www.facebook.com" class="hover:text-white transition" target="_blank">Startup Portfolio</a></li>
                         <li><a href="#" class="hover:text-white transition">Join a Team</a></li>
                         <li><a href="#" class="hover:text-white transition">Be a Mentor</a></li>
                     </ul>
