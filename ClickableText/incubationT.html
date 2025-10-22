@@ -3,97 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incubation Program Hero</title>
+    <title>Complete Navigation Bar</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script>
-        // Custom Tailwind configuration (matching the previous exercise)
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'dark-green': '#165A3D', // Example deep green
-                        'accent-green': '#A0E46F', // Example light green
+                        'dark-green': '#165A3D', // Deep forest green
+                        'accent-green': '#A0E46F', // Light green
                     },
                     backgroundColor: {
-                        'glass': 'rgba(255, 255, 255, 0.1)', // For glassmorphism
+                        'glass': 'rgba(255, 255, 255, 0.1)', // For glassmorphism effect
                     }
                 }
             }
         }
     </script>
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <section class="w-full bg-dark-green text-white pt-6 pb-20">
-
-        <header class="flex justify-center mb-24 px-4">
-            <nav class="flex items-center justify-between w-full max-w-6xl bg-dark-green rounded-full p-2.5 shadow-lg">
-                
-                <div class="h-[65px] flex items-center bg-dark-green rounded-full px-4">
-                    <div class="h-10 w-24 bg-white rounded-full flex items-center justify-center text-xs font-bold text-dark-green overflow-hidden">
-                        <img src="/graphics/InTTOLogoGreen.png" alt="logo" class="h-8 object-contain">
-                    </div>  
-                </div>
-
-                <div class="flex items-center space-x-6 text-sm font-medium h-[50px] bg-glass rounded-full backdrop-blur-sm px-6 py-2 border border-opacity-20 border-white/50 shadow-inner">
-                    <a href="/index.html" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Home</a>
-                    <a href="/aboutUs.html" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">About</a>
-                    <a href="/services.html" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Services</a>
-                    <a href="/startups.html" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Startups</a>
-                    <a href="/events.html" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Events</a>
-                </div>
-
-                <a href="#" class="flex items-center bg-dark-green/90 text-white font-semibold rounded-full p-2 pl-6 pr-1 transition duration-300 shadow-md">
-                    Apply for Incubation
-                    <span class="ml-4 h-8 w-8 flex items-center justify-center bg-white rounded-full text-dark-green shadow-xl">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
-                    </span>
-                </a>
-            </nav>
-        </header>
-        <div class="max-w-4xl mx-auto px-6 space-y-8">
+    <header class="w-full py-6 flex justify-center bg-gray-100">
+        <nav class="flex items-center justify-between w-11/12 max-w-7xl bg-dark-green rounded-full p-2.5 shadow-xl">
             
-            <div class="inline-block px-4 py-2 bg-dark-green/70 rounded-full border border-white/50 text-sm font-medium shadow-md">
-                <span class="mr-2">&bullet;</span> UCIANS TBI Program
+            <div class="flex items-center bg-dark-green rounded-full pl-4 pr-6 shadow-lg">
+                <div class="h-[50px] w-[120px] bg-white rounded-full flex items-center justify-center p-1.5">
+                    <img src="/graphics/InTTOLogoGreen.png" alt="InTTO Logo" class="h-full w-auto object-contain" />
+                </div>
             </div>
 
-            <h1 class="text-xl md:text-2xl font-normal text-white">
-                Incubation Program
-            </h1>
-            
-            <p class="text-3xl md:text-4xl font-semibold leading-relaxed max-w-2xl">
-                Transform your innovative idea into a successful startup with our comprehensive 
-                <span class="font-extrabold text-accent-green">12-month incubation program</span>
-            </p>
+            <div class="flex items-center space-x-6 text-sm font-medium text-white h-[50px] bg-glass rounded-full backdrop-blur-sm px-8 py-2 border border-opacity-20 border-white/50 shadow-inner">
+                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Home</a>
+                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">About</a>
+                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Services</a>
+                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Startups</a>
+                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Events</a>
+            </div>
 
-            <a href="#" class="inline-flex items-center mt-10 px-8 py-3 bg-accent-green text-dark-green font-bold rounded-full text-lg shadow-xl hover:bg-white transition duration-300">
-                Apply Now 
-                <span class="ml-3 text-2xl">&rarr;</span>
+            <a href="#" class="flex items-center bg-dark-green/90 hover:bg-dark-green text-white font-semibold rounded-full p-2 pl-6 pr-1 transition duration-300 shadow-md">
+                Apply for Incubation
+                <span class="ml-4 h-8 w-8 flex items-center justify-center bg-white rounded-full text-dark-green shadow-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </span>
             </a>
-            
+
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to the Incubation Center</h1>
+        <p class="text-gray-600">
+            This is where the rest of your page content, like the Hero section or Features section, would go.
+        </p>
+    </main>
+
+    <footer class="bg-dark-green text-white py-4 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm">
+            &copy; 2025 Incubation Program. All rights reserved.
         </div>
-    </section>
-    <section class ="py-20 bg-light-green">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font bold text-gray-800 mb-2">
-                    What You'll Get
-                </h2>
-                <p class="text-lg text-gray-600">
-                    Comprehensive support to turn your idea into a thriving business
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap 6">
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
-                        <div class="h-12 w-12 flex items-center justify-center bg-dark-green rounded-full text-white mb-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Mentorship</h3>
-                            <p class="text-gray-600">One-on-one guidance from industry experts</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </footer>
+
 </body>
 </html>
