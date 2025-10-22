@@ -96,7 +96,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 493px;
+  width: 600px;
   height: 64px;
   gap: 8px;
   position: absolute;
@@ -600,22 +600,27 @@ textarea {
 }
 
 .footer-column h4 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  margin-bottom: 30px;
-  font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
 }
 
 .footer-column ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .footer-column ul li {
-  font-family: 'Poppins', sans-serif;
-  margin-bottom: 20px;
-  font-size: 20px;
-  opacity: 40%;
+    margin-bottom: 20px;
+}
+
+.footer-column ul li a {
+    font-size: 20px;
+    opacity: 40%;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none; /* Removes the underline from the link */
+    color: inherit; /* Ensures the link inherits the parent's text color, which helps keep the desired color */
 }
 
 .contact-item {
