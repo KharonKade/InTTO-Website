@@ -34,45 +34,145 @@
 }
 
 /* Logo */
+/* Logo Wrapper with Glassmorphism */
 .navbar .logo {
-  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
-  padding: 7px 20px;                     /* Padding for pill shape */
-  border-radius: 40px;                   /* Rounded corners */
-  backdrop-filter: blur(8px);            /* Blurry background effect */
-  display: flex;                         /* Flex container */
-  align-items: center;                   /* Center the image vertically */
-  justify-content: center;               /* Center the image horizontally */
+  /* Glassmorphism Properties from your .glass-card */
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0);
+
+  /* Original Layout Properties (maintained) */
+  padding: 7px 20px;
+  border-radius: 40px; /* Kept the large radius for the pill shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 137px;
   height: 64px;
-}
-.navbar .logo img {
-  height: 45px;                          /* Set a default height for the image */
-  width: 93px;                           /* Maintain aspect ratio */
-  max-width: 100%;                       /* Ensure it doesn't overflow */
+  
+  /* Required for pseudo-elements */
+  position: relative; 
+  overflow: hidden;
 }
 
-/* Center Pill Container */
+/* --- */
+
+/* Horizontal Highlight (Top Edge Glow) */
+.navbar .logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+/* Vertical Highlight (Left Edge Glow) */
+.navbar .logo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+/* --- */
+
+/* Logo Image (no change) */
+.navbar .logo img {
+  height: 45px;
+  width: 93px;
+  max-width: 100%;
+}
+
+/* Nav Wrapper with FULL Glassmorphism (New Specs) */
 .nav-wrapper {
-  background: rgba(255, 255, 255, 0.1);
+  /* NEW Glassmorphism Properties */
+  background: rgba(255, 255, 255, 0.07); /* Lighter opacity */
+  backdrop-filter: blur(14px); /* Increased blur */
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0); /* Inner glow removed */
+
+  /* Original Layout Properties (maintained) */
   padding: 12px 12px;
   border-radius: 32px;
-  backdrop-filter: blur(8px);
   display: flex;
-  justify-content: center; /* center links horizontally */
-  align-items: center;     /* center links vertically */
+  justify-content: center;
+  align-items: center;
   width: 493px;
   height: 64px;
-  gap: 8px; /* spacing between links */
-  position: absolute;     /* Take it out of normal flex flow */
-  left: 50%;              /* Move to the center horizontally */
-  transform: translateX(-50%); /
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
 }
 
-/* Nav Links */
+/* --- */
+
+/* Horizontal Highlight (Top Edge Glow) - Unchanged from your last example */
+.nav-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+/* Vertical Highlight (Left Edge Glow) - Unchanged from your last example */
+.nav-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+/* Nav Links (Container) */
 .nav-links {
   display: flex;
   gap: 20px;
+  position: relative;
+  z-index: 10;
 }
+
+/* --- */
 
 /* Individual links */
 .nav-links a {
@@ -83,7 +183,7 @@
   opacity: 0.7;
   transition: 0.3s;
   display: flex;
-  align-items: center; /* vertically center text inside each link */
+  align-items: center;
   justify-content: center;
   font-size: 16px;
   width: 66px;
@@ -94,14 +194,17 @@
   opacity: 1;
 }
 
-/* Active Tab Highlight */
+/* --- */
+
+/* Active Tab Highlight (The "frosted" button) */
 .nav-links a.active {
-  background: rgba(255, 255, 255, 0.2);
+  /* Using a relatively strong white background to clearly mark the active state */
+  background: rgba(255, 255, 255, 0.4);
   opacity: 1;
   width: 81px;
   height: 40px;
+  /* Removed the inner box-shadow from the active link for consistency with the main wrapper update. */
 }
-
 
 /* Right Button */
 .nav-btn {
@@ -131,7 +234,7 @@
   justify-content: center;
   font-size: 30px;
   position: absolute;
-  right: 2px;   /* Move more right without affecting button width */
+  right: 3px;   /* Move more right without affecting button width */
   top: 50%;
   transform: translateY(-50%);
 }
@@ -162,6 +265,8 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 150%;
+      letter-spacing: -2;
     }
 
     .hero-buttons {
@@ -171,19 +276,67 @@
       flex-wrap: wrap;
     }
     .hero-btn {
-      padding: 16px 8px;
-      border-radius: 40px;
-      backdrop-filter: blur(8px);
-      color: white;
-      display: inline-block;
-      text-decoration: none;
-      width: 181px;
-      height: 64px;
-      font-size: 16px;
-      display: flex;           
-      align-items: center;     
-      justify-content: center; 
-    }
+  /* Glassmorphism Properties from your .glass-card */
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px); /* Increased blur */
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0);
+
+  /* Required for pseudo-elements */
+  position: relative;
+  overflow: hidden;
+
+  /* Original Layout Properties (maintained) */
+  padding: 16px 8px;
+  border-radius: 40px; /* Pill shape */
+  color: white;
+  text-decoration: none;
+  width: 181px;
+  height: 64px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- */
+
+/* Horizontal Highlight (Top Edge Glow) */
+.hero-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+/* Vertical Highlight (Left Edge Glow) */
+.hero-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
 
     .about-section {
   width: 90%;
@@ -203,9 +356,9 @@
 
 .section-title {
   font-size: 24px;
-  line-height: 1.6;
+  line-height: 150%;
   color: #333;
-  max-width: 800px;
+  max-width: 90%;
   margin: 0 auto 50px;
 }
 
@@ -224,7 +377,6 @@
   height: 133px;            /* wider cards */
   box-shadow: 0 6px 15px rgba(0,0,0,0.06);
   text-align: center;
-
   display: flex;               /* make it a flexbox */
   flex-direction: column;      /* stack number and text vertically */
   align-items: center;         /* center horizontally */
@@ -235,12 +387,13 @@
   font-size: 48px;             /* larger number */
   font-weight: bold;
   color: #1C7F56;
+  line-height: 120%;
 }
 
 .stat-card p {
   font-size: 16px;
   color: #666;
-  margin-top: 10px;
+  line-height: 120%;
 }
 
 /* Image Layout Fix */
@@ -290,6 +443,7 @@
   font-weight: 700;
   margin-bottom: 30px;
   color: #111;
+  line-height: 120%;
 }
 
 /* Services Container */
@@ -340,6 +494,7 @@
   font-size: 16px;
   color: black;
   margin: 10px 0 20px;
+  line-height: 150%;
 }
 
 /* CTA Button */
@@ -454,16 +609,23 @@
   background: var(--green);
   padding: 28px 28px;
   border-radius: 48px;
-  width: 1360px;
-  height: 777;
+  height: 777px; /* Corrected: added 'px' unit */
+  /* If the container itself needs to be centered and have a fixed width: */
+  /* width: 1360px; */ 
+  /* margin: 0 auto; */
 }
 
 /* Cards grid */
 .cards-grid{
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  align-items:stretch;
+  grid-template-columns: repeat(3, 1fr); /* Ensures 3 columns of equal width */
+  gap: 22px; /* Spacing between cards */
+  align-items:stretch; /* Cards will stretch to fill available height in their row */
+  
+  /* Centering the grid horizontally within its parent */
+  /* This works best if the grid's total width is less than its parent's width */
+  max-width: fit-content; /* Or a specific width like calc(3 * 402px + 2 * 22px) */
+  margin: 0 auto; 
 }
 
 /* Card */
@@ -471,13 +633,13 @@
   background: var(--white);
   padding: 18px;
   border-radius: var(--card-radius);
-  text-align:left;
+  text-align:left; /* Keeping original text alignment as per Image 1 content */
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  width: 402px;
-  height: 314px;
+  width: 402px; /* Fixed width for each card */
+  height: 314px; /* Fixed height for each card */
   transition: transform .18s, box-shadow .18s;
   position: relative;
 }
@@ -568,7 +730,7 @@
   justify-content: center;
   font-size: 30px;
   position: absolute;
-  right: 2px;   /* Move more right without affecting button width */
+  right: 3px;   /* Move more right without affecting button width */
   top: 50%;
   transform: translateY(-50%);
 }
@@ -598,7 +760,6 @@
   justify-content:space-between;
   gap:16px;
   margin-top: 12px;
-  width: 1360px;
   height: 196px;
 }
 .join-cta .cta-content h3{
@@ -694,35 +855,45 @@
   justify-content: center;
   font-size: 30px;
   position: absolute;
-  right: 2px;   /* Move more right without affecting button width */
+  right: 3px;   /* Move more right without affecting button width */
   top: 50%;
   transform: translateY(-50%);
 }
 
 .news-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* ⬅️ CHANGE 1: Use a fixed column count (3 is common for news layouts) */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
     margin-top: 30px;
+
+    /* ⬅️ CHANGE 2: Define the container's max-width based on 3 cards (439px each) + 2 gaps (30px each) */
+    max-width: calc(3 * 439px + 2 * 30px);
+    
+    /* Centering the grid horizontally */
+    margin: 0 auto; 
 }
 
 .news-card {
+    /* REMOVE the fixed width so the grid's columns can control it */
+    /* width: 439px; */ 
     background: white;
-    border-radius: 16px;
+    border-radius: 40px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     padding: 20px;
-    width: 439px;
+    /* height property can remain */
     height: 518px;
 }
+/* ... rest of the CSS ... */
 
 .news-card img {
     width: 391px;
-    height: 245x;
+    /* Corrected typo: changed '245x' to '245px' */
+    height: 245px;
     object-fit: cover;
     border-radius: 24px;
 }
- 
 .news-content {
     padding: 20px; /* Increased internal padding */
 }
@@ -762,9 +933,10 @@
 
 .news-desc {
     font-size: 16px;
-    color: #555;
+    color: #030110;
     margin-bottom: 16px; /* More breathing room before read more */
-    line-height: 1.6;
+    line-height: 120%;
+    opacity: 40%;
 }
 
 .read-more {
@@ -775,6 +947,7 @@
     align-items: center;
     gap: 6px; /* Add spacing between text and arrow if icon is used */
     font-size: 16px;
+    margin-top: 25px;
 }
 
 .read-more:hover {
@@ -813,12 +986,15 @@
 .info-block h3 {
     color: #1C7F56;
     font-size: 32px;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
+  
 }
 
 .info-block p {
   font-size: 24px;
   margin-bottom: 80px;
+  line-height: 120%;
+  opacity: 60%;
 }
 
 .social-icons a {
@@ -882,6 +1058,7 @@ textarea {
     justify-content: center; /* Centers the text */
     align-items: center;
     position: relative; /* Enables positioning of the arrow */
+    font-size: 16px;
 }
 
 .arrow-contact {
@@ -929,13 +1106,14 @@ textarea {
 .cta-box h2 {
   font-size: 48px;
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .cta-box p {
   font-size: 24px;
   opacity: 0.9;
   margin-bottom: 30px;
+  line-height: 36px;
 }
 
 .cta-buttons {
@@ -1052,7 +1230,7 @@ textarea {
 }
 
 .footer-column ul li {
-  margin-bottom: 6px;
+  margin-bottom: 20px;
   font-size: 20px;
   opacity: 40%;
 }
@@ -1093,8 +1271,8 @@ textarea {
 }
 
 .map-container {
-  width: 260px;
-  height: 150px;
+  width: 388px;
+  height: 224px;
   background: #ddd;
   border-radius: 6px;
   overflow: hidden;

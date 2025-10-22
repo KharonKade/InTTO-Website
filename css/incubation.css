@@ -199,28 +199,32 @@
  
 /* Base Styles for the Section */
 .incubation-support {
-  background-color: #f7f9f7; /* Light background color for the section */
+  background-color: #EFFAF4; /* Light background color for the section */
   padding: 80px 40px;
   text-align: center;
   border-radius: 20px; /* Outer rounded corners */
-  max-width: 1200px; /* Constrain the width */
+  max-width: 90%; /* Constrain the width */
   margin: 0 auto; /* Center the entire section */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  margin-top: 20%;
+  height: 886px;
 }
 
 .incubation-support h2 {
   font-family: Arial, sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 700;
   margin-bottom: 50px;
-  color: #333;
+  color: black;
 }
 
 /* --- CSS Grid Layout for Cards --- */
 .support-cards-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-  gap: 20px; /* Space between the cards */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: min(90%, 1000px); /* Set a max-width or specific width */
+  margin: 0 auto; /* Sets top/bottom margin to 0 and left/right to auto */
 }
 
 /* Card Styling */
@@ -229,9 +233,15 @@
   padding: 30px;
   text-align: left;
   border-radius: 20px;
-  min-height: 220px; /* Ensures all cards have a consistent minimum height */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Card shadow for depth */
   transition: transform 0.2s;
+  width: 410px;
+  height: 307px;
+}
+
+.message-news {
+  font-size: 20px;
+  color: #777777;
 }
 
 .support-card:hover {
@@ -240,7 +250,7 @@
 
 .support-card h3 {
   font-family: Arial, sans-serif;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -249,15 +259,15 @@
 
 .support-card p {
   font-family: Arial, sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.6;
   color: #6a6a6a;
 }
 
 /* Icon/Circle Styling */
 .card-icon {
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
   background-color: #e6f3e6; /* Light green background for all circles */
   border-radius: 50%;
   margin-bottom: 15px;
@@ -272,16 +282,312 @@
   left: 0;
 }
 
-/* Specific styling for the first, darker green icon */
-.card-icon.icon-green {
-    background-color: #4CAF50; /* A darker, vibrant green */
-    color: white;
-    font-size: 24px;
-}
-
 /* Optional: Basic responsiveness for smaller screens */
 @media (max-width: 768px) {
   .support-cards-container {
     grid-template-columns: 1fr; /* Stack cards on top of each other on mobile */
   }
+}
+
+/* Import a modern, clean font like Poppins or use system fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-green: #1C7F56; /* A nice, vibrant green */
+    --light-green: #E0F7ED;
+    --gray-text: #6B7280;
+    --border-color: #E5E7EB;
+    --background-color: #F9FAFB;
+    --text-color: #1F2937;
+    --white: #ffffff;
+}
+
+.container {
+    width: 90%;
+    padding-top: 10%;
+    padding-bottom: 200px; 
+    margin: 0 auto; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start;
+}
+
+.main-header {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 50px;
+    font-size: 40px;
+}
+
+.top-progress-tracker, .inner-progress-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    padding: 0; /* Padding for the top tracker */
+}
+
+/* Adjust padding for the tracker inside the card to match image */
+.inner-progress-tracker {
+    padding: 20px 40px 0;
+    justify-content: space-around;
+    gap: 100px;
+}
+
+/* 💥 NEW STYLES FOR TOP PROGRESS TRACKER 💥 */
+.top-progress-tracker {
+    width: 100%; /* Now takes up 100% of the 90% wide .container */
+    height: 176px; 
+    border-radius: 40px; 
+    border: 1px solid black; 
+    align-items: center;
+    margin: 0 0 20px 0; /* Changed to 0 to prevent conflicts */
+    
+    /* Remove the inherited padding to make the border truly match the container edges */
+    padding: 0; 
+    
+    /* Re-add flex properties for internal icon placement */
+    display: flex;
+    justify-content: space-around; /* Spreads the icons */
+    gap: 200px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 2; /* Ensures step is above the connector line */
+    margin-top: 25px;
+    /* FIX: Increase width to prevent 'Team & Support' from wrapping */
+    width: 150px; 
+    height: 99px;
+}
+
+.icon-container {
+    width: 63px;
+    height: 63px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    font-size: 24px;
+}
+
+.step p {
+    font-size: 18px;
+    color: var(--gray-text);
+    margin: 0;
+}
+
+/* Active State for Steps */
+.step.active .icon-container {
+    background-color: var(--primary-green);
+    color: var(--white);
+    border: 1px solid var(--primary-green);
+    font-size: 24px;
+}
+
+.step.active p {
+    color: var(--text-color);
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Connector Line */
+.connector {
+    flex-grow: 1;
+    height: 2px;
+    background-color: var(--border-color);
+    position: absolute;
+    top: 55px; /* Adjust based on icon size and positioning */
+    left: 0;
+    right: 0;
+    margin: 0 100px; /* Match the padding of the step structure */
+    z-index: 1;
+}
+
+/* Adjust connector positioning specifically for the top tracker */
+.top-progress-tracker .connector {
+    /* Updated top position for the connector line to be centered (approx. 88px, adjusted for icon size) */
+    top: 85px; /* Adjusting the value from 65px */
+    margin: 0 5%;
+}
+
+/* Adjust connector positioning specifically for the inner card tracker */
+.inner-progress-tracker .connector {
+    top: 80px; /* Higher for the smaller icons */
+    margin: 0 90px;
+}
+
+
+.connector.active {
+    background-color: var(--primary-green);
+}
+
+/* --- Form Card Styling --- */
+.form-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+    width: 959px;
+    height: 637;
+    margin-top: 10%;
+}
+
+.form-separator {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 0 40px; /* Horizontal rule inside the card */
+}
+
+.form-content {
+    padding: 40px;
+}
+
+.form-content h2 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.form-content p {
+  font-size: 16px;
+  color: #777777;
+}
+
+.subtitle {
+    color: var(--gray-text);
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+/* --- Form Field Styling --- */
+.personal-info-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 30px; /* Space between the two groups in a row */
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-green);
+    outline: none;
+}
+
+/* Styling for the placeholder text for e.g. like in the image */
+.form-group input::placeholder {
+    color: var(--gray-text);
+    font-style: italic;
+}
+
+/* Override input values to look like the image (pre-filled but with lighter text) */
+.form-group input[value] {
+    background-color: var(--background-color); /* Light background for pre-filled */
+    font-weight: 400;
+    color: #4B5563; /* Slightly lighter than the main text */
+    height: 36px;
+}
+
+/* --- Navigation Button Styling --- */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 50px;
+    border-top: 1px solid var(--border-color); /* Separator line for buttons */
+    margin-top: 30px;
+}
+
+.btn-previous, .btn-next {
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-previous {
+    background-color: var(--white);
+    color: var(--gray-text);
+    border: 1px solid var(--border-color);
+    width: 114px;
+    height: 36px;
+}
+
+.btn-previous:hover {
+    background-color: var(--background-color);
+}
+
+.btn-next {
+    background-color: var(--primary-green);
+    color: var(--white);
+    border: 1px solid var(--primary-green);
+    width: 86px;
+    height: 36px;
+}
+
+.btn-next:hover {
+    background-color: #0c8a66; /* A slightly darker green */
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 650px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .top-progress-tracker {
+        display: none; /* Hide the large tracker on small screens for cleaner view */
+    }
+
+    .form-content {
+        padding: 20px;
+    }
+
+    .inner-progress-tracker {
+        padding: 15px 15px 0;
+        overflow-x: auto; /* Allow horizontal scroll for inner tracker */
+    }
 }
