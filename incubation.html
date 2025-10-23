@@ -9,7 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
+    <script type="module" src="./script.js"></script>
+    <!-- <script type="module" src="/InTTO-Website/api.js"></script> -->
+    <script type="module" src="./info.js"></script>
+    <script type="module" src="./saveInfo.js"></script>
     <div class="navbar">
         <div class="logo">
             <img src="graphics\InTTOLogo.png" alt="logo">
@@ -142,7 +145,7 @@
                 <h2>Personal Information</h2>
                 <p class="subtitle">Tell us about yourself</p>
 
-                <form class="personal-info-form">
+                <form class="personal-info-form" id="personal-info-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullName">Full Name *</label>
@@ -150,18 +153,18 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address *</label>
-                            <input type="email" id="email" placeholder="juan.delacruz@uic-bcf.edu.ph" required>
+                            <input type="email" id="email" value="juan.delacruz@uic-bcf.edu.ph" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" placeholder="+63 912 345 6789" required>
+                            <input type="tel" id="phone" value="+63 912 345 6789" required>
                         </div>
                         <div class="form-group">
                             <label for="studentId">Student ID (if applicable)</label>
-                            <input type="text" id="studentId" placeholder="2024-12345">
+                            <input type="text" id="studentId" value="2024-12345">
                         </div>
                     </div>
 
