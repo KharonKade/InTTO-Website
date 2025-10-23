@@ -112,7 +112,7 @@
             <p>Personal Info</p>
         </div>
         <div class="connector active" data-connector="1-2"></div>
-        <div class="step" data-step="2">
+        <div class="step active" data-step="2">
             <div class="icon-container"><i class="fas fa-briefcase"></i></div>
             <p>Startup Details</p>
         </div>
@@ -134,7 +134,7 @@
                 <p>Personal Info</p>
             </div>
             <div class="connector active" data-connector="1-2"></div>
-            <div class="step" data-step="2">
+            <div class="step active" data-step="2">
                 <div class="icon-container"><i class="fas fa-briefcase"></i></div>
                 <p>Startup Details</p>
             </div>
@@ -154,7 +154,7 @@
 
         <div class="form-steps-container">
 
-            <div class="form-content" id="personal-info-step" data-step="1">
+            <div class="form-content hidden" id="personal-info-step" data-step="1">
                 <h2>Personal Information</h2>
                 <p class="subtitle">Tell us about yourself</p>
 
@@ -211,7 +211,7 @@
                     </div>
 
                     <div class="navigation-buttons">
-                        <button type="button" class="btn-previous" disabled>
+                        <button type="button" class="btn-previous">
                             <i class="fas fa-chevron-left"></i> Previous
                         </button>
                         <button type="submit" class="btn-next">
@@ -294,14 +294,82 @@
                     </div>
                 </form>
             </div>
+
+            <div class="form-content" id="team-support-step" data-step="3">
+                <h2>Team & Support</h2>
+                <p class="subtitle">Tell us about your team and what support you need</p>
+
+                <form class="team-support-form" id="team-support-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teamSize">Team Size *</label>
+                            <input type="number" id="teamSize" placeholder="e.g., 3" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="coFounders">Co-Founders</label>
+                            <input type="number" id="coFounders" placeholder="Number of co-founders">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="teamMembers">Team Members (Names & Roles) *</label>
+                            <textarea id="teamMembers" placeholder="e.g., John Doe - CEO, Jane Smith - CTO" rows="3" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="teamExpertise">Team Expertise & Background *</label>
+                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row checkbox-group">
+                        <div class="form-group full-width">
+                            <label>What support do you need from the incubation program? *</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-column">
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Mentorship"> Mentorship</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Technical Support"> Technical Support</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Legal Advice"> Legal Advice</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Office Space"> Office Space</label>
+                                </div>
+                                <div class="checkbox-column">
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Funding"> Funding</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Marketing & Branding"> Marketing & Branding</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Network Access"> Network Access</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="additionalInfo">Additional Information</label>
+                            <textarea id="additionalInfo" placeholder="Any other information you'd like to share" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn-previous">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button type="submit" class="btn-next">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
             </div>
     </div>
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const personalInfoForm = document.getElementById('personal-info-form');
     const personalInfoStep = document.getElementById('personal-info-step');
     const startupDetailsStep = document.getElementById('startup-details-step');
+    const teamSupportStep = document.getElementById('team-support-step');
     const topTrackerSteps = document.querySelectorAll('.top-progress-tracker .step');
     const innerTrackerSteps = document.querySelectorAll('.inner-progress-tracker .step');
     const topConnectors = document.querySelectorAll('.top-progress-tracker .connector');
@@ -334,24 +402,30 @@
     };
 
     const goToStep = (stepNumber) => {
-        if (stepNumber === 1) {
-            personalInfoStep.classList.remove('hidden');
-            startupDetailsStep.classList.add('hidden');
-        } else if (stepNumber === 2) {
-            personalInfoStep.classList.add('hidden');
-            startupDetailsStep.classList.remove('hidden');
-        }
+        [personalInfoStep, startupDetailsStep, teamSupportStep].forEach(step => {
+            if (parseInt(step.getAttribute('data-step')) === stepNumber) {
+                step.classList.remove('hidden');
+            } else {
+                step.classList.add('hidden');
+            }
+        });
         updateProgressTracker(stepNumber);
     };
 
-    personalInfoForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        goToStep(2);
-    });
+    const forms = [
+        { id: 'personal-info-form', nextStep: 2 },
+        { id: 'startup-details-form', nextStep: 3 },
+        { id: 'team-support-form', nextStep: 4 }
+    ];
 
-    const startupDetailsForm = document.getElementById('startup-details-form');
-    startupDetailsForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    forms.forEach(formInfo => {
+        const form = document.getElementById(formInfo.id);
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                goToStep(formInfo.nextStep);
+            });
+        }
     });
 
     const previousButtons = document.querySelectorAll('.btn-previous');
@@ -363,7 +437,7 @@
         });
     });
 
-    goToStep(1);
+    goToStep(3);
 });
 </script>
 </body>
