@@ -14,14 +14,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        
+        // --- Existing Year Level Logic (to keep it clean, though .value often suffices) ---
+        // --- FIXED Year Level Logic ---
+        const yearEl = document.getElementById('yearLevel');
+        // Simply use .value, which returns the 'value' attribute of the selected option.
+        const yearLevelValue = yearEl ? yearEl.value : '';
+        // -----------------------------------------------------------------------------------
+
+        // **New: Get the Department/College value**
+        const deptCollegeEl = document.getElementById('deptCollege');
+        const deptCollege = deptCollegeEl ? deptCollegeEl.value : '';
+
 
         const formData = {
             fullName: document.getElementById('fullName').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
             studentId: document.getElementById('studentId').value,
-            yearLevel: document.getElementById('yearLevel').value,
-            submittedAt: new Date().toISOString() // use client timestamp or replace with serverTimestamp() if you import it
+            yearLevel: yearLevelValue, 
+            departmentCollege: deptCollege, 
+
+            submittedAt: new Date().toISOString()
         };
 
         // Ensure saveApplication is available (script load order matters)
