@@ -3,460 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UC InTTO - Incubation Program</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Phosphor Icons for social media/buttons -->
-    <script src="https://unpkg.com/phosphor-icons"></script>
-    
-    <!-- Configure Tailwind for Inter font and color scheme -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'primary-bg': '#f8fafc', // Light/Off-white for main body
-                        'secondary-bg': '#ecfdf5', // Very light green for sections
-                        'accent-green': '#10b981', // Vibrant Emerald green for CTA/Accents
-                        'dark-green': '#047857', // Darker green for deep background areas
-                        'text-main': '#1f2937', // Dark gray for main text
-                        'text-light': '#6b7280', // Medium gray for secondary text
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        
-        /* Custom style for the Hero section background image and overlay */
-        .hero-bg {
-            background-color: #047857; /* Dark green background */
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Styling for the application process steps */
-        .step-circle {
-            width: 3rem;
-            height: 3rem;
-            line-height: 3rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        /* Styling for the dotted line connecting steps */
-        .step-connector {
-            flex-grow: 1;
-            height: 2px;
-            margin: 0 0.5rem;
-            position: relative;
-        }
-
-        /* Using ::after for the arrow head for a cleaner look */
-        .step-connector::after {
-            content: '';
-            position: absolute;
-            right: -10px;
-            top: 50%;
-            width: 0;
-            height: 0;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-            transform: translateY(-50%);
-        }
-
-        .step-connector.bg-accent-green::after {
-            border-left: 8px solid #10b981;
-        }
-    </style>
+    <title>Incubation Program Landing Page</title>
+    <link rel="stylesheet" href="/css/incuT.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-primary-bg font-sans text-text-main min-h-screen">
+<body>
+    <div class="main-container">
+        <header class="header">
+            <div class="logo-and-nav">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                        <div class="logo-line"></div>
+                    </div>
+                    <div class="logo-text">Innovation | Technology | Transfer Office</div>
+                </div>
 
-    <!-- Header & Navigation (Adapted for light mode text colors) -->
-    <header class="sticky top-0 z-20 bg-dark-green shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <a href="#" class="text-xl font-extrabold flex items-center space-x-2">
-                <!-- Logo Placeholder -->
-                <svg width="30" height="30" viewBox="0 0 100 100" class="text-accent-green" fill="currentColor">
-                    <path d="M50 0 L10 20 L10 80 L50 100 L90 80 L90 20 Z M50 20 L25 35 L25 65 L50 80 L75 65 L75 35 Z M50 30 L65 40 L50 50 L35 40 Z"/>
-                </svg>
-                <span class="text-white">InTTO</span>
+                <nav class="main-nav">
+                    <a href="#" class="nav-item">Home</a>
+                    <a href="#" class="nav-item">About</a>
+                    <a href="#" class="nav-item">Services</a>
+                    <a href="#" class="nav-item">Startups</a>
+                    <a href="#" class="nav-item">Events</a>
+                </nav>
+            </div>
+            
+            <div class="header-actions">
+                <a href="#" class="apply-button-header">Apply for Incubation</a>
+                <button class="scroll-up-button" aria-label="Scroll to top">
+                    &uarr; </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="program-tag">
+                <span class="bullet"></span>
+                <span class="tag-text">UCIANS TBI Program</span>
+            </div>
+
+            <h1 class="program-title">Incubation Program</h1>
+            <p class="program-description">
+                Transform your innovative idea into a successful startup with our comprehensive 12-month incubation program
+            </p>
+
+            <a href="#" class="apply-now-button">
+                Apply Now <span class="arrow">&rarr;</span>
             </a>
-            <nav class="flex items-center space-x-3 sm:space-x-6 text-sm font-medium text-white">
-                <a href="#" class="hidden md:inline hover:text-accent-green transition duration-300 rounded-lg p-2">Home</a>
-                <a href="#" class="hidden md:inline hover:text-accent-green transition duration-300 rounded-lg p-2">About</a>
-                <a href="#" class="hidden md:inline hover:text-accent-green transition duration-300 rounded-lg p-2">Services</a>
-                <a href="#" class="hover:text-accent-green transition duration-300 rounded-lg p-2">Startups</a>
-                <a href="#" class="hover:text-accent-green transition duration-300 rounded-lg p-2">Events</a>
-                
-                <a href="#apply" 
-                    class="bg-accent-green text-dark-green font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-emerald-600 transition duration-300 ml-4 whitespace-nowrap flex items-center space-x-1">
-                    <span>Apply for Incubation</span>
-                    <i class="ph ph-arrow-right text-base"></i>
-                </a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="w-full">
-
-        <!-- 1. Hero/Program Overview Section (Dark Green) -->
-        <section id="program-hero" class="hero-bg py-20 md:py-32 text-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center space-x-2 mb-4">
-                    <span class="px-3 py-1 text-xs rounded-full bg-white/20 text-white font-medium">UCIANS TBI Program</span>
-                </div>
-                <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">Incubation Program</h1>
-                <p class="text-xl text-gray-200 max-w-3xl mb-8">
-                    Transform your innovative idea into a successful startup with our comprehensive 12-month incubation program.
-                </p>
-                <a href="#apply"
-                    class="inline-flex items-center space-x-2 bg-white text-dark-green font-semibold py-3 px-8 rounded-lg shadow-xl hover:bg-gray-100 transition duration-300">
-                    <span>Apply Now</span>
-                    <i class="ph ph-arrow-right text-base"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- 2. What You'll Get (Benefits) Section -->
-        <section id="benefits" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-primary-bg">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-text-main mb-2">What You'll Get</h2>
-                <p class="text-text-light">Comprehensive support to help your startup succeed</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <!-- Benefit Card 1: Mentorship -->
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300 text-center">
-                    <i class="ph ph-lightbulb-filament text-4xl text-accent-green mb-4"></i>
-                    <h3 class="text-lg font-semibold text-text-main mb-2">Mentorship</h3>
-                    <p class="text-sm text-text-light">One-on-one guidance from industry experts</p>
-                </div>
-
-                <!-- Benefit Card 2: Networking -->
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300 text-center">
-                    <i class="ph ph-users-three text-4xl text-accent-green mb-4"></i>
-                    <h3 class="text-lg font-semibold text-text-main mb-2">Networking</h3>
-                    <p class="text-sm text-text-light">Connect with investors, partners, and fellow entrepreneurs</p>
-                </div>
-
-                <!-- Benefit Card 3: Funding Support -->
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300 text-center">
-                    <i class="ph ph-chart-line-up text-4xl text-accent-green mb-4"></i>
-                    <h3 class="text-lg font-semibold text-text-main mb-2">Funding Support</h3>
-                    <p class="text-sm text-text-light">Access to seed funding and investor connections</p>
-                </div>
-
-                <!-- Benefit Card 4: Business Development -->
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-300 text-center">
-                    <i class="ph ph-file-text text-4xl text-accent-green mb-4"></i>
-                    <h3 class="text-lg font-semibold text-text-main mb-2">Business Development</h3>
-                    <p class="text-sm text-text-light">Strategic planning and business model refinement</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Application Process (Timeline Steps) Section -->
-        <section id="process" class="py-16 md:py-24 bg-secondary-bg">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-text-main mb-2">Application Process</h2>
-                    <p class="text-text-light">Simple 5-step process to join our incubation program</p>
-                </div>
-
-                <!-- Steps Container -->
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 text-center">
-                    
-                    <!-- Step 1 -->
-                    <div class="flex flex-col items-center max-w-[150px] w-full">
-                        <div class="step-circle bg-accent-green text-lg">1</div>
-                        <div class="mt-4 text-text-main font-semibold">Submit Application</div>
-                        <p class="text-xs text-text-light mt-1">Complete the online application form with your business idea</p>
-                    </div>
-                    <!-- Connector 1 (Hidden on mobile for vertical flow) -->
-                    <div class="step-connector bg-accent-green hidden md:block relative">
-                        <i class="ph ph-arrow-right-bold absolute right-[-10px] top-1/2 transform -translate-y-1/2 text-accent-green text-xl bg-secondary-bg p-0.5 rounded-full"></i>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="flex flex-col items-center max-w-[150px] w-full">
-                        <div class="step-circle bg-accent-green/80 text-lg">2</div>
-                        <div class="mt-4 text-text-main font-semibold">Initial Screening</div>
-                        <p class="text-xs text-text-light mt-1">Our team reviews your application within 5 business days</p>
-                    </div>
-                    <!-- Connector 2 -->
-                    <div class="step-connector bg-accent-green hidden md:block relative">
-                        <i class="ph ph-arrow-right-bold absolute right-[-10px] top-1/2 transform -translate-y-1/2 text-accent-green text-xl bg-secondary-bg p-0.5 rounded-full"></i>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="flex flex-col items-center max-w-[150px] w-full">
-                        <div class="step-circle bg-accent-green/60 text-lg">3</div>
-                        <div class="mt-4 text-text-main font-semibold">Pitch Presentation</div>
-                        <p class="text-xs text-text-light mt-1">Present your idea to our evaluation committee</p>
-                    </div>
-                    <!-- Connector 3 -->
-                    <div class="step-connector bg-accent-green hidden md:block relative">
-                        <i class="ph ph-arrow-right-bold absolute right-[-10px] top-1/2 transform -translate-y-1/2 text-accent-green text-xl bg-secondary-bg p-0.5 rounded-full"></i>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="flex flex-col items-center max-w-[150px] w-full">
-                        <div class="step-circle bg-accent-green/40 text-lg">4</div>
-                        <div class="mt-4 text-text-main font-semibold">Evaluation</div>
-                        <p class="text-xs text-text-light mt-1">Committee assesses viability and potential impact</p>
-                    </div>
-                    <!-- Connector 4 -->
-                    <div class="step-connector bg-accent-green hidden md:block relative">
-                        <i class="ph ph-arrow-right-bold absolute right-[-10px] top-1/2 transform -translate-y-1/2 text-accent-green text-xl bg-secondary-bg p-0.5 rounded-full"></i>
-                    </div>
-
-                    <!-- Step 5 -->
-                    <div class="flex flex-col items-center max-w-[150px] w-full">
-                        <div class="step-circle bg-accent-green/20 text-lg border-2 border-accent-green">5</div>
-                        <div class="mt-4 text-text-main font-semibold">Onboarding</div>
-                        <p class="text-xs text-text-light mt-1">Welcome to UCIANS TBI! Begin your incubation journey</p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. 12-Month Journey (Phases) Section -->
-        <section id="journey" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-primary-bg">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-text-main mb-2">12-Month Journey</h2>
-                <p class="text-text-light">Structured program designed to take you from idea to market</p>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <!-- Phase 1: Ideation & Validation (0-3 Months) -->
-                <div class="bg-secondary-bg p-8 rounded-xl shadow-lg border-t-4 border-accent-green">
-                    <h3 class="text-sm font-bold text-white bg-dark-green inline-block px-3 py-1 rounded-full mb-4">0-3 months</h3>
-                    <h4 class="text-xl font-semibold text-text-main mb-4">Phase 1: Ideation & Validation</h4>
-                    <ul class="space-y-3 text-text-light">
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Idea refinement</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Market research</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Customer discovery</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Business model development</span></li>
-                    </ul>
-                </div>
-
-                <!-- Phase 2: MVP Development (3-6 Months) -->
-                <div class="bg-secondary-bg p-8 rounded-xl shadow-lg border-t-4 border-accent-green">
-                    <h3 class="text-sm font-bold text-white bg-dark-green inline-block px-3 py-1 rounded-full mb-4">3-6 months</h3>
-                    <h4 class="text-xl font-semibold text-text-main mb-4">Phase 2: MVP Development</h4>
-                    <ul class="space-y-3 text-text-light">
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Product development</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Prototype testing</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Initial traction</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Team building</span></li>
-                    </ul>
-                </div>
-
-                <!-- Phase 3: Growth & Scale (6-12 Months) -->
-                <div class="bg-secondary-bg p-8 rounded-xl shadow-lg border-t-4 border-accent-green">
-                    <h3 class="text-sm font-bold text-white bg-dark-green inline-block px-3 py-1 rounded-full mb-4">6-12 months</h3>
-                    <h4 class="text-xl font-semibold text-text-main mb-4">Phase 3: Growth & Scale</h4>
-                    <ul class="space-y-3 text-text-light">
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Market launch</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Sales & marketing</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Funding rounds</span></li>
-                        <li class="flex items-start space-x-2"><i class="ph ph-check text-xl text-accent-green mt-1"></i><span>Scaling operations</span></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Requirements and Application CTA Section -->
-        <section id="requirements" class="py-16 md:py-24 bg-secondary-bg">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
-                
-                <!-- Requirements List -->
-                <div class="lg:pr-12">
-                    <h3 class="text-2xl font-bold text-text-main mb-6">Requirements</h3>
-                    <p class="text-text-light mb-8">To be considered for our incubation program, applicants should meet the following criteria:</p>
-                    <ul class="space-y-4 text-text-main">
-                        <li class="flex items-start space-x-3"><i class="ph ph-check-circle text-2xl text-accent-green flex-shrink-0"></i><span>Innovative and scalable business idea</span></li>
-                        <li class="flex items-start space-x-3"><i class="ph ph-check-circle text-2xl text-accent-green flex-shrink-0"></i><span>Commitment to full-time startup development</span></li>
-                        <li class="flex items-start space-x-3"><i class="ph ph-check-circle text-2xl text-accent-green flex-shrink-0"></i><span>Team with complementary skills (preferred)</span></li>
-                        <li class="flex items-start space-x-3"><i class="ph ph-check-circle text-2xl text-accent-green flex-shrink-0"></i><span>Willingness to participate in training programs</span></li>
-                        <li class="flex items-start space-x-3"><i class="ph ph-check-circle text-2xl text-accent-green flex-shrink-0"></i><span>Clear problem-solution fit</span></li>
-                        <li class="flex items-start space-x-3"><i class="ph ph-check-circle text-2xl text-accent-green flex-shrink-0"></i><span>Market potential and target audience</span></li>
-                    </ul>
-                </div>
-
-                <!-- Ready to Apply CTA -->
-                <div id="apply" class="bg-dark-green p-8 rounded-xl shadow-2xl text-white h-full flex flex-col justify-center">
-                    <h3 class="text-2xl font-bold mb-4">Ready to Apply?</h3>
-                    <p class="text-gray-200 mb-6">Join our next cohort and start your entrepreneurial journey with UC InTTO.</p>
-                    
-                    <ul class="space-y-3 mb-8 text-gray-200">
-                        <li class="flex items-center space-x-3"><i class="ph ph-calendar text-xl text-accent-green"></i><span>Applications open year-round</span></li>
-                        <li class="flex items-center space-x-3"><i class="ph ph-users-three text-xl text-accent-green"></i><span>Limited slots per cohort</span></li>
-                        <li class="flex items-center space-x-3"><i class="ph ph-laptop text-xl text-accent-green"></i><span>Virtual and in-person options</span></li>
-                    </ul>
-
-                    <a href="#"
-                        class="w-full text-center bg-white text-dark-green font-semibold py-3 px-8 rounded-lg shadow-xl hover:bg-gray-100 transition duration-300">
-                        Submit Application
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. Success Stories CTA -->
-        <section id="success-stories" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center bg-primary-bg">
-            <h2 class="text-3xl font-bold text-text-main mb-4">Join Our Success Stories</h2>
-            <p class="text-text-light mb-8">77 startups have already transformed their ideas into successful ventures through our incubation program.</p>
-            
-            <a href="#"
-                class="inline-flex items-center space-x-2 bg-accent-green text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-emerald-600 transition duration-300 transform hover:scale-105">
-                <span>View Our Startups</span>
-                <i class="ph ph-arrow-right text-base"></i>
-            </a>
-        </section>
-
-
-    </main>
-
-    <!-- 7. Detailed Footer (Kept the original dark styling) -->
-    <footer class="bg-dark-green pt-16 pb-8 border-t border-gray-800 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-700 pb-8">
-                <a href="#" class="text-xl font-extrabold flex items-center space-x-2 mb-4 md:mb-0">
-                    <svg width="30" height="30" viewBox="0 0 100 100" class="text-accent-green" fill="currentColor">
-                        <path d="M50 0 L10 20 L10 80 L50 100 L90 80 L90 20 Z M50 20 L25 35 L25 65 L50 80 L75 65 L75 35 Z M50 30 L65 40 L50 50 L35 40 Z"/>
-                    </svg>
-                    <span class="text-white">InTTO</span>
-                </a>
-                <p class="text-2xl font-bold text-white">Driving the Culture of Innovation</p>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                
-                <!-- Column 1: Services -->
-                <div>
-                    <h5 class="text-lg font-semibold text-accent-green mb-4">Services</h5>
-                    <ul class="space-y-2 text-gray-300 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Incubation Program</a></li>
-                        <li><a href="#" class="hover:text-white transition">Intellectual Property</a></li>
-                        <li><a href="#" class="hover:text-white transition">TBI Assessment</a></li>
-                        <li><a href="#" class="hover:text-white transition">Train the Trainers</a></li>
-                        <li><a href="#" class="hover:text-white transition">Internship</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 2: Startups -->
-                <div>
-                    <h5 class="text-lg font-semibold text-accent-green mb-4">Startups</h5>
-                    <ul class="space-y-2 text-gray-300 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Startup Portfolio</a></li>
-                        <li><a href="#" class="hover:text-white transition">Join a Team</a></li>
-                        <li><a href="#" class="hover:text-white transition">Be a Mentor</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Contact Info -->
-                <div>
-                    <h5 class="text-lg font-semibold text-accent-green mb-4">Contact Info</h5>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-accent-green text-dark-green rounded-full flex items-center justify-center hover:bg-emerald-600 transition duration-300" aria-label="Facebook">
-                            <i class="ph ph-facebook-logo text-xl"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-accent-green text-dark-green rounded-full flex items-center justify-center hover:bg-emerald-600 transition duration-300" aria-label="Instagram">
-                            <i class="ph ph-instagram-logo text-xl"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-accent-green text-dark-green rounded-full flex items-center justify-center hover:bg-emerald-600 transition duration-300" aria-label="Twitter">
-                            <i class="ph ph-twitter-logo text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Column 4: Visit Us (Map) -->
-                <div>
-                    <h5 class="text-lg font-semibold text-accent-green mb-4">Visit Us</h5>
-                    <p class="text-sm text-gray-300 mb-2">Governor Pack Road</p>
-                    <p class="text-sm text-gray-300">Baguio City, Philippines 2600</p>
-                    <div class="w-full h-32 bg-gray-700 rounded-lg overflow-hidden border border-gray-700 mt-4">
-                        <!-- Placeholder for Map -->
-                        <img src="https://placehold.co/300x128/374151/FFF?text=Map+Location" alt="Map Location" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Copyright -->
-            <div class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 text-xs">
-                &copy; 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.
-            </div>
-        </div>
-    </footer>
-
-    <!-- Firebase SDK and Application Logic (Kept from previous version, adapted to new context) -->
-    <script type="module">
-        // --- FIREBASE IMPORTS ---
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
-        // --- GLOBAL VARIABLES (Provided by Canvas Environment) ---
-        // Note: The contact form logic is preserved, but the startup listener is not strictly needed 
-        // on this dedicated program page, though it's harmless to keep if we re-introduce a data-driven element.
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
-        let db;
-        let auth;
-        let userId = 'anonymous';
-
-        /**
-         * Initializes Firebase and authenticates the user.
-         */
-        async function initializeFirebase() {
-            try {
-                if (!Object.keys(firebaseConfig).length) {
-                    console.error("Firebase config not available. Cannot initialize Firestore.");
-                    return;
-                }
-
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                
-                // Authentication
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                userId = auth.currentUser?.uid || crypto.randomUUID();
-                console.log(`Authenticated with userId: ${userId}`);
-
-            } catch (error) {
-                console.error("Error during Firebase initialization or authentication:", error);
-            }
-        }
-        
-        // The original contact form logic and UI elements are not present on this new page,
-        // so I will comment out the form handling for now to prevent JS errors.
-        
-        // --- INITIALIZATION ---
-        window.onload = initializeFirebase;
-    </script>
-
+        </main>
+    </div>
 </body>
 </html>

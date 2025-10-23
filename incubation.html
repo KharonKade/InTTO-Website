@@ -6,9 +6,13 @@
   <title>Home</title>
   <link rel="stylesheet" href="css/incubation.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
+    <script type="module" src="./script.js"></script>
+    <!-- <script type="module" src="/InTTO-Website/api.js"></script> -->
+    <script type="module" src="./info.js"></script>
+    <script type="module" src="./saveInfo.js"></script>
     <div class="navbar">
         <div class="logo">
             <img src="graphics\InTTOLogo.png" alt="logo">
@@ -21,9 +25,10 @@
             <a href="services.html">Services</a>
             <a href="startups.html">Startups</a>
             <a href="events.html">Events</a>
+            <a href="">UColab</a>
         </div>
         </div>
-        <a href="#" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+        <a href="#skip" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
     </div>
 
     <section class="news-section">
@@ -49,7 +54,7 @@
     <div class="support-cards-container">
 
         <div class="support-card">
-        <div class="card-icon icon-green">L</div>
+        <div class="card-icon"></div>
         <h3>Founder Mentoring</h3>
         <p>Access to experienced mentors from industry, academia, and government who guide founders on:</p>
         </div>
@@ -86,3 +91,105 @@
 
     </div>
     </section>
+
+
+    <section class="container">
+        <h1 class="main-header">Apply in our Incubation Program</h1>
+        <div class="top-progress-tracker">
+            <div class="step active">
+                <div class="icon-container"><i class="fas fa-user"></i></div>
+                <p>Personal Info</p>
+            </div>
+            <div class="connector active"></div>
+            <div class="step">
+                <div class="icon-container"><i class="fas fa-briefcase"></i></div>
+                <p>Startup Details</p>
+            </div>
+            <div class="connector"></div>
+            <div class="step">
+                <div class="icon-container"><i class="fas fa-users"></i></div>
+                <p>Team & Support</p>
+            </div>
+            <div class="connector"></div>
+            <div class="step">
+                <div class="icon-container"><i class="fas fa-file-alt"></i></div>
+                <p>Review</p>
+            </div>
+        </div>
+        <div class="form-card">
+            <div class="inner-progress-tracker">
+                <div class="step active">
+                    <div class="icon-container"><i class="fas fa-user"></i></div>
+                    <p>Personal Info</p>
+                </div>
+                <div class="connector active"></div>
+                <div class="step">
+                    <div class="icon-container"><i class="fas fa-briefcase"></i></div>
+                    <p>Startup Details</p>
+                </div>
+                <div class="connector"></div>
+                <div class="step">
+                    <div class="icon-container"><i class="fas fa-users"></i></div>
+                    <p>Team & Support</p>
+                </div>
+                <div class="connector"></div>
+                <div class="step">
+                    <div class="icon-container"><i class="fas fa-file-alt"></i></div>
+                    <p>Review</p>
+                </div>
+            </div>
+            
+            <hr class="form-separator">
+
+            <div class="form-content" id="skip">
+                <h2>Personal Information</h2>
+                <p class="subtitle">Tell us about yourself</p>
+
+                <form class="personal-info-form" id="personal-info-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" placeholder="Juan Dela Cruz" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" placeholder="@students.uc-bcf.edu.ph" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" placeholder="09 123 456 789" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentId">Student ID (if applicable)</label>
+                            <input type="text" id="studentId" placeholder=""">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deptCollege">Department/College *</label>
+                            <input type="text" id="deptCollege" placeholder="e.g., College of Engineering" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearLevel">Year Level (if student)</label>
+                            <input type="text" id="yearLevel" placeholder="e.g., 3rd Year">
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn-previous">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button type="submit" class="btn-next">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

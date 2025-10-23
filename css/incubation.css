@@ -1,23 +1,20 @@
 * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
-    body {
-      background: #ffff;
-    }
+body {
+  background: #ffff;
+}
 
-    /* Container with rounded corners */
-
-    /* Navbar */
 .navbar {
   position: absolute;
   top: 20px;
-  left: 50%;                     /* Move to the horizontal middle */
-  transform: translateX(-50%);   /* Pull it back by half its width */
-  width: 95%;                    /* Keep your chosen width */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,49 +25,123 @@
   height: 138px;
 }
 
-
-/* Logo */
 .navbar .logo {
-  background: rgba(255, 255, 255, 0.1);  /* Semi-transparent background */
-  padding: 7px 20px;                     /* Padding for pill shape */
-  border-radius: 40px;                   /* Rounded corners */
-  backdrop-filter: blur(8px);            /* Blurry background effect */
-  display: flex;                         /* Flex container */
-  align-items: center;                   /* Center the image vertically */
-  justify-content: center;               /* Center the image horizontally */
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0);
+  padding: 7px 20px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 137px;
   height: 64px;
-}
-.navbar .logo img {
-  height: 45px;                          /* Set a default height for the image */
-  width: 93px;                           /* Maintain aspect ratio */
-  max-width: 100%;                       /* Ensure it doesn't overflow */
+  position: relative;
+  overflow: hidden;
 }
 
-/* Center Pill Container */
+.navbar .logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.navbar .logo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+.navbar .logo img {
+  height: 45px;
+  width: 93px;
+  max-width: 100%;
+}
+
 .nav-wrapper {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0);
   padding: 12px 12px;
   border-radius: 32px;
-  backdrop-filter: blur(8px);
   display: flex;
-  justify-content: center; /* center links horizontally */
-  align-items: center;     /* center links vertically */
-  width: 493px;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
   height: 64px;
-  gap: 8px; /* spacing between links */
-  position: absolute;     /* Take it out of normal flex flow */
-  left: 50%;              /* Move to the center horizontally */
-  transform: translateX(-50%); /
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
 }
 
-/* Nav Links */
+.nav-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.nav-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
 .nav-links {
   display: flex;
   gap: 20px;
 }
 
 .nav-links a {
+  font-family: 'Poppins', sans-serif;
   color: white;
   text-decoration: none;
   padding: 16px 8px;
@@ -78,7 +149,7 @@
   opacity: 0.7;
   transition: 0.3s;
   display: flex;
-  align-items: center; /* vertically center text inside each link */
+  align-items: center;
   justify-content: center;
   font-size: 16px;
   width: 66px;
@@ -89,27 +160,26 @@
   opacity: 1;
 }
 
-/* Active Tab Highlight */
 .nav-links a.active {
   background: rgba(255, 255, 255, 0.2);
   opacity: 1;
 }
 
-/* Right Button */
 .nav-btn {
+  font-family: 'Poppins', sans-serif;
   background: #1C7F56;
   color: white;
   height: 64px;
   width: 271px;
-  padding: 0 60px 0 24px;   /* Extra right padding to make space for the arrow */
+  padding: 0 60px 0 24px;
   border-radius: 32px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   font-size: 16px;
   font-weight: 500;
-  position: relative;    
-  gap: 8px;  /* Required for absolute positioning of arrow */
+  position: relative;
+  gap: 8px;
 }
 
 .nav-btn .arrow-icon {
@@ -123,22 +193,21 @@
   justify-content: center;
   font-size: 30px;
   position: absolute;
-  right: 2px;   /* Move more right without affecting button width */
+  right: 4px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-/* Section base */
-.news-section{
+.news-section {
+  font-family: 'Poppins', sans-serif;
   width: 90%;
   height: auto;
   margin: 60px auto;
   text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 210px auto 100px auto;
 }
 
 .section-label {
+  font-family: 'Poppins', sans-serif;
   display: inline-block;
   background: #E5FAEA;
   color: #1C7F56;
@@ -148,10 +217,11 @@
   margin-bottom: 20px;
   width: 172px;
   height: 43px;
-  margin-top: 6.7%;
+  margin: 241px auto 20px auto;
 }
 
 .service-title {
+  font-family: 'Poppins', sans-serif;
   text-align: center;
   font-size: 56px;
   font-weight: 700;
@@ -163,19 +233,19 @@
   display: flex;
   justify-content: center;
   gap: 20px;
-  height: 450px; /* increase overall height */
+  height: 450px;
   margin-top: 5%;
 }
 
 .gallery-left {
-  flex: 1.5; /* Left side gets more width */
+  flex: 1.5;
   width: 784px;
   height: 600px;
 }
 
 .gallery-left img {
   width: 100%;
-  height: 100%; /* Important: ensures the image fills the container height */
+  height: 100%;
   object-fit: cover;
   border-radius: 20px;
 }
@@ -184,7 +254,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex: 1; /* Right side gets less width */
+  flex: 1;
   width: 553px;
   height: 300px;
   flex-shrink: 0;
@@ -196,69 +266,81 @@
   object-fit: cover;
   border-radius: 20px;
 }
- 
-/* Base Styles for the Section */
+
 .incubation-support {
-  background-color: #f7f9f7; /* Light background color for the section */
+  background-color: #EFFAF4;
   padding: 80px 40px;
   text-align: center;
-  border-radius: 20px; /* Outer rounded corners */
-  max-width: 1200px; /* Constrain the width */
-  margin: 0 auto; /* Center the entire section */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  border-radius: 40px;
+  max-width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 20%;
+  height: 886px;
 }
 
 .incubation-support h2 {
-  font-family: Arial, sans-serif;
-  font-size: 32px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 40px;
   font-weight: 700;
   margin-bottom: 50px;
-  color: #333;
+  color: black;
 }
 
-/* --- CSS Grid Layout for Cards --- */
 .support-cards-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-  gap: 20px; /* Space between the cards */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  place-items: center;
 }
 
-/* Card Styling */
 .support-card {
+  font-family: 'Poppins', sans-serif;
   background-color: white;
   padding: 30px;
   text-align: left;
   border-radius: 20px;
-  min-height: 220px; /* Ensures all cards have a consistent minimum height */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Card shadow for depth */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s;
+  width: 410px;
+  height: 307px;
+}
+
+.message-news {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  color: #777777;
 }
 
 .support-card:hover {
-    transform: translateY(-5px); /* Simple hover effect */
+  transform: translateY(-5px);
 }
 
 .support-card h3 {
-  font-family: Arial, sans-serif;
-  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
   font-weight: 700;
   margin-top: 10px;
   margin-bottom: 10px;
   color: #333;
+  margin-top: 40px;
 }
 
 .support-card p {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
   line-height: 1.6;
   color: #6a6a6a;
+  margin-top: 20px;
 }
 
-/* Icon/Circle Styling */
 .card-icon {
-  width: 50px;
-  height: 50px;
-  background-color: #e6f3e6; /* Light green background for all circles */
+  width: 80px;
+  height: 80px;
+  background-color: #e6f3e6;
   border-radius: 50%;
   margin-bottom: 15px;
   display: flex;
@@ -268,20 +350,283 @@
   font-weight: 700;
   color: white;
   position: relative;
-  top: 0; /* Align icon position similar to the image */
+  top: 0;
   left: 0;
 }
 
-/* Specific styling for the first, darker green icon */
-.card-icon.icon-green {
-    background-color: #4CAF50; /* A darker, vibrant green */
-    color: white;
-    font-size: 24px;
-}
-
-/* Optional: Basic responsiveness for smaller screens */
 @media (max-width: 768px) {
   .support-cards-container {
-    grid-template-columns: 1fr; /* Stack cards on top of each other on mobile */
+    grid-template-columns: 1fr;
   }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --primary-green: #1C7F56;
+  --light-green: #E0F7ED;
+  --gray-text: #6B7280;
+  --border-color: #E5E7EB;
+  --background-color: #F9FAFB;
+  --text-color: #1F2937;
+  --white: #ffffff;
+}
+
+.container {
+  font-family: 'Poppins', sans-serif;
+  width: 90%;
+  padding-top: 10%;
+  padding-bottom: 200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.main-header {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 50px;
+  font-size: 40px;
+}
+
+.top-progress-tracker,
+.inner-progress-tracker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0;
+}
+
+.top-progress-tracker {
+  width: 100%;
+  height: 176px;
+  border-radius: 40px;
+  border: 1px solid black;
+  margin: 0 0 20px 0;
+  padding: 0 32px;
+}
+
+.inner-progress-tracker {
+  padding: 20px 32px 0;
+  margin-bottom: 10px;
+  justify-content: space-evenly;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  margin-top: 25px;
+  width: 150px;
+  height: 99px;
+  flex-shrink: 0;
+}
+
+.icon-container {
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--light-green);
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+  font-size: 24px;
+}
+
+.step p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.step.active .icon-container {
+  background-color: var(--primary-green);
+  color: var(--white);
+  border: 1px solid var(--primary-green);
+  font-size: 24px;
+}
+
+.step.active p {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.connector {
+  height: 3px;
+  background-color: var(--border-color);
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  z-index: 1;
+}
+
+.top-progress-tracker .connector {
+  top: 85px;
+  margin: 0 90px;
+}
+
+.inner-progress-tracker .connector {
+  top: 80px;
+  margin: 0 150px;
+}
+
+.connector.active {
+  background-color: var(--primary-green);
+}
+
+.form-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
+  width: 959px;
+  height: 637;
+  margin-top: 10%;
+}
+
+.form-separator {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 0 40px;
+}
+
+.form-content {
+  padding: 40px;
+}
+
+.form-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.form-content p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #777777;
+}
+
+.subtitle {
+  font-family: 'Poppins', sans-serif;
+  color: var(--gray-text);
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+.personal-info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 30px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-green);
+  outline: none;
+}
+
+.form-group input::placeholder {
+  font-family: 'Poppins', sans-serif;
+  color: var(--gray-text);
+  font-style: italic;
+}
+
+.form-group input[value] {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  font-weight: 400;
+  color: #4B5563;
+  height: 36px;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 30px;
+}
+
+.btn-previous,
+.btn-next {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-previous {
+  background-color: var(--white);
+  color: var(--gray-text);
+  border: 1px solid var(--border-color);
+  width: 114px;
+  height: 36px;
+}
+
+.btn-previous:hover {
+  background-color: var(--background-color);
+}
+
+.btn-next {
+  background-color: var(--primary-green);
+  color: var(--white);
+  border: 1px solid var(--primary-green);
+  width: 86px;
+  height: 36px;
+}
+
+.btn-next:hover {
+  background-color: #0c8a66;
 }
