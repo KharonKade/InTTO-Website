@@ -146,33 +146,51 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullName">Full Name *</label>
-                            <input type="text" id="fullName" value="Juan Dela Cruz" required>
+                            <input type="text" id="fullName" placeholder="Juan Dela Cruz" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address *</label>
-                            <input type="email" id="email" value="juan.delacruz@uic-bcf.edu.ph" required>
+                            <input type="email" id="email" placeholder="juan.delacruz@uic-bcf.edu.ph" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" value="+63 912 345 6789" required>
+                            <input type="tel" id="phone" placeholder="+63 912 345 6789" required>
                         </div>
                         <div class="form-group">
                             <label for="studentId">Student ID (if applicable)</label>
-                            <input type="text" id="studentId" value="2024-12345">
+                            <input type="text" id="studentId" placeholder="2024-12345">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="deptCollege">Department/College *</label>
-                            <input type="text" id="deptCollege" placeholder="e.g., College of Engineering" required>
+                            <select id="deptCollege" required>
+                                <option placeholder="">Select Department/College</option>
+                                <option value="CCJE">College of Criminal Justice Education</option>
+                                <option value="CITCS">College of Information Technology & Computer Science</option>
+                                <option value="CTE">College of Teacher Education</option>
+                                <option value="COA">College of Accountancy</option>
+                                <option value="CAS">College of Arts & Sciences</option>
+                                <option value="CBA">College of Business Administration</option>
+                                <option value="CEA">College of Engineering & Architecture</option>
+                                <option value="CHTM">College of Hospitality & Tourism Management</option>
+                                <option value="CON">College of Nursing</option>
+                                <option value="COL">College of Law</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="yearLevel">Year Level (if student)</label>
-                            <input type="text" id="yearLevel" placeholder="e.g., 3rd Year">
+                            <label for="deptCollege">Year Level</label>
+                            <select id="deptCollege" required>
+                                <option placeholder="">Select Year Level</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                            </select>
                         </div>
                     </div>
 
