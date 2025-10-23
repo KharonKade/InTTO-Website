@@ -103,7 +103,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 493px;
+  width: 600px;
   height: 64px;
   gap: 8px;
   position: absolute;
@@ -2532,12 +2532,19 @@ textarea {
 
 .footer-column ul li {
     margin-bottom: 20px;
+}
+
+.footer-column ul li a {
     font-size: 20px;
     opacity: 40%;
     font-family: 'Poppins', sans-serif;
+<<<<<<< HEAD
     text-decoration: none;
+=======
+    text-decoration: none; /* Removes the underline from the link */
+    color: inherit; /* Ensures the link inherits the parent's text color, which helps keep the desired color */
+>>>>>>> 36748bec4d7dc82a31dc5bff108165f6828eec35
 }
-
 .contact-item {
     display: flex;
     align-items: center;

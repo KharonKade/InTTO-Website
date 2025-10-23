@@ -1,0 +1,206 @@
+/* Import Poppins or a similar-looking font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Basic reset and container styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* Using Poppins as a close substitute */
+}
+
+/* --- Main Background Container --- */
+.main-container {
+    background-color: #2b6534; /* Dark green color from the image */
+    min-height: 100vh; /* Full viewport height */
+    color: #fff; /* White text color */
+    padding: 20px 50px 50px 50px; /* Padding for the entire page content */
+}
+
+/* --- Header and Navigation Styling --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 100px; /* Space between header and main content */
+}
+
+.logo-and-nav {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Space between logo and navigation links */
+}
+
+/* Logo Styling (Simulated) */
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white background for the logo box */
+}
+
+.logo-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 0 2px;
+}
+
+.logo-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #fff;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.logo-text {
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Main Navigation Links */
+.main-nav {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.1); /* Background for the main nav group */
+    border-radius: 30px;
+    padding: 5px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 25px;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Header Actions (Apply button and Scroll button) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.apply-button-header {
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.apply-button-header:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.scroll-up-button {
+    background-color: #fff; /* White background */
+    color: #2b6534; /* Dark green arrow color */
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.scroll-up-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* --- Main Content Styling --- */
+.content {
+    max-width: 600px; /* Constrain the width of the text block */
+    padding-left: 20px; /* Slight indentation */
+}
+
+/* Program Tag (UCIANS TBI Program) */
+.program-tag {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.bullet {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.tag-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Program Title and Description */
+.program-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.program-description {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-bottom: 40px;
+    opacity: 0.9; /* Slightly faded text */
+}
+
+/* Main "Apply Now" Button */
+.apply-now-button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #2b6534; /* Text color is dark green */
+    background-color: #fff; /* Background is white */
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.apply-now-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.arrow {
+    margin-left: 10px;
+    font-size: 20px;
+    line-height: 1;
+}
