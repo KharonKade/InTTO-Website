@@ -3,66 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete Navigation Bar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'dark-green': '#165A3D', // Deep forest green
-                        'accent-green': '#A0E46F', // Light green
-                    },
-                    backgroundColor: {
-                        'glass': 'rgba(255, 255, 255, 0.1)', // For glassmorphism effect
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Incubation Program Landing Page</title>
+    <link rel="stylesheet" href="/css/incuT.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-
-    <header class="w-full py-6 flex justify-center bg-gray-100">
-        <nav class="flex items-center justify-between w-11/12 max-w-7xl bg-dark-green rounded-full p-2.5 shadow-xl">
-            
-            <div class="flex items-center bg-dark-green rounded-full pl-4 pr-6 shadow-lg">
-                <div class="h-[50px] w-[120px] bg-white rounded-full flex items-center justify-center p-1.5">
-                    <img src="/graphics/InTTOLogoGreen.png" alt="InTTO Logo" class="h-full w-auto object-contain" />
+<body>
+    <div class="main-container">
+        <header class="header">
+            <div class="logo-and-nav">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                        <div class="logo-line"></div>
+                    </div>
+                    <div class="logo-text">Innovation | Technology | Transfer Office</div>
                 </div>
+
+                <nav class="main-nav">
+                    <a href="#" class="nav-item">Home</a>
+                    <a href="#" class="nav-item">About</a>
+                    <a href="#" class="nav-item">Services</a>
+                    <a href="#" class="nav-item">Startups</a>
+                    <a href="#" class="nav-item">Events</a>
+                </nav>
+            </div>
+            
+            <div class="header-actions">
+                <a href="#" class="apply-button-header">Apply for Incubation</a>
+                <button class="scroll-up-button" aria-label="Scroll to top">
+                    &uarr; </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="program-tag">
+                <span class="bullet"></span>
+                <span class="tag-text">UCIANS TBI Program</span>
             </div>
 
-            <div class="flex items-center space-x-6 text-sm font-medium text-white h-[50px] bg-glass rounded-full backdrop-blur-sm px-8 py-2 border border-opacity-20 border-white/50 shadow-inner">
-                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Home</a>
-                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">About</a>
-                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Services</a>
-                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Startups</a>
-                <a href="#" class="rounded-full p-2 px-3 hover:bg-glass/50 transition duration-300">Events</a>
-            </div>
+            <h1 class="program-title">Incubation Program</h1>
+            <p class="program-description">
+                Transform your innovative idea into a successful startup with our comprehensive 12-month incubation program
+            </p>
 
-            <a href="#" class="flex items-center bg-dark-green/90 hover:bg-dark-green text-white font-semibold rounded-full p-2 pl-6 pr-1 transition duration-300 shadow-md">
-                Apply for Incubation
-                <span class="ml-4 h-8 w-8 flex items-center justify-center bg-white rounded-full text-dark-green shadow-xl">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </span>
+            <a href="#" class="apply-now-button">
+                Apply Now <span class="arrow">&rarr;</span>
             </a>
-
-        </nav>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to the Incubation Center</h1>
-        <p class="text-gray-600">
-            This is where the rest of your page content, like the Hero section or Features section, would go.
-        </p>
-    </main>
-
-    <footer class="bg-dark-green text-white py-4 mt-12">
-        <div class="max-w-7xl mx-auto px-6 text-center text-sm">
-            &copy; 2025 Incubation Program. All rights reserved.
-        </div>
-    </footer>
-
+        </main>
+    </div>
 </body>
 </html>
