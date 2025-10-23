@@ -198,10 +198,6 @@ body {
   transform: translateY(-50%);
 }
 
-.nav-btn:hover {
-  background: #166c41;
-}
-
 .our-services {
   font-family: 'Poppins', sans-serif;
   width: 90%;

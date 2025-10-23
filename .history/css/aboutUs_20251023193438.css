@@ -872,6 +872,10 @@ textarea {
 }
 
 .contact-btn:hover {
+  background: #1C7F56;
+}
+
+.contact-btn:hover {
   background: #166c41;
 }
 

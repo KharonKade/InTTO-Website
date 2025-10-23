@@ -651,10 +651,6 @@ body {
   transform: translateY(-50%);
 }
 
-.news-nav-btn:hover {
-  background: #166c41;
-}
-
 .news-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -872,7 +868,7 @@ textarea {
 }
 
 .contact-btn:hover {
-  background: #166c41;
+  background: #1C7F56;
 }
 
 .closing-section {

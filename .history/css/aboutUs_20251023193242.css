@@ -523,7 +523,7 @@ body {
   transform: translateY(-50%);
 }
 
-.view-all-btn:hover {
+.service-btn:hover {
   background: #166c41;
 }
 
@@ -649,10 +649,6 @@ body {
   right: 4px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.news-nav-btn:hover {
-  background: #166c41;
 }
 
 .news-cards {
@@ -872,7 +868,7 @@ textarea {
 }
 
 .contact-btn:hover {
-  background: #166c41;
+  background: #1C7F56;
 }
 
 .closing-section {

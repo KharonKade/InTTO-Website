@@ -277,10 +277,6 @@ body {
   transform: translateY(-50%);
 }
 
-.about-btn:hover {
-  background: #166c41;
-}
-
 .about-image img {
   width: 626px;
   height: 541px;
@@ -523,10 +519,6 @@ body {
   transform: translateY(-50%);
 }
 
-.view-all-btn:hover {
-  background: #166c41;
-}
-
 .team-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -649,10 +641,6 @@ body {
   right: 4px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.news-nav-btn:hover {
-  background: #166c41;
 }
 
 .news-cards {
@@ -872,7 +860,7 @@ textarea {
 }
 
 .contact-btn:hover {
-  background: #166c41;
+  background: #1C7F56;
 }
 
 .closing-section {

@@ -627,7 +627,7 @@ body {
   padding: 0 60px 0 24px;
   border-radius: 32px;
   text-decoration: none;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   font-size: 16px;
   font-weight: 500;
@@ -649,10 +649,6 @@ body {
   right: 4px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.news-nav-btn:hover {
-  background: #166c41;
 }
 
 .news-cards {
@@ -872,7 +868,7 @@ textarea {
 }
 
 .contact-btn:hover {
-  background: #166c41;
+  background: #1C7F56;
 }
 
 .closing-section {
