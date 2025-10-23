@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const deptCollegeEl = document.getElementById('deptCollege');
         const deptCollege = deptCollegeEl ? deptCollegeEl.value : '';
 
-    // Safely read optional fields (may be absent depending on which form is present)
-        const industry = document.getElementById('industry')?.value || '';
+        const industryEl = document.getElementById('industry');
+        const industry = industryEl ? industryEl.value : '';
 
         const currentStageEl = document.getElementById('currentStage');
         const currentStage = currentStageEl ? currentStageEl.value : '';
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Ensure saveApplication is available (scriptoad ord ler matters)
+        console.log("Saving complete application data:", formData);
         saveApplication(formData);
     });
 });
