@@ -173,22 +173,22 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullName">Full Name *</label>
-                            <input type="text" id="fullName" placeholder="Juan Dela Cruz" required>
+                            <input type="text" id="fullName" placeholder="Juan Dela Cruz" required maxlength="60" pattern="[A-Za-z\s]*">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address *</label>
-                            <input type="email" id="email" placeholder="juan.delacruz@uic-bcf.edu.ph" required>
+                            <input type="email" id="email" placeholder="@uc-bcf.edu.ph or @gmail.com" required maxlength="100">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" placeholder="+63 912 345 6789" required>
+                            <label for="phone">Phone Number (+639 or 09)</label>
+                            <input type="tel" id="phone" placeholder="+63 912 345 6789" required minlength="11" maxlength="12" pattern="^(09|639)[0-9]{9}$">
                         </div>
                         <div class="form-group">
                             <label for="studentId">Student ID (if applicable)</label>
-                            <input type="text" id="studentId" placeholder="2024-12345">
+                            <input type="text" id="studentId" placeholder="12-1234-123" optional maxlength="9">
                         </div>
                     </div>
 
@@ -240,7 +240,7 @@
                     <div class="form-row">
                         <div class="form-group full-width">
                             <label for="startupName">Startup Name *</label>
-                            <input type="text" id="startupName" placeholder="Enter your startup name" required>
+                            <input type="text" id="startupName" placeholder="Enter your startup name" required maxlength="60">
                         </div>
                     </div>
 
@@ -273,25 +273,25 @@
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="briefDescription">Brief Description *</label>
-                            <textarea id="briefDescription" placeholder="Describe your startup in a few sentences" rows="3" required></textarea>
+                            <textarea id="briefDescription" placeholder="Describe your startup in a few sentences" rows="3" required maxlength="1000"></textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="problemSolution">Problem & Solution *</label>
-                            <textarea id="problemSolution" placeholder="What problem are you solving and how?" rows="4" required></textarea>
+                            <textarea id="problemSolution" placeholder="What problem are you solving and how?" rows="4" required maxlength="1000"></textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="targetMarket">Target Market *</label>
-                            <input type="text" id="targetMarket" placeholder="e.g., Young professionals, Small businesses" required>
+                            <input type="text" id="targetMarket" placeholder="e.g., Young professionals, Small businesses" required maxlength="200">
                         </div>
                         <div class="form-group">
-                            <label for="websiteSocial">Website/Social Media</label>
-                            <input type="url" id="websiteSocial" placeholder="https://example.com">
+                            <label for="websiteSocial">Website/Social Media (Optional)</label>
+                            <input type="url" id="websiteSocial" placeholder="https://example.com" optional>
                         </div>
                     </div>
 
@@ -314,25 +314,25 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="teamSize">Team Size *</label>
-                            <input type="number" id="teamSize" placeholder="e.g., 3" min="0" required>
+                            <input type="number" id="teamSize" placeholder="e.g., 3" min="1" max="50" required>
                         </div>
                         <div class="form-group">
                             <label for="coFounders">Co-Founders</label>
-                            <input type="number" id="coFounders" placeholder="Number of co-founders" min="0">
+                            <input type="number" id="coFounders" placeholder="Number of co-founders" min="1" max ="50" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="teamMembers">Team Members (Names & Roles) *</label>
-                            <textarea id="teamMembers" placeholder="e.g., John Doe - CEO, Jane Smith - CTO" rows="3" required></textarea>
+                            <textarea id="teamMembers" placeholder="e.g., John Doe - CEO, Jane Smith - CTO" rows="3" required maxlength="1000"></textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="teamExpertise">Team Expertise & Background *</label>
-                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4" required></textarea>
+                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4"  maxlength="2000"></textarea>
                         </div>
                     </div>
 
@@ -359,7 +359,7 @@
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="additionalInfo">Additional Information</label>
-                            <textarea id="additionalInfo" placeholder="Any other information you'd like to share" rows="3"></textarea>
+                            <textarea id="additionalInfo" placeholder="Any other information you'd like to share" rows="3" optional maxlength="1000"></textarea>
                         </div>
                     </div>
 
