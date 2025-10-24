@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // 2. Navigate back to the first step
                     goToStep(1);
+
                 });
         });
     }
