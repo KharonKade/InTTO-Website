@@ -104,6 +104,17 @@
   --border-color: #e0e0e0;
 }
 </style>
+<style>
+.container {
+  --primary-green: #11ae7b;
+  --light-green: #e6f7f1;
+  --white: #ffffff;
+  --background-color: #f7f9fa;
+  --text-color: #333333;
+  --gray-text: #777777;
+  --border-color: #e0e0e0;
+}
+</style>
 <section class="container">
     <h1 class="main-header">Apply in our Incubation Program</h1>
     <div class="top-progress-tracker">
@@ -116,8 +127,8 @@
             <div class="icon-container"><i class="fas fa-briefcase"></i></div>
             <p>Startup Details</p>
         </div>
-        <div class="connector" data-connector="2-3"></div>
-        <div class="step" data-step="3">
+        <div class="connector active" data-connector="2-3"></div>
+        <div class="step active" data-step="3">
             <div class="icon-container"><i class="fas fa-users"></i></div>
             <p>Team & Support</p>
         </div>
@@ -138,8 +149,8 @@
                 <div class="icon-container"><i class="fas fa-briefcase"></i></div>
                 <p>Startup Details</p>
             </div>
-            <div class="connector" data-connector="2-3"></div>
-            <div class="step" data-step="3">
+            <div class="connector active" data-connector="2-3"></div>
+            <div class="step active" data-step="3">
                 <div class="icon-container"><i class="fas fa-users"></i></div>
                 <p>Team & Support</p>
             </div>
@@ -295,7 +306,7 @@
                 </form>
             </div>
 
-            <div class="form-content" id="team-support-step" data-step="3">
+            <div class="form-content hidden" id="team-support-step" data-step="3">
                 <h2>Team & Support</h2>
                 <p class="subtitle">Tell us about your team and what support you need</p>
 
@@ -303,11 +314,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="teamSize">Team Size *</label>
-                            <input type="number" id="teamSize" placeholder="e.g., 3" required>
+                            <input type="number" id="teamSize" placeholder="e.g., 3" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="coFounders">Co-Founders</label>
-                            <input type="number" id="coFounders" placeholder="Number of co-founders">
+                            <input type="number" id="coFounders" placeholder="Number of co-founders" min="0">
                         </div>
                     </div>
 
@@ -339,7 +350,7 @@
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Funding"> Funding</label>
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Marketing & Branding"> Marketing & Branding</label>
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Network Access"> Network Access</label>
-                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</option>
                                 </div>
                             </div>
                         </div>
@@ -362,19 +373,199 @@
                     </div>
                 </form>
             </div>
+
+            <div class="form-content" id="review-step" data-step="4">
+                <h2>Review Your Application</h2>
+                <p class="subtitle">Please review your information before submitting</p>
+
+                <div class="review-card">
+                    <h3>Personal Information</h3>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Full Name</span>
+                            <span class="value" data-review="fullName">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Email Address</span>
+                            <span class="value" data-review="email">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Phone Number</span>
+                            <span class="value" data-review="phone">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Student ID</span>
+                            <span class="value" data-review="studentId">N/A</span>
+                        </div>
+                    </div>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Department/College</span>
+                            <span class="value" data-review="deptCollege">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Year Level</span>
+                            <span class="value" data-review="yearLevel">N/A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <h3>Startup Details</h3>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Startup Name</span>
+                            <span class="value" data-review="startupName">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Current Stage</span>
+                            <span class="value" data-review="currentStage">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Industry</span>
+                            <span class="value" data-review="industry">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Website/Social Media</span>
+                            <span class="value" data-review="websiteSocial">N/A</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Description</span>
+                            <span class="value block" data-review="briefDescription">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Problem & Solution</span>
+                            <span class="value block" data-review="problemSolution">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Target Market</span>
+                            <span class="value block" data-review="targetMarket">Not provided</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <h3>Team & Support</h3>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Team Size</span>
+                            <span class="value" data-review="teamSize">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Co-Founders</span>
+                            <span class="value" data-review="coFounders">N/A</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Team Members</span>
+                            <span class="value block" data-review="teamMembers">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Team Expertise & Background</span>
+                            <span class="value block" data-review="teamExpertise">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Support Needed</span>
+                            <span class="value block" data-review="supportNeeded">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Additional Information</span>
+                            <span class="value block" data-review="additionalInfo">N/A</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="navigation-buttons review-buttons">
+                    <button type="button" class="btn-previous">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button type="submit" class="btn-submit">
+                        Submit
+                    </button>
+                </div>
+            </div>
             </div>
     </div>
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const personalInfoStep = document.getElementById('personal-info-step');
-    const startupDetailsStep = document.getElementById('startup-details-step');
-    const teamSupportStep = document.getElementById('team-support-step');
+    const steps = [
+        document.getElementById('personal-info-step'),
+        document.getElementById('startup-details-step'),
+        document.getElementById('team-support-step'),
+        document.getElementById('review-step')
+    ];
+    const forms = [
+        document.getElementById('personal-info-form'),
+        document.getElementById('startup-details-form'),
+        document.getElementById('team-support-form')
+    ];
     const topTrackerSteps = document.querySelectorAll('.top-progress-tracker .step');
     const innerTrackerSteps = document.querySelectorAll('.inner-progress-tracker .step');
     const topConnectors = document.querySelectorAll('.top-progress-tracker .connector');
     const innerConnectors = document.querySelectorAll('.inner-progress-tracker .connector');
     let currentStep = 1;
+
+    const collectedData = {};
+
+    const collectFormData = (form) => {
+        const data = {};
+        const elements = form.querySelectorAll('input, select, textarea');
+        elements.forEach(element => {
+            if (element.type === 'checkbox') {
+                if (!data[element.name]) {
+                    data[element.name] = [];
+                }
+                if (element.checked) {
+                    data[element.name].push(element.value);
+                }
+            } else {
+                data[element.id] = element.value;
+            }
+        });
+        Object.assign(collectedData, data);
+    };
+
+    const updateReviewStep = () => {
+        const reviewElements = document.querySelectorAll('[data-review]');
+        
+        reviewElements.forEach(el => {
+            const fieldId = el.getAttribute('data-review');
+            let value = collectedData[fieldId];
+            
+            if (fieldId === 'supportNeeded' && Array.isArray(value)) {
+                value = value.length > 0 ? value.join(', ') : 'Not provided';
+            }
+            
+            let displayValue = value || 'Not provided';
+
+            if (el.textContent.includes('N/A') && !value) {
+                displayValue = 'N/A';
+            } else if (displayValue === 'Not provided' && value) {
+                displayValue = value;
+            }
+
+            el.textContent = displayValue;
+        });
+    };
 
     const updateProgressTracker = (newStep) => {
         currentStep = newStep;
@@ -402,30 +593,29 @@
     };
 
     const goToStep = (stepNumber) => {
-        [personalInfoStep, startupDetailsStep, teamSupportStep].forEach(step => {
-            if (parseInt(step.getAttribute('data-step')) === stepNumber) {
+        steps.forEach(step => {
+            const stepNum = parseInt(step.getAttribute('data-step'));
+            if (stepNum === stepNumber) {
                 step.classList.remove('hidden');
             } else {
                 step.classList.add('hidden');
             }
         });
+
+        if (stepNumber === 4) {
+            updateReviewStep();
+        }
+        
         updateProgressTracker(stepNumber);
     };
 
-    const forms = [
-        { id: 'personal-info-form', nextStep: 2 },
-        { id: 'startup-details-form', nextStep: 3 },
-        { id: 'team-support-form', nextStep: 4 }
-    ];
-
-    forms.forEach(formInfo => {
-        const form = document.getElementById(formInfo.id);
-        if (form) {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                goToStep(formInfo.nextStep);
-            });
-        }
+    forms.forEach((form, index) => {
+        const nextStep = index + 2;
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            collectFormData(form);
+            goToStep(nextStep);
+        });
     });
 
     const previousButtons = document.querySelectorAll('.btn-previous');
@@ -437,7 +627,17 @@
         });
     });
 
-    goToStep(3);
+    // Handle submit button on Review step
+    const submitButton = document.querySelector('.btn-submit');
+    if (submitButton) {
+        submitButton.addEventListener('click', () => {
+            alert('Application Submitted! (Data is logged to console)');
+            console.log('Final Application Data:', collectedData);
+        });
+    }
+
+    // Start on the first step
+    goToStep(4);
 });
 </script>
 </body>

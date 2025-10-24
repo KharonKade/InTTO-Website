@@ -161,8 +161,17 @@ body {
 }
 
 .nav-links a.active {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+  0 4px 16px rgba(0, 0, 0, 0.2),
+  inset 0 1px 0 rgba(255, 255, 255, 0.7);
   opacity: 1;
+  width: 81px;
+  height: 40px;
+  padding: 16px 8px;
 }
 
 .nav-btn {
@@ -191,9 +200,9 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 18px;
   position: absolute;
-  right: 2px;
+  right: 4px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -425,7 +434,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 18px;
   position: absolute;
   right: 4px;
   top: 50%;
