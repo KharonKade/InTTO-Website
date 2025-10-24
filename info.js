@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const topConnectors = document.querySelectorAll('.top-progress-tracker .connector');
     const innerConnectors = document.querySelectorAll('.inner-progress-tracker .connector');
 
-    let currentStep = 1; 
-    let collectedData = {}; // Changed to `let` so we can reset it
+    let currentStep = 4; 
+    const collectedData = {}; 
 
     const collectFormData = (form) => {
         const data = {};
