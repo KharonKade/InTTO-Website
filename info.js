@@ -167,11 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // 2. Navigate back to the first step
                     goToStep(1);
-
-                })
-                .catch(error => {
-                    console.error("Submission failed:", error);
-                    alert("Submission failed. Please check the console.");
                 });
         });
     }
