@@ -117,19 +117,18 @@
 </style>
 <section class="container">
     <h1 class="main-header">Apply in our Incubation Program</h1>
-    
-    <div class="top-progress-tracker" id="progress-tracker-top">
+    <div class="top-progress-tracker">
         <div class="step active" data-step="1">
             <div class="icon-container"><i class="fas fa-user"></i></div>
             <p>Personal Info</p>
         </div>
         <div class="connector active" data-connector="1-2"></div>
-        <div class="step" data-step="2">
+        <div class="step active" data-step="2">
             <div class="icon-container"><i class="fas fa-briefcase"></i></div>
             <p>Startup Details</p>
         </div>
-        <div class="connector" data-connector="2-3"></div>
-        <div class="step" data-step="3">
+        <div class="connector active" data-connector="2-3"></div>
+        <div class="step active" data-step="3">
             <div class="icon-container"><i class="fas fa-users"></i></div>
             <p>Team & Support</p>
         </div>
@@ -139,21 +138,19 @@
             <p>Review</p>
         </div>
     </div>
-    
-    <div class="form-card" id="form-card-main">
-        
-        <div class="inner-progress-tracker" id="progress-tracker-inner">
+    <div class="form-card">
+        <div class="inner-progress-tracker">
             <div class="step active" data-step="1">
                 <div class="icon-container"><i class="fas fa-user"></i></div>
                 <p>Personal Info</p>
             </div>
             <div class="connector active" data-connector="1-2"></div>
-            <div class="step" data-step="2">
+            <div class="step active" data-step="2">
                 <div class="icon-container"><i class="fas fa-briefcase"></i></div>
                 <p>Startup Details</p>
             </div>
-            <div class="connector" data-connector="2-3"></div>
-            <div class="step" data-step="3">
+            <div class="connector active" data-connector="2-3"></div>
+            <div class="step active" data-step="3">
                 <div class="icon-container"><i class="fas fa-users"></i></div>
                 <p>Team & Support</p>
             </div>
@@ -165,10 +162,10 @@
         </div>
 
         <hr class="form-separator">
-        
-        <div class="form-steps-container" id="form-steps-wrapper">
 
-            <div class="form-content" id="personal-info-step" data-step="1">
+        <div class="form-steps-container">
+
+            <div class="form-content hidden" id="personal-info-step" data-step="1">
                 <h2>Personal Information</h2>
                 <p class="subtitle">Tell us about yourself</p>
 
@@ -335,7 +332,7 @@
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="teamExpertise">Team Expertise & Background *</label>
-                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4" maxlength="2000"></textarea>
+                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4"  maxlength="2000"></textarea>
                         </div>
                     </div>
 
@@ -353,7 +350,7 @@
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Funding"> Funding</label>
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Marketing & Branding"> Marketing & Branding</label>
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Network Access"> Network Access</label>
-                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</option>
                                 </div>
                             </div>
                         </div>
@@ -377,7 +374,7 @@
                 </form>
             </div>
 
-            <div class="form-content hidden" id="review-step" data-step="4">
+            <div class="form-content" id="review-step" data-step="4">
                 <h2>Review Your Application</h2>
                 <p class="subtitle">Please review your information before submitting</p>
 
@@ -483,17 +480,12 @@
                     </div>
                     <div class="review-row full-row">
                         <div class="review-group full-width">
-                            <span class="label">Support Needed</span>
-                            <span class="value block" data-review="supportNeeded">Not provided</span>
-                        </div>
-                    </div>
-                    <div class="review-row full-row">
-                        <div class="review-group full-width">
                             <span class="label">Additional Information</span>
                             <span class="value block" data-review="additionalInfo">N/A</span>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="navigation-buttons review-buttons">
                     <button type="button" class="btn-previous">
@@ -504,10 +496,8 @@
                     </button>
                 </div>
             </div>
-            
-        </div>
-        
-        <div class="success-content hidden" id="success-step">
+
+            <div class="success-content hidden" id="success-step">
             <div class="success-icon-container">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -562,6 +552,7 @@
                 If you have any questions, please contact us at <a href="mailto:incubation@uic-bcf.edu.ph">incubation@uic-bcf.edu.ph</a>
             </p>
         </div>
+            </div>
     </div>
 </section>
 <script>

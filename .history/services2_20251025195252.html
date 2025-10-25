@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="module" src="../script.js"></script>
+  
+      <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'green-primary': '#1C7F56',
+            'green-dark': '#166647',
+            'green-hover': '#166c41',
+            'green-light': '#E5FAEA',
+            'gray-form': '#F2F2F2',
+            'text-primary': '#111',
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+          },
+          spacing: {
+            '17': '68px', // For specific heights/widths
+            '21': '84px', // For specific heights/widths
+            '138': '138px', // Navbar height
+            '600': '600px', // Nav wrapper width
+            '437': '437px', // Service card width
+            '572': '572px', // Service card height
+            '392': '392px', // Service card img width
+            '283': '283px', // Service card img height
+            '394': '394px', // Service btn width
+            '673': '673px', // Contact form width
+            '700': '700px', // Contact form height
+            '597': '597px', // Form input width
+            '388': '388px', // Map width
+            '224': '224px', // Map height
+          },
+          borderRadius: {
+            '40': '40px',
+            '48': '48px',
+          },
+          boxShadow: {
+            // Custom shadows for the glassy look (nav/cta buttons)
+            'glass-main': '0 8px 32px rgba(0, 0, 0, 0.1)',
+            'glass-inset': 'inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0px 0px rgba(255, 255, 255, 0)',
+            // Active link shadow
+            'active-link': '0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.7)',
+            // Service card shadows
+            'card': '0 4px 15px rgba(0,0,0,0.08)',
+            'card-hover': '0 6px 18px rgba(0,0,0,0.12)',
+          },
+          backdropBlur: {
+            '14': '14px',
+          }
+        }
+      },
+      variants: {
+        extend: {
+          opacity: ['hover'],
+          transform: ['hover'],
+          boxShadow: ['hover'],
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-white font-poppins">
+
+    <div class="navbar absolute top-5 left-1/2 -translate-x-1/2 w-[95%] flex justify-between items-center px-8 py-3 box-border bg-green-dark rounded-48 h-138">
+        <div class="logo glass-top-border logo-left-border bg-white/7 backdrop-blur-14 border border-white/3 shadow-glass-main shadow-glass-inset p-[7px] px-5 rounded-40 flex items-center justify-center w-[137px] h-16 relative overflow-hidden">
+            <img src="graphics\InTTOLogo.png" alt="logo" class="h-[45px] w-[93px] max-w-full">
+        </div>
+
+        <div class="nav-wrapper glass-top-border logo-left-border bg-white/7 backdrop-blur-14 shadow-glass-main shadow-glass-inset p-3 rounded-3xl flex justify-center items-center w-600 h-16 gap-2 absolute left-1/2 -translate-x-1/2 overflow-hidden">
+        <div class="nav-links flex gap-5">
+            <a href="index.html" class="font-poppins text-white no-underline p-4 px-2 rounded-xl opacity-70 transition duration-300 flex items-center justify-center text-base w-[66px] h-10 hover:opacity-100">Home</a>
+            <a href="aboutUs.html" class="font-poppins text-white no-underline p-4 px-2 rounded-xl opacity-70 transition duration-300 flex items-center justify-center text-base w-[66px] h-10 hover:opacity-100">About</a>
+            <a href="services.html" class="active font-poppins text-white no-underline p-4 px-2 rounded-xl transition duration-300 flex items-center justify-center text-base w-[81px] h-10 bg-white/25 backdrop-blur-14 border border-white/4 shadow-active-link opacity-100 hover:opacity-100">Services</a>
+            <a href="startups.html" class="font-poppins text-white no-underline p-4 px-2 rounded-xl opacity-70 transition duration-300 flex items-center justify-center text-base w-[66px] h-10 hover:opacity-100">Startups</a>
+            <a href="events.html" class="font-poppins text-white no-underline p-4 px-2 rounded-xl opacity-70 transition duration-300 flex items-center justify-center text-base w-[66px] h-10 hover:opacity-100">Events</a>
+            <a href="" class="font-poppins text-white no-underline p-4 px-2 rounded-xl opacity-70 transition duration-300 flex items-center justify-center text-base w-[66px] h-10 hover:opacity-100">UColab</a>
+        </div>
+        </div>
+        <a href="incubation.html" class="nav-btn font-poppins bg-green-primary text-white h-16 w-[271px] px-6 pl-6 pr-12 rounded-3xl no-underline inline-flex items-center text-base font-medium relative gap-2 hover:bg-green-hover">Apply for Incubation <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+    </div>
+
+  <section class="our-services font-poppins w-[90%] mx-auto mt-[300px] mb-24 text-center">
+    <div class="section-label font-poppins inline-block bg-green-light text-green-primary py-3 px-6 rounded-3xl text-base mb-5 w-[172px] h-[43px]">⬤ Our Services</div>
+
+        <h2 class="service-title font-poppins text-center text-6xl font-bold mb-[30px] text-text-primary">For Startups & Intellectual Property</h2>
+
+        <div class="services flex gap-6 justify-center flex-wrap mt-5">
+
+                <div class="service-card font-poppins bg-white w-437 h-572 min-w-[320px] rounded-xl p-5 shadow-card text-left transition duration-200 hover:-translate-y-1.5 hover:shadow-card-hover">
+            <img src="graphics/services1.png" alt="" class="w-392 h-283 object-cover rounded-3xl">
+            <h3 class="font-poppins mt-[15px] text-3xl font-bold text-text-primary whitespace-nowrap">Incubation Program</h3>
+            <p class="font-poppins text-base text-black my-2 mb-5">This is the main service of the UCIANS TBI designed to help idea stage startups from ideation to commercialization.</p>
+            <a href="#" class="service-btn font-poppins bg-green-primary text-white py-3 px-6 rounded-[30px] no-underline font-semibold inline-flex items-center gap-2 transition duration-200 w-394 h-16 relative mt-5">Apply for Incubation <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+        </div>
+
+                <div class="service-card font-poppins bg-white w-437 h-572 min-w-[320px] rounded-xl p-5 shadow-card text-left transition duration-200 hover:-translate-y-1.5 hover:shadow-card-hover">
+            <img src="graphics/services2.png" alt="" class="w-392 h-283 object-cover rounded-3xl">
+            <h3 class="font-poppins mt-[15px] text-3xl font-bold text-text-primary whitespace-nowrap">Startup Capacity Building</h3>
+            <p class="font-poppins text-base text-black my-2 mb-5">We empower startups with customized programs, coaching, and resources to foster growth, innovation, and success.</p>
+            <a href="#" class="service-btn font-poppins bg-green-primary text-white py-3 px-6 rounded-[30px] no-underline font-semibold inline-flex items-center gap-2 transition duration-200 w-394 h-16 relative mt-5">View More <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+        </div>
+
+                <div class="service-card font-poppins bg-white w-437 h-572 min-w-[320px] rounded-xl p-5 shadow-card text-left transition duration-200 hover:-translate-y-1.5 hover:shadow-card-hover">
+            <img src="graphics/services3.png" alt="" class="w-392 h-283 object-cover rounded-3xl">
+            <h3 class="font-poppins mt-[15px] text-3xl font-bold text-text-primary whitespace-nowrap">Technopreneurship Training</h3>
+            <p class="font-poppins text-base text-black my-2 mb-5">Our Technopreneurship Training equips faculty with the skills and knowledge to deliver effective Technopreneurship courses.</p>
+            <a href="#" class="service-btn font-poppins bg-green-primary text-white py-3 px-6 rounded-[30px] no-underline font-semibold inline-flex items-center gap-2 transition duration-200 w-394 h-16 relative mt-5">View More <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+        </div>
+
+        <div class="service-card font-poppins bg-white w-437 h-572 min-w-[320px] rounded-xl p-5 shadow-card text-left transition duration-200 hover:-translate-y-1.5 hover:shadow-card-hover">
+            <img src="graphics/services1.png" alt="" class="w-392 h-283 object-cover rounded-3xl">
+            <h3 class="font-poppins mt-[15px] text-3xl font-bold text-text-primary whitespace-nowrap">Incubation Program</h3>
+            <p class="font-poppins text-base text-black my-2 mb-5">This is the main service of the UCIANS TBI designed to help idea stage startups from ideation to commercialization.</p>
+            <a href="#" class="service-btn font-poppins bg-green-primary text-white py-3 px-6 rounded-[30px] no-underline font-semibold inline-flex items-center gap-2 transition duration-200 w-394 h-16 relative mt-5">Apply for Incubation <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+        </div>
+
+                <div class="service-card font-poppins bg-white w-437 h-572 min-w-[320px] rounded-xl p-5 shadow-card text-left transition duration-200 hover:-translate-y-1.5 hover:shadow-card-hover">
+            <img src="graphics/services2.png" alt="" class="w-392 h-283 object-cover rounded-3xl">
+            <h3 class="font-poppins mt-[15px] text-3xl font-bold text-text-primary whitespace-nowrap">Startup Capacity Building</h3>
+            <p class="font-poppins text-base text-black my-2 mb-5">We empower startups with customized programs, coaching, and resources to foster growth, innovation, and success.</p>
+            <a href="#" class="service-btn font-poppins bg-green-primary text-white py-3 px-6 rounded-[30px] no-underline font-semibold inline-flex items-center gap-2 transition duration-200 w-394 h-16 relative mt-5">View More <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+        </div>
+
+                <div class="service-card font-poppins bg-white w-437 h-572 min-w-[320px] rounded-xl p-5 shadow-card text-left transition duration-200 hover:-translate-y-1.5 hover:shadow-card-hover">
+            <img src="graphics/services3.png" alt="" class="w-392 h-283 object-cover rounded-3xl">
+            <h3 class="font-poppins mt-[15px] text-3xl font-bold text-text-primary whitespace-nowrap">Technopreneurship Training</h3>
+            <p class="font-poppins text-base text-black my-2 mb-5">Our Technopreneurship Training equips faculty with the skills and knowledge to deliver effective Technopreneurship courses.</p>
+            <a href="#" class="service-btn font-poppins bg-green-primary text-white py-3 px-6 rounded-[30px] no-underline font-semibold inline-flex items-center gap-2 transition duration-200 w-394 h-16 relative mt-5">View More <span class="arrow-icon bg-white text-green-primary w-14 h-14 rounded-40 inline-flex items-center justify-center text-lg absolute right-1 top-1/2 -translate-y-1/2">➜</span></a>
+        </div>
+
+    </div>
+    </section>
+
+    <section class="contact-section font-poppins w-[90%] mx-auto py-20">
+      <h2 class="contact-title font-poppins text-center text-6xl font-bold mb-[30px] text-text-primary">Contact Us</h2>
+
+      <div class="contact-wrapper flex gap-[60px] items-start">
+                    <div class="contact-info flex-1">
+              <div class="info-block mb-[30px]">
+                  <h3 class="font-poppins text-green-primary text-4xl mb-5">Address</h3>
+                  <p class="font-poppins text-2xl mb-[80px] leading-snug opacity-60">UCIANS TBI, Basement 1, UC Legarda Campus,<br>Legarda Road, Baguio City</p>
+              </div>
+
+              <div class="info-block mb-[30px]">
+                  <h3 class="font-poppins text-green-primary text-4xl mb-5">Email</h3>
+                  <p class="font-poppins text-2xl mb-[80px] leading-snug opacity-60">intto@uc-bcf.edu.ph</p>
+              </div>
+
+              <div class="info-block mb-[30px]">
+                  <h3 class="font-poppins text-green-primary text-4xl mb-5">Social Media</h3>
+                  <div class="social-icons">
+                      <a href="#" class="bg-green-primary text-white inline-flex w-14 h-14 items-center justify-center rounded-full mr-2 no-underline text-3xl"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#" class="bg-green-primary text-white inline-flex w-14 h-14 items-center justify-center rounded-full mr-2 no-underline text-3xl"><i class="fab fa-instagram"></i></a>
+                      <a href="#" class="bg-green-primary text-white inline-flex w-14 h-14 items-center justify-center rounded-full mr-2 no-underline text-3xl"><i class="fas fa-envelope"></i></a>
+                  </div>
+              </div>
+          </div>
+
+                    <form class="contact-form bg-gray-form p-[30px] rounded-40 w-673 h-700">
+              <div class="form-group mb-10">
+                  <label class="font-poppins block text-base mb-1.5">Name</label>
+                  <input type="text" placeholder="Enter your Name" class="font-poppins w-597 h-14 p-3 rounded-xl border-none outline-none">
+              </div>
+
+              <div class="form-group mb-10">
+                  <label class="font-poppins block text-base mb-1.5">Email</label>
+                  <input type="email" placeholder="Enter your Email" class="font-poppins w-597 h-14 p-3 rounded-xl border-none outline-none">
+              </div>
+
+              <div class="form-group mb-10">
+                  <label class="font-poppins block text-base mb-1.5">Subject</label>
+                  <input type="text" placeholder="Enter the subject of your message" class="font-poppins w-597 h-14 p-3 rounded-xl border-none outline-none">
+              </div>
+
+              <div class="form-group mb-10">
+                  <label class="font-poppins block text-base mb-1.5">Message</label>
+                  <textarea placeholder="Write your message here (e.g., I'd like to collaborate on a startup project or ask about incubation programs.)" class="font-poppins h-[120px] resize-none w-597 p-3 rounded-xl border-none outline-none"></textarea>
+              </div>
+
+              <button type="submit" class="contact-btn font-poppins bg-green-primary text-white border-none h-16 px-6 rounded-[30px] font-bold cursor-pointer w-full flex justify-center items-center relative text-base hover:bg-green-hover">
+                  Send Message <span class="arrow-contact bg-white text-green-primary w-14 h-14 rounded-40 flex items-center justify-center text-lg absolute right-1">➜</span>
+              </button>
+          </form>
+      </div>
+    </section>
+
+    <section class="closing-section w-[90%] py-[60px] box-border mx-auto">
+
+            <div class="cta-box bg-green-primary text-white text-center p-[60px] px-10 rounded-48 mb-[60px] h-[459px] flex flex-col justify-center items-center">
+        <h2 class="font-poppins text-5xl font-bold mb-[15px]">Let’s turn your ideas into impact!</h2>
+        <p class="font-poppins text-2xl opacity-90 mb-[30px] leading-9">Reach out today and become part of UC’s growing community<br>of innovators and changemakers.</p>
+        <div class="cta-buttons flex justify-center gap-5 mt-5">
+          <a href="#" class="cta-btn font-poppins bg-white/7 backdrop-blur-14 border border-white/3 shadow-glass-main shadow-glass-inset py-3 px-8 rounded-[30px] text-white no-underline font-medium transition duration-300 w-[223px] h-16 text-base flex justify-center items-center hover:bg-white/15">Apply for Incubation</a>
+          <a href="#" class="cta-btn font-poppins bg-white/7 backdrop-blur-14 border border-white/3 shadow-glass-main shadow-glass-inset py-3 px-8 rounded-[30px] text-white no-underline font-medium transition duration-300 w-[223px] h-16 text-base flex justify-center items-center hover:bg-white/15">Join a Startup Team</a>
+        </div>
+      </div>
+
+            <div class="footer-row font-poppins flex justify-between items-center px-5">
+        <div class="footer-logo flex flex-col items-start">
+                    <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img w-[198px] h-[96px] block mb-1.5">
+        </div>
+
+        <div class="footer-tagline font-poppins text-2xl font-medium opacity-70 mr-5">
+          Driving the Culture of Innovation
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-divider w-[90%] mx-auto border-t border-black/10"></div>
+
+    <footer class="footer-section w-full bg-white py-[60px] box-border">
+      <div class="footer-top flex justify-between flex-wrap w-[90%] mx-auto gap-10">
+
+        <div class="footer-column">
+            <h4 class="text-xl mb-[30px] font-bold font-poppins">Our Services</h4>
+            <ul class="list-none p-0">
+                <li class="mb-5"><a href="services.html" class="text-xl opacity-40 font-poppins no-underline">Incubation Programs</a></li>
+                <li class="mb-5"><a href="intellectual-property.html" class="text-xl opacity-40 font-poppins no-underline">Intellectual Property</a></li>
+                <li class="mb-5"><a href="tbi-assessment.html" class="text-xl opacity-40 font-poppins no-underline">TBI Assessment</a></li>
+                <li class="mb-5"><a href="train-the-trainers.html" class="text-xl opacity-40 font-poppins no-underline">Train the Trainers</a></li>
+                <li class="mb-5"><a href="internship.html" class="text-xl opacity-40 font-poppins no-underline">Internship</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4 class="text-xl mb-[30px] font-bold font-poppins">Startups</h4>
+            <ul class="list-none p-0">
+                <li class="mb-5"><a href="services.html" class="text-xl opacity-40 font-poppins no-underline">Startup Portfolio</a></li>
+                <li class="mb-5"><a href="services.html" class="text-xl opacity-40 font-poppins no-underline">Join a Team</a></li>
+                <li class="mb-5"><a href="services.html" class="text-xl opacity-40 font-poppins no-underline">Be a Mentor</a></li>
+            </ul>
+        </div>
+
+                <div class="footer-column">
+            <h4 class="text-xl mb-[30px] font-bold font-poppins">Contact Info</h4>
+            <div class="social-links flex gap-3 mt-2.5">
+              <a href="#" class="social-icon w-14 h-14 rounded-full bg-green-primary text-white flex items-center justify-center no-underline font-bold text-3xl"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-icon w-14 h-14 rounded-full bg-green-primary text-white flex items-center justify-center no-underline font-bold text-3xl"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-icon w-14 h-14 rounded-full bg-green-primary text-white flex items-center justify-center no-underline font-bold text-3xl"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+
+                <div class="footer-column">
+            <h4 class="text-xl mb-[30px] font-bold font-poppins">Visit Us</h4>
+            <div class="map-container w-388 h-224 bg-gray-300 rounded-md overflow-hidden">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d537.8547548220233!2d120.59130577428844!3d16.4101724118376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a10062bd2aaf%3A0x4a6a895d930a3b3b!2sUniversity%20of%20the%20Cordilleras%20Innovation%20and%20Technology%20Transfer%20Office!5e1!3m2!1sen!2sph!4v1760499396401!5m2!1sen!2sph" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+      </div>
+
+      <div class="footer-divider bottom-line w-[90%] mx-auto mt-[60px] border-t border-black/10"></div>
+      <div class="footer-bottom font-poppins mt-4 text-center text-sm opacity-40 pt-4">
+        <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
+      </div>
+    </footer>
+</body>
+</html>

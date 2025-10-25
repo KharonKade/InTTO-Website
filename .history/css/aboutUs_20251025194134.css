@@ -486,15 +486,14 @@ body {
     top: 20px;
     z-index: 2;
     color: #166647;
-    margin-bottom: 30px; 
-    left: 2%;
+    margin-bottom: 10px; 
 }
 
 .team-title-container { 
     display: flex;
     justify-content: space-between;
     align-items: center; 
-    width: 100%; 
+    width: 100%; /* Take full width of its parent */
     width: 95%;
     margin: 0 auto;
 }
@@ -504,9 +503,9 @@ body {
     font-size: 56px;
     font-weight: 700;
     color: #0d0d0d;
-    margin: 0; 
+    margin: 0; /* Removed bottom margin as it's now in a flex container */
     text-align: left;
-    flex-grow: 1;
+    flex-grow: 1; /* Allows the title to take up available space */
 }
 
 .view-all-btn {
@@ -524,6 +523,7 @@ body {
     font-weight: 500;
     position: relative;
     gap: 8px;
+    /* Removed absolute positioning that was causing issues */
 }
 
 .view-all-btn .arrow-icon {

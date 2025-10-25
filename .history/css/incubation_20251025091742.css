@@ -836,11 +836,13 @@ body {
     margin-bottom: 40px;
 }
 
+/* Success Icon */
 .success-icon-container {
     color: var(--primary-green);
     font-size: 60px;
 }
 
+/* Reference Number Card */
 .ref-number-card {
     background-color: var(--light-green);
     padding: 20px;
@@ -863,8 +865,9 @@ body {
     margin: 5px 0 0;
 }
 
+/* What's Next Card */
 .whats-next-card {
-    background-color: #fef0f4;
+    background-color: #fef0f4; /* Light Red/Pink tone */
     padding: 20px;
     border-radius: 8px;
     max-width: 500px;
@@ -875,7 +878,7 @@ body {
 }
 
 .next-icon-container {
-    color: #e53e3e;
+    color: #e53e3e; /* Red icon color */
     font-size: 28px;
     margin-right: 15px;
     flex-shrink: 0;
@@ -899,6 +902,7 @@ body {
     margin: 0;
 }
 
+/* Summary Box */
 .application-summary {
     max-width: 600px;
     margin: 0 auto 50px;
@@ -943,6 +947,7 @@ body {
     color: var(--text-color);
 }
 
+/* Navigation & Contact */
 .success-navigation {
     display: flex;
     justify-content: center;
@@ -993,4 +998,14 @@ body {
 
 .contact-info a:hover {
     text-decoration: underline;
+}
+
+/* Hide form card border and trackers on success */
+.form-card.success-view {
+    box-shadow: none;
+    background-color: transparent;
+}
+#progress-tracker-top,
+#progress-tracker-inner {
+    display: none !important;
 }

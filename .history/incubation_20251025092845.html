@@ -117,19 +117,18 @@
 </style>
 <section class="container">
     <h1 class="main-header">Apply in our Incubation Program</h1>
-    
-    <div class="top-progress-tracker" id="progress-tracker-top">
+    <div class="top-progress-tracker">
         <div class="step active" data-step="1">
             <div class="icon-container"><i class="fas fa-user"></i></div>
             <p>Personal Info</p>
         </div>
         <div class="connector active" data-connector="1-2"></div>
-        <div class="step" data-step="2">
+        <div class="step active" data-step="2">
             <div class="icon-container"><i class="fas fa-briefcase"></i></div>
             <p>Startup Details</p>
         </div>
-        <div class="connector" data-connector="2-3"></div>
-        <div class="step" data-step="3">
+        <div class="connector active" data-connector="2-3"></div>
+        <div class="step active" data-step="3">
             <div class="icon-container"><i class="fas fa-users"></i></div>
             <p>Team & Support</p>
         </div>
@@ -139,21 +138,19 @@
             <p>Review</p>
         </div>
     </div>
-    
-    <div class="form-card" id="form-card-main">
-        
-        <div class="inner-progress-tracker" id="progress-tracker-inner">
+    <div class="form-card">
+        <div class="inner-progress-tracker">
             <div class="step active" data-step="1">
                 <div class="icon-container"><i class="fas fa-user"></i></div>
                 <p>Personal Info</p>
             </div>
             <div class="connector active" data-connector="1-2"></div>
-            <div class="step" data-step="2">
+            <div class="step active" data-step="2">
                 <div class="icon-container"><i class="fas fa-briefcase"></i></div>
                 <p>Startup Details</p>
             </div>
-            <div class="connector" data-connector="2-3"></div>
-            <div class="step" data-step="3">
+            <div class="connector active" data-connector="2-3"></div>
+            <div class="step active" data-step="3">
                 <div class="icon-container"><i class="fas fa-users"></i></div>
                 <p>Team & Support</p>
             </div>
@@ -165,10 +162,10 @@
         </div>
 
         <hr class="form-separator">
-        
+
         <div class="form-steps-container" id="form-steps-wrapper">
 
-            <div class="form-content" id="personal-info-step" data-step="1">
+            <div class="form-content hidden" id="personal-info-step" data-step="1">
                 <h2>Personal Information</h2>
                 <p class="subtitle">Tell us about yourself</p>
 
@@ -335,7 +332,7 @@
                     <div class="form-row">
                         <div class="form-group full-width textarea-group">
                             <label for="teamExpertise">Team Expertise & Background *</label>
-                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4" maxlength="2000"></textarea>
+                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4"  maxlength="2000"></textarea>
                         </div>
                     </div>
 
@@ -353,7 +350,7 @@
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Funding"> Funding</label>
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Marketing & Branding"> Marketing & Branding</label>
                                     <label class="checkbox-label"><input type="checkbox" name="support" value="Network Access"> Network Access</label>
-                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</option>
                                 </div>
                             </div>
                         </div>
@@ -377,7 +374,7 @@
                 </form>
             </div>
 
-            <div class="form-content hidden" id="review-step" data-step="4">
+            <div class="form-content" id="review-step" data-step="4">
                 <h2>Review Your Application</h2>
                 <p class="subtitle">Please review your information before submitting</p>
 
@@ -483,17 +480,12 @@
                     </div>
                     <div class="review-row full-row">
                         <div class="review-group full-width">
-                            <span class="label">Support Needed</span>
-                            <span class="value block" data-review="supportNeeded">Not provided</span>
-                        </div>
-                    </div>
-                    <div class="review-row full-row">
-                        <div class="review-group full-width">
                             <span class="label">Additional Information</span>
                             <span class="value block" data-review="additionalInfo">N/A</span>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="navigation-buttons review-buttons">
                     <button type="button" class="btn-previous">
@@ -504,200 +496,67 @@
                     </button>
                 </div>
             </div>
-            
-        </div>
-        
-        <div class="success-content hidden" id="success-step">
-            <div class="success-icon-container">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h2>Application Submitted Successfully!</h2>
-            <p class="success-message">Thank you for applying to our Incubation Program. Your application has been received and is under review.</p>
 
-            <div class="ref-number-card">
-                <p class="ref-label">Application Reference Number</p>
-                <p class="ref-value" id="app-reference-number">APP-93251778</p>
-            </div>
-
-            <div class="whats-next-card">
-                <div class="next-icon-container">
-                    <i class="fas fa-calendar-alt"></i>
+            <div class="success-content hidden" id="success-step">
+                <div class="success-icon-container">
+                    <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="next-text">
-                    <p class="next-title">What's Next?</p>
-                    <p class="next-body">Our team will review your application within 5-7 business days. We'll contact you via email with the next steps.</p>
-                </div>
-            </div>
+                    <h2>Application Submitted Successfully!</h2>
+                    <p class="success-message">Thank you for applying to our Incubation Program. Your application has been received and is under review.</p>
 
-            <div class="application-summary">
-                <h3>Application Summary</h3>
-                <div class="summary-row">
-                    <div class="summary-group">
-                        <span class="label">Applicant Name</span>
-                        <span class="value" data-summary="fullName">Not provided</span>
+                    <div class="ref-number-card">
+                        <p class="ref-label">Application Reference Number</p>
+                        <p class="ref-value" id="app-reference-number">APP-93251778</p>
                     </div>
-                    <div class="summary-group">
-                        <span class="label">Startup Name</span>
-                        <span class="value" data-summary="startupName">Not provided</span>
-                    </div>
-                </div>
-                <div class="summary-row">
-                    <div class="summary-group">
-                        <span class="label">Submission Date</span>
-                        <span class="value" data-summary="submissionDate">October 25, 2025</span>
-                    </div>
-                    <div class="summary-group">
-                        <span class="label">Industry</span>
-                        <span class="value" data-summary="industry">Not provided</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="success-navigation">
-                <button type="button" class="btn-print">Print Confirmation</button>
-                <button type="button" class="btn-submit-another">Submit Another Application <i class="fas fa-arrow-right"></i></button>
-            </div>
+                    <div class="whats-next-card">
+                        <div class="next-icon-container">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="next-text">
+                            <p class="next-title">What's Next?</p>
+                            <p class="next-body">Our team will review your application within 5-7 business days. We'll contact you via email with the next steps.</p>
+                        </div>
+                    </div>
 
-            <p class="contact-info">
-                If you have any questions, please contact us at <a href="mailto:incubation@uic-bcf.edu.ph">incubation@uic-bcf.edu.ph</a>
-            </p>
+                    <div class="application-summary">
+                        <h3>Application Summary</h3>
+                        <div class="summary-row">
+                            <div class="summary-group">
+                                <span class="label">Applicant Name</span>
+                                <span class="value" data-summary="fullName">Not provided</span>
+                            </div>
+                            <div class="summary-group">
+                                <span class="label">Startup Name</span>
+                                <span class="value" data-summary="startupName">Not provided</span>
+                            </div>
+                        </div>
+                        <div class="summary-row">
+                            <div class="summary-group">
+                                <span class="label">Submission Date</span>
+                                <span class="value" data-summary="submissionDate">October 25, 2025</span>
+                            </div>
+                            <div class="summary-group">
+                                <span class="label">Industry</span>
+                                <span class="value" data-summary="industry">Not provided</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="success-navigation">
+                        <button type="button" class="btn-print">Print Confirmation</button>
+                        <button type="button" class="btn-submit-another">Submit Another Application <i class="fas fa-arrow-right"></i></button>
+                    </div>
+
+                    <p class="contact-info">
+                        If you have any questions, please contact us at <a href="mailto:incubation@uic-bcf.edu.ph">incubation@uic-bcf.edu.ph</a>
+                    </p>
+            </div>
         </div>
     </div>
 </section>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const steps = [
-        document.getElementById('personal-info-step'),
-        document.getElementById('startup-details-step'),
-        document.getElementById('team-support-step'),
-        document.getElementById('review-step')
-    ];
-    const forms = [
-        document.getElementById('personal-info-form'),
-        document.getElementById('startup-details-form'),
-        document.getElementById('team-support-form')
-    ];
-    const topTrackerSteps = document.querySelectorAll('.top-progress-tracker .step');
-    const innerTrackerSteps = document.querySelectorAll('.inner-progress-tracker .step');
-    const topConnectors = document.querySelectorAll('.top-progress-tracker .connector');
-    const innerConnectors = document.querySelectorAll('.inner-progress-tracker .connector');
-    let currentStep = 1;
-
-    const collectedData = {};
-
-    const collectFormData = (form) => {
-        const data = {};
-        const elements = form.querySelectorAll('input, select, textarea');
-        elements.forEach(element => {
-            if (element.type === 'checkbox') {
-                if (!data[element.name]) {
-                    data[element.name] = [];
-                }
-                if (element.checked) {
-                    data[element.name].push(element.value);
-                }
-            } else {
-                data[element.id] = element.value;
-            }
-        });
-        Object.assign(collectedData, data);
-    };
-
-    const updateReviewStep = () => {
-        const reviewElements = document.querySelectorAll('[data-review]');
-        
-        reviewElements.forEach(el => {
-            const fieldId = el.getAttribute('data-review');
-            let value = collectedData[fieldId];
-            
-            if (fieldId === 'supportNeeded' && Array.isArray(value)) {
-                value = value.length > 0 ? value.join(', ') : 'Not provided';
-            }
-            
-            let displayValue = value || 'Not provided';
-
-            if (el.textContent.includes('N/A') && !value) {
-                displayValue = 'N/A';
-            } else if (displayValue === 'Not provided' && value) {
-                displayValue = value;
-            }
-
-            el.textContent = displayValue;
-        });
-    };
-
-    const updateProgressTracker = (newStep) => {
-        currentStep = newStep;
-
-        const allSteps = [...topTrackerSteps, ...innerTrackerSteps];
-        const allConnectors = [...topConnectors, ...innerConnectors];
-
-        allSteps.forEach(step => {
-            const stepNum = parseInt(step.getAttribute('data-step'));
-            if (stepNum <= newStep) {
-                step.classList.add('active');
-            } else {
-                step.classList.remove('active');
-            }
-        });
-
-        allConnectors.forEach(connector => {
-            const connectorNums = connector.getAttribute('data-connector').split('-').map(Number);
-            if (connectorNums[0] < newStep) {
-                connector.classList.add('active');
-            } else {
-                connector.classList.remove('active');
-            }
-        });
-    };
-
-    const goToStep = (stepNumber) => {
-        steps.forEach(step => {
-            const stepNum = parseInt(step.getAttribute('data-step'));
-            if (stepNum === stepNumber) {
-                step.classList.remove('hidden');
-            } else {
-                step.classList.add('hidden');
-            }
-        });
-
-        if (stepNumber === 4) {
-            updateReviewStep();
-        }
-        
-        updateProgressTracker(stepNumber);
-    };
-
-    forms.forEach((form, index) => {
-        const nextStep = index + 2;
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            collectFormData(form);
-            goToStep(nextStep);
-        });
-    });
-
-    const previousButtons = document.querySelectorAll('.btn-previous');
-    previousButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (currentStep > 1) {
-                goToStep(currentStep - 1);
-            }
-        });
-    });
-
-    // Handle submit button on Review step
-    const submitButton = document.querySelector('.btn-submit');
-    if (submitButton) {
-        submitButton.addEventListener('click', () => {
-            alert('Application Submitted! (Data is logged to console)');
-            console.log('Final Application Data:', collectedData);
-        });
-    }
-
-    // Start on the first step
-    goToStep(1);
-});
+    
 </script>
 </body>
 </html>

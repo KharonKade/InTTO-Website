@@ -1,0 +1,42 @@
+
+    *, ::before, ::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Custom utility for the glass effect before/after elements which cannot be done with pure Tailwind */
+    .glass-top-border::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    }
+
+    .logo-left-border::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+    }
+
+    /* Standard form input styles since the original CSS applied specific width/height */
+    .contact-form input:not([type="submit"]), .contact-form textarea {
+      width: 597px;
+    }
+
+    .contact-form textarea {
+      height: 120px;
+    }
+
+    /* Specific link colors for footer */
+    .footer-column ul li a {
+      color: inherit;
+    }

@@ -782,9 +782,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-.view-all-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
+.view
 
 .startups-container{
   background: var(--green);

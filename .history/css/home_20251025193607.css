@@ -782,10 +782,6 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-.view-all-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
 .startups-container{
   background: var(--green);
   padding: 28px 28px;
