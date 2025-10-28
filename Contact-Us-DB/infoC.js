@@ -1,108 +1,95 @@
-import { saveApplication } from "../Contact-Us-DB/saveInfoC.js";
+// Your final working infoContactUs.js script:
+
+import { saveApplication } from "../Contact-Us-DB/saveInfoC.js"; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Target the form and button directly
+    emailjs.init("VuXTbsryfbiboH-B2");
+    const serviceID = "service_4k3exau";
+    const templateID = "template_ojczsmj";
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.querySelector('.contact-btn');
-    
-    // Check if the form exists before continuing
+
+
     if (!contactForm || !submitButton) {
         console.error("Contact form or submit button not found.");
         return;
     }
 
-    // This object will hold all the collected data
-    const collectedData = {};
-
-    // --- Core Utility Functions ---
-
-    // Define the success page handler (replacing the complex multi-step version)
-    const showSuccessPage = (refId) => {
-        // Find the button again to reset its text
+    const showSuccessPage = () => {
         const btn = document.querySelector('.contact-btn');
         if (btn) {
             btn.innerHTML = 'Send Message <span class="arrow-contact">➜</span>';
             btn.disabled = false;
         }
-        
-        // Show success feedback and clear the form
-        alert(`✅ Message Sent Successfully! Reference ID: ${refId || 'N/A'}. We will respond soon.`);
+        alert(`✅ Message Sent Successfully! We will respond soon.`); 
         contactForm.reset();
     };
 
-    // Define the data collection function
     const collectFormData = (form) => {
         const data = {};
         const elements = form.querySelectorAll('input, select, textarea');
         
         elements.forEach(element => {
-            // Checkbox logic preserved, but unlikely to be used in a simple contact form
-            if (element.type === 'checkbox') {
-                if (!data[element.name]) {
-                    data[element.name] = [];
-                }
-                if (element.checked) {
-                    data[element.name].push(element.value);
-                }
-            } else {
-                // Collects data using the element's ID (e.g., name, email, subject, message)
-                data[element.id] = element.value;
-            }
+            // Collects data using the element's ID (name, email, subject, message)
+            data[element.id] = element.value;
         });
-        // Update the central collectedData object
-        Object.assign(collectedData, data);
+        return data; 
     };
 
-    // --- Event Handlers ---
-
-    // Use the form's submit event for native validation handling
+    // FIX 2: Correctly structure the submit event handler.
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Ensure client-side validation passes
         if (!contactForm.checkValidity()) {
             return; 
         }
 
-        // 1. Collect Data
-        collectFormData(contactForm); 
+        const formData = collectFormData(contactForm); 
 
-        // 2. Add timestamp
-        collectedData.submittedAt = new Date().toISOString();
-
-        // 3. Check for the save function
-        if (typeof saveApplication !== 'function') {
-            console.error("saveApplication is not available. Check your import path and export in saveInfoC.js.");
-            alert("Submission error: Saving functionality is missing.");
-            return;
-        }
-
-        // 4. Disable button and start submission
         submitButton.disabled = true;
         submitButton.textContent = 'Sending...';
+        
+        // 3. EmailJS Parameters
+        const serviceID = "service_4k3exau";     
+        const templateID = "template_ojczsmj";   
+        const emailPromise = emailjs.send(serviceID, templateID, formData);
+        
+        // Add timestamp for database record
+        formData.submittedAt = new Date().toISOString(); 
+        const dbPromise = saveApplication(formData);
 
-        saveApplication(collectedData)
-            .then(response => {
-                const refId = response && response.refId ? response.refId : 'MSG-' + Date.now();
-                showSuccessPage(refId); // Defined above
+        Promise.allSettled([emailPromise, dbPromise])
+            .then(results => {
+                const emailResult = results[0];
+                const dbResult = results[1];
+                
+                if (emailResult.status === 'fulfilled' && dbResult.status === 'fulfilled') {
+                    // Both succeeded
+                    console.log('Email and DB save succeeded.');
+                    showSuccessPage();
+                } else if (emailResult.status === 'rejected') {
+                    // Email failed
+                    console.error('Email sending failed:', emailResult.reason);
+                    alert("Submission failed. (Email Error)");
+                } else if (dbResult.status === 'rejected') {
+                    // DB failed
+                    console.error('Database saving failed:', dbResult.reason);
+                    alert("Submission failed. (Database Error)");
+                } else {
+                    // If one succeeded, we show success but log the warning
+                    console.warn('Submission partially succeeded (one operation failed but the other succeeded).');
+                    showSuccessPage(); 
+                }
             })
             .catch(error => {
-                console.error("Submission failed:", error);
-                alert("Submission failed. Please check the console for details.");
+                // This catch only triggers if Promise.allSettled fails, which is rare
+                console.error("An unexpected error occurred during submission:", error);
+                alert("An unexpected error occurred.");
             })
             .finally(() => {
-                // Ensure button is re-enabled and text is reset on failure
-                if (submitButton.disabled) {
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'Send Message <span class="arrow-contact">➜</span>';
-                }
+                // Ensure button resets even if both fail
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Send Message <span class="arrow-contact">➜</span>';
             });
     });
-    
-    // NOTE: The previous script had a separate 'click' handler for the button 
-    // and a 'submit' handler for the form. This consolidated structure (using only 
-    // the 'submit' event) is generally better practice. The code above uses 
-    // the 'submit' event handler and removes the redundant 'click' handler.
-    // We are replacing the old forms.forEach loop and the submitButton click handler
-    // with the consolidated form.addEventListener('submit', ...) above.
 });
