@@ -348,7 +348,6 @@ body {
 .application-process {
   padding-top: 80px;
   max-width: 90%;
-  place-self: center;
 }
 
 .steps-container {
