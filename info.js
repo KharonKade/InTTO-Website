@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewStep = document.getElementById('review-step');
     const successStep = document.getElementById('success-step');
     
+    
     const formStepsWrapper = document.getElementById('form-steps-wrapper');
     const formCardMain = document.getElementById('form-card-main');
     const topTracker = document.getElementById('progress-tracker-top');
@@ -92,38 +93,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    const updateSuccessSummary = (refNumber) => {
-        const fallbackRefId = 'APP-' + Math.floor(1000000 + Math.random() * 9000000); 
-        
-        if (document.getElementById('app-reference-number')) {
-            document.getElementById('app-reference-number').textContent = refNumber || fallbackRefId;
-        }
-        
-        const submissionDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    // Inside info.js
+const updateSuccessSummary = (refNumber) => {
+    // FALLBACK: Create a random ID (no 'APP-' prefix, and will be uppercased later)
+    // The fallback ID you were seeing before might have come from older or failed logic.
+    const fallbackId = Math.floor(1000000000 + Math.random() * 9000000000).toString(); 
+    
+    // Use the document ID if available, otherwise use the fallback ID.
+    let finalRefId = refNumber || fallbackId;
 
-        if (document.querySelector('[data-summary="fullName"]')) {
-             document.querySelector('[data-summary="fullName"]').textContent = collectedData.fullName || 'Not provided';
-        }
-        if (document.querySelector('[data-summary="startupName"]')) {
-             document.querySelector('[data-summary="startupName"]').textContent = collectedData.startupName || 'Not provided';
-        }
-        if (document.querySelector('[data-summary="submissionDate"]')) {
-             document.querySelector('[data-summary="submissionDate"]').textContent = submissionDate;
-        }
-        if (document.querySelector('[data-summary="industry"]')) {
-             document.querySelector('[data-summary="industry"]').textContent = collectedData.industry || 'Not provided';
-        }
-    };
+    // Apply the uppercase conversion to the Document ID (e.g., "Ozjtx1bKSpobihOjmyaP" -> "OZJTX1BKSPOSIHOJMYAP")
+    finalRefId = finalRefId.toUpperCase();
+    
+    if (document.getElementById('app-reference-number')) {
+        document.getElementById('app-reference-number').textContent = finalRefId;
+    }
+    
+    // ... (The rest of the function remains the same, handling dates and summary data)
+    const submissionDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-    const showSuccessPage = (refNumber) => {
+    if (document.querySelector('[data-summary="fullName"]')) {
+         document.querySelector('[data-summary="fullName"]').textContent = collectedData.fullName || 'Not provided';
+    }
+    if (document.querySelector('[data-summary="startupName"]')) {
+         document.querySelector('[data-summary="startupName"]').textContent = collectedData.startupName || 'Not provided';
+    }
+    if (document.querySelector('[data-summary="submissionDate"]')) {
+         document.querySelector('[data-summary="submissionDate"]').textContent = submissionDate;
+    }
+    if (document.querySelector('[data-summary="industry"]')) {
+         document.querySelector('[data-summary="industry"]').textContent = collectedData.industry || 'Not provided';
+    }
+};
+        
+    const showSuccessPage = (refId) => {
+        const btn = document.querySelector('.btn-submit');
+        updateSuccessSummary(refId);
         if (formStepsWrapper) formStepsWrapper.classList.add('hidden');
         if (topTracker) topTracker.classList.add('hidden');
         if (innerTracker) innerTracker.classList.add('hidden');
         
         if (formCardMain) formCardMain.classList.add('success-view');
-
-        updateSuccessSummary(refNumber);
         if (successStep) successStep.classList.remove('hidden');
+        if (btn) {
+            btn.innerHTML = 'Submitted <span class="loader"></span>';
+            btn.disabled = false;
+        }
+        if (forms[0]) forms[0].reset();
     };
 
     const goToStep = (stepNumber) => {

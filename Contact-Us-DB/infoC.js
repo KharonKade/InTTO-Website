@@ -4,8 +4,6 @@ import { saveApplication } from "../Contact-Us-DB/saveInfoC.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     emailjs.init("VuXTbsryfbiboH-B2");
-    const serviceID = "service_4k3exau";
-    const templateID = "template_ojczsmj";
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.querySelector('.contact-btn');
 
