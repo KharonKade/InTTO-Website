@@ -1,7 +1,8 @@
+// Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
   import { getFirestore } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-
+  
   const firebaseConfig = {
     apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
     authDomain: "uc-intto.firebaseapp.com",
@@ -12,6 +13,7 @@
     measurementId: "G-ETY9E0F1K6"
   };
 
+  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);

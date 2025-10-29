@@ -1,6 +1,14 @@
+// --- Make sure your firebaseConfig and initialization is here ---
+// const firebaseConfig = { ... };
+// const app = firebase.initializeApp(firebaseConfig); 
+// const db = firebase.firestore(); 
+// -----------------------------------------------------------------
+
+// If you are using the modern modular SDK (recommended):
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
+// Initialize Firebase (replace with your config)
 const firebaseConfig = { 
     apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
     authDomain: "uc-intto.firebaseapp.com",

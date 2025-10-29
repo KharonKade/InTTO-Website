@@ -1,3 +1,10 @@
+// --- Make sure your firebaseConfig and initialization is here ---
+// const firebaseConfig = { ... };
+// const app = firebase.initializeApp(firebaseConfig); 
+// const db = firebase.firestore(); 
+// -----------------------------------------------------------------
+
+// If you are using the modern modular SDK (recommended):
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
