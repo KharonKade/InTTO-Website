@@ -347,7 +347,7 @@ body {
 
 .application-process {
   padding-top: 80px;
-  max-width: 90%;
+  width: 90%;
   place-self: center;
 }
 
@@ -355,6 +355,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  max-width: 90%;
   margin: 50px auto 0;
   gap: 20px;
 }
