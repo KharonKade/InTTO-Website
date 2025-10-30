@@ -374,10 +374,10 @@
         <div class="footer-column">
           <h4>Our Services</h4>
           <ul>
-              <li><a href="incubationProgram.html">Incubation Programs</a></li>
-              <li><a href="ipp.html">Intellectual Property</a></li>
-              <li><a href="tbiAsses.html">TBI Assessment</a></li>
-              <li><a href="training.html">Train the Trainers</a></li>
+              <li><a href="incu.html">Incubation Programs</a></li>
+              <li><a href="intellectual-property.html">Intellectual Property</a></li>
+              <li><a href="tbi-assessment.html">TBI Assessment</a></li>
+              <li><a href="train-the-trainers.html">Train the Trainers</a></li>
               <li><a href="internship.html">Internship</a></li>
           </ul>
       </div>
@@ -387,18 +387,21 @@
           <ul>
               <li><a href="services.html">Startup Portfolio</a></li>
               <li><a href="services.html">Join a Team</a></li>
-              <li><a href="mentor.html">Be a Mentor</a></li>
+              <li><a href="services.html">Be a Mentor</a></li>
           </ul>
       </div>
 
+        <!-- Contact Info -->
         <div class="footer-column">
           <h4>Contact Info</h4>
           <div class="social-links">
-            <a href="https://www.facebook.com/UCInTTO" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="intto@uc-bcf.edu.ph" class="social-icon"><i class="fas fa-envelope"></i></a>
+            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
           </div>
         </div>
+
+        <!-- Map -->
         <div class="footer-column">
           <h4>Visit Us</h4>
           <div class="map-container">
@@ -418,7 +421,9 @@
 
   navLinks.forEach(link => {
     link.addEventListener('click', function () {
+      // Remove active class from all links
       navLinks.forEach(nav => nav.classList.remove('active'));
+      // Add active class to the clicked link
       this.classList.add('active');
     });
   });
@@ -437,9 +442,9 @@
       cards.forEach(card => {
         const categories = (card.dataset.category || '').toLowerCase().split(/\s+/);
         if(category === 'all' || categories.includes(category)){
-          card.style.display = ''; 
+          card.style.display = ''; // show
         } else {
-          card.style.display = 'none'; 
+          card.style.display = 'none'; // hide
         }
       });
     }
@@ -450,6 +455,7 @@
         setActiveBtn(btn);
         filterCards(cat);
       });
+      // keyboard accessibility
       btn.addEventListener('keydown', (e) => {
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
@@ -457,6 +463,8 @@
         }
       });
     });
+
+    // initial: show all
     filterCards('all');
   })();
 </script>

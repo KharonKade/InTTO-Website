@@ -437,7 +437,7 @@
       cards.forEach(card => {
         const categories = (card.dataset.category || '').toLowerCase().split(/\s+/);
         if(category === 'all' || categories.includes(category)){
-          card.style.display = ''; 
+          card.style.display = ''; // show
         } else {
           card.style.display = 'none'; 
         }
@@ -450,6 +450,7 @@
         setActiveBtn(btn);
         filterCards(cat);
       });
+      // keyboard accessibility
       btn.addEventListener('keydown', (e) => {
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
@@ -457,6 +458,8 @@
         }
       });
     });
+
+    // initial: show all
     filterCards('all');
   })();
 </script>

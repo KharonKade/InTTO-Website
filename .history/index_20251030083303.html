@@ -391,14 +391,17 @@
           </ul>
       </div>
 
+        <!-- Contact Info -->
         <div class="footer-column">
           <h4>Contact Info</h4>
           <div class="social-links">
-            <a href="https://www.facebook.com/UCInTTO" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="intto@uc-bcf.edu.ph" class="social-icon"><i class="fas fa-envelope"></i></a>
+            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
           </div>
         </div>
+
+        <!-- Map -->
         <div class="footer-column">
           <h4>Visit Us</h4>
           <div class="map-container">
@@ -418,7 +421,9 @@
 
   navLinks.forEach(link => {
     link.addEventListener('click', function () {
+      // Remove active class from all links
       navLinks.forEach(nav => nav.classList.remove('active'));
+      // Add active class to the clicked link
       this.classList.add('active');
     });
   });
@@ -437,9 +442,9 @@
       cards.forEach(card => {
         const categories = (card.dataset.category || '').toLowerCase().split(/\s+/);
         if(category === 'all' || categories.includes(category)){
-          card.style.display = ''; 
+          card.style.display = ''; // show
         } else {
-          card.style.display = 'none'; 
+          card.style.display = 'none'; // hide
         }
       });
     }
@@ -450,6 +455,7 @@
         setActiveBtn(btn);
         filterCards(cat);
       });
+      // keyboard accessibility
       btn.addEventListener('keydown', (e) => {
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
@@ -457,6 +463,8 @@
         }
       });
     });
+
+    // initial: show all
     filterCards('all');
   })();
 </script>

@@ -450,6 +450,7 @@
         setActiveBtn(btn);
         filterCards(cat);
       });
+      // keyboard accessibility
       btn.addEventListener('keydown', (e) => {
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
@@ -457,6 +458,8 @@
         }
       });
     });
+
+    // initial: show all
     filterCards('all');
   })();
 </script>
