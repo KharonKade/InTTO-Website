@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCoLab - Discover Innovation</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../graphics/InTTO Logo White.png" alt="UCoLab Logo" class="header-logo">
+            </div>
+
+            <div class="nav-links-container">
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Startups</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#" class="active">UCoLab</a></li>
+                </ul>
+            </div>
+
+            <div class="header-actions">
+                <a href="#" class="btn-apply" id="open-signin-btn">
+                    <span>Sign In</span>
+                    <span class="arrow-circle">&rarr;</span>
+                </a>
+                <div class="header-user-info hidden" id="user-info-container">
+                        <span class="user-status-pill" id="user-display-main">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Loading...
+                        </span>
+                    <a href="#" class="btn-signout" id="signout-btn-main">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        Sign Out
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-container">
+                <div class="hero-content">
+                    <p class="sub-heading">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Innovation Hub of UC
+                    </p>
+                    <h1>Discover Innovation Across the University.</h1>
+                    <p class="description">
+                        The UCoLab Portal connects ideas, research, and
+                        startups across UC — showcasing projects from
+                        every college to spark collaboration and
+                        commercialization.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="submit-project.html" class="btn btn-primary" id="submit-project-btn">Submit Your Project</a>
+                        <a href="#projects-grid" class="btn btn-secondary">
+                            Explore All Projects
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="..//innovation pic.jpeg" alt="World map showcasing innovation projects">
+                </div>
+        </section>
+
+        <section class="search-filter-container animate-on-scroll">
+            <div class="filter-row">
+                <div class="search-bar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" placeholder="Search projects, keywords, or titles..." id="search-input">
+                </div>
+                <div class="filter-dropdowns">
+                    <div class="custom-dropdown" id="filter-industry">
+                        <button class="dropdown-toggle"> <span>All Industries</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu"> <li>All Industries</li> <li>Agritech</li> <li>Crimintech</li> <li>Healthtech</li> <li>Fintech</li> <li>Sustainability</li> <li>Edutech</li> </ul>
+                    </div>
+                    <div class="custom-dropdown" id="filter-college">
+                        <button class="dropdown-toggle"> <span>All Colleges</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu"> <li>All Colleges</li> <li>College of Business</li> <li>College of Computer Studies</li> <li>College of Nursing</li> <li>College of Architecture</li> <li>College of Arts & Sciences</li> <li>College of Engineering</li> <li>College of Teacher Education</li> </ul>
+                    </div>
+                    <div class="custom-dropdown" id="filter-trl">
+                        <button class="dropdown-toggle"> <span>All TRL Levels</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu"> <li>All TRL Levels</li> <li>TRL 3</li> <li>TRL 4</li> <li>TRL 5</li> <li>TRL 6</li> <li>TRL 7</li> </ul>
+                    </div>
+                    <div class="custom-dropdown" id="filter-type">
+                        <button class="dropdown-toggle"> <span>All Types</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu"> <li>All Types</li> <li>Thesis</li> <li>Capstone</li> <li>Research</li> <li>Startup</li> </ul>
+                    </div>
+                </div>
+                <div class="sort-by-container">
+                    <div class="custom-dropdown" id="filter-sort">
+                        <button class="dropdown-toggle" id="sort-icon-btn" aria-label="Sort projects"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg> <span class="visually-hidden">Newest</span> </button>
+                        <ul class="dropdown-menu"> <li>Newest</li> <li>Most Viewed</li> <li>Most Inquiries</li> </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-section animate-on-scroll" id="projects-grid">
+            <h2 id="projects-count"> Projects Found</h2>
+            <p class="section-subtitle">Browse through innovative projects from across the university</p>
+            <div class="project-grid" id="project-list">
+                </div>
+        </section>
+
+        <section class="promo-section animate-on-scroll">
+            <div class="logo">
+                 <img src="Logo/InTTO Logo Black.png" alt="UCoLab Logo" class="promo-logo">
+            </div>
+            <h2>Driving the Culture of Innovation</h2>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Incubation Program</a></li>
+                    <li><a href="#">Intellectual Property</a></li>
+                    <li><a href="#">TBI Assessment</a></li>
+                    <li><a href="#">Train the Trainers</a></li>
+                    <li><a href="#">Internship</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Startups</h4>
+                <ul>
+                    <li><a href="#">Startup Portfolio</a></li>
+                    <li><a href="#">Join a Team</a></li>
+                    <li><a href="#">Be a Mentor</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3V2z"></path></svg></a>
+                    <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    <a href="#" aria-label="Email"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Visit Us</h4>
+                <div class="footer-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d537.8547548220233!2d120.59130577428844!3d16.4101724118376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a10062bd2aaf%3A0x4a6a895d930a3b3b!2sUniversity%20of%20the%20Cordilleras%20Innovation%20and%20Technology%20Transfer%20Office!5e1!3m2!1sen!2sph!4v1760499396401!5m2!1sen!2sph" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bar">
+            © 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.
+        </div>
+    </footer>
+
+    <div class="modal-overlay modal-hidden" id="auth-modal-overlay">
+        <div class="auth-modal">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="form-panel" id="signin-panel">
+                <h2>Welcome Back</h2>
+                <p>Sign in to submit and manage your projects</p>
+                <form action="#">
+                    <div class="form-group"> <label for="signin-email">Email Address *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> <input type="email" id="signin-email" placeholder="your.email@uc-bcf.edu.ph" required> </div> </div>
+                    <div class="form-group"> <label for="signin-password">Password *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> <input type="password" id="signin-password" placeholder="Enter your password" required> </div> </div>
+                    <button type="submit" class="btn-form btn-form-primary">Sign In</button>
+                    <button type="button" class="btn-form btn-form-secondary">Quick Demo Access</button>
+                </form>
+                <p class="form-switcher">Don't have an account? <a href="#" id="show-signup-link">Sign Up</a></p>
+            </div>
+            <div class="form-panel hidden" id="signup-panel">
+                <h2>Create Account</h2>
+                <p>Join the UC innovation community</p>
+                <form action="#">
+                    <div class="form-group"> <label for="signup-name">Full Name *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> <input type="text" id="signup-name" placeholder="Enter your full name" required> </div> </div>
+                    <div class="form-group"> <label for="signup-email">Email Address *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> <input type="email" id="signup-email" placeholder="your.email@uc-bcf.edu.ph" required> </div> </div>
+                    <div class="form-group"> <label for="signup-affiliation">Affiliation *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> <input type="text" id="signup-affiliation" placeholder="e.g., College of Business" required> </div> </div>
+                    <div class="form-group"> <label for="signup-password">Password *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> <input type="password" id="signup-password" placeholder="Enter your password" required> </div> </div>
+                    <button type="submit" class="btn-form btn-form-primary">Create Account</button>
+                    <button type="button" class="btn-form btn-form-secondary">Quick Demo Access</button>
+                </form>
+                <p class="form-switcher">Already have an account? <a href="#" id="show-signin-link">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay modal-hidden" id="alert-modal-overlay">
+        <div class="alert-modal">
+            <h4>Sign In Required</h4>
+            <p id="alert-modal-message">You must be signed in to submit a project.</p>
+            <button class="btn-alert-ok" id="alert-modal-ok-btn">OK</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

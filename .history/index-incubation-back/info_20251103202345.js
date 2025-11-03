@@ -1,3 +1,4 @@
+
 import { saveApplication } from "./index-incubation-back/saveInfo.js";
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('personal-info-form') || document.getElementById('startup-details-form');
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentStage = currentStageEl ? currentStageEl.value : '';
 
         const formData = {
+            // Personal-info fields (guarded in case form doesn't include them)
             fullName: document.getElementById('fullName')?.value || '',
             email: document.getElementById('email')?.value || '',
             phone: document.getElementById('phone')?.value || '',
@@ -34,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             yearLevel: yearLevelValue,
             departmentCollege: deptCollege,
 
+            // Startup-related fields (these may be missing on the personal-info form)
             startupName: document.getElementById('startupName')?.value || '',
             industry: industry,
             currentStage: currentStage,
@@ -44,7 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             submittedAt: new Date().toISOString()
         };
+
+        // Ensure saveApplication is available (scriptoad ord ler matters)
         console.log("Saving complete application data:", formData);
         saveApplication(formData);
     });
 });
+// ...existing code...

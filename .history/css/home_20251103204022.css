@@ -12,7 +12,7 @@ body {
 .main-wrapper {
   width: 95%;
   max-width: 95%;
-  margin: 20px auto;
+  margin: 0px auto;
   background: none;
   border-radius: 25px;
   overflow: hidden;
@@ -237,6 +237,7 @@ body {
   position: relative;
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
     url('../graphics/heroImage.jpg') center/cover no-repeat;
+  padding: 200px 30px;
   text-align: center;
   height: 760px;
   width: auto;

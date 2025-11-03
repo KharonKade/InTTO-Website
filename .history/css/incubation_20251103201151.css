@@ -681,12 +681,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .top-progress-tracker {
-    border-radius: 20px;
-    height: auto;
-    margin-top: 20px; 
-  }
-
   .top-progress-tracker,
   .inner-progress-tracker {
     flex-direction: column;
@@ -695,23 +689,28 @@ body {
     min-height: unset;
     padding: 30px 15px;
   }
+  
+  .top-progress-tracker {
+    border-radius: 20px;
+    height: auto;
+  }
 
   .step {
     width: 100%;
     flex-direction: row; 
     justify-content: flex-start;
     align-items: center;
-    margin: 10px 0;
+    margin: 0px 0;
   }
 
   .icon-container {
     margin-right: 15px;
-    min-width: 50px; 
-    min-height: 50px;
-    width: 50px;
-    height: 50px;
+    min-width: 40px; 
+    min-height: 40px;
+    width: 40px;
+    height: 40px;
   }
-
+  
   .step p {
     white-space: normal; 
     font-size: 14px;

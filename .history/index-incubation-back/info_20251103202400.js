@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentStage = currentStageEl ? currentStageEl.value : '';
 
         const formData = {
+            // Personal-info fields (guarded in case form doesn't include them)
             fullName: document.getElementById('fullName')?.value || '',
             email: document.getElementById('email')?.value || '',
             phone: document.getElementById('phone')?.value || '',

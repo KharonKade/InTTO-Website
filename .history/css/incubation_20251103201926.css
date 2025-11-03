@@ -685,6 +685,7 @@ body {
     border-radius: 20px;
     height: auto;
     margin-top: 20px; 
+    margin: 10px 0;
   }
 
   .top-progress-tracker,
