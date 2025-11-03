@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics & Impact - UC InTTO Admin</title>
+    <link rel="stylesheet" href="css/dashboard-style.css">
+    <link rel="stylesheet" href="css/metrics-style.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>UC InTTO</h3>
+            <p>Admin Portal</p>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+                <li><a href="startups.html"><i class="fa-solid fa-rocket"></i> Startups</a></li>
+                <li><a href="ip-applications.html"><i class="fa-solid fa-file-shield"></i> IP Applications</a></li>
+                <li><a href="metrics.html" class="active"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
+                <li><a href="news-events.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+                <li><a href="team.html"><i class="fa-solid fa-users"></i> Team</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </header>
+
+        <section class="page-content">
+            <div class="page-header">
+                <div>
+                    <h1>Metrics & Impact</h1>
+                    <p class="subtitle">Track and manage key performance indicators</p>
+                </div>
+            </div>
+
+            <div class="intro-banner">
+                <p>We are the University of the Cordilleras' Technology Business Incubator, helping founders and researchers transform innovative ideas into sustainable startups and technologies that serve the Cordillera region and beyond.</p>
+            </div>
+
+            <div class="metrics-grid" id="metrics-grid">
+                </div>
+
+            <div class="metrics-actions">
+                <input type="file" id="import-csv-input" accept=".csv" style="display: none;">
+                <button class="btn btn-secondary" id="import-metrics-btn"><i class="fa-solid fa-file-import"></i> Import from CSV</button>
+                <button class="btn btn-secondary" id="export-metrics-btn"><i class="fa-solid fa-file-excel"></i> Export to Excel (CSV)</button>
+            </div>
+        </section>
+    </main>
+    
+    <div id="metric-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="metric-modal-title">Edit Metric</h2>
+                <button class="close-modal-btn" id="close-metric-modal-btn">&times;</button>
+            </div>
+            <p id="metric-modal-subtitle">Update metric information</p>
+            
+            <form id="metric-form" class="metric-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="metric-name">Metric Name *</label>
+                        <input type="text" id="metric-name" name="name" placeholder="e.g., Startups Incubated" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="metric-value">Metric Value *</label>
+                        <input type="text" id="metric-value" name="value" placeholder="The value shown on the dashboard" required>
+                        <small>e.g., 77, ₱11.6M+, 30+</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="metric-color">Color (Hex) *</label>
+                        <div class="color-input-wrapper">
+                            <input type="text" id="metric-color" name="color" placeholder="#1C7F56" required pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$">
+                            <div class="color-preview" id="metric-color-preview" style="background-color: #1C7F56;"></div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="metric-description">Description *</label>
+                        <textarea id="metric-description" name="description" placeholder="Brief description of what this metric represents" required></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-metric-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-metric-btn">Update Metric</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/metrics.js"></script> 
+</body>
+</html>

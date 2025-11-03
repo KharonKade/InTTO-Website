@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startups Management - UC InTTO Admin</title>
+    <link rel="stylesheet" href="css/dashboard-style.css"> 
+    <link rel="stylesheet" href="css/startups-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>UC InTTO</h3>
+            <p>Admin Portal</p>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+                <li><a href="startups.html" class="active"><i class="fa-solid fa-rocket"></i> Startups</a></li>
+                <li><a href="ip-applications.html"><i class="fa-solid fa-file-shield"></i> IP Applications</a></li>
+                <li><a href="metrics.html"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
+                <li><a href="news-events.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+                <li><a href="team.html"><i class="fa-solid fa-users"></i> Team</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </header>
+
+        <section class="page-content">
+            <div class="page-header">
+                <div>
+                    <h1>Startups Management</h1>
+                    <p class="subtitle">Manage incubated startups and their information</p>
+                </div>
+                <button class="btn btn-primary" id="add-startup-btn"><i class="fa-solid fa-plus"></i> Add Startup</button>
+            </div>
+
+            <div class="filters-container">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search startups...">
+                </div>
+                <div class="category-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="Agritech">Agritech</button>
+                    <button class="filter-btn" data-filter="Healthtech">Healthtech</button>
+                    <button class="filter-btn" data-filter="CriminTech">CriminTech</button>
+                    <button class="filter-btn" data-filter="Creative">Creative</button>
+                    <button class="filter-btn" data-filter="Edtech">Edtech</button>
+                </div>
+            </div>
+
+            <div class="sort-container">
+                <label for="sort-startups">Sort by:</label>
+                <select id="sort-startups" class="sort-dropdown">
+                    <option value="recent">Recent</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="a-z">Name (A-Z)</option>
+                    <option value="z-a">Name (Z-A)</option>
+                </select>
+            </div>
+            
+            <div class="startup-list">
+                </div>
+
+        </section>
+    </main>
+
+    <div id="startup-modal-overlay" class="modal-overlay">
+        <div class="modal" id="startup-modal">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-title">Add New Startup</h2>
+                    <p id="modal-subtitle">Add a new startup to the incubation program</p>
+                </div>
+                <button class="close-btn" id="close-modal-btn">&times;</button>
+            </div>
+            <form id="startup-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="startup-name">Startup Name *</label>
+                        <input type="text" id="startup-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="startup-logo">Logo (Emoji)</label>
+                        <input type="text" id="startup-logo" placeholder="🚀">
+                    </div>
+                    <div class="form-group">
+                        <label for="startup-category">Category *</label>
+                        <select id="startup-category" required>
+                            <option value="Agritech">Agritech</option>
+                            <option value="Healthtech">Healthtech</option>
+                            <option value="CriminTech">CriminTech</option>
+                            <option value="Creative">Creative</option>
+                            <option value="Edtech">Edtech</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startup-trl">Technology Readiness Level (1-9) *</label>
+                        <input type="number" id="startup-trl" min="1" max="9" required>
+                    </div>
+                     <div class="form-group">
+                        <label for="startup-status">Status</label>
+                        <select id="startup-status">
+                            <option value="active">Active</option>
+                            <option value="graduated">Graduated</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startup-website">Website URL</label>
+                        <input type="url" id="startup-website" placeholder="https://example.com">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="startup-description">Description *</label>
+                    <textarea id="startup-description" rows="3" placeholder="Brief description of the startup (2-3 sentences)" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="startup-tags">Tags (comma-separated)</label>
+                    <input type="text" id="startup-tags" placeholder="IoT, Agriculture, Sensors">
+                </div>
+                <div class="form-group toggle-group">
+                     <label class="switch">
+                        <input type="checkbox" id="startup-collab">
+                        <span class="slider round"></span>
+                    </label>
+                    <span>Open for Collaboration</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">Create Startup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/startups.js"></script>
+</body>
+</html>

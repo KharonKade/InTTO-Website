@@ -1,0 +1,540 @@
+/* ======== Project Detail Page Specific Styles ======== */
+
+/* Add background-related styles to body if not already in main style.css */
+body {
+    position: relative; /* Needed for positioning circles */
+    overflow-x: hidden; /* Prevent circles from causing scroll */
+    background-color: var(--body-bg); /* Ensure base background color is set */
+}
+
+/* Copied from main style.css for dynamic background */
+.blur-circle {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    /* All other styles (size, position, color, blur) will be set by JavaScript */
+}
+
+
+/* Add some top margin */
+.project-detail-page {
+    margin-top: 2rem;
+    max-width: 1200px; /* Center content */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    /* Increase this value for more space above the footer */
+    padding-bottom: 6rem; /* Spacing above footer */
+}
+
+/* Back Link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+}
+.back-link:hover {
+    color: var(--primary-green);
+}
+.back-link svg {
+    margin-top: -2px; /* Slight alignment */
+}
+
+/* Project Hero Section */
+.project-hero {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start; /* Align items top */
+    margin-bottom: 3rem;
+}
+
+.hero-left {
+    flex: 1;
+}
+
+.hero-left .card-icon {
+    width: 50px; /* Larger icon */
+    height: 50px;
+    margin-bottom: 1rem;
+}
+
+.hero-left h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.contact-founder-btn {
+    display: inline-flex; /* Align icon nicely */
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.6rem; /* Slightly adjust padding */
+    background-color: var(--primary-green); /* Use darker green */
+    color: white; /* Ensure text is white */
+    border: none; /* Remove border if inherited */
+}
+.contact-founder-btn:hover {
+    background-color: #1a5238;
+}
+.contact-founder-btn svg {
+    margin-top: -1px;
+}
+
+
+.hero-right {
+    flex-basis: 45%; /* Give image specific width */
+    flex-shrink: 0;
+    position: relative; /* Added for arrow positioning */
+}
+
+.hero-right img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    /* ADDED TRANSITION FOR FADE */
+    transition: opacity 0.5s ease-in-out; 
+}
+
+/* Detail Content Area Layout */
+.detail-content-area {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start; /* Keep columns aligned top */
+}
+
+.detail-main-column {
+    flex: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detail-sidebar {
+    flex-basis: 320px; /* Fixed width for sidebar */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Detail Section Cards (Left Column) */
+.detail-section-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.detail-section-card h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.detail-section-card h2 svg {
+    color: var(--primary-green);
+}
+
+
+.detail-section-card p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+.detail-section-card p:last-child {
+    margin-bottom: 0;
+}
+
+.detail-section-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.detail-section-card h3:first-of-type {
+    margin-top: 0;
+}
+
+
+/* Key Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 1.5rem;
+}
+
+.feature-item {
+    background-color: var(--bg-light-grey);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+
+.feature-item h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Sidebar Cards (Right Column) */
+.sidebar-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.sidebar-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.sidebar-card h4 svg {
+    color: var(--primary-green);
+    margin-top: -2px;
+}
+
+
+/* TRL Bar */
+.trl-percentage {
+    float: right;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+.trl-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+.trl-progress {
+    height: 100%;
+    /* Color set inline based on TRL level */
+    border-radius: 4px;
+}
+.trl-label {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+/* Define all TRL colors */
+.trl-blue-sidebar { background-color: #e9e7fd; color: #4527a0; }
+.trl-yellow-sidebar { background-color: #fff8e1; color: #f9a825; }
+.trl-orange-sidebar { background-color: #fff3e0; color: #f57c00; }
+.trl-green-sidebar { background-color: #e8f5e9; color: #2e7d32; }
+
+
+/* Info Items */
+.info-item {
+    display: flex;
+    flex-direction: column; /* Stack label and value */
+    font-size: 0.9rem; /* Slightly smaller */
+    padding: 0.8rem 0; /* Adjust vertical padding */
+    border-bottom: 1px solid #f0f0f0;
+}
+.info-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+/* Ensure first item padding is correct relative to heading */
+.sidebar-card > .info-item:first-of-type {
+    padding-top: 0; /* No top padding if first element */
+}
+/* Correct padding if heading exists */
+.sidebar-card h4 + .info-item:first-of-type {
+    padding-top: 0.8rem; /* Add padding back if it's after a heading */
+}
+
+
+.info-label {
+    color: var(--text-light);
+    margin-bottom: 0.25rem; /* Space between label and value */
+    font-size: 0.8rem; /* Smaller label */
+}
+.info-value {
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem; /* Normal value size */
+    line-height: 1.4; /* Adjust line height */
+}
+
+/* Dark Sidebar Cards - UPDATED for merged contact */
+.sidebar-card-dark {
+    background-color: var(--primary-green);
+    color: #ffffff;
+    border: none;
+    border-radius: 15px; /* Added border-radius */
+    padding: 1.5rem; /* Added padding */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* Added shadow */
+
+}
+.sidebar-card-dark h4 {
+    color: #ffffff;
+    font-size: 1.2rem; /* Make heading slightly larger */
+    margin-bottom: 1.5rem; /* More space below heading */
+}
+.sidebar-card-dark h4 svg {
+    color: #ffffff;
+}
+/* Updated Info items within dark card */
+.sidebar-card-dark .info-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Lighter separator */
+    padding: 1rem 0; /* More vertical padding */
+}
+.sidebar-card-dark .info-label {
+    color: rgba(255, 255, 255, 0.7); /* Lighter label */
+    font-size: 0.8rem;
+}
+.sidebar-card-dark .info-value {
+    color: #ffffff;
+    font-size: 1rem; /* Slightly larger value */
+    font-weight: 500;
+}
+/* Ensure last info item spacing before separator */
+.sidebar-card-dark .info-item:has(+ .card-separator) {
+    padding-bottom: 1rem; /* Restore padding */
+    border-bottom: none; /* Separator acts as border */
+}
+
+
+/* Separator inside dark card */
+.card-separator {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 1rem 0; /* Consistent margin */
+}
+
+/* Contact heading inside dark card */
+.contact-heading {
+    color: rgba(255, 255, 255, 0.7); /* Lighter label color */
+    font-size: 0.8rem; /* Match info-label */
+    font-weight: 500;
+    margin-bottom: 0.8rem; /* Space below "Contact" */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Contact info text inside dark card */
+.sidebar-card-dark .contact-info {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem; /* Slightly more gap */
+    font-size: 0.95rem; /* Match info-value size */
+    font-weight: 500;
+    margin-bottom: 0.8rem; /* Space between lines */
+    line-height: 1.5;
+}
+.sidebar-card-dark .contact-info:last-child {
+    margin-bottom: 0;
+}
+.sidebar-card-dark .contact-info svg {
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.8); /* Slightly less prominent icon */
+    margin-top: 1px;
+}
+
+
+/* Sidebar Search */
+.sidebar-search {
+    position: relative;
+    background-color: var(--bg-light-grey);
+    border-radius: 10px;
+}
+.sidebar-search svg {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+.sidebar-search input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    border: 1px solid transparent; /* No border initially */
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    background: transparent; /* Inherit BG */
+    outline: none;
+}
+
+/* ======== Project Gallery Grid ======== */
+.gallery-grid {
+    display: grid;
+    /* This creates a responsive grid of images */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem; /* Space below the h2 */
+}
+
+.gallery-image {
+    width: 100%;
+    height: 110px; /* Gives all gallery images a uniform height */
+    object-fit: cover; /* Crops the image to fit the space */
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-light-grey);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Added border-color */
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Message for when no other images exist */
+.gallery-grid p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    grid-column: 1 / -1; /* Make the text span the full width */
+}
+
+/* ======== Hero Slideshow Buttons ======== */
+.hero-right img {
+    width: 100%;
+    /* REMOVE height: auto; if it exists */
+    
+    /* ADD these two lines */
+    height: 350px; /* Or your desired fixed height */
+    object-fit: cover; /* This crops the image to fit the container */
+
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease-in-out; 
+}
+
+.hero-slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px; /* Slightly larger for easier clicking */
+    height: 44px;
+    
+    /* Hide buttons by default. JS will show them if needed. */
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+.hero-slide-btn:hover,
+.hero-slide-btn:focus {
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    outline: none;
+}
+
+.hero-slide-btn.prev {
+    left: 1rem;
+}
+.hero-slide-btn.next {
+    right: 1rem;
+}
+
+.hero-slide-btn svg {
+    width: 22px;
+    height: 22px;
+    margin-left: -2px; /* Small position fix */
+}
+.hero-slide-btn.next svg {
+    margin-left: 2px; /* Small position fix */
+}
+
+/* Style for the active thumbnail in the gallery */
+.gallery-image.active {
+    border: 3px solid var(--primary-green);
+    box-shadow: 0 0 10px rgba(30, 96, 66, 0.5);
+    transform: scale(1.05);
+}
+/* ======== Lightbox Styles ======== */
+
+.lightbox-overlay {
+    position: fixed; /* Cover the whole screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Dark semi-transparent background */
+    display: flex; /* Center the image */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top of everything */
+    cursor: pointer; /* Indicate it's clickable to close */
+    opacity: 0; /* Start hidden */
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth fade */
+}
+
+.lightbox-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#lightbox-image {
+    display: block;
+    max-width: 90%; /* Limit image width */
+    max-height: 90%; /* Limit image height */
+    object-fit: contain; /* Ensure whole image is visible without stretching */
+    border-radius: 5px; /* Optional: slight rounding */
+    box-shadow: 0 0 30px rgba(0,0,0,0.5); /* Optional: subtle shadow */
+    cursor: default; /* Make image itself have default cursor */
+}
+
+/* Make images on the page indicate they are clickable */
+#detail-image,
+.gallery-image {
+    cursor: pointer;
+}

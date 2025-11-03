@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Management - UC InTTO Admin</title>
+    <link rel="stylesheet" href="css/dashboard-style.css">
+    <link rel="stylesheet" href="css/team-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>UC InTTO</h3>
+            <p>Admin Portal</p>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+                <li><a href="startups.html"><i class="fa-solid fa-rocket"></i> Startups</a></li>
+                <li><a href="ip-applications.html"><i class="fa-solid fa-file-shield"></i> IP Applications</a></li>
+                <li><a href="metrics.html"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
+                <li><a href="news-events.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+                <li><a href="team.html" class="active"><i class="fa-solid fa-users"></i> Team</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </header>
+
+        <section class="page-content">
+            <div class="page-header">
+                <div>
+                    <h1>Team Management</h1>
+                    <p class="subtitle">Manage InTTO team member profiles and information</p>
+                </div>
+                <button class="btn btn-primary" id="add-member-btn"><i class="fa-solid fa-plus"></i> Add Member</button>
+            </div>
+
+            <div class="filters-container">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search team members...">
+                </div>
+            </div>
+            
+            <div class="team-grid" id="team-grid">
+                </div>
+        </section>
+    </main>
+    
+    <div id="team-member-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="team-member-modal-title">Add Team Member</h2>
+                <button class="close-modal-btn" id="close-team-member-modal-btn">&times;</button>
+            </div>
+            <p id="team-member-modal-subtitle">Add a new member to the InTTO team</p>
+            
+            <form id="team-member-form" class="team-member-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="member-full-name">Full Name *</label>
+                        <input type="text" id="member-full-name" name="fullName" placeholder="Dr. Juan dela Cruz" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member-position">Position *</label>
+                        <input type="text" id="member-position" name="position" placeholder="Director" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member-email">Email *</label>
+                        <input type="email" id="member-email" name="email" placeholder="name@uc.edu.ph" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member-avatar">Avatar (Emoji)</label>
+                        <input type="text" id="member-avatar" name="avatar" placeholder="👤" maxlength="2">
+                        <small>Single emoji character</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="member-display-order">Display Order</label>
+                        <input type="number" id="member-display-order" name="displayOrder" value="1" min="1">
+                        <small>Lower number means higher on the list</small>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="member-role-description">Role Description *</label>
+                        <textarea id="member-role-description" name="roleDescription" placeholder="Brief description of responsibilities" required></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-member-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-member-btn">Add Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/team.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+/* --- Page Header for Button Alignment --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.page-header h1 {
+    margin: 0;
+}
+.page-header .subtitle {
+    margin: 5px 0 0;
+    color: var(--text-light);
+}
+
+/* --- Primary Button Styling (ensure this is in dashboard-style.css for global use or here) --- */
+.btn-primary {
+    background-color: #1a5d3d;
+    color: #ffffff;
+    border: 1px solid #1a5d3d;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-primary:hover {
+    background-color: #164a31;
+    border-color: #164a31;
+}
+.btn-secondary {
+    background-color: var(--white);
+    color: var(--text-dark);
+    border: 1px solid var(--border-gray);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-secondary:hover {
+    background-color: var(--background-gray);
+}
+
+
+/* --- Search Container (no type filters needed here) --- */
+.filters-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    background-color: var(--white);
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+}
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+    min-width: 250px;
+}
+.search-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+#search-input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: none;
+    background: none;
+    font-size: 15px;
+    color: var(--text-dark);
+}
+#search-input:focus {
+    outline: none;
+}
+
+
+/* --- Team Grid --- */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* --- Individual Team Member Card --- */
+.team-member-card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.team-member-card .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--primary-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px; /* For emoji */
+    color: var(--white);
+    margin-bottom: 15px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.team-member-card .avatar i { /* For Font Awesome icons */
+    font-size: 40px;
+}
+
+.team-member-card h3 {
+    margin: 0 0 5px;
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+.team-member-card .position {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.team-member-card .description {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    line-height: 1.5;
+    flex-grow: 1; /* Allow description to take space */
+}
+
+.team-member-card .contact-email {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-green);
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: color 0.2s ease;
+}
+.team-member-card .contact-email:hover {
+    color: #164a31; /* Darker green */
+    text-decoration: underline;
+}
+
+.team-member-card .card-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    border-top: 1px solid var(--border-gray);
+    padding-top: 15px;
+    justify-content: center;
+}
+
+.team-member-card .action-btn {
+    background: none;
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-size: 14px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.team-member-card .action-btn.edit-btn:hover {
+    background-color: var(--background-gray);
+    border-color: var(--text-light);
+}
+.team-member-card .action-btn.remove-btn {
+    color: #dc3545; /* Red for remove */
+    border-color: #dc3545;
+}
+.team-member-card .action-btn.remove-btn:hover {
+    background-color: #f8d7da; /* Light red */
+}
+
+
+/* --- MODAL STYLES --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+}
+.modal-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+.modal-content {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease-out;
+}
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--text-dark);
+}
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: var(--text-light);
+    cursor: pointer;
+    line-height: 1;
+}
+.close-modal-btn:hover {
+    color: var(--text-dark);
+}
+.modal-content > p { /* Subtitle */
+    color: var(--text-light);
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Form Styles */
+.team-member-form .form-grid { /* Specific form grid */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+.form-group label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 15px;
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 2px rgba(var(--primary-green-rgb), 0.2);
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+.form-group small {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 5px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-gray);
+    margin-top: 20px;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .team-member-form .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .modal-content {
+        padding: 20px;
+    }
+    .modal-header h2 {
+        font-size: 20px;
+    }
+}

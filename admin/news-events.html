@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Events - UC InTTO Admin</title>
+    <link rel="stylesheet" href="css/dashboard-style.css">
+    <link rel="stylesheet" href="css/news-events-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>UC InTTO</h3>
+            <p>Admin Portal</p>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+                <li><a href="startups.html"><i class="fa-solid fa-rocket"></i> Startups</a></li>
+                <li><a href="ip-applications.html"><i class="fa-solid fa-file-shield"></i> IP Applications</a></li>
+                <li><a href="metrics.html"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
+                <li><a href="news-events.html" class="active"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+                <li><a href="team.html"><i class="fa-solid fa-users"></i> Team</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </header>
+
+        <section class="page-content">
+            <div class="page-header">
+                <div>
+                    <h1>News & Events</h1>
+                    <p class="subtitle">Manage announcements, news articles, and upcoming events</p>
+                </div>
+                <button class="btn btn-primary" id="add-news-event-btn"><i class="fa-solid fa-plus"></i> Add News/Event</button>
+            </div>
+
+            <div class="filters-container">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search news and events...">
+                </div>
+                <div class="type-filters" id="news-event-type-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="news">News</button>
+                    <button class="filter-btn" data-filter="event">Events</button>
+                </div>
+            </div>
+
+            <div class="sort-container">
+                <label for="sort-news">Sort by:</label>
+                <select id="sort-news" class="sort-dropdown">
+                    <option value="recent">Recent</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="a-z">Title (A-Z)</option>
+                    <option value="z-a">Title (Z-A)</option>
+                </select>
+            </div>
+            
+            <div class="news-event-list" id="news-event-list">
+                </div>
+        </section>
+    </main>
+    
+    <div id="news-event-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="news-event-modal-title">Add News/Event</h2>
+                <button class="close-modal-btn" id="close-news-event-modal-btn">&times;</button>
+            </div>
+            <p id="news-event-modal-subtitle">Create a new news article or event</p>
+            
+            <form id="news-event-form" class="news-event-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="news-event-title">Title *</label>
+                        <input type="text" id="news-event-title" name="title" placeholder="Enter title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="news-event-type">Type *</label>
+                        <select id="news-event-type" name="type" required>
+                            <option value="news">News</option>
+                            <option value="event">Event</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="news-event-status">Status *</label>
+                        <select id="news-event-status" name="status" required>
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="news-event-date">Date *</label>
+                        <input type="date" id="news-event-date" name="date" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="news-event-tags">Tags (comma-separated)</label>
+                        <input type="text" id="news-event-tags" name="tags" placeholder="Innovation Week, Event, Workshop">
+                        <small>Separated by commas, e.g., 'Startup, Funding, Workshop'</small>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="news-event-content">Content *</label>
+                        <textarea id="news-event-content" name="content" placeholder="Enter full description or announcement details" required></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-news-event-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-news-event-btn">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/news-events.js"></script>
+</body>
+</html>

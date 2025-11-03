@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Your Project - UCoLab</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/submit-project.css?v=1.1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="submit-page-body">
+
+    <header class="submit-page-header">
+        <nav>
+            <div class="logo">
+                <img src="Logo/InTTO Logo White.png" alt="UCoLab Logo" class="header-logo">
+            </div>
+
+            <div class="header-user-info">
+                    <span class="user-status-pill" id="user-display">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Loading...
+                    </span>
+                <a href="#" class="btn-signout" id="signout-btn">
+                    Sign Out
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="submit-project-main">
+        <a href="index.html" class="back-link" id="back-to-home">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Home
+        </a>
+
+        <h1>Edit Your Project</h1>
+        <p class="page-subtitle">Update your project information</p>
+
+        <form class="submit-form">
+            <div class="form-section">
+                <h2>Basic Information</h2>
+                <div class="form-group full-width">
+                    <label for="project-name">Project Name <span class="required">*</span></label>
+                    <input type="text" id="project-name" placeholder="Enter your project name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="project-type">Project Type <span class="required">*</span></label>
+                        <input type="text" id="project-type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Industry <span class="required">*</span></label>
+                        <input type="text" id="industry" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="college">College <span class="required">*</span></label>
+                        <input type="text" id="college" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trl-level">TRL Level <span class="required">*</span></label>
+                        <input type="text" id="trl-level" required>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="short-description">Short Description <span class="required">*</span></label>
+                    <input type="text" id="short-description" placeholder="Brief description for the project card" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Project Details</h2>
+                <div class="form-group full-width">
+                    <label for="detailed-description">Detailed Description <span class="required">*</span></label>
+                    <textarea id="detailed-description" rows="5" placeholder="Comprehensive project overview" required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="problem-statement">Problem Statement <span class="required">*</span></label>
+                    <textarea id="problem-statement" rows="3" placeholder="What problem does your project address?" required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="solution">Solution <span class="required">*</span></label>
+                    <textarea id="solution" rows="3" placeholder="How does your project solve this problem?" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Key Features (At least 1 required)</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="feature1-title">Feature 1 Title <span class="required">*</span></label>
+                        <input type="text" id="feature1-title" placeholder="Feature title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feature1-desc">Feature 1 Description <span class="required">*</span></label>
+                        <input type="text" id="feature1-desc" placeholder="Feature description" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="feature2-title">Feature 2 Title</label>
+                        <input type="text" id="feature2-title" placeholder="Feature title">
+                    </div>
+                    <div class="form-group">
+                        <label for="feature2-desc">Feature 2 Description</label>
+                        <input type="text" id="feature2-desc" placeholder="Feature description">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="feature3-title">Feature 3 Title</label>
+                        <input type="text" id="feature3-title" placeholder="Feature title">
+                    </div>
+                    <div class="form-group">
+                        <label for="feature3-desc">Feature 3 Description</label>
+                        <input type="text" id="feature3-desc" placeholder="Feature description">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="feature4-title">Feature 4 Title</label>
+                        <input type="text" id="feature4-title" placeholder="Feature title">
+                    </div>
+                    <div class="form-group">
+                        <label for="feature4-desc">Feature 4 Description</label>
+                        <input type="text" id="feature4-desc" placeholder="Feature description">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Project Images</h2>
+                <p class="image-note">Upload up to 5 images (max 2MB each). The first image will be the cover. You can click a preview to replace an image.</p>
+                <div class="image-upload-grid">
+
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                        <img src="" alt="Image preview 1" class="image-preview" id="image-preview-1">
+                        <label for="image-upload-1" class="upload-label">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div>Slot 1 (Cover)</div>
+                        </label>
+                        <button type="button" class="remove-image-btn" aria-label="Remove image 1" data-index="0" style="display: none;">×</button>
+                    </div>
+
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-2" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                        <img src="" alt="Image preview 2" class="image-preview" id="image-preview-2">
+                        <label for="image-upload-2" class="upload-label">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div>Slot 2</div>
+                        </label>
+                        <button type="button" class="remove-image-btn" aria-label="Remove image 2" data-index="1" style="display: none;">×</button>
+                    </div>
+
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-3" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                        <img src="" alt="Image preview 3" class="image-preview" id="image-preview-3">
+                        <label for="image-upload-3" class="upload-label">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div>Slot 3</div>
+                        </label>
+                        <button type="button" class="remove-image-btn" aria-label="Remove image 3" data-index="2" style="display: none;">×</button>
+                    </div>
+
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-4" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                        <img src="" alt="Image preview 4" class="image-preview" id="image-preview-4">
+                        <label for="image-upload-4" class="upload-label">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div>Slot 4</div>
+                        </label>
+                        <button type="button" class="remove-image-btn" aria-label="Remove image 4" data-index="3" style="display: none;">×</button>
+                    </div>
+
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-5" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                        <img src="" alt="Image preview 5" class="image-preview" id="image-preview-5">
+                        <label for="image-upload-5" class="upload-label">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div>Slot 5</div>
+                        </label>
+                        <button type="button" class="remove-image-btn" aria-label="Remove image 5" data-index="4" style="display: none;">×</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Project Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="start-date">Start Date <span class="required">*</span></label>
+                        <input type="text" id="start-date" placeholder="e.g., October 2025" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="team-size">Team Size <span class="required">*</span></label>
+                        <input type="text" id="team-size" placeholder="e.g., 4-6 members" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Founder Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="founder-name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="founder-name" placeholder="Enter founder's full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="founder-role">Role <span class="required">*</span></label>
+                        <input type="text" id="founder-role" placeholder="e.g., Project Lead" required>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
+                    <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="founder-email">Email <span class="required">*</span></label>
+                        <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="founder-phone">Phone (Optional)</label>
+                        <input type="tel" id="founder-phone" placeholder="+63 917 123 4567">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="cancel-edit-btn">Cancel</button>
+                <button type="submit" class="btn-submit">Update Project</button>
+            </div>
+
+        </form>
+
+        <div class="success-message-container" id="success-message" style="display: none;">
+            <div class="success-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="var(--primary-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h2 id="success-title">Success!</h2>
+            <p id="success-text">Your project has been processed.</p>
+            <div class="success-actions">
+                <a href="index.html" class="btn btn-secondary" id="success-link-home">Back to Home</a>
+                <a href="#" class="btn btn-primary" id="success-link-project">View Project</a>
+            </div>
+            <button type="button" class="btn-close-window" id="success-close-btn">Close this window</button>
+        </div>
+        </main>
+
+    <footer>
+    </footer>
+
+    <script src="js/edit-project.js"></script>
+</body>
+</html>

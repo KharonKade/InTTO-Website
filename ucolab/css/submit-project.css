@@ -1,0 +1,448 @@
+/* ======== Submit Project Page Specific Styles ======== */
+
+.submit-page-body {
+    background-color: #f8f9fa; /* Lighter background for the form page */
+}
+
+/* Simplified Header - UPDATED Padding */
+.submit-page-header {
+    max-width: 100%;
+    margin: 0;
+    padding: 1.25rem 2rem; /* Increased vertical padding */
+    background-color: var(--primary-green);
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-page-header nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    justify-content: space-between;
+    position: static;
+    display: flex;
+    align-items: center;
+}
+
+.submit-page-header .logo {
+   display: flex;
+   align-items: center;
+}
+
+/* Remove main nav links container */
+.submit-page-header .nav-links-container {
+    display: none;
+}
+
+.header-user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.user-status-pill svg {
+    margin-top: -1px;
+}
+
+.btn-signout {
+    text-decoration: none;
+    color: white;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer; /* Added cursor */
+}
+.btn-signout:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content Area */
+.submit-project-main {
+    max-width: 800px;
+    margin: 2rem auto 4rem auto;
+    padding: 0 1rem;
+}
+
+.submit-project-main .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+.submit-project-main .back-link:hover {
+    color: var(--primary-green);
+}
+.submit-project-main .back-link svg {
+    margin-top: -2px;
+}
+
+
+.submit-project-main h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 2.5rem;
+}
+
+/* Form Styles */
+.submit-form {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 2.5rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.form-section h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    flex: 1;
+}
+.form-section > *:last-child:not(.form-row) > .form-group:last-child,
+.form-section > .form-row:last-child > .form-group {
+    margin-bottom: 0;
+}
+
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+.form-group label .required {
+    color: #e53935;
+    margin-left: 2px;
+}
+
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fdfdfd;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #aaa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(30, 96, 66, 0.1);
+    background-color: #fff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Form Row Layout */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+.form-row:last-child {
+    margin-bottom: 0;
+}
+.form-row .form-group {
+    margin-bottom: 0;
+}
+
+
+.form-group.full-width {
+   flex-basis: 100%;
+}
+
+/* Form Actions (Buttons) */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-cancel, .btn-submit {
+    padding: 0.8rem 1.75rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+}
+.btn-cancel:hover {
+    color: var(--text-dark);
+    background-color: var(--bg-light-grey);
+    border-color: #ccc;
+}
+
+.btn-submit {
+    background-color: var(--primary-green);
+    color: white;
+}
+.btn-submit:hover {
+    background-color: #1a5238;
+}
+
+/* Footer reuse */
+footer {
+    margin-top: 4rem;
+}
+
+/* Re-add blur circle styles if not inheriting from style.css */
+.blur-circle {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+/* ======== NEW: Image Upload Styles ======== */
+.image-upload-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    gap: 1rem;
+}
+
+.image-upload-slot {
+    position: relative; /* Needed for remove button */
+    border: 2px dashed var(--border-color);
+    border-radius: 10px;
+    background-color: #fdfdfd;
+    transition: border-color 0.3s ease;
+    aspect-ratio: 16 / 9; /* Makes it a nice rectangle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Clips the image preview */
+}
+.image-upload-slot:hover {
+    border-color: var(--primary-green);
+}
+
+.image-upload-slot .image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+}
+
+.image-upload-slot .image-preview.visible {
+    opacity: 1; /* Show if image is loaded */
+}
+
+.image-upload-slot .upload-label {
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    z-index: 2; /* Above the preview */
+    padding: 0.5rem;
+}
+.image-upload-slot .upload-label svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+}
+
+/* When preview is visible, hide the icon/text */
+.image-upload-slot .image-preview.visible + .upload-label {
+    opacity: 0;
+    pointer-events: none; /* Make label unclickable when preview is visible */
+}
+.image-upload-slot:hover .image-preview.visible + .upload-label {
+    opacity: 1; /* Show text on hover */
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    pointer-events: auto; /* Make label clickable again on hover */
+}
+
+
+/* Hide the actual file input */
+.hidden-file-input {
+    display: none;
+}
+
+/* ======== Image Upload Slot Remove Button ======== */
+.image-upload-slot {
+    position: relative; /* Needed to position the remove button */
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 3; /* Ensure it's above the preview image */
+
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px; /* Adjust for vertical centering */
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease;
+
+    display: none; /* Hidden by default - JS MUST show it */
+}
+
+.remove-image-btn:hover {
+    background-color: rgba(200, 0, 0, 0.8); /* Red on hover */
+}
+
+/* REMOVED the complex CSS rule for showing the button automatically */
+
+/* ======== Success Message Styles ======== */
+.success-message-container {
+    display: block; /* Required for the style.display='' to work */
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.success-icon {
+    margin-bottom: 1.5rem;
+}
+
+.success-message-container h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+    border: none; /* Override form-section h2 border */
+    padding-bottom: 0;
+}
+
+.success-message-container p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.success-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* We need to re-define the button styles here since style.css isn't on this page */
+.success-actions .btn {
+    text-decoration: none;
+    padding: 0.8rem 1.75rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.success-actions .btn-primary {
+    background-color: var(--light-green);
+    color: white;
+    border: 2px solid var(--light-green);
+}
+.success-actions .btn-primary:hover {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.success-actions .btn-secondary {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+.success-actions .btn-secondary:hover {
+    background-color: var(--bg-light-grey);
+    border-color: #ccc;
+}
+
+
+.btn-close-window {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0.5rem;
+}
+.btn-close-window:hover {
+    color: var(--primary-green);
+}
