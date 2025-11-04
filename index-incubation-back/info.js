@@ -1,6 +1,51 @@
 import { saveApplication } from "../index-incubation-back/saveInfo.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    emailjs.init("5_58lLK_G13DczpUQ")
+    const serviceID = "service_4k3exau";     
+    const templateID = "template_0kp506f";   
+    const emailPromise = emailjs.send(serviceID, templateID, formData);
+    
+    // Add timestamp for database record
+    formData.submittedAt = new Date().toISOString(); 
+    const dbPromise = saveApplication(formData);
+
+    Promise.allSettled([emailPromise, dbPromise])
+        .then(results => {
+        const emailResult = results[0];
+        const dbResult = results[1];
+        
+        if (emailResult.status === 'fulfilled' && dbResult.status === 'fulfilled') {
+            // Both succeeded
+            console.log('Email and DB save succeeded.');
+            showSuccessPage();
+        } else if (emailResult.status === 'rejected') {
+            // Email failed
+            console.error('Email sending failed:', emailResult.reason);
+            alert("Submission failed. (Email Error)");
+        } else if (dbResult.status === 'rejected') {
+            // DB failed
+            console.error('Database saving failed:', dbResult.reason);
+            alert("Submission failed. (Database Error)");
+        } else {
+            // If one succeeded, we show success but log the warning
+            console.warn('Submission partially succeeded (one operation failed but the other succeeded).');
+            showSuccessPage(); 
+        }
+        })
+        .catch(error => {
+        // This catch only triggers if Promise.allSettled fails, which is rare
+        console.error("An unexpected error occurred during submission:", error);
+        alert("An unexpected error occurred.");
+        })
+        .finally(() => {
+        // Ensure button resets even if both fail
+        const submitButton = document.querySelector('.btn-submit');
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Submit <span></span>';
+        }
+        });
     const personalInfoStep = document.getElementById('personal-info-step');
     const startupDetailsStep = document.getElementById('startup-details-step');
     const teamSupportStep = document.getElementById('team-support-step');
