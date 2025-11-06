@@ -380,57 +380,55 @@ body {
   filter: brightness(40%);
 }
 
-.origins-section {
-    background-color: #EFFAF4;
-    font-family: 'Poppins', sans-serif;
+.origin-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 90%;
+  width: 90%;
+  margin: 150px auto;
+  padding: 40px 0;
+  color: #1a1a1a;
+  flex-wrap: wrap;
+  gap: 40px;
 }
 
-.origin-container {
-    display: flex;
-    /* Changed from align-items: center to align-items: flex-start */
-    align-items: flex-start;
-    justify-content: space-between;
-    max-width: 90%;
-    width: 90%;
-    margin: 150px auto;
-    padding: 40px 0;
-    color: #1a1a1a;
-    flex-wrap: wrap;
-    gap: 40px;
+.origins-section {
+  background-color: #EFFAF4;
 }
 
 .origins-image {
-    flex: 1 1 45%;
-    min-width: 300px;
+  flex-grow: 1;
+  min-width: 300px;
 }
 
 .origins-image img {
-    width: 100%;
-    max-width: 669px;
-    border-radius: 48px;
-    height: 738px;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  max-width: 669px;
+  border-radius: 48px;
+  height: 738px;
+  object-fit: cover;
 }
 
 .origins-content {
-    flex: 1 1 45%;
-    min-width: 300px;
-    padding-left: 0;
+  width: 50%;
+  min-width: 300px;
+  flex-grow: 1;
+  padding-left: 40px;
 }
 
 .origins-content h2 {
-    font-size: 56px;
-    font-weight: 700;
-    margin-bottom: 40px;
-    color: #0b1215;
+  font-size: 56px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #0b1215;
 }
 
 .origins-content p {
-    font-size: 20px;
-    line-height: 1.4;
-    margin-bottom: 30px;
-    color: #444;
+  font-size: 20px;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  color: #444;
 }
 
 @media (max-width: 992px) {

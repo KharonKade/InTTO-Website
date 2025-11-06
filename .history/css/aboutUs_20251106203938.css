@@ -387,8 +387,7 @@ body {
 
 .origin-container {
     display: flex;
-    /* Changed from align-items: center to align-items: flex-start */
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     max-width: 90%;
     width: 90%;
