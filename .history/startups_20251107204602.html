@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/startups.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="graphics/InTTOLogo.png" alt="logo">
+                </a>
+            </div>
+
+            <div class="nav-wrapper">
+                <div class="hamburger-menu" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="aboutUs.html">About</a>
+                    <a href="services.html" class="active">Services</a>
+                    <a href="startups.html" class="active">Startups</a>
+                    <a href="events.html">Events</a>
+                    <a href="ucolab/index.html">UColab</a>
+                </div>
+            </div>
+            <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+        </div>
+    </div>
+
+    <section class="startups-section">
+        <div class="section-label">Our Startups</div>
+        <h2 class="service-title">Meet Our Startups</h2>
+
+          <div class="filter-bar">
+              <div class="filter-item search">
+                  <i class="fa fa-search"></i>
+                  <input type="text" placeholder="Enter your Name">
+              </div>
+
+              <div class="filter-item dropdown">
+                  <span>Industry</span>
+                  <i class="fa fa-chevron-down"></i>
+              </div>
+
+              <div class="filter-item dropdown">
+                  <span>All TRLs</span>
+                  <i class="fa fa-chevron-down"></i>
+              </div>
+
+              <div class="filter-item dropdown">
+                  <span>Newest First</span>
+                  <i class="fa fa-chevron-down"></i>
+              </div>
+          </div>
+
+          <p class="results-count">Showing 6 of 8 startups</p>
+        <div class="startups-container">
+            <div class="cards-grid" id="cardsGrid">
+            <article class="startup-card" data-category="cleantech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="Sunshare logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">Sunshare</h3>
+                    <div class="tags">
+                    <span class="tag">CleanTech</span>
+                    <span class="tag small">TRL 7</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">A blockchain marketplace for community to exchange solar-energy.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="agritech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">AgroPulse</h3>
+                    <div class="tags">
+                    <span class="tag">AgriTech</span>
+                    <span class="tag small">TRL 5</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Smart sensors and forecasting tools for smallholder farms.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="healthtech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">MediTrack</h3>
+                    <div class="tags">
+                    <span class="tag">HealthTech</span>
+                    <span class="tag small">TRL 6</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">A telehealth toolkit for remote clinics and students.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="tourism">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">Tourify</h3>
+                    <div class="tags">
+                    <span class="tag">Tourism &amp; Mobility</span>
+                    <span class="tag small">TRL 4</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Platform for community-led local tourism experiences.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="cleantech fintech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">EcoPay</h3>
+                    <div class="tags">
+                    <span class="tag">CleanTech</span>
+                    <span class="tag small">TRL 7</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Incentive payments for verified carbon-saving actions.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+
+            <article class="startup-card" data-category="crimintech">
+                <div class="card-head">
+                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
+                <div class="card-meta">
+                    <h3 class="startup-name">SafeCity</h3>
+                    <div class="tags">
+                    <span class="tag">CriminTech</span>
+                    <span class="tag small">TRL 6</span>
+                    </div>
+                </div>
+                </div>
+                <p class="startup-desc">Community reporting + analytics for safer neighborhoods.</p>
+                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
+            </article>
+            </div> 
+        </div> 
+    </section>
+    
+      <div class="pagination">
+          <a href="#" class="page-btn arrow disabled"><i class="fa-solid fa-chevron-left"></i></a>
+          <a href="#" class="page-btn active">1</a>
+          <a href="#" class="page-btn">2</a>
+          <a href="#" class="page-btn">3</a>
+          <a href="#" class="page-btn arrow"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+
+
+
+    <section class="closing-section">
+      <div class="cta-box">
+        <h2>Have a Startup or Idea?</h2>
+        <p>Join UC InTTO's incubation program and become part of the <br>region's growing innovation ecosystem.</p>
+        <div class="cta-buttons">
+          <a href="incubation.html" class="cta-btn">Apply for Incubation</a>
+          <a href="#" class="cta-btn">Join a Startup Team</a>
+        </div>
+      </div>
+
+      <div class="footer-row">
+        <div class="footer-logo">
+          <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
+        </div>
+
+        <div class="footer-tagline">
+          Driving the Culture of Innovation
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-divider"></div>
+
+    <footer class="footer-section">
+      <div class="footer-top">
+        <div class="footer-column">
+          <h4>Our Services</h4>
+          <ul>
+              <li><a href="incubationProgram.html">Incubation Programs</a></li>
+              <li><a href="ipp.html">Intellectual Property</a></li>
+              <li><a href="tbiAsses.html">TBI Assessment</a></li>
+              <li><a href="training.html">Train the Trainers</a></li>
+              <li><a href="internship.html">Internship</a></li>
+          </ul>
+      </div>
+
+      <div class="footer-column">
+          <h4>Startups</h4>
+          <ul>
+              <li><a href="services.html">Startup Portfolio</a></li>
+              <li><a href="services.html">Join a Team</a></li>
+              <li><a href="mentor.html">Be a Mentor</a></li>
+          </ul>
+      </div>
+
+        <div class="footer-column">
+          <h4>Contact Info</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/UCInTTO" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="intto@uc-bcf.edu.ph" class="social-icon"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4>Visit Us</h4>
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d537.8547548220233!2d120.59130577428844!3d16.4101724118376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a10062bd2aaf%3A0x4a6a895d930a3b3b!2sUniversity%20of%20the%20Cordilleras%20Innovation%20and%20Technology%20Transfer%20Office!5e1!3m2!1sen!2sph!4v1760499396401!5m2!1sen!2sph" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider bottom-line"></div>
+      <div class="footer-bottom">
+        <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
+      </div>
+    </footer>
+    </body>
+    </html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/incubation.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script type="module" src="./index-incubation-back/script.js"></script>
+    <script type="module" src="./index-incubation-back/info.js"></script>
+    <script type="module" src="./index-incubation-back/saveInfo.js"></script>
+   
+    <div class="main-wrapper">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="graphics/InTTOLogo.png" alt="logo">
+                </a>
+            </div>
+
+            <div class="nav-wrapper">
+                <div class="hamburger-menu" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="aboutUs.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="startups.html">Startups</a>
+                    <a href="events.html">Events</a>
+                    <a href="ucolab/index.html">UColab</a>
+                </div>
+            </div>
+            <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+        </div>
+    </div>
+
+
+    <section class="news-section">
+        <div class="section-label">UCIANS TBI</div>
+        <h2 class="service-title">Incubation Program</h2>
+
+        <p class="message-news">Stay updated with the latest innovations, success stories, and upcoming programs from UC InTTO</p>
+
+        <div class="gallery">
+        <div class="gallery-left">
+        <img src="graphics/incubation1.png" alt="">
+        </div>
+        <div class="gallery-right">
+        <img src="graphics/incubation2.png" alt="">
+        <img src="graphics/incubation3.png" alt="">
+        </div>
+    </div>
+    </section>
+
+    <section class="incubation-support">
+    <h2>Support Provided by the Incubation Program</h2>
+
+    <div class="support-cards-container">
+
+        <div class="support-card">
+        <div class="card-icon"></div>
+        <h3>Founder Mentoring</h3>
+        <p>Access to experienced mentors from industry, academia, and government who guide founders on:</p>
+        </div>
+
+        <div class="support-card">
+        <div class="card-icon"></div>
+        <h3>Business Development</h3>
+        <p>Validate your business model fast and build traction through expert mentoring and real-world testing.</p>
+        </div>
+
+        <div class="support-card">
+        <div class="card-icon"></div>
+        <h3>Product Development</h3>
+        <p>Prototype, iterate, and ship faster with hands-on technical support and feedback loops.</p>
+        </div>
+
+        <div class="support-card">
+        <div class="card-icon"></div>
+        <h3>Co-working Space</h3>
+        <p>Work, collaborate, and pivot in a creative space built for founders and makers.</p>
+        </div>
+
+        <div class="support-card">
+        <div class="card-icon"></div>
+        <h3>Specialized Equipments</h3>
+        <p>Access the tools and labs you need to build, test, and refine your MVP.</p>
+        </div>
+
+        <div class="support-card">
+        <div class="card-icon"></div>
+        <h3>Networking Sessions</h3>
+        <p>Meet mentors, investors, and partners who can accelerate your next milestone.</p>
+        </div>
+
+    </div>
+    </section>
+
+
+    <style>
+.container {
+  --primary-green: #11ae7b;
+  --light-green: #e6f7f1;
+  --white: #ffffff;
+  --background-color: #f7f9fa;
+  --text-color: #333333;
+  --gray-text: #777777;
+  --border-color: #e0e0e0;
+}
+</style>
+<style>
+.container {
+  --primary-green: #11ae7b;
+  --light-green: #e6f7f1;
+  --white: #ffffff;
+  --background-color: #f7f9fa;
+  --text-color: #333333;
+  --gray-text: #777777;
+  --border-color: #e0e0e0;
+}
+</style>
+<section class="container">
+    <h1 class="main-header">Apply in our Incubation Program</h1>
+    
+    <div class="top-progress-tracker" id="progress-tracker-top">
+        <div class="step active" data-step="1">
+            <div class="icon-container"><i class="fas fa-user"></i></div>
+            <p>Personal Info</p>
+        </div>
+        <div class="connector active" data-connector="1-2"></div>
+        <div class="step" data-step="2">
+            <div class="icon-container"><i class="fas fa-briefcase"></i></div>
+            <p>Startup Details</p>
+        </div>
+        <div class="connector" data-connector="2-3"></div>
+        <div class="step" data-step="3">
+            <div class="icon-container"><i class="fas fa-users"></i></div>
+            <p>Team & Support</p>
+        </div>
+        <div class="connector" data-connector="3-4"></div>
+        <div class="step" data-step="4">
+            <div class="icon-container"><i class="fas fa-file-alt"></i></div>
+            <p>Review</p>
+        </div>
+    </div>
+    
+    <div class="form-card" id="form-card-main">
+        
+        <div class="inner-progress-tracker" id="progress-tracker-inner">
+            <div class="step active" data-step="1">
+                <div class="icon-container"><i class="fas fa-user"></i></div>
+                <p>Personal Info</p>
+            </div>
+            <div class="connector active" data-connector="1-2"></div>
+            <div class="step" data-step="2">
+                <div class="icon-container"><i class="fas fa-briefcase"></i></div>
+                <p>Startup Details</p>
+            </div>
+            <div class="connector" data-connector="2-3"></div>
+            <div class="step" data-step="3">
+                <div class="icon-container"><i class="fas fa-users"></i></div>
+                <p>Team & Support</p>
+            </div>
+            <div class="connector" data-connector="3-4"></div>
+            <div class="step" data-step="4">
+                <div class="icon-container"><i class="fas fa-file-alt"></i></div>
+                <p>Review</p>
+            </div>
+        </div>
+
+        <hr class="form-separator">
+        
+        <div class="form-steps-container" id="form-steps-wrapper">
+
+            <div class="form-content" id="personal-info-step" data-step="1">
+                <h2>Personal Information</h2>
+                <p class="subtitle">Tell us about yourself</p>
+
+                <form class="personal-info-form" id="personal-info-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" placeholder="Juan Dela Cruz" required maxlength="60" pattern="[A-Za-z\s]*">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" placeholder="@uc-bcf.edu.ph or @gmail.com" required maxlength="100">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number (+639 or 09)</label>
+                            <input type="tel" id="phone" placeholder="+63 912 345 6789" required minlength="11" maxlength="12" pattern="^(09|639)[0-9]{9}$">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentId">Student ID (if applicable)</label>
+                            <input type="text" id="studentId" placeholder="12-1234-123" optional maxlength="9">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deptCollege">Department/College *</label>
+                            <select id="deptCollege" required>
+                                <option value="" disabled selected>Select Department/College</option>
+                                <option value="CCJE">College of Criminal Justice Education</option>
+                                <option value="CITCS">College of Information Technology & Computer Science</option>
+                                <option value="CTE">College of Teacher Education</option>
+                                <option value="COA">College of Accountancy</option>
+                                <option value="CAS">College of Arts & Sciences</option>
+                                <option value="CBA">College of Business Administration</option>
+                                <option value="CEA">College of Engineering & Architecture</option>
+                                <option value="CHTM">College of Hospitality & Tourism Management</option>
+                                <option value="CON">College of Nursing</option>
+                                <option value="COL">College of Law</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearLevel">Year Level</label>
+                            <select id="yearLevel" required>
+                                <option value="" disabled selected>Select Year Level</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn-previous">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button type="submit" class="btn-next">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-content hidden" id="startup-details-step" data-step="2">
+                <h2>Startup Details</h2>
+                <p class="subtitle">Tell us about your startup idea</p>
+
+                <form class="startup-details-form" id="startup-details-form">
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="startupName">Startup Name *</label>
+                            <input type="text" id="startupName" placeholder="Enter your startup name" required maxlength="60">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="industry">Industry *</label>
+                            <select id="industry" required>
+                                <option value="" disabled selected>Select Industry</option>
+                                <option value="FinTech">Financial Technology (FinTech)</option>
+                                <option value="EdTech">Education Technology (EdTech)</option>
+                                <option value="HealthTech">Health Technology (HealthTech)</option>
+                                <option value="E-commerce">E-commerce</option>
+                                <option value="SaaS">Software as a Service (SaaS)</option>
+                                <option value="AI_ML">AI / Machine Learning</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="currentStage">Current Stage *</label>
+                            <select id="currentStage" required>
+                                <option value="" disabled selected>Select stage</option>
+                                <option value="Idea">Idea / Concept</option>
+                                <option value="Prototype">Prototype / MVP</option>
+                                <option value="EarlyTraction">Early Traction / Sales</option>
+                                <option value="Scaling">Scaling</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="briefDescription">Brief Description *</label>
+                            <textarea id="briefDescription" placeholder="Describe your startup in a few sentences" rows="3" required maxlength="1000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="problemSolution">Problem & Solution *</label>
+                            <textarea id="problemSolution" placeholder="What problem are you solving and how?" rows="4" required maxlength="1000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="targetMarket">Target Market *</label>
+                            <input type="text" id="targetMarket" placeholder="e.g., Young professionals, Small businesses" required maxlength="200">
+                        </div>
+                        <div class="form-group">
+                            <label for="websiteSocial">Website/Social Media (Optional)</label>
+                            <input type="url" id="websiteSocial" placeholder="https://example.com" optional>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn-previous">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button type="submit" class="btn-next">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-content hidden" id="team-support-step" data-step="3">
+                <h2>Team & Support</h2>
+                <p class="subtitle">Tell us about your team and what support you need</p>
+
+                <form class="team-support-form" id="team-support-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teamSize">Team Size *</label>
+                            <input type="number" id="teamSize" placeholder="e.g., 3" min="1" max="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="coFounders">Co-Founders</label>
+                            <input type="number" id="coFounders" placeholder="Number of co-founders" min="1" max ="50" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="teamMembers">Team Members (Names & Roles) *</label>
+                            <textarea id="teamMembers" placeholder="e.g., John Doe - CEO, Jane Smith - CTO" rows="3" required maxlength="1000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="teamExpertise">Team Expertise & Background *</label>
+                            <textarea id="teamExpertise" placeholder="Describe your team's relevant experience and skills" rows="4" maxlength="2000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row checkbox-group">
+                        <div class="form-group full-width">
+                            <label>What support do you need from the incubation program? *</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-column">
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Mentorship"> Mentorship</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Technical Support"> Technical Support</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Legal Advice"> Legal Advice</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Office Space"> Office Space</label>
+                                </div>
+                                <div class="checkbox-column">
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Funding"> Funding</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Marketing & Branding"> Marketing & Branding</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Network Access"> Network Access</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="support" value="Product Development"> Product Development</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width textarea-group">
+                            <label for="additionalInfo">Additional Information</label>
+                            <textarea id="additionalInfo" placeholder="Any other information you'd like to share" rows="3" optional maxlength="1000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn-previous">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button type="submit" class="btn-next">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-content hidden" id="review-step" data-step="4">
+                <h2>Review Your Application</h2>
+                <p class="subtitle">Please review your information before submitting</p>
+
+                <div class="review-card">
+                    <h3>Personal Information</h3>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Full Name</span>
+                            <span class="value" data-review="fullName">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Email Address</span>
+                            <span class="value" data-review="email">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Phone Number</span>
+                            <span class="value" data-review="phone">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Student ID</span>
+                            <span class="value" data-review="studentId">N/A</span>
+                        </div>
+                    </div>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Department/College</span>
+                            <span class="value" data-review="deptCollege">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Year Level</span>
+                            <span class="value" data-review="yearLevel">N/A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <h3>Startup Details</h3>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Startup Name</span>
+                            <span class="value" data-review="startupName">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Current Stage</span>
+                            <span class="value" data-review="currentStage">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Industry</span>
+                            <span class="value" data-review="industry">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Website/Social Media</span>
+                            <span class="value" data-review="websiteSocial">N/A</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Description</span>
+                            <span class="value block" data-review="briefDescription">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Problem & Solution</span>
+                            <span class="value block" data-review="problemSolution">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Target Market</span>
+                            <span class="value block" data-review="targetMarket">Not provided</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <h3>Team & Support</h3>
+                    <div class="review-row">
+                        <div class="review-group">
+                            <span class="label">Team Size</span>
+                            <span class="value" data-review="teamSize">Not provided</span>
+                        </div>
+                        <div class="review-group">
+                            <span class="label">Co-Founders</span>
+                            <span class="value" data-review="coFounders">N/A</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Team Members</span>
+                            <span class="value block" data-review="teamMembers">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Team Expertise & Background</span>
+                            <span class="value block" data-review="teamExpertise">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Support Needed</span>
+                            <span class="value block" data-review="supportNeeded">Not provided</span>
+                        </div>
+                    </div>
+                    <div class="review-row full-row">
+                        <div class="review-group full-width">
+                            <span class="label">Additional Information</span>
+                            <span class="value block" data-review="additionalInfo">N/A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation-buttons review-buttons">
+                    <button type="button" class="btn-previous">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button type="submit" class="btn-submit">
+                        Submit
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="success-content hidden" id="success-step">
+            <div class="success-icon-container">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Application Submitted Successfully!</h2>
+            <p class="success-message">Thank you for applying to our Incubation Program. Your application has been received and is under review.</p>
+
+            <div class="ref-number-card">
+                <p class="ref-label">Application Reference Number</p>
+                <p class="ref-value" id="app-reference-number">*</p>
+            </div>
+
+            <div class="whats-next-card">
+                <div class="next-icon-container">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="next-text">
+                    <p class="next-title">What's Next?</p>
+                    <p class="next-body">Our team will review your application within 5-7 business days. We'll contact you via email with the next steps.</p>
+                </div>
+            </div>
+
+            <div class="application-summary">
+                <h3>Application Summary</h3>
+                <div class="summary-row">
+                    <div class="summary-group">
+                        <span class="label">Applicant Name</span>
+                        <span class="value" data-summary="fullName">Not provided</span>
+                    </div>
+                    <div class="summary-group">
+                        <span class="label">Startup Name</span>
+                        <span class="value" data-summary="startupName">Not provided</span>
+                    </div>
+                </div>
+                <div class="summary-row">
+                    <div class="summary-group">
+                        <span class="label">Submission Date</span>
+                        <span class="value" data-summary="submissionDate">October 25, 2025</span>
+                    </div>
+                    <div class="summary-group">
+                        <span class="label">Industry</span>
+                        <span class="value" data-summary="industry">Not provided</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-navigation">
+                <button type="button" class="btn-print">Print Confirmation</button>
+                <button type="button" class="btn-submit-another">Submit Another Application <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <p class="contact-info">
+                If you have any questions, please contact us at <a href="mailto:incubation@uic-bcf.edu.ph">incubation@uic-bcf.edu.ph</a>
+            </p>
+        </div>
+    </div>
+</section>
+<script>
+    document.getElementById('hamburger').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('open');
+            this.classList.toggle('open');
+        });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const steps = [
+        document.getElementById('personal-info-step'),
+        document.getElementById('startup-details-step'),
+        document.getElementById('team-support-step'),
+        document.getElementById('review-step')
+    ];
+    const forms = [
+        document.getElementById('personal-info-form'),
+        document.getElementById('startup-details-form'),
+        document.getElementById('team-support-form')
+    ];
+    const topTrackerSteps = document.querySelectorAll('.top-progress-tracker .step');
+    const innerTrackerSteps = document.querySelectorAll('.inner-progress-tracker .step');
+    const topConnectors = document.querySelectorAll('.top-progress-tracker .connector');
+    const innerConnectors = document.querySelectorAll('.inner-progress-tracker .connector');
+    let currentStep = 1;
+
+    const collectedData = {};
+
+    const collectFormData = (form) => {
+        const data = {};
+        const elements = form.querySelectorAll('input, select, textarea');
+        elements.forEach(element => {
+            if (element.type === 'checkbox') {
+                if (!data[element.name]) {
+                    data[element.name] = [];
+                }
+                if (element.checked) {
+                    data[element.name].push(element.value);
+                }
+            } else {
+                data[element.id] = element.value;
+            }
+        });
+        Object.assign(collectedData, data);
+    };
+
+    const updateReviewStep = () => {
+        const reviewElements = document.querySelectorAll('[data-review]');
+        
+        reviewElements.forEach(el => {
+            const fieldId = el.getAttribute('data-review');
+            let value = collectedData[fieldId];
+            
+            if (fieldId === 'supportNeeded' && Array.isArray(value)) {
+                value = value.length > 0 ? value.join(', ') : 'Not provided';
+            }
+            
+            let displayValue = value || 'Not provided';
+
+            if (el.textContent.includes('N/A') && !value) {
+                displayValue = 'N/A';
+            } else if (displayValue === 'Not provided' && value) {
+                displayValue = value;
+            }
+
+            el.textContent = displayValue;
+        });
+    };
+
+    const updateProgressTracker = (newStep) => {
+        currentStep = newStep;
+
+        const allSteps = [...topTrackerSteps, ...innerTrackerSteps];
+        const allConnectors = [...topConnectors, ...innerConnectors];
+
+        allSteps.forEach(step => {
+            const stepNum = parseInt(step.getAttribute('data-step'));
+            if (stepNum <= newStep) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+
+        allConnectors.forEach(connector => {
+            const connectorNums = connector.getAttribute('data-connector').split('-').map(Number);
+            if (connectorNums[0] < newStep) {
+                connector.classList.add('active');
+            } else {
+                connector.classList.remove('active');
+            }
+        });
+    };
+
+    const goToStep = (stepNumber) => {
+        steps.forEach(step => {
+            const stepNum = parseInt(step.getAttribute('data-step'));
+            if (stepNum === stepNumber) {
+                step.classList.remove('hidden');
+            } else {
+                step.classList.add('hidden');
+            }
+        });
+
+        if (stepNumber === 4) {
+            updateReviewStep();
+        }
+        
+        updateProgressTracker(stepNumber);
+    };
+
+    forms.forEach((form, index) => {
+        const nextStep = index + 2;
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            collectFormData(form);
+            goToStep(nextStep);
+        });
+    });
+
+    const previousButtons = document.querySelectorAll('.btn-previous');
+    previousButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if (currentStep > 1) {
+                goToStep(currentStep - 1);
+            }
+        });
+    });
+
+    // Handle submit button on Review step
+    const submitButton = document.querySelector('.btn-submit');
+    if (submitButton) {
+        submitButton.addEventListener('click', () => {
+            alert('Application Submitted! (Data is logged to console)');
+            console.log('Final Application Data:', collectedData);
+        });
+    }
+
+    // Start on the first step
+    goToStep(1);
+});
+</script>
+</body>
+</html>
