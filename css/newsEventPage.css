@@ -310,12 +310,11 @@ body {
 }
 
 :root {
-    --primary-green: #0a734e;
-    --section-bg-light-green: #f0fff0;
+    --primary-green: #1C7F56;
+    --section-bg-light-green: #EFFAF4;
     --card-bg-white: #ffffff;
-    --sidebar-dark-green: #116847;
+    --sidebar-dark-green: #166c41;
     --text-dark: #333;
-    --text-light: #666;
 }
 
 .event-detail-page {
@@ -323,7 +322,6 @@ body {
     background-color: var(--card-bg-white);
 }
 
-/* --- 1. Header Info Cards --- */
 .info-cards-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -377,11 +375,10 @@ body {
 }
 
 .sdg-icon {
-    width: 25px;
-    height: 25px;
+    width: 64px;
+    height: 64px;
 }
 
-/* --- 2. Main Layout Content --- */
 .main-layout-content {
     display: flex;
     max-width: 1200px;
@@ -395,23 +392,22 @@ body {
     }
 }
 
-/* Left Column: About and Gallery */
 .main-content {
     flex: 3;
 }
 
 .about-title, .gallery-title {
-    font-size: 1.5em;
+    font-size: 40px;
     font-weight: 600;
     color: var(--text-dark);
     margin-bottom: 15px;
 }
 
 .about-description {
-    font-size: 1em;
+    font-size: 20px;
     line-height: 1.6;
-    color: var(--text-light);
     margin-bottom: 30px;
+    opacity: 60%;
 }
 
 .gallery-title {
@@ -427,13 +423,13 @@ body {
 
 .gallery-img {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
+    height: 100%; 
+    border-radius: 24px;
     object-fit: cover;
 }
 
 .main-image {
-    height: 400px;
+    height: 400px; 
 }
 
 .thumbnail-images {
@@ -443,18 +439,43 @@ body {
 }
 
 .thumbnail {
-    height: 100px;
+    height: 100px; 
     cursor: pointer;
-    background-color: var(--section-bg-light-green);
+    border-radius: 24px;
+    overflow: hidden; 
+}
+
+.view-more-thumbnail {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.9em;
-    font-weight: 500;
-    color: var(--text-dark);
 }
 
-/* Right Column: Registration Sidebar */
+.view-more-img {
+    filter: brightness(50%);
+    transition: filter 0.3s ease;
+    border-radius: 24px;
+}
+
+.view-more-overlay {
+    position: absolute;
+    color: white;
+    font-size: 0.95em;
+    font-weight: 600;
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.view-more-thumbnail:hover .view-more-img {
+    filter: brightness(70%); 
+}
+
+.view-more-thumbnail:hover .view-more-overlay {
+    text-decoration: none; 
+}
+
 .registration-sidebar {
     flex: 1;
     background-color: var(--sidebar-dark-green);
@@ -463,16 +484,17 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     min-width: 300px;
+    height: 500px;
 }
 
 .sidebar-title {
-    font-size: 1.3em;
+    font-size: 24px;
     font-weight: 600;
     margin-bottom: 10px;
 }
 
 .sidebar-text {
-    font-size: 0.95em;
+    font-size: 18px;
     line-height: 1.4;
     margin-bottom: 20px;
 }
@@ -503,7 +525,7 @@ body {
     width: 100%;
     padding: 12px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 32px;
     text-decoration: none;
     font-weight: 600;
     font-size: 1em;

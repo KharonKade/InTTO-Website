@@ -957,8 +957,6 @@ body {
   text-decoration: underline;
 }
 
-/* --- Media Queries --- */
-
 @media (max-width: 1200px) {
   .section-title-news {
     font-size: 48px;
@@ -1296,8 +1294,6 @@ body {
 .primary-cta:hover {
   background: rgba(255, 255, 255, 0.2);
 }
-
-/* --- Media Queries --- */
 
 @media (max-width: 1200px) {
   .section-title-news,
