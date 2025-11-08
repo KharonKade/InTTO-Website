@@ -129,24 +129,38 @@
     </section>
 
     <section class="startups-section">
-        <div class="section-label">Our Startups</div>
-        <h2 class="service-title">Meet Our Startups</h2>
+    <div class="section-label">Our Startups</div>
+    <h2 class="service-title">Meet Our Startups</h2>
 
-        <div class="filters-wrap">
-            <div class="filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="agritech">AgriTech</button>
-            <button class="filter-btn" data-filter="tourism">Tourism &amp; Mobility</button>
-            <button class="filter-btn" data-filter="healthtech">HealthTech</button>
-            <button class="filter-btn" data-filter="crimintech">CriminTech</button>
-            <button class="filter-btn" data-filter="cleantech">CleanTech</button>
-            <button class="filter-btn" data-filter="fintech">FinTech</button>
-            </div>
-            <button class="view-all-btn">View all <span class="btn-arrow">➜</span></button>
+    <div class="filters-wrap">
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="agritech">AgriTech</button>
+        <button class="filter-btn" data-filter="tourism">Tourism &amp; Mobility</button>
+        <button class="filter-btn" data-filter="healthtech">HealthTech</button>
+        <button class="filter-btn" data-filter="crimintech">CriminTech</button>
+        <button class="filter-btn" data-filter="cleantech">CleanTech</button>
+        <button class="filter-btn" data-filter="fintech">FinTech</button>
+    </div>
+    
+    <div class="custom-dropdown-wrap">
+        <div class="custom-select-trigger" data-value="all">All</div>
+        <div class="custom-options">
+            <div class="custom-option" data-value="all">All</div>
+            <div class="custom-option" data-value="agritech">AgriTech</div>
+            <div class="custom-option" data-value="tourism">Tourism &amp; Mobility</div>
+            <div class="custom-option" data-value="healthtech">HealthTech</div>
+            <div class="custom-option" data-value="crimintech">CriminTech</div>
+            <div class="custom-option" data-value="cleantech">CleanTech</div>
+            <div class="custom-option" data-value="fintech">FinTech</div>
         </div>
+    </div>
 
-        <div class="startups-container">
-            <div class="cards-grid" id="cardsGrid">
+    <button class="view-all-btn">View all <span class="btn-arrow">➜</span></button>
+</div>
+
+    <div class="startups-container">
+        <div class="cards-grid" id="cardsGrid">
             <article class="startup-card" data-category="cleantech">
                 <div class="card-head">
                 <img src="graphics/sunshare.png" alt="Sunshare logo" class="startup-logo">
@@ -238,16 +252,16 @@
             </article>
 
             </div> 
-        </div> 
+    </div> 
 
-        <div class="join-cta">
-            <div class="cta-content">
-            <h3>Want to join a Startup?</h3>
-            <p>Connect with student founders and contribute your skills to real innovation projects.</p>
-            </div>
-            <a href="#" class="primary-cta">View Active Projects <span class="cta-arrow">➜</span></a>
+    <div class="join-cta">
+        <div class="cta-content">
+        <h3>Want to join a Startup?</h3>
+        <p>Connect with student founders and contribute your skills to real innovation projects.</p>
         </div>
-    </section>
+        <a href="#" class="primary-cta">View Active Projects <span class="cta-arrow">➜</span></a>
+    </div>
+</section>
 
     <section class="news-section">
       <div class="news-container">
@@ -416,7 +430,94 @@
         <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
       </div>
     </footer>
+  
 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const filtersWrap = document.querySelector('.filters-wrap');
+    const cardsGrid = document.getElementById('cardsGrid');
+    const filterButtons = filtersWrap.querySelectorAll('.filter-btn');
+    
+    if (!cardsGrid) return;
+
+    function applyFilter(category) {
+        const startupCards = cardsGrid.querySelectorAll('.startup-card');
+
+        startupCards.forEach(card => {
+            const cardCategories = card.getAttribute('data-category').split(' ');
+
+            if (category === 'all' || cardCategories.includes(category)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const selectedCategory = button.getAttribute('data-filter');
+            
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const customTrigger = filtersWrap.querySelector('.custom-select-trigger');
+            if (customTrigger) {
+                const matchingOption = filtersWrap.querySelector(`.custom-option[data-value="${selectedCategory}"]`);
+                if (matchingOption) {
+                    customTrigger.textContent = matchingOption.textContent;
+                    customTrigger.setAttribute('data-value', selectedCategory);
+                }
+            }
+
+            applyFilter(selectedCategory);
+        });
+    });
+
+    const dropdownWrap = filtersWrap.querySelector('.custom-dropdown-wrap');
+    const trigger = filtersWrap.querySelector('.custom-select-trigger');
+    const customOptions = filtersWrap.querySelectorAll('.custom-option');
+
+    if (dropdownWrap && trigger && customOptions.length > 0) {
+        trigger.addEventListener('click', () => {
+            dropdownWrap.classList.toggle('open');
+        });
+
+        customOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const newValue = this.getAttribute('data-value');
+                const newText = this.textContent;
+
+                trigger.textContent = newText;
+                trigger.setAttribute('data-value', newValue);
+                dropdownWrap.classList.remove('open');
+                
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                const matchingButton = filtersWrap.querySelector(`.filter-btn[data-filter="${newValue}"]`);
+                if (matchingButton) {
+                    matchingButton.classList.add('active');
+                } else if (newValue === 'all') {
+                    filtersWrap.querySelector(`.filter-btn[data-filter="all"]`).classList.add('active');
+                }
+
+                applyFilter(newValue);
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdownWrap.contains(e.target)) {
+                dropdownWrap.classList.remove('open');
+            }
+        });
+    }
+
+    if (filtersWrap.querySelector('.filter-btn.active')) {
+        applyFilter(filtersWrap.querySelector('.filter-btn.active').getAttribute('data-filter'));
+    } else {
+        applyFilter('all');
+    }
+});
+  </script>
   <script>
 
    document.getElementById('hamburger').addEventListener('click', function() {
