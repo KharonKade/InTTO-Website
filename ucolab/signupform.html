@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .divider-with-text {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 15px 0;
+            color: #999;
+        }
+        .divider-with-text span {
+            padding: 0 10px;
+        }
+        .divider-with-text::before,
+        .divider-with-text::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .btn-google {
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-google svg {
+            margin-right: 10px;
+            /* Make sure the Google logo path uses 'fill' not 'stroke' */
+        }
+    </style>
 </head>
 <body>
     
@@ -179,7 +210,7 @@
       </div>
     </footer>
 
-    <div class="modal-overlay modal-hidden" id="auth-modal-overlay" style>
+    <div class="modal-overlay modal-hidden" id="auth-modal-overlay">
         <div class="auth-modal">
             <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -192,13 +223,11 @@
                 <div class="form-group"> <label for="signin-password-input">Password *</label> <div class="input-with-icon"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> <input type="password" id="signin-password-input" placeholder="Enter your password" required> </div> </div>
                 <button type="submit" class="btn-form btn-form-primary">Sign In</button>
                 
-                <div class="divider-with-text" style="display: flex; align-items: center; text-align: center; margin: 15px 0; color: #999;">
-                    <span style="flex: 1; border-bottom: 1px solid #eee; margin-right: 0.5em;"></span>
+                <div class="divider-with-text">
                     <span>OR</span>
-                    <span style="flex: 1; border-bottom: 1px solid #eee; margin-left: 0.5em;"></span>
                 </div>
-                <button type="button" class="btn-form btn-google" id="google-signin-btn" style="background-color: #4285F4; color: white; border: none; display: flex; align-items: center; justify-content: center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
+                <button type="button" class="btn-form btn-google" id="google-signin-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22.56 12.038c0-.75-.064-1.46-.17-2.14h-10.02v4.067h5.66c-.246 1.258-.934 2.457-1.957 3.238l3.4 2.67c2.02-1.87 3.2-4.634 3.2-8.035z" fill="#4285F4"/>
                         <path d="M12.43 23c2.722 0 4.982-.907 6.64-2.454l-3.4-2.67c-.933.626-2.128.995-3.24.995-2.5 0-4.63-1.688-5.38-3.95H3.64v3.987C5.353 21.09 8.653 23 12.43 23z" fill="#34A853"/>
                         <path d="M7.05 13.79c-.198-.63-.31-1.3-.31-2.002s.112-1.372.31-2.002V5.8H3.64C3.047 7.02 2.75 8.444 2.75 9.988c0 1.544.297 2.968.89 4.21L7.05 13.79z" fill="#FBBC05"/>
@@ -207,8 +236,8 @@
                     Sign in with Google
                 </button>
                 <button type="button" class="btn-form btn-form-secondary">Quick Demo Access</button>
-            </form>
-                <p class="form-switcher">Don't have an account? <a href="signupform.html" id="show-signup-link">Sign Up</a></p>
+                </form>
+                <p class="form-switcher">Don't have an account? <a href="#" id="show-signup-link">Sign Up</a></p>
             </div>
             <div class="form-panel hidden" id="signup-panel">
                 <h2>Create Account</h2>
@@ -236,8 +265,9 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
     <script>
-        // Replace this with your actual Firebase project configuration
+        // Use your provided Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
             authDomain: "uc-intto.firebaseapp.com",
@@ -253,7 +283,6 @@
         
         // Expose auth object to the global scope for use in authentication.js
         const auth = firebase.auth();
-        // You would also initialize other services here, e.g., const db = firebase.firestore();
     </script>
     
     <script src="js/script.js"></script>

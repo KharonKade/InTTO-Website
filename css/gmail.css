@@ -1,0 +1,30 @@
+.divider-with-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 15px 0;
+    color: #999;
+}
+.divider-with-text::before,
+.divider-with-text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #eee;
+}
+.divider-with-text:not(:empty)::before {
+    margin-right: .5em;
+}
+.divider-with-text:not(:empty)::after {
+    margin-left: .5em;
+}
+.btn-google {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-google svg {
+    margin-right: 10px;
+}
