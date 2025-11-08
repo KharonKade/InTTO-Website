@@ -2051,6 +2051,7 @@ textarea {
     .footer-top {
         flex-direction: column;
         gap: 30px;
+        /* Add alignment to center the entire block if the main container is flexible */
         align-items: center;
     }
 
@@ -2058,6 +2059,7 @@ textarea {
     .footer-column:last-child {
         max-width: 100%;
         min-width: 100%;
+        /* Center the text content within each full-width column */
         text-align: center;
     }
 
@@ -2073,10 +2075,6 @@ textarea {
     .footer-column ul li a {
         font-size: 18px;
     }
-
-    .social-links {
-      justify-content: center;
-    }
 }
 
 @media (max-width: 576px) {
@@ -2086,9 +2084,5 @@ textarea {
     
     .footer-divider.bottom-line {
         margin-top: 40px;
-    }
-
-    .social-links {
-      justify-content: center;
     }
 }

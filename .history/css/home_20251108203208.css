@@ -2075,7 +2075,7 @@ textarea {
     }
 
     .social-links {
-      justify-content: center;
+      justify-content: ;
     }
 }
 
@@ -2086,9 +2086,5 @@ textarea {
     
     .footer-divider.bottom-line {
         margin-top: 40px;
-    }
-
-    .social-links {
-      justify-content: center;
     }
 }

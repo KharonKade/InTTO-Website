@@ -1222,7 +1222,7 @@ transform: rotate(-45deg) translate(5px, -5px);
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 25px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap; /* KEY FIX: Allows summary groups to wrap */
 }
 
 .summary-group {

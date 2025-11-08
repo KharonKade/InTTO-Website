@@ -344,7 +344,7 @@ body {
 @media (max-width: 768px) {
     .navbar {
         flex-direction: row;
-        flex-wrap: wrap; 
+        flex-wrap: wrap; /* Allow wrapping for the nav-btn to drop */
         justify-content: space-between;
         align-items: center;
         padding: 15px 20px;
@@ -355,7 +355,7 @@ body {
         margin: 0;
         flex-shrink: 0;
         order: 1; 
-        margin-left: 40px;
+        margin-left: 50px;
     }
 
     .nav-wrapper {
@@ -367,7 +367,7 @@ body {
         padding: 0;
         display: flex;
         flex-direction: row;
-        justify-content:space-around;
+        justify-content:space-between;
         align-items: center; 
         gap: 0;
         background: transparent;
@@ -1133,7 +1133,11 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* * Custom Dropdown Styles 
+* Use these instead of the original .filter-dropdown and its option styles
+*/
 .custom-dropdown-wrap {
+    /* Hide by default, will be shown via media query */
     display: none; 
     position: relative;
     flex-grow: 1;
@@ -2048,47 +2052,32 @@ textarea {
 }
 
 @media (max-width: 768px) {
-    .footer-top {
-        flex-direction: column;
-        gap: 30px;
-        align-items: center;
-    }
+  .footer-top {
+    flex-direction: column;
+    gap: 30px;
+  }
 
-    .footer-column,
-    .footer-column:last-child {
-        max-width: 100%;
-        min-width: 100%;
-        text-align: center;
-    }
+  .footer-column,
+  .footer-column:last-child {
+    max-width: 100%;
+    min-width: 100%;
+  }
 
-    .footer-column ul {
-        width: fit-content;
-        margin: 0 auto;
-    }
+  .footer-column h4 {
+    margin-bottom: 15px;
+  }
 
-    .footer-column h4 {
-        margin-bottom: 15px;
-    }
-
-    .footer-column ul li a {
-        font-size: 18px;
-    }
-
-    .social-links {
-      justify-content: center;
-    }
+  .footer-column ul li a {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 576px) {
-    .footer-section {
-        padding: 40px 0;
-    }
-    
-    .footer-divider.bottom-line {
-        margin-top: 40px;
-    }
-
-    .social-links {
-      justify-content: center;
-    }
+  .footer-section {
+    padding: 40px 0;
+  }
+  
+  .footer-divider.bottom-line {
+    margin-top: 40px;
+  }
 }

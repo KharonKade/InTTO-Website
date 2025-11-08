@@ -1422,7 +1422,7 @@ main {
     margin-top: 40px;
   }
 }
-
+/* ======== Auth Modal Styles ======== */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -1451,7 +1451,6 @@ main {
     padding: 2.5rem;
     width: 500px;
     max-width: 500px;
-    height: auto;
     padding: 10px 50px 10px 50px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     position: relative;

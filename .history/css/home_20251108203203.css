@@ -2074,9 +2074,7 @@ textarea {
         font-size: 18px;
     }
 
-    .social-links {
-      justify-content: center;
-    }
+    .social-links
 }
 
 @media (max-width: 576px) {
@@ -2086,9 +2084,5 @@ textarea {
     
     .footer-divider.bottom-line {
         margin-top: 40px;
-    }
-
-    .social-links {
-      justify-content: center;
     }
 }
