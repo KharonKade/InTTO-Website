@@ -13,28 +13,36 @@
     <script type="module" src="./Contact-Us-DB/scriptC.js"></script>
     <script type="module" src="./Contact-Us-DB/infoC.js"></script>
     <script type="module" src="./Contact-Us-DB/saveInfoC.js"></script>
-  <div class="main-wrapper">
-    <div class="navbar">
-        <div class="logo">
-            <img src="graphics\InTTOLogo.png" alt="logo">
-        </div>
+   
+    <div class="main-wrapper">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="graphics/InTTOLogo.png" alt="logo">
+                </a>
+            </div>
 
-        <div class="nav-wrapper">
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="aboutUs.html">About</a>
-            <a href="services.html">Services</a>
-            <a href="startups.html">Startups</a>
-            <a href="events.html">Events</a>
-            <a href="">UColab</a>
+            <div class="nav-wrapper">
+                <div class="hamburger-menu" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="aboutUs.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="startups.html">Startups</a>
+                    <a href="events.html">Events</a>
+                    <a href="ucolab/index.html">UColab</a>
+                </div>
+            </div>
+            <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
         </div>
-        </div>
-        <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
     </div>
-  </div>
 
   <section class="intro-section">
-        <div class="section-label">⬤ UCIANS TBI</div>
+        <div class="section-label">UCIANS TBI</div>
         <h2 class="service-title">Incubation Program</h2>
 
         <p class="message-news">Transform your innovative idea into a successful startup with our comprehensive 12-month incubation program</p>
@@ -278,24 +286,25 @@
             </ul>
             <a href="#" class="submit-button">Submit Application</a>
         </div>
-    </section>      
-    <div class="cta-box">
-        <h2>Join Our Success Stories</h2>
-        <p>77 startups have already transformed their ideas into successful ventures through our incubation program</p>
-        <div class="cta-buttons">
-          <a href="#" class="cta-btn">View Our Startups</a>
-        </div>
-      </div>       
-      
-    <div class="footer-row">
-        <div class="footer-logo">
-          <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
-        </div>
+    </section>
+    <section class="closing-section"> 
+        <div class="cta-box">
+            <h2>Join Our Success Stories</h2>
+            <p>77 startups have already transformed their ideas into successful ventures through our incubation program</p>
+            <div class="cta-buttons">
+            <a href="#" class="cta-btn">View Our Startups</a>
+            </div>
+        </div>       
+        
+        <div class="footer-row">
+            <div class="footer-logo">
+            <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
+            </div>
 
-        <div class="footer-tagline">
-          Driving the Culture of Innovation
+            <div class="footer-tagline">
+            Driving the Culture of Innovation
+            </div>
         </div>
-      </div>
     </section>
 
     <div class="footer-divider"></div>
@@ -345,5 +354,13 @@
         <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
       </div>
     </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('open');
+            this.classList.toggle('open');
+        });
+    </script>
   </body>
   </html>
