@@ -42,6 +42,8 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 // --- UI Management Functions ---
 
+// si jong tumatae sa pants
+
 /**
  * Shows the main authentication modal.
  * @param {string} panelId - 'signin-panel' or 'signup-panel' to show initially.
