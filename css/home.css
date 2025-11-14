@@ -448,7 +448,7 @@ body {
         padding: 12px;
         margin-bottom: 0;
         position: absolute;
-        top: 120px; /* Adjusted to clear the top row and the button */
+        top: 120px; 
     }
 
     .nav-links a,

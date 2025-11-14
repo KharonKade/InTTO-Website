@@ -10,32 +10,44 @@
 </head>
 <body>
 
-<div class="main-wrapper">
-  <div class="hero">
-    <div class="navbar">
-      <div class="logo">
-          <img src="graphics\InTTOLogo.png" alt="logo">
-      </div>
+    <div class="main-wrapper">
+      <div class="hero">
+          <div class="navbar">
+              <div class="nav-header-mobile">
+                  <div class="logo">
+                      <a href="index.html">
+                          <img src="graphics/InTTOLogo.png" alt="logo">
+                      </a>
+                  </div>
+                  <div class="hamburger-menu" id="hamburger">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                  </div>
+              </div>
 
-      <div class="nav-wrapper">
-        <div class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="aboutUs.html">About</a>
-          <a href="services.html">Services</a>
-          <a href="startups.html">Startups</a>
-          <a href="events.html">Events</a>
-          <a href="">UColab</a>
-        </div>
+              <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+
+              <div class="nav-wrapper">
+                  <div class="nav-links" id="navLinks">
+                      <a href="index.html">Home</a>
+                      <a href="aboutUs.html">About</a>
+                      <a href="services.html">Services</a>
+                      <a href="startups.html">Startups</a>
+                      <a href="events.html">Events</a>
+                      <a href="ucolab/index.html">UColab</a>
+                  </div>
+              </div>
+          </div>
+
+          <div class="event-showcase">
+              <div class="event-category-date">
+                  <div class="event-tag">Competition</div>
+                  <div class="event-date">October 1, 2025</div>
+              </div>
+              <div class="event-title">Philippine Startup Challenge 10</div>
+          </div>
       </div>
-      <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
-    </div>
-      <div class="event-showcase">
-        <div class="event-category-date"> <div class="event-tag">Competition</div>
-          <div class="event-date">October 1, 2025</div>
-        </div>
-        <div class="event-title">Philippine Startup Challenge 10</div>
-      </div>
-    </div>
   </div>
 
   <section class="poppins event-detail-page">
@@ -123,6 +135,14 @@
         <a href="events.html" class="btn-view-all">View All Events</a>
     </div>
   </section>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', function() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('open');
+      this.classList.toggle('open');
+  });
+  </script>
 
 
   </body>
