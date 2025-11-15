@@ -376,6 +376,22 @@ document.addEventListener('DOMContentLoaded', function() {
         showAlertModal('You must be signed in to submit a project. Please sign in or create an account.');
     }
 
+    /**
+     * Handles submit project button click - either navigates or shows auth alert
+     * @param {Event} e 
+     */
+    function handleSubmitProjectClick(e) {
+        e.preventDefault();
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+            // User is signed in, navigate to submit page
+            window.location.href = 'submit-project.html';
+        } else {
+            // User is not signed in, show alert
+            showAlertModal('You must be signed in to submit a project. Please sign in or create an account.');
+        }
+    }
+
     // --- 7. MAIN UI UPDATE FUNCTION (COMBINED) ---
     /**
      * Updates the header UI based on the user's authentication state.
@@ -393,20 +409,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${displayName.split('@')[0]}
                 `;
             }
-            
-            // Remove 'Sign In Required' lock
-            if (submitProjectBtn) {
-                submitProjectBtn.removeEventListener('click', showProjectAuthAlert);
-            }
         } else {
             // --- User is SIGNED OUT ---
             if (openSigninBtn) openSigninBtn.classList.remove('hidden');
             if (userInfoContainer) userInfoContainer.classList.add('hidden');
-
-            // Restore 'Sign In Required' lock
-            if (submitProjectBtn) {
-                submitProjectBtn.addEventListener('click', showProjectAuthAlert);
-            }
         }
         
         // --- !! CRITICAL FIX !! ---
@@ -853,6 +859,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (googleSignupBtn) {
         googleSignupBtn.addEventListener('click', handleGoogleSignIn);
+    }
+
+    // --- Submit Project Button Listener ---
+    if (submitProjectBtn) {
+        submitProjectBtn.addEventListener('click', handleSubmitProjectClick);
     }
 
     // --- CRITICAL: FIREBASE AUTH STATE LISTENER ---

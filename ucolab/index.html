@@ -68,7 +68,7 @@
                         commercialization.
                     </p>
                     <div class="hero-buttons">
-                        <a href="submit-project.html" class="btn btn-primary" id="submit-project-btn">Submit Your Project</a>
+                        <a href="#" class="btn btn-primary" id="submit-project-btn">Submit Your Project</a>
                         <a href="#projects-grid" class="btn btn-secondary">
                             Explore All Projects
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -84,10 +84,18 @@
             <div class="filter-row">
                 <div class="search-bar">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" placeholder="Search projects, keywords, or titles..." id="search-input">
                 </div>
-                <div class="filter-dropdowns">
-                    <div class="custom-dropdown" id="filter-industry">
+        </section>
+
+        <div class="modal-overlay modal-hidden" id="alert-modal-overlay">
+            <div class="alert-modal">
+                <h4>Sign In Required</h4>
+                <p id="alert-modal-message">You must be signed in to submit a project.</p>
+                <button class="btn-alert-ok" id="alert-modal-ok-btn">OK</button>
+            </div>
+        </div>
+
+        <section class="search-filter-container animate-on-scroll">
                         <button class="dropdown-toggle"> <span>All Industries</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
                         <ul class="dropdown-menu"> <li>All Industries</li> <li>Agritech</li> <li>Crimintech</li> <li>Healthtech</li> <li>Fintech</li> <li>Sustainability</li> <li>Edutech</li> </ul>
                     </div>
@@ -234,14 +242,6 @@
             <p class="form-switcher">Already have an account? <a href="#" id="show-signin-link">Sign In</a></p>
         </div>
     </div>
-    <div class="modal-overlay modal-hidden" id="alert-modal-overlay">
-        <div class="alert-modal">
-            <h4>Sign In Required</h4>
-            <p id="alert-modal-message">You must be signed in to submit a project.</p>
-            <button class="btn-alert-ok" id="alert-modal-ok-btn">OK</button>
-        </div>
-    </div>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script>
