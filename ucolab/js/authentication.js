@@ -35,14 +35,13 @@ const signupAffiliationInput = document.getElementById('signup-affiliation-input
 
 // --- NEW GOOGLE AUTH DOM Elements ---
 const googleSigninBtn = document.getElementById('google-signin-btn');
+const googleSignupBtn = document.getElementById('google-signup-btn'); // <<< ADDED FOR SIGNUP PANEL
 
 // --- Firebase Provider Initialization ---
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 
 // --- UI Management Functions ---
-
-// si jong tumatae sa pants
 
 /**
  * Shows the main authentication modal.
@@ -199,7 +198,7 @@ async function handleSignIn(email, password) {
 }
 
 /**
- * Handles Google Sign-In using a pop-up window (handles both sign-in and sign-up for Google users).
+ * Handles Google Sign-In/Sign-Up using a pop-up window (reusable for both buttons).
  */
 async function handleGoogleSignIn() {
     clearFormErrors();
@@ -215,13 +214,11 @@ async function handleGoogleSignIn() {
         if (result.additionalUserInfo.isNewUser) {
              console.log("New user signed up with Google. Checking for required fields...");
              
-             // If you use Firestore, you'd save the basic data here and check if 'affiliation' is missing.
-             // For now, we use a modal alert to signal that profile completion is needed.
+             // If a redirect to a profile completion page is intended:
              setTimeout(() => {
                  showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
-                 // A production app would redirect the user to a profile setup page:
-                 // window.location.href = '/complete-profile.html';
-             }, 500); // Small delay to allow the auth modal to close first
+                 // window.location.href = '/complete-profile.html'; 
+             }, 500); 
         }
 
     } catch (error) {
@@ -316,8 +313,7 @@ signupForm.addEventListener('submit', (e) => {
     const password2 = signupPassword2Input.value;
     const firstName = signupFirstNameInput.value;
     const lastName = signupLastNameInput.value;
-    // const affiliation = signupAffiliationInput.value; // Collect this in handleSignUp if using Firestore
-
+    
     // --- INPUT VALIDATION ---
     if (password !== password2) {
         displayFormError(signupForm, 'Passwords do not match. Please ensure both fields are the same.');
@@ -341,7 +337,12 @@ signoutBtnMain.addEventListener('click', (e) => {
 // 7. Initial state for 'Submit Your Project' button
 submitProjectBtn.addEventListener('click', showProjectAuthAlert);
 
-// 8. Google Sign-In Button
+// 8. Google Sign-In Button (for signin panel)
 if (googleSigninBtn) {
     googleSigninBtn.addEventListener('click', handleGoogleSignIn);
+}
+
+// 9. Google Sign-Up Button (for signup panel)
+if (googleSignupBtn) {
+    googleSignupBtn.addEventListener('click', handleGoogleSignIn);
 }
