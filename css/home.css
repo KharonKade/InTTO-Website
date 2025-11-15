@@ -1725,7 +1725,7 @@ textarea {
 }
 
 .cta-box {
-  background: #1C7F56;
+  font-family: 'Poppins', sans-serif; 
   color: white;
   text-align: center;
   padding: 60px 40px;
@@ -1734,18 +1734,32 @@ textarea {
   height: auto;
   min-height: 459px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: 
+    linear-gradient(40deg, 
+      rgba(0, 0, 0, 0) 0%,           
+      rgba(20, 102, 82, 0.58) 50%,  
+      #297B68 100%),               
+    url('/graphics/ctaCover.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
+}
+
+.cta-box-content {
+  max-width: 100%;
 }
 
 .cta-box h2 {
+  font-family: 'Poppins', sans-serif;
   font-size: 48px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 15px;
 }
 
 .cta-box p {
+  font-family: 'Poppins', sans-serif;
   font-size: 24px;
   opacity: 0.9;
   margin-bottom: 30px;
@@ -1761,6 +1775,7 @@ textarea {
 }
 
 .cta-btn {
+  font-family: 'Poppins', sans-serif;
   background: rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -1776,15 +1791,15 @@ textarea {
   text-decoration: none;
   font-weight: 500;
   transition: background 0.3s ease;
-  width: auto; 
-  min-width: 200px; 
+  width: auto;
+  min-width: 200px;
   height: 64px;
   font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .cta-btn:hover {
@@ -1847,42 +1862,52 @@ textarea {
 @media (max-width: 768px) {
   .contact-title {
     font-size: 48px;
+    font-family: poppins;
   }
 
   .contact-wrapper {
     flex-direction: column;
     gap: 40px;
+    font-family: poppins;
   }
 
   .contact-form {
     min-height: auto;
+    font-family: poppins;
   }
 
   .info-block h3 {
     font-size: 28px;
+    font-family: poppins;
   }
 
   .info-block p {
     font-size: 20px;
     margin-bottom: 40px;
+    font-family: poppins;
   }
 
   .cta-box h2 {
     font-size: 38px;
+    font-family: poppins;
   }
 
   .cta-box p {
     font-size: 20px;
+    font-family: poppins;
   }
 
   .cta-buttons {
     flex-direction: column;
     gap: 15px;
+    align-items: center;
+    font-family: poppins;
   }
 
   .cta-btn {
     width: 100%;
     max-width: 300px;
+    font-family: poppins;
   }
 
   .footer-row {
@@ -1890,6 +1915,7 @@ textarea {
     align-items: center;
     text-align: center;
     padding: 0;
+    font-family: poppins;
   }
 
   .footer-tagline {
@@ -1897,10 +1923,12 @@ textarea {
     margin-right: 0;
     margin-bottom: 15px;
     text-align: center;
+    font-family: poppins;
   }
 
   .footer-logo {
     align-items: center;
+    font-family: poppins;
   }
 }
 
@@ -1908,28 +1936,38 @@ textarea {
   .contact-title {
     font-size: 38px;
     margin-bottom: 20px;
+    font-family: poppins;
   }
 
   .contact-section {
     padding: 40px 0;
+    font-family: poppins;
   }
-  
+
   .contact-form {
     padding: 20px;
+    font-family: poppins;
   }
 
   .form-group {
     margin-bottom: 30px;
+    font-family: poppins;
   }
 
   .cta-box h2 {
     font-size: 32px;
+    font-family: poppins;
   }
 
   .cta-box {
     padding: 40px 20px;
     margin-bottom: 40px;
     min-height: 350px;
+    font-family: poppins;
+  }
+
+  .cta-buttons {
+    align-items: center;
   }
 }
 

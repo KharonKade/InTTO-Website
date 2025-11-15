@@ -1392,7 +1392,7 @@ textarea {
 }
 
 .cta-box {
-  background: #1C7F56;
+  font-family: 'Poppins', sans-serif; 
   color: white;
   text-align: center;
   padding: 60px 40px;
@@ -1401,9 +1401,17 @@ textarea {
   height: auto;
   min-height: 459px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: 
+    linear-gradient(40deg, 
+      rgba(0, 0, 0, 0) 0%,           
+      rgba(20, 102, 82, 0.58) 50%,  
+      #297B68 100%),               
+    url('/graphics/ctaCover.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
 }
 
 .cta-box h2 {
@@ -1543,14 +1551,17 @@ textarea {
   }
 
   .cta-buttons {
-    flex-direction: column;
-    gap: 15px;
-  }
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      font-family: poppins;
+    }
 
-  .cta-btn {
-    width: 100%;
-    max-width: 300px;
-  }
+    .cta-btn {
+      width: 100%;
+      max-width: 300px;
+      font-family: poppins;
+    }
 
   .footer-row {
     flex-direction: column;
