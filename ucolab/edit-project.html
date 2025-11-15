@@ -252,7 +252,24 @@
 
     <footer>
     </footer>
-
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script>
+    // Use your provided Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+        authDomain: "uc-intto.firebaseapp.com",
+        projectId: "uc-intto",
+        storageBucket: "uc-intto.firebasestorage.app",
+        messagingSenderId: "156771180433",
+        appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+        measurementId: "G-ETY9E0F1K6"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // Expose auth object
+    const auth = firebase.auth();
+</script>
     <script src="js/edit-project.js"></script>
 </body>
 </html>
