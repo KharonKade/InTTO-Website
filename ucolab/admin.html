@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - UCoLab</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Simple styles for the admin page */
+        body { background-color: #f4f7f6; }
+        .admin-header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 { margin: 0; font-size: 1.5rem; }
+        .admin-header a { color: white; text-decoration: none; font-weight: 500; }
+        .admin-container {
+            max-width: 90%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        /* Reuse project card styles but add new buttons */
+        .project-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .admin-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s ease;
+        }
+        .btn-approve {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        .btn-approve:hover { background-color: #1a5238; }
+        .btn-reject {
+            background-color: #e53935;
+            color: white;
+        }
+        .btn-reject:hover { background-color: #c62828; }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <a href="#" id="admin-signout-btn">Sign Out</a>
+    </header>
+
+    <main class="admin-container">
+        <section class="projects-section">
+            <h2 id="projects-count">Pending Projects (0)</h2>
+            <p class="section-subtitle">Review and approve new project submissions below.</p>
+            <div class="project-grid" id="project-list">
+                </div>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+    </script>
+    
+    <script src="js/admin.js"></script>
+
+</body>
+</html>

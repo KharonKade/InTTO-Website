@@ -1,0 +1,133 @@
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Admin.js loaded");
+
+    const projectGrid = document.getElementById('project-list');
+    const projectsCountHeader = document.getElementById('projects-count');
+    const signOutBtn = document.getElementById('admin-signout-btn');
+    const ADMIN_EMAIL = "admin@ucolab.com"; // Must match main.js
+
+    let pendingProjects = [];
+    let publicProjects = [];
+
+    // --- 1. AUTH CHECK ---
+    auth.onAuthStateChanged(function(user) {
+        if (user && user.email === ADMIN_EMAIL) {
+            // User is admin, load the page
+            console.log("Admin user confirmed:", user.email);
+            loadProjects();
+            renderProjects();
+        } else {
+            // Not admin or not logged in, kick to index
+            console.log("Access denied. User is not admin.");
+            window.location.href = 'index.html';
+        }
+    });
+
+    // --- 2. SIGN OUT ---
+    if (signOutBtn) {
+        signOutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+    }
+
+    // --- 3. PROJECT FUNCTIONS ---
+    function loadProjects() {
+        try {
+            pendingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
+            publicProjects = JSON.parse(localStorage.getItem('ucolabProjects') || '[]');
+            console.log(`Loaded ${pendingProjects.length} pending, ${publicProjects.length} public.`);
+        } catch (e) {
+            console.error("Error loading projects from localStorage:", e);
+            pendingProjects = [];
+            publicProjects = [];
+        }
+    }
+
+    function saveProjects() {
+        localStorage.setItem('pendingProjects', JSON.stringify(pendingProjects));
+        localStorage.setItem('ucolabProjects', JSON.stringify(publicProjects));
+    }
+
+    function renderProjects() {
+        if (!projectGrid || !projectsCountHeader) return;
+        
+        projectGrid.innerHTML = ''; // Clear grid
+
+        if (pendingProjects.length === 0) {
+            projectGrid.innerHTML = '<p class="no-projects-message">No projects are awaiting approval.</p>';
+        } else {
+            pendingProjects.forEach(project => {
+                projectGrid.innerHTML += createPendingCardHTML(project);
+            });
+        }
+        projectsCountHeader.textContent = `Pending Projects (${pendingProjects.length})`;
+        
+        // Add listeners to new buttons
+        addAdminActionListeners();
+    }
+
+    function createPendingCardHTML(project) {
+        // We can reuse most of the card HTML structure
+        return `
+            <article class="project-card" data-id="${project.id}">
+                <h3>${project.title || 'Untitled Project'}</h3>
+                <p class="card-college">${project.college || 'N/A'}</p>
+                <p class="card-description">${project.shortDescription || 'No description.'}</p>
+                <div class="card-footer">
+                    <a href="project-detail.html?id=${project.id}" target="_blank" class="card-link">Preview →</a>
+                    <div class="admin-actions">
+                        <button class="btn-reject" data-id="${project.id}">Reject</button>
+                        <button class="btn-approve" data-id="${project.id}">Approve</button>
+                    </div>
+                </div>
+            </article>`;
+    }
+
+    // --- 4. ACTION LISTENERS ---
+    function addAdminActionListeners() {
+        projectGrid.querySelectorAll('.btn-approve').forEach(btn => {
+            btn.addEventListener('click', () => approveProject(btn.dataset.id));
+        });
+        projectGrid.querySelectorAll('.btn-reject').forEach(btn => {
+            btn.addEventListener('click', () => rejectProject(btn.dataset.id));
+        });
+    }
+
+    function approveProject(id) {
+        if (!confirm("Are you sure you want to approve this project?")) return;
+
+        // Find the project in the pending list
+        const projectToApprove = pendingProjects.find(p => String(p.id) === String(id));
+        if (!projectToApprove) {
+            console.error("Could not find project to approve:", id);
+            return;
+        }
+
+        // Add to public list
+        publicProjects.push(projectToApprove);
+        
+        // Remove from pending list
+        pendingProjects = pendingProjects.filter(p => String(p.id) !== String(id));
+
+        // Save and re-render
+        saveProjects();
+        renderProjects();
+        console.log("Project approved:", id);
+    }
+
+    function rejectProject(id) {
+        if (!confirm("Are you sure you want to REJECT this project? This will delete it.")) return;
+
+        // Remove from pending list
+        pendingProjects = pendingProjects.filter(p => String(p.id) !== String(id));
+        
+        // Save and re-render
+        saveProjects();
+        renderProjects();
+        console.log("Project rejected:", id);
+    }
+
+});

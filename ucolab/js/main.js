@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 4. FIREBASE PROVIDER ---
     const googleProvider = new firebase.auth.GoogleAuthProvider();
-
+    const ADMIN_EMAIL = "admin@ucolab.com";
     // --- 5. AUTH UI FUNCTIONS ---
 
     /**
@@ -446,46 +446,64 @@ document.addEventListener('DOMContentLoaded', function() {
      * Handles user sign-in with Email/Password.
      */
     async function handleSignIn(email, password) {
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        console.log('User signed in successfully.');
+
+        // --- NEW: Check if user is admin ---
+        if (email === ADMIN_EMAIL) {
+            // Admin user, redirect to admin page
+            window.location.href = 'admin.html';
+        } else {
+            // Normal user, just close modal
             closeAuthModal();
-            console.log('User signed in successfully.');
-        } catch (error) {
-            displayFormError(signinForm, error.message);
-            console.error('Sign In Error:', error.code, error.message);
         }
+        // --- End of new code ---
+
+    } catch (error) {
+        displayFormError(signinForm, error.message);
+        console.error('Sign In Error:', error.code, error.message);
     }
+}
 
     /**
      * Handles Google Sign-In/Sign-Up using a pop-up window.
      */
     async function handleGoogleSignIn() {
-        clearFormErrors();
-        try {
-            const result = await auth.signInWithPopup(googleProvider);
-            const user = result.user;
+    clearFormErrors();
+    try {
+        const result = await auth.signInWithPopup(googleProvider);
+        const user = result.user;
+        console.log("Google Sign-in successful:", user.displayName, user.email);
+
+        // --- NEW: Check if user is admin ---
+        if (user.email === ADMIN_EMAIL) {
+            // Admin user, redirect to admin page
+            window.location.href = 'admin.html';
+        } else {
+            // Normal user, just close modal
             closeAuthModal();
-            console.log("Google Sign-in successful:", user.displayName, user.email);
-            
             if (result.additionalUserInfo.isNewUser) {
                 console.log("New user signed up with Google.");
                 setTimeout(() => {
                     showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
-                    // window.location.href = '/complete-profile.html'; 
                 }, 500); 
             }
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            if (errorCode === 'auth/popup-closed-by-user') {
-                console.log('Google Sign-In popup closed by user.');
-                return;
-            }
-            console.error('Google Sign-In Error:', errorCode, errorMessage);
-            const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
-            displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
         }
+        // --- End of new code ---
+
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode === 'auth/popup-closed-by-user') {
+            console.log('Google Sign-In popup closed by user.');
+            return;
+        }
+        console.error('Google Sign-In Error:', errorCode, errorMessage);
+        const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
+        displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
     }
+}
 
     /**
      * Handles user sign-out.
@@ -865,7 +883,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if (submitProjectBtn) {
         submitProjectBtn.addEventListener('click', handleSubmitProjectClick);
     }
+if (googleSignupBtn) {
+    googleSignupBtn.addEventListener('click', handleGoogleSignIn);
+}
 
+// --- NEW: Add this listener for the admin link ---
+const adminLoginLink = document.getElementById('admin-login-link');
+if (adminLoginLink) {
+    adminLoginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Just open the normal sign-in modal
+        openAuthModal('signin-panel'); 
+    });
+}
+// --- End of new code ---
     // --- CRITICAL: FIREBASE AUTH STATE LISTENER ---
     // This is the "controller" that runs on page load and on auth changes.
     auth.onAuthStateChanged((user) => {
