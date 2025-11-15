@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed");
+    console.log("DOM fully loaded and parsed. Running main.js");
 
-    // --- Default Project Data (NOW WITH ALL DETAILS) ---
-    // Make sure ALL default projects are included here
+    // --- 1. DEFAULT PROJECT DATA ---
     const defaultProjects = [
         {
             id: 15, views: 204, inquiries: 15, title: "FarmConnect", type: "Thesis", industry: "Agritech", college: "College of Business", trl: "TRL 4",
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             startDate: "October 2025", teamSize: "4-6 members",
             founderName: "Dr. Maria Santos", founderRole: "Project Lead & Principal Investigator", founderAffiliation: "College of Business, University of the Cordilleras", founderEmail: "maria.santos@uc-bcf.edu.ph", founderPhone: "+63 917 123 4567"
         },
-         {
+        {
             id: 14, views: 150, inquiries: 10, title: "VeggieTrack", type: "Capstone", industry: "Agritech", college: "College of Computer Studies", trl: "TRL 5",
             shortDescription: "IoT-based supply chain monitoring for vegetable produce from farm to.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=VeggieTrack+Image"],
@@ -246,10 +245,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
 
-    // --- Global Variables ---
+    // --- 2. GLOBAL VARIABLES ---
     let allProjectsData = [];
 
-    // --- DOM Element References ---
+    // --- 3. DOM ELEMENT REFERENCES (COMBINED) ---
+    
+    // --- Project Grid / Filter Elements ---
     const projectGrid = document.getElementById('project-list');
     const projectsCountHeader = document.getElementById('projects-count');
     const searchInput = document.getElementById('search-input');
@@ -259,109 +260,265 @@ document.addEventListener('DOMContentLoaded', function() {
     const typeFilter = document.getElementById('filter-type');
     const sortFilter = document.getElementById('filter-sort');
     const allDropdowns = document.querySelectorAll('.custom-dropdown');
-    const modalOverlay = document.getElementById('auth-modal-overlay');
-    const openSignInBtnHeader = document.getElementById('open-signin-btn');
-    const userInfoContainer = document.getElementById('user-info-container');
-    const userDisplayMain = document.getElementById('user-display-main');
-    const signOutBtnMain = document.getElementById('signout-btn-main');
-    const closeBtn = document.getElementById('modal-close-btn');
+    
+    // --- Auth Modal Elements ---
+    const authModalOverlay = document.getElementById('auth-modal-overlay');
     const signinPanel = document.getElementById('signin-panel');
     const signupPanel = document.getElementById('signup-panel');
-    const showSignupLinks = document.querySelectorAll('#show-signup-link');
-    const showSigninLinks = document.querySelectorAll('#show-signin-link');
-    const signInForm = signinPanel ? signinPanel.querySelector('form') : null;
-    const demoAccessButtons = document.querySelectorAll('.btn-form-secondary');
+    const openSigninBtn = document.getElementById('open-signin-btn');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const showSignupLink = document.getElementById('show-signup-link');
+    const showSigninLink = document.getElementById('show-signin-link');
+    const signoutBtnMain = document.getElementById('signout-btn-main');
+    const userInfoContainer = document.getElementById('user-info-container');
+    const userDisplayMain = document.getElementById('user-display-main');
     const submitProjectBtn = document.getElementById('submit-project-btn');
+
+    // --- Alert Modal Elements ---
     const alertModalOverlay = document.getElementById('alert-modal-overlay');
     const alertModalOkBtn = document.getElementById('alert-modal-ok-btn');
+    const alertModalMessage = document.getElementById('alert-modal-message');
 
-    // --- 1. Header UI Update Function ---
-    function updateHeaderUI() {
-        const loggedInUser = localStorage.getItem('loggedInUser');
-        // console.log("Updating header UI, loggedInUser:", loggedInUser);
+    // --- Auth Form Elements ---
+    const signinForm = document.getElementById('signin-form');
+    const signinEmailInput = document.getElementById('signin-email-input');
+    const signinPasswordInput = document.getElementById('signin-password-input');
+    const signupForm = document.getElementById('signup-form');
+    const signupFirstNameInput = document.getElementById('signup-first-name-input');
+    const signupLastNameInput = document.getElementById('signup-last-name-input');
+    const signupEmailInput = document.getElementById('signup-email-input');
+    const signupPasswordInput = document.getElementById('signup-password-input');
+    const signupPassword2Input = document.getElementById('signup-password2-input');
+    const signupAffiliationInput = document.getElementById('signup-affiliation-input');
+    const googleSigninBtn = document.getElementById('google-signin-btn');
+    const googleSignupBtn = document.getElementById('google-signup-btn');
 
-        if (loggedInUser && userInfoContainer && openSignInBtnHeader && userDisplayMain) {
-            openSignInBtnHeader.classList.add('hidden');
-            userInfoContainer.classList.remove('hidden');
-            userDisplayMain.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                ${loggedInUser}
-            `;
-        } else if (openSignInBtnHeader && userInfoContainer) {
-            openSignInBtnHeader.classList.remove('hidden');
-            userInfoContainer.classList.add('hidden');
-        } else {
-            console.warn("Header elements for UI update not found.");
-        }
+    // --- 4. FIREBASE PROVIDER ---
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    // --- 5. AUTH UI FUNCTIONS ---
+
+    /**
+     * Shows the main authentication modal.
+     * @param {string} panelId - 'signin-panel' or 'signup-panel' to show initially.
+     */
+    function openAuthModal(panelId = 'signin-panel') {
+        if (!authModalOverlay || !signinPanel || !signupPanel) return;
+        signinPanel.classList.toggle('hidden', panelId !== 'signin-panel');
+        signupPanel.classList.toggle('hidden', panelId !== 'signup-panel');
+        authModalOverlay.classList.remove('modal-hidden');
+        clearFormErrors();
     }
 
-    // --- Sign Out Logic ---
-    if (signOutBtnMain) {
-        signOutBtnMain.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log("Sign Out button clicked");
-            localStorage.removeItem('loggedInUser');
-            updateHeaderUI();
-            renderProjects();
-        });
-    } else {
-        console.warn("Header Sign Out button ('#signout-btn-main') not found.");
+    /**
+     * Hides the main authentication modal.
+     */
+    function closeAuthModal() {
+        if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
+    /**
+     * Shows a custom alert modal for errors or warnings.
+     * @param {string} message - The message to display.
+     */
+    function showAlertModal(message) {
+        if (!alertModalOverlay || !alertModalMessage) return;
+        alertModalMessage.textContent = message;
+        alertModalOverlay.classList.remove('modal-hidden');
+    }
 
-    // --- 2. DROPDOWN UI LOGIC ---
-    allDropdowns.forEach(dropdown => {
-        const toggle = dropdown.querySelector('.dropdown-toggle');
-        const menu = dropdown.querySelector('.dropdown-menu');
-        if (toggle && menu) {
-            toggle.addEventListener('click', () => {
-                closeOtherDropdowns(dropdown);
-                menu.classList.toggle('show');
-            });
-            menu.querySelectorAll('li').forEach(item => {
-                item.addEventListener('click', () => {
-                    const spanToUpdate = toggle.querySelector('span:not(.visually-hidden)'); // Avoid changing hidden span
-                    if (spanToUpdate) spanToUpdate.textContent = item.textContent;
-                    menu.classList.remove('show');
-                    renderProjects();
-                });
-            });
-        }
-    });
+    /**
+     * Hides the custom alert modal.
+     */
+    function closeAlertModal() {
+        if (alertModalOverlay) alertModalOverlay.classList.add('modal-hidden');
+    }
 
-    function closeOtherDropdowns(currentDropdown) {
-        allDropdowns.forEach(dropdown => {
-            if (dropdown !== currentDropdown) {
-                const menu = dropdown.querySelector('.dropdown-menu');
-                if (menu) menu.classList.remove('show');
+    /**
+     * Displays an error message inside the specified form.
+     * @param {HTMLElement} formElement - The sign-in or sign-up form.
+     * @param {string} message - The error message.
+     */
+    function displayFormError(formElement, message) {
+        if (!formElement) return;
+        let errorElement = formElement.querySelector('.form-error-message');
+        if (!errorElement) {
+            errorElement = document.createElement('p');
+            errorElement.className = 'form-error-message';
+            const primaryBtn = formElement.querySelector('.btn-form-primary');
+            const googleBtn = formElement.querySelector('.btn-google');
+            const insertBeforeElement = primaryBtn || googleBtn || formElement.lastElementChild;
+            if (insertBeforeElement) {
+                formElement.insertBefore(errorElement, insertBeforeElement);
+            } else {
+                formElement.appendChild(errorElement);
             }
-        });
+        }
+        errorElement.textContent = `Error: ${message}`;
+        errorElement.style.color = '#dc3545';
+        errorElement.style.marginTop = '10px';
     }
 
-    window.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-dropdown')) {
-            closeOtherDropdowns(null);
+    /**
+     * Clears any error messages in both sign-in and sign-up forms.
+     */
+    function clearFormErrors() {
+        document.querySelectorAll('.form-error-message').forEach(el => el.remove());
+    }
+
+    // --- 6. PROJECT AUTH ALERT ---
+    /**
+     * Prevents navigation and shows an alert if the user is not signed in.
+     * @param {Event} e 
+     */
+    function showProjectAuthAlert(e) {
+        e.preventDefault(); // Stop the link from navigating
+        showAlertModal('You must be signed in to submit a project. Please sign in or create an account.');
+    }
+
+    // --- 7. MAIN UI UPDATE FUNCTION (COMBINED) ---
+    /**
+     * Updates the header UI based on the user's authentication state.
+     * @param {firebase.User|null} user - The currently authenticated Firebase user.
+     */
+    function updateUI(user) {
+        if (user) {
+            // --- User is SIGNED IN ---
+            if (openSigninBtn) openSigninBtn.classList.add('hidden');
+            if (userInfoContainer) userInfoContainer.classList.remove('hidden');
+            if (userDisplayMain) {
+                const displayName = user.displayName || user.email;
+                userDisplayMain.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    ${displayName.split('@')[0]}
+                `;
+            }
+            
+            // Remove 'Sign In Required' lock
+            if (submitProjectBtn) {
+                submitProjectBtn.removeEventListener('click', showProjectAuthAlert);
+            }
+        } else {
+            // --- User is SIGNED OUT ---
+            if (openSigninBtn) openSigninBtn.classList.remove('hidden');
+            if (userInfoContainer) userInfoContainer.classList.add('hidden');
+
+            // Restore 'Sign In Required' lock
+            if (submitProjectBtn) {
+                submitProjectBtn.addEventListener('click', showProjectAuthAlert);
+            }
         }
-    });
-    // --- End Dropdown UI Logic ---
+        
+        // --- !! CRITICAL FIX !! ---
+        // Re-render projects to show/hide edit/delete buttons
+        renderProjects(); 
+    }
 
+    // --- 8. FIREBASE AUTH FUNCTIONS ---
 
-    // --- 3. PROJECT DATA HANDLING & RENDERING ---
+    /**
+     * Handles user registration with Email/Password.
+     */
+    async function handleSignUp(email, password, firstName, lastName) {
+        try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            await user.updateProfile({
+                displayName: `${firstName} ${lastName}`
+            });
+            // Optional: Save additional user data (like affiliation) to Firestore
+            // e.g., db.collection('users').doc(user.uid).set({ ... });
+            closeAuthModal();
+            console.log('User signed up and profile updated:', user);
+        } catch (error) {
+            displayFormError(signupForm, error.message);
+            console.error('Sign Up Error:', error.code, error.message);
+        }
+    }
+
+    /**
+     * Handles user sign-in with Email/Password.
+     */
+    async function handleSignIn(email, password) {
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            closeAuthModal();
+            console.log('User signed in successfully.');
+        } catch (error) {
+            displayFormError(signinForm, error.message);
+            console.error('Sign In Error:', error.code, error.message);
+        }
+    }
+
+    /**
+     * Handles Google Sign-In/Sign-Up using a pop-up window.
+     */
+    async function handleGoogleSignIn() {
+        clearFormErrors();
+        try {
+            const result = await auth.signInWithPopup(googleProvider);
+            const user = result.user;
+            closeAuthModal();
+            console.log("Google Sign-in successful:", user.displayName, user.email);
+            
+            if (result.additionalUserInfo.isNewUser) {
+                console.log("New user signed up with Google.");
+                setTimeout(() => {
+                    showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
+                    // window.location.href = '/complete-profile.html'; 
+                }, 500); 
+            }
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode === 'auth/popup-closed-by-user') {
+                console.log('Google Sign-In popup closed by user.');
+                return;
+            }
+            console.error('Google Sign-In Error:', errorCode, errorMessage);
+            const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
+            displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
+        }
+    }
+
+    /**
+     * Handles user sign-out.
+     */
+    async function handleSignOut() {
+        try {
+            await auth.signOut();
+            console.log('User signed out successfully.');
+        } catch (error) {
+            showAlertModal('Error signing out. Please try again.');
+            console.error('Sign Out Error:', error.code, error.message);
+        }
+    }
+
+    // --- 9. PROJECT RENDERING FUNCTIONS ---
+
+    /**
+     * Creates the HTML for a single project card.
+     */
     function createProjectCardHTML(project) {
         if (!project || typeof project !== 'object') {
             console.error("Invalid project data for createProjectCardHTML:", project); return '';
         }
+        
         const trlNumMatch = project.trl?.match(/TRL (\d+)/); const trlNum = trlNumMatch ? parseInt(trlNumMatch[1], 10) : 0; let trlClass = 'grey'; let trlText = project.trl || 'TRL ?'; if (trlNum <= 3) { trlClass = 'blue'; trlText = `TRL ${trlNum} – Proof of Concept`; } else if (trlNum <= 4) { trlClass = 'yellow'; trlText = `TRL ${trlNum} – Laboratory Testing`; } else if (trlNum <= 6) { trlClass = 'orange'; trlText = `TRL ${trlNum} – Prototype/Pilot`; } else if (trlNum <= 9) { trlClass = 'green'; trlText = `TRL ${trlNum} – System Prototype/Demo`; }
         let typeClass = 'grey'; if (project.type?.toLowerCase() === 'thesis') typeClass = 'blue'; else if (project.type?.toLowerCase() === 'capstone') typeClass = 'green'; else if (project.type?.toLowerCase() === 'research') typeClass = 'blue'; else if (project.type?.toLowerCase() === 'startup') typeClass = 'purple';
         let iconClass = 'icon-default'; if (project.industry?.toLowerCase() === 'agritech') iconClass = 'icon-agritech'; else if (project.industry?.toLowerCase() === 'healthtech') iconClass = 'icon-health'; else if (project.industry?.toLowerCase() === 'fintech') iconClass = 'icon-fintech'; else if (project.industry?.toLowerCase() === 'sustainability') iconClass = 'icon-sustainability'; else if (project.industry?.toLowerCase() === 'edutech') iconClass = 'icon-edutech'; else if (project.industry?.toLowerCase() === 'crimintech') iconClass = 'icon-security';
 
         const detailPageLink = (`project-detail.html?id=${project.id}`);
 
-        const loggedInUser = localStorage.getItem('loggedInUser');
-        // THIS IS THE CRITICAL LINE FOR SHOWING/HIDING BUTTONS
-        const showActions = loggedInUser && project.userId === loggedInUser;
+        // --- !! CRITICAL FIX !! ---
+        // Check against the global Firebase auth object, NOT localStorage
+        const currentUser = auth.currentUser;
+        let showActions = false;
+        if (currentUser) {
+            // Check against email OR display name for flexibility
+            showActions = (project.userId === currentUser.email || project.userId === currentUser.displayName);
+        }
 
-        // ADDED animate-on-scroll class here
         return `
             <article class="project-card animate-on-scroll" data-id="${project.id}" data-views="${project.views || 0}" data-inquiries="${project.inquiries || 0}" data-title="${project.title || ''}" data-type="${project.type || ''}" data-industry="${project.industry || ''}" data-college="${project.college || ''}" data-trl="TRL ${trlNum}" data-user-id="${project.userId || ''}">
                 <div class="card-icon ${iconClass}">
@@ -381,18 +538,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="card-trl trl-${trlClass}">${trlText}</p>
                 <p class="card-description">${project.shortDescription || 'No description available.'}</p>
                 <div class="card-footer">
-                    <a href="${detailPageLink}" class="card-link">View Details &rarr;</a>
+                    <a href="${detailPageLink}" class="card-link">View Details →</a>
                     ${showActions ? `<div class="card-actions"><button class="btn-edit" data-id="${project.id}">Edit</button><button class="btn-delete" data-id="${project.id}">Delete</button></div>` : ''}
                 </div>
             </article>`;
     }
 
+    /**
+     * Loads all projects from localStorage or initializes with defaults.
+     */
     function loadProjects() {
         console.log("Attempting to load projects...");
         try {
             const storedProjects = localStorage.getItem('ucolabProjects');
             if (!storedProjects || storedProjects === '[]' || storedProjects === 'null' || !storedProjects.startsWith('[')) {
-                console.log("No valid projects found in localStorage or storage is empty. Loading default projects.");
+                console.log("No valid projects found in localStorage. Loading default projects.");
                 localStorage.setItem('ucolabProjects', JSON.stringify(defaultProjects));
                 allProjectsData = [...defaultProjects];
             } else {
@@ -420,6 +580,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    /**
+     * Filters, sorts, and renders the projects to the grid.
+     */
     function renderProjects() {
         console.log("renderProjects called");
         if (!projectGrid || !projectsCountHeader) {
@@ -480,13 +643,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const count = filteredData.length;
         projectsCountHeader.textContent = `${count} Project${count === 1 ? '' : 's'} Found`;
         addEditDeleteListeners();
-        // Re-run observer setup after rendering new cards
-        setupScrollAnimations();
-        console.log("Finished rendering projects.");
+        setupScrollAnimations(); // Re-run observer setup
     }
 
-    if (searchInput) searchInput.addEventListener('input', renderProjects);
-
+    /**
+     * Adds click listeners for edit/delete buttons.
+     */
     function addEditDeleteListeners() {
         const editButtons = projectGrid.querySelectorAll('.btn-edit');
         const deleteButtons = projectGrid.querySelectorAll('.btn-delete');
@@ -522,10 +684,24 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Could not delete the project.");
         }
     }
-    // --- End Project Data Handling ---
 
+    // --- 10. OTHER UI FUNCTIONS ---
 
-    // --- 4. DYNAMIC BACKGROUND CIRCLES ---
+    /**
+     * Closes all dropdowns except the current one.
+     */
+    function closeOtherDropdowns(currentDropdown) {
+        allDropdowns.forEach(dropdown => {
+            if (dropdown !== currentDropdown) {
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu) menu.classList.remove('show');
+            }
+        });
+    }
+
+    /**
+     * Creates decorative background circles.
+     */
     function createRandomCircles() {
         const body = document.body; if (!body) return;
         const circleCount = Math.floor(Math.random() * 6) + 5;
@@ -541,130 +717,171 @@ document.addEventListener('DOMContentLoaded', function() {
             body.prepend(circle);
         }
     }
-    createRandomCircles();
 
-
-    // --- 5. AUTH MODAL LOGIC ---
-    if (signInForm) {
-        signInForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById('signin-email');
-            if (emailInput && emailInput.value) {
-                localStorage.setItem('loggedInUser', emailInput.value);
-                alert(`Signed in as ${emailInput.value}`);
-                closeModal();
-                updateHeaderUI();
-                renderProjects();
-            } else { alert("Please enter an email address."); }
-        });
-    }
-
-    demoAccessButtons.forEach(button => {
-        if (button.textContent.includes('Quick Demo Access')) {
-            button.addEventListener('click', function() {
-                const demoUserName = 'Demo User';
-                localStorage.setItem('loggedInUser', demoUserName);
-                console.log(`Simulated login as: ${demoUserName}`);
-                closeModal();
-                updateHeaderUI();
-                renderProjects();
-            });
-        }
-    });
-
-    function openModal() {
-        if (modalOverlay) {
-            modalOverlay.classList.remove('modal-hidden');
-            if (signinPanel && signupPanel) {
-                signinPanel.classList.remove('hidden');
-                signupPanel.classList.add('hidden');
-            }
-        }
-    }
-    function closeModal() {
-        if (modalOverlay) modalOverlay.classList.add('modal-hidden');
-    }
-    if (openSignInBtnHeader) openSignInBtnHeader.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (modalOverlay) modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-    showSignupLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); if(signinPanel && signupPanel){ signinPanel.classList.add('hidden'); signupPanel.classList.remove('hidden'); } }); });
-    showSigninLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); if(signinPanel && signupPanel){ signupPanel.classList.add('hidden'); signinPanel.classList.remove('hidden'); } }); });
-    // --- End Auth Modal Logic ---
-
-
-    // --- 6. Submit Project Button Logic (with Custom Alert) ---
-    function showCustomAlert() { if (alertModalOverlay) alertModalOverlay.classList.remove('modal-hidden'); }
-    function hideCustomAlert() { if (alertModalOverlay) alertModalOverlay.classList.add('modal-hidden'); }
-    if (alertModalOkBtn) alertModalOkBtn.addEventListener('click', hideCustomAlert);
-    if (alertModalOverlay) alertModalOverlay.addEventListener('click', (e) => { if (e.target === alertModalOverlay) hideCustomAlert(); });
-
-    if (submitProjectBtn) {
-        submitProjectBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            const loggedInUser = localStorage.getItem('loggedInUser');
-            if (!loggedInUser) {
-                showCustomAlert();
-            } else {
-                const submitUrl = submitProjectBtn.getAttribute('href');
-                if (submitUrl) window.open(submitUrl, '_blank');
-                else console.error("Submit button has no href attribute.");
-            }
-        });
-    } else {
-        console.warn("Submit Project button ('#submit-project-btn') not found.");
-    }
-    // --- End Submit Project Button Logic ---
-
-
-    // --- 7. INITIAL LOAD ---
-    console.log("Running initial load sequence...");
-    loadProjects();     // Load data first
-    updateHeaderUI();   // Update header based on initial login status
-    if (projectGrid) {
-        renderProjects(); // THEN render projects (this will call setupScrollAnimations)
-    } else {
-        console.warn("Project grid ('#project-list') not found on initial load.");
-        setupScrollAnimations(); // Still set up for other elements on the page
-    }
-    console.log("Initial load sequence complete.");
-
-
-    // --- Intersection Observer for Scroll Animations ---
-    // Moved setup into a function so it can be called after re-rendering projects
+    /**
+     * Sets up the Intersection Observer for scroll animations.
+     */
     function setupScrollAnimations() {
         const animatedElements = document.querySelectorAll('.animate-on-scroll');
-
         if ("IntersectionObserver" in window) {
-            // Disconnect previous observer if it exists, to avoid observing old elements
             if (window.scrollObserver) {
                 window.scrollObserver.disconnect();
             }
-
             window.scrollObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Stop observing once visible
+                        observer.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.1 // Trigger when 10% of the element is visible
+                threshold: 0.1 
             });
-
             animatedElements.forEach(el => {
-                // Ensure the element doesn't already have is-visible before observing
-                // This prevents re-triggering if the element was already visible (e.g., from fallback)
                 if (!el.classList.contains('is-visible')) {
                     window.scrollObserver.observe(el);
                 }
             });
         } else {
-            // Fallback for older browsers: make elements visible immediately
             animatedElements.forEach(el => {
                 el.classList.add('is-visible');
             });
         }
     }
-    // --- End Intersection Observer ---
 
-}); // End DOMContentLoaded
+    // --- 11. INITIALIZATION & EVENT LISTENERS ---
+    
+    // --- Filter/Search Listeners ---
+    allDropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        if (toggle && menu) {
+            toggle.addEventListener('click', () => {
+                closeOtherDropdowns(dropdown);
+                menu.classList.toggle('show');
+            });
+            menu.querySelectorAll('li').forEach(item => {
+                item.addEventListener('click', () => {
+                    const spanToUpdate = toggle.querySelector('span:not(.visually-hidden)');
+                    if (spanToUpdate) spanToUpdate.textContent = item.textContent;
+                    menu.classList.remove('show');
+                    renderProjects();
+                });
+            });
+        }
+    });
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-dropdown')) {
+            closeOtherDropdowns(null);
+        }
+    });
+    if (searchInput) searchInput.addEventListener('input', renderProjects);
+
+    // --- Auth Modal Listeners ---
+    if (openSigninBtn) {
+        openSigninBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openAuthModal('signin-panel');
+        });
+    }
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeAuthModal);
+    }
+    if (alertModalOkBtn) {
+        alertModalOkBtn.addEventListener('click', closeAlertModal);
+    }
+    if (authModalOverlay) {
+        authModalOverlay.addEventListener('click', (e) => {
+            if (e.target === authModalOverlay) {
+                closeAuthModal();
+            }
+        });
+    }
+    if (alertModalOverlay) {
+        alertModalOverlay.addEventListener('click', (e) => {
+            if (e.target === alertModalOverlay) {
+                closeAlertModal();
+            }
+        });
+    }
+    if (showSignupLink) {
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearFormErrors();
+            signinPanel.classList.add('hidden');
+            signupPanel.classList.remove('hidden');
+        });
+    }
+    if (showSigninLink) {
+        showSigninLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearFormErrors();
+            signupPanel.classList.add('hidden');
+            signinPanel.classList.remove('hidden');
+        });
+    }
+    if (signinForm) {
+        signinForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearFormErrors();
+            handleSignIn(signinEmailInput.value, signinPasswordInput.value);
+        });
+    }
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearFormErrors();
+            if (signupPasswordInput.value !== signupPassword2Input.value) {
+                displayFormError(signupForm, 'Passwords do not match.');
+                return;
+            }
+            if (signupPasswordInput.value.length < 6) {
+                displayFormError(signupForm, 'Password must be at least 6 characters.');
+                return;
+            }
+            handleSignUp(signupEmailInput.value, signupPasswordInput.value, signupFirstNameInput.value, signupLastNameInput.value);
+        });
+    }
+    if (signoutBtnMain) {
+        signoutBtnMain.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleSignOut();
+        });
+    }
+    if (googleSigninBtn) {
+        googleSigninBtn.addEventListener('click', handleGoogleSignIn);
+    }
+    if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', handleGoogleSignIn);
+    }
+
+    // --- CRITICAL: FIREBASE AUTH STATE LISTENER ---
+    // This is the "controller" that runs on page load and on auth changes.
+    auth.onAuthStateChanged((user) => {
+        console.log("Auth state changed, user:", user);
+        updateUI(user); // This updates the header and ATTACHES/REMOVES the 'Submit Project' listener
+        
+        if (!user) {
+            // Ensure sign-in panel is default when modal opens
+            if(signinPanel && signupPanel) {
+                signinPanel.classList.remove('hidden');
+                signupPanel.classList.add('hidden');
+            }
+        }
+        // updateUI() already calls renderProjects(), so it's handled.
+    });
+
+    // --- INITIAL PAGE LOAD ---
+    console.log("Running initial load sequence...");
+    loadProjects();         // Load project data from localStorage
+    createRandomCircles();  // Create decorative circles
+    
+    // Note: We don't call renderProjects() or updateUI() here.
+    // The `auth.onAuthStateChanged` listener above will fire automatically
+    // on page load and will call `updateUI(user)`, which in turn
+    // calls `renderProjects()`. This ensures everything happens
+    // in the correct order.
+    
+    console.log("Initial load sequence complete. Waiting for auth state change.");
+
+}); // --- END OF DOMCONTENTLOADED ---
