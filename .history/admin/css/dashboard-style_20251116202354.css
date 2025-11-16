@@ -11,9 +11,10 @@
 body {
     display: flex;
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: var(--background-gray);
     color: var(--text-dark);
+    min-height: 100vh;
 }
 * {
     box-sizing: border-box;
@@ -29,14 +30,20 @@ body {
     position: sticky;
     top: 0;
     flex-shrink: 0;
+    z-index: 1000;
 }
 .sidebar-header {
     margin-bottom: 30px;
     padding-left: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
 }
 .sidebar-header h3 {
     margin: 0;
     font-weight: 700;
+    font-size: 20px;
 }
 .sidebar-header p {
     margin: 0;
@@ -47,6 +54,9 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+.sidebar-nav li {
+    margin-bottom: 4px;
 }
 .sidebar-nav a {
     display: flex;
@@ -71,6 +81,64 @@ body {
     width: 20px;
     text-align: center;
 }
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    order: 2;
+}
+@media (max-width: 992px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 15px 24px;
+        position: static;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .sidebar-header {
+        margin-bottom: 0;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .sidebar-header h3 {
+        padding-left: 0;
+    }
+    .sidebar-header p {
+        display: none;
+    }
+    .hamburger-menu {
+        display: block;
+        margin-left: 0;
+        order: 0;
+    }
+    .sidebar-nav {
+        display: none;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background-color: var(--primary-green);
+        padding: 10px 24px;
+        box-shadow: var(--shadow);
+    }
+    .sidebar-nav.is-open {
+        display: block;
+    }
+    .sidebar-nav ul {
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebar-nav li {
+        margin-bottom: 0;
+    }
+}
+
 .main-content {
     flex-grow: 1;
     padding: 30px;
@@ -219,24 +287,7 @@ body {
     background-color: #d1e7dd;
     color: #0a3622;
 }
-@media (max-width: 1200px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-}
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-    }
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: static;
-    }
-    .main-content {
-        padding: 20px;
-    }
-}
+
 
 /* --- UPDATED Dropdown Filter Styles --- */
 .sort-container {

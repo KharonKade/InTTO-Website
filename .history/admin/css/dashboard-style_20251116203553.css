@@ -11,9 +11,10 @@
 body {
     display: flex;
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: var(--background-gray);
     color: var(--text-dark);
+    min-height: 100vh;
 }
 * {
     box-sizing: border-box;
@@ -29,14 +30,21 @@ body {
     position: sticky;
     top: 0;
     flex-shrink: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
 }
 .sidebar-header {
     margin-bottom: 30px;
     padding-left: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
 }
 .sidebar-header h3 {
     margin: 0;
     font-weight: 700;
+    font-size: 20px;
 }
 .sidebar-header p {
     margin: 0;
@@ -47,6 +55,9 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+.sidebar-nav li {
+    margin-bottom: 4px;
 }
 .sidebar-nav a {
     display: flex;
@@ -71,6 +82,18 @@ body {
     width: 20px;
     text-align: center;
 }
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    order: 2;
+}
+
 .main-content {
     flex-grow: 1;
     padding: 30px;
@@ -219,26 +242,6 @@ body {
     background-color: #d1e7dd;
     color: #0a3622;
 }
-@media (max-width: 1200px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-}
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-    }
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: static;
-    }
-    .main-content {
-        padding: 20px;
-    }
-}
-
-/* --- UPDATED Dropdown Filter Styles --- */
 .sort-container {
     display: flex;
     align-items: center;
@@ -252,33 +255,100 @@ body {
     color: var(--text-light);
 }
 .sort-dropdown {
-    /* Reset browser default styles */
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-
-    /* Custom Styling */
-    padding: 10px 35px 10px 15px; /* Extra padding on the right for the arrow */
+    padding: 10px 35px 10px 15px; 
     border: 1px solid var(--border-gray);
     border-radius: 8px;
     background-color: var(--white);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     color: var(--text-dark);
     cursor: pointer;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-    /* Custom Arrow using an SVG background image */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3E%3Cpath d='M8 11L2 5h12L8 11z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 12px;
 }
 .sort-dropdown:hover {
-    border-color: #adb5bd; /* A slightly darker gray on hover */
+    border-color: #adb5bd; 
 }
 .sort-dropdown:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(24, 99, 75, 0.1); /* Subtle green glow */
+    box-shadow: 0 0 0 3px rgba(24, 99, 75, 0.1); 
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        transform: translateX(-260px);
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+        z-index: 1001;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    .sidebar-header {
+        justify-content: space-between;
+        padding-left: 0;
+        margin-bottom: 20px;
+    }
+    
+    .sidebar-header h3,
+    .sidebar-header p {
+        flex-grow: 1;
+    }
+
+    .main-header {
+        justify-content: flex-start;
+        padding: 0 10px;
+        margin-bottom: 20px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+    
+    .main-header .logout-btn {
+        margin-left: auto;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-overview h1 {
+        font-size: 24px;
+    }
+
+    .welcome-text {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sort-container {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .sort-dropdown {
+        width: 100%;
+    }
 }
