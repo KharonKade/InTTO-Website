@@ -317,9 +317,14 @@
         this.classList.toggle('open');
     });
 
-    const navbar = document.querySelector('.nav-wrapper');
+    // Example JavaScript logic
+    const navbar = document.querySelector('.navbar');
+
+    // When user logs in:
     navbar.classList.add('logged-in'); 
 
+    // When user logs out (and only the Sign In button is visible):
+    // navbar.classList.remove('logged-in');
     </script>
 </body>
 </html>

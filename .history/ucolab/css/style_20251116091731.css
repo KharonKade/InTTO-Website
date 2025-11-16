@@ -139,9 +139,8 @@ body {
     margin-right: 180px;
 }
 
-.nav-wrapper.logged-in{
+.nav-wrapper.logged-in .nav-wrapper {
     margin-right: 0; 
-    margin-left: 40px;
 }
 
 .nav-wrapper::before {

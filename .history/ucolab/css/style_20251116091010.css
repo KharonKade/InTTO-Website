@@ -139,11 +139,6 @@ body {
     margin-right: 180px;
 }
 
-.nav-wrapper.logged-in{
-    margin-right: 0; 
-    margin-left: 40px;
-}
-
 .nav-wrapper::before {
     content: '';
     position: absolute;

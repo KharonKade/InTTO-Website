@@ -135,13 +135,9 @@ body {
     left: auto;
     transform: none;
     overflow: hidden;
+    flex-grow: 1;
     margin: 0 20px;
     margin-right: 180px;
-}
-
-.nav-wrapper.logged-in{
-    margin-right: 0; 
-    margin-left: 40px;
 }
 
 .nav-wrapper::before {
