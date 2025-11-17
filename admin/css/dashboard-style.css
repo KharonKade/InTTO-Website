@@ -83,7 +83,8 @@ body {
     align-items: center;
     margin-bottom: 30px;
 }
-.logout-btn {
+.logout-btn,
+.uColab-btn {
     text-decoration: none;
     color: var(--text-dark);
     font-weight: 600;
@@ -91,12 +92,22 @@ body {
     border: 1px solid var(--border-gray);
     border-radius: 8px;
     transition: background-color 0.2s;
+    font-size: 0; /* Hide original text */
 }
-.logout-btn:hover {
+.logout-btn:hover,
+.uColab-btn:hover {
     background-color: var(--border-gray);
 }
-.logout-btn i {
+.logout-btn i,
+.uColab-btn i {
     margin-right: 8px;
+    font-size: 16px; /* Restore icon size */
+}
+.logout-btn::after,
+.uColab-btn::after {
+    content: 'uColab';
+    font-size: 16px; /* Restore text size */
+    font-weight: 600;
 }
 .dashboard-overview h1 {
     font-size: 28px;
