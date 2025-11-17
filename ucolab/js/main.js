@@ -278,7 +278,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const alertModalOverlay = document.getElementById('alert-modal-overlay');
     const alertModalOkBtn = document.getElementById('alert-modal-ok-btn');
     const alertModalMessage = document.getElementById('alert-modal-message');
-
+    const alertModalTitle = document.getElementById('alert-modal-title');
+    const profileModalOverlay = document.getElementById('profile-modal-overlay');
+    const profileForm = document.getElementById('profile-form');
+    const profileNameInput = document.getElementById('profile-name-input');
+    const closeProfileModalBtn = document.getElementById('close-profile-modal-btn');
+    const cancelProfileBtn = document.getElementById('cancel-profile-btn');
     // --- Auth Form Elements ---
     const signinForm = document.getElementById('signin-form');
     const signinEmailInput = document.getElementById('signin-email-input');
@@ -296,6 +301,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 4. FIREBASE PROVIDER ---
     const googleProvider = new firebase.auth.GoogleAuthProvider();
 
+    // --- Admin Email ---
+    const ADMIN_EMAIL = "admin@uc.edu.ph"; 
+
+
     // --- 5. AUTH UI FUNCTIONS ---
 
     function openAuthModal(panelId = 'signin-panel') {
@@ -310,14 +319,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
-    function showAlertModal(message) {
-        if (!alertModalOverlay || !alertModalMessage) return;
-        alertModalMessage.textContent = message;
-        alertModalOverlay.classList.remove('modal-hidden');
-    }
+    function showAlertModal(message, title = 'Alert') { // <-- MODIFIED
+    if (!alertModalOverlay || !alertModalMessage || !alertModalTitle) return; // <-- MODIFIED
+    alertModalTitle.textContent = title; // <-- ADD THIS
+    alertModalMessage.textContent = message;
+    alertModalOverlay.classList.remove('modal-hidden');
+}
 
     function closeAlertModal() {
         if (alertModalOverlay) alertModalOverlay.classList.add('modal-hidden');
+    }
+    function openProfileModal() {
+        if (!profileModalOverlay || !profileNameInput) return;
+        const currentUser = auth.currentUser;
+        if (!currentUser) return; // Safety check
+
+        // Pre-fill the input with the user's current display name
+        profileNameInput.value = currentUser.displayName || '';
+        
+        clearFormErrors(); // Clear any old errors
+        profileModalOverlay.classList.remove('modal-hidden');
+    }
+
+    function closeProfileModal() {
+        if (profileModalOverlay) profileModalOverlay.classList.add('modal-hidden');
     }
 
     function displayFormError(formElement, message) {
@@ -349,9 +374,11 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const currentUser = auth.currentUser;
         if (currentUser) {
+            // User is signed in, navigate to submit page
             window.open('submit-project.html', '_blank');
         } else {
-            showAlertModal('You must be signed in to submit a project. Please sign in or create an account.');
+            // User is not signed in, show alert
+            showAlertModal('You must be signed in to submit a project. Please sign in or create an account.', 'Sign In Required');
         }
     }
 
@@ -367,11 +394,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     ${displayName.split('@')[0]}
                 `;
+                userDisplayMain.onclick = () => {
+                    openProfileModal();
+                };
             }
         } else {
             // --- User is SIGNED OUT ---
             if (openSigninBtn) openSigninBtn.classList.remove('hidden');
             if (userInfoContainer) userInfoContainer.classList.add('hidden');
+            if (userDisplayMain) {
+                userDisplayMain.onclick = null;
+            }
         }
         
         renderProjects(); 
@@ -398,7 +431,15 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             await auth.signInWithEmailAndPassword(email, password);
             console.log('User signed in successfully.');
-            closeAuthModal(); 
+
+            if (email === ADMIN_EMAIL) {
+                // Admin user, redirect to admin page
+                window.location.href = '../admin/dashboard.html'; 
+            } else {
+                // Normal user, just close modal
+                closeAuthModal();
+            }
+
         } catch (error) {
             displayFormError(signinForm, error.message);
             console.error('Sign In Error:', error.code, error.message);
@@ -412,14 +453,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const user = result.user;
             console.log("Google Sign-in successful:", user.displayName, user.email);
 
-            closeAuthModal();
+            if (user.email === ADMIN_EMAIL) {
+                // Admin user, redirect to admin page
+                window.location.href = '../admin/dashboard.html';
+            } else {
+                // Normal user, just close modal
+                closeAuthModal();
 
-            if (result.additionalUserInfo.isNewUser) {
-                console.log("New user signed up with Google.");
-                setTimeout(() => {
-                    showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
-                }, 500); 
+                if (result.additionalUserInfo.isNewUser) {
+                    console.log("New user signed up with Google. No pop-up shown."); 
+                }
             }
+
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -432,13 +477,84 @@ document.addEventListener('DOMContentLoaded', function() {
             displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
         }
     }
+async function handleProfileUpdate(event) {
+        event.preventDefault();
+        clearFormErrors();
+        const newName = profileNameInput.value;
+        const user = auth.currentUser;
 
+        if (!newName || newName.trim() === '') {
+            displayFormError(profileForm, 'Name cannot be empty.');
+            return;
+        }
+        if (!user) {
+            displayFormError(profileForm, 'You are not signed in.');
+            return;
+        }
+
+        try {
+            // Update the profile in Firebase Auth
+            await user.updateProfile({
+                displayName: newName
+            });
+            
+            console.log('Profile updated successfully.');
+            closeProfileModal();
+            
+            // IMPORTANT: Manually update the UI pill
+            // onAuthStateChanged won't re-fire, so we call updateUI again
+            updateUI(auth.currentUser); 
+
+            // Use the existing alert modal for success
+            showAlertModal('Your profile has been updated.', 'Profile Updated');
+            
+        } catch (error) {
+            console.error('Profile Update Error:', error);
+            displayFormError(profileForm, error.message);
+        }
+    }
+    async function handleProfileUpdate(event) {
+        event.preventDefault();
+        clearFormErrors();
+        const newName = profileNameInput.value;
+        const user = auth.currentUser;
+
+        if (!newName || newName.trim() === '') {
+            displayFormError(profileForm, 'Name cannot be empty.');
+            return;
+        }
+        if (!user) {
+            displayFormError(profileForm, 'You are not signed in.');
+            return;
+        }
+
+        try {
+            // Update the profile in Firebase Auth
+            await user.updateProfile({
+                displayName: newName
+            });
+            
+            console.log('Profile updated successfully.');
+            closeProfileModal();
+            
+            // IMPORTANT: Manually update the UI pill
+            // onAuthStateChanged won't re-fire, so we call updateUI again
+            updateUI(auth.currentUser); 
+
+            // Use the existing alert modal for success
+            showAlertModal('Your profile has been updated.');
+            
+        } catch (error) {
+            console.error('Profile Update Error:', error);
+            displayFormError(profileForm, error.message);
+        }
+    }
     async function handleSignOut() {
         try {
             await auth.signOut();
             console.log('User signed out successfully.');
         } catch (error) {
-            showAlertModal('Error signing out. Please try again.');
+            showAlertModal('Error signing out. Please try again.', 'Error');
             console.error('Sign Out Error:', error.code, error.message);
         }
     }
@@ -458,7 +574,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentUser = auth.currentUser;
         let showActions = false;
         if (currentUser) {
-            showActions = (project.userId === currentUser.email || project.userId === currentUser.displayName);
+            const userIdentifier = currentUser.displayName || currentUser.email;
+            showActions = (project.userId === userIdentifier);
         }
 
         const imageUrl = (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0)
@@ -781,6 +898,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (googleSignupBtn) {
         googleSignupBtn.addEventListener('click', handleGoogleSignIn);
+    }
+    if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', handleGoogleSignIn);
+    }
+
+    // --- NEW: Profile Modal Listeners ---
+    if (profileForm) {
+        profileForm.addEventListener('submit', handleProfileUpdate);
+    }
+    if (closeProfileModalBtn) {
+        closeProfileModalBtn.addEventListener('click', closeProfileModal);
+    }
+    if (cancelProfileBtn) {
+        cancelProfileBtn.addEventListener('click', closeProfileModal);
+    }
+    if (profileModalOverlay) {
+        profileModalOverlay.addEventListener('click', (e) => {
+            if (e.target === profileModalOverlay) { // Only close if clicking overlay
+                closeProfileModal();
+            }
+        });
     }
 
     // --- Submit Project Button Listener ---

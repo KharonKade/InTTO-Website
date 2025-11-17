@@ -272,8 +272,12 @@ body {
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-
+.user-status-pill:hover {
+    background-color: #d0e8e6; /* A slightly lighter hover color */
+}
 .user-status-pill svg {
     margin-top: -1px;
     stroke-width: 2;
