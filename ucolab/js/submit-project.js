@@ -224,9 +224,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
 
                 try {
-                    const existingProjects = JSON.parse(localStorage.getItem('ucolabProjects') || '[]');
+                    const existingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
                     existingProjects.push(newProject);
-                    localStorage.setItem('ucolabProjects', JSON.stringify(existingProjects));
+                    localStorage.setItem('pendingProjects', JSON.stringify(existingProjects));
                     console.log("Project saved to localStorage.");
 
                     try {

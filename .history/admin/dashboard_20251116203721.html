@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - UC InTTO Admin</title>
+    <link rel="stylesheet" href="css/dashboard-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+   <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>UC InTTO</h3>
+            <p>Admin Portal</p>
+            <button class="hamburger-menu" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav" id="sidebarNav">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+                <li><a href="startups.html"><i class="fa-solid fa-rocket"></i> Startups</a></li>
+                <li><a href="ip-applications.html"><i class="fa-solid fa-file-shield"></i> IP Applications</a></li>
+                <li><a href="metrics.html"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
+                <li><a href="news-events.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+                <li><a href="team.html"><i class="fa-solid fa-users"></i> Team</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </header>
+
+        <section class="dashboard-overview">
+            <h1>Dashboard Overview</h1>
+            <p class="welcome-text">Welcome back! Here's what's happening with UC InTTO.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fa-solid fa-rocket"></i></div>
+                    <div class="stat-info">
+                        <p class="stat-title">Total Startups</p>
+                        <p class="stat-number">5</p>
+                        <p class="stat-subtitle">4 active</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-newspaper"></i></div>
+                    <div class="stat-info">
+                        <p class="stat-title">Published Events</p>
+                        <p class="stat-number">2</p>
+                        <p class="stat-subtitle">1 drafts</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <p class="stat-title">Team Members</p>
+                        <p class="stat-number">3</p>
+                        <p class="stat-subtitle">Active staff</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <div class="stat-info">
+                        <p class="stat-title">Open for Collab</p>
+                        <p class="stat-number">3</p>
+                        <p class="stat-subtitle">Startups seeking partners</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <h2>Recent Startups</h2>
+                    <ul>
+                        <li>
+                            <div class="item-info">
+                                <img src="https://placehold.co/40x40/a2e5c2/333333?text=A" alt="Agritech Logo">
+                                <div>
+                                    <p class="item-title">AgroTech Solutions</p>
+                                    <p class="item-subtitle">Agritech</p>
+                                </div>
+                            </div>
+                            <span class="tag trl">TRL 7</span>
+                        </li>
+                        <li>
+                            <div class="item-info">
+                                <img src="https://placehold.co/40x40/f0b9b9/333333?text=H" alt="HealthHub Logo">
+                                <div>
+                                    <p class="item-title">HealthHub PH</p>
+                                    <p class="item-subtitle">Healthtech</p>
+                                </div>
+                            </div>
+                            <span class="tag trl">TRL 6</span>
+                        </li>
+                         <li>
+                            <div class="item-info">
+                                <img src="https://placehold.co/40x40/e08c8c/333333?text=S" alt="SafeCity Logo">
+                                <div>
+                                    <p class="item-title">SafeCity Monitor</p>
+                                    <p class="item-subtitle">CriminTech</p>
+                                </div>
+                            </div>
+                            <span class="tag trl">TRL 5</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h2>Recent Activity</h2>
+                     <ul>
+                        <li>
+                            <div>
+                                <p class="item-title">InTTO Hosts Innovation Week 2024</p>
+                                <p class="item-subtitle">Nov 1, 2024</p>
+                            </div>
+                            <span class="tag event">event</span>
+                        </li>
+                        <li>
+                            <div>
+                                <p class="item-title">New Partnership with DOST Region CAR</p>
+                                <p class="item-subtitle">Oct 15, 2024</p>
+                            </div>
+                            <span class="tag news">news</span>
+                        </li>
+                         <li>
+                            <div>
+                                <p class="item-title">IP Protection Workshop</p>
+                                <p class="item-subtitle">Nov 15, 2024</p>
+                            </div>
+                            <span class="tag event">event</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
+
