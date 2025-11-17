@@ -1048,10 +1048,57 @@ document.addEventListener('DOMContentLoaded', function() {
         submitProjectBtn.addEventListener('click', handleSubmitProjectClick);
     }
 
+    // --- NEW: Check Admin Status Function ---
+    async function checkAdminStatus(user) {
+        const adminBtn = document.getElementById('dashboard-admin-btn');
+        if (!adminBtn) {
+            console.log('❌ Admin button not found in DOM');
+            return;
+        }
+        
+        if (!user) {
+            console.log('👤 No user signed in, hiding admin button');
+            adminBtn.style.display = 'none';
+            return;
+        }
+        
+        try {
+            console.log('🔍 Checking admin status for user:', user.uid);
+            const userDocRef = db.collection('Registered Accounts').doc(user.uid);
+            const userDoc = await userDocRef.get();
+            
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+                const isAdmin = userData.isAdmin === true;
+                
+                console.log('📄 User data retrieved');
+                console.log('🛡️  isAdmin field value:', userData.isAdmin);
+                console.log('🛡️  isAdmin type:', typeof userData.isAdmin);
+                console.log('🛡️  isAdmin === true:', isAdmin);
+                
+                if (isAdmin) {
+                    console.log('👑 ADMIN DETECTED - Showing admin button');
+                    adminBtn.style.display = '';
+                } else {
+                    console.log('👤 Regular user - Hiding admin button');
+                    adminBtn.style.display = 'none';
+                }
+            } else {
+                console.log('⚠️  User document not found in Firestore');
+                adminBtn.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('❌ Error checking admin status:', error);
+            adminBtn.style.display = 'none';
+        }
+    }
+    // --- END NEW ---
+
     // --- CRITICAL: FIREBASE AUTH STATE LISTENER ---
     auth.onAuthStateChanged((user) => {
         console.log("Auth state changed, user:", user);
         updateUI(user);
+        checkAdminStatus(user); // <-- Check admin status whenever auth state changes
         
         if (!user) {
             if(signinPanel && signupPanel) {
