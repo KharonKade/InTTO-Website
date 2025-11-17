@@ -226,10 +226,7 @@
                     </button>
                 </form>
                 <p class="form-switcher">Don't have an account? <a href="signupform.html" id="show-signup-link">Sign Up</a></p>
-<<<<<<< HEAD
                 <p class="form-switcher">Login as <a href="admin.html" id="admin-login-link">Admin</a></p>
-=======
->>>>>>> 7eebd8863d91ad933bd8e36698144b2d05fef0c1
             </div>
             <div class="form-panel hidden" id="signup-panel">
                 <h2>Create Account</h2>
@@ -339,7 +336,6 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         
-<<<<<<< HEAD
         // Expose auth and db objects to the global scope (use var or window for global access)
         var auth = firebase.auth();
         var db = firebase.firestore();
@@ -353,10 +349,6 @@
         console.log("Firestore instance:", db ? "✅" : "❌");
         console.log("Window.auth:", window.auth ? "✅" : "❌");
         console.log("Window.db:", window.db ? "✅" : "❌");
-=======
-        // Expose auth object to the global scope for use in authentication.js
-        const auth = firebase.auth();
->>>>>>> 7eebd8863d91ad933bd8e36698144b2d05fef0c1
     </script>
     
     <script src="js/main.js"></script>

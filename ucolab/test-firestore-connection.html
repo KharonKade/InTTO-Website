@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firestore Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        #log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+        .log-line {
+            margin: 5px 0;
+            padding: 3px 0;
+        }
+        .log-success { color: #4ec9b0; }
+        .log-error { color: #f48771; }
+        .log-warn { color: #dcdcaa; }
+        .log-info { color: #9cdcfe; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firestore Connection Test</h1>
+        
+        <div class="status info">
+            <strong>Status:</strong> <span id="status">Initializing...</span>
+        </div>
+
+        <h3>Test Actions:</h3>
+        <button onclick="testFirestoreWrite()">Test Write to Firestore</button>
+        <button onclick="testFirestoreRead()">Test Read from Firestore</button>
+        <button onclick="testSignup()">Test Signup Flow</button>
+        <button onclick="clearLog()">Clear Log</button>
+
+        <h3>Console Log:</h3>
+        <div id="log"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <script>
+        const logDiv = document.getElementById('log');
+        const statusSpan = document.getElementById('status');
+
+        function log(message, type = 'info') {
+            const line = document.createElement('div');
+            line.className = `log-line log-${type}`;
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(line);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLog() {
+            logDiv.innerHTML = '';
+        }
+
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+
+        log('Initializing Firebase...', 'info');
+        firebase.initializeApp(firebaseConfig);
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        if (auth) {
+            log('✅ Firebase Auth initialized successfully', 'success');
+        } else {
+            log('❌ Failed to initialize Firebase Auth', 'error');
+        }
+
+        if (db) {
+            log('✅ Firestore initialized successfully', 'success');
+            log(`Firestore project: ${firebaseConfig.projectId}`, 'info');
+            statusSpan.textContent = 'Connected ✅';
+            statusSpan.parentElement.className = 'status success';
+        } else {
+            log('❌ Failed to initialize Firestore', 'error');
+            statusSpan.textContent = 'Connection Failed ❌';
+            statusSpan.parentElement.className = 'status error';
+        }
+
+        // Test Firestore Write
+        async function testFirestoreWrite() {
+            log('📝 Testing Firestore write...', 'info');
+            try {
+                const testData = {
+                    testField: 'Hello Firestore!',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    testNumber: Math.floor(Math.random() * 1000)
+                };
+
+                log('Writing to collection: "Test Collection"', 'info');
+                const docRef = await db.collection('Test Collection').add(testData);
+                log(`✅ Successfully wrote document with ID: ${docRef.id}`, 'success');
+                log(`Data: ${JSON.stringify(testData, null, 2)}`, 'info');
+                
+                alert('✅ Write test successful! Check Firebase Console → Firestore Database → "Test Collection"');
+            } catch (error) {
+                log(`❌ Write failed: ${error.code} - ${error.message}`, 'error');
+                log(`Error stack: ${error.stack}`, 'error');
+                alert('❌ Write failed. Check console for details.');
+            }
+        }
+
+        // Test Firestore Read
+        async function testFirestoreRead() {
+            log('📖 Testing Firestore read...', 'info');
+            try {
+                log('Reading from collection: "Registered Accounts"', 'info');
+                const snapshot = await db.collection('Registered Accounts').get();
+                
+                if (snapshot.empty) {
+                    log('⚠️ Collection is empty (no documents found)', 'warn');
+                    alert('Collection "Registered Accounts" exists but is empty. Try signing up first.');
+                } else {
+                    log(`✅ Found ${snapshot.size} document(s)`, 'success');
+                    snapshot.forEach(doc => {
+                        log(`Document ID: ${doc.id}`, 'info');
+                        log(`Data: ${JSON.stringify(doc.data(), null, 2)}`, 'info');
+                    });
+                    alert(`✅ Read successful! Found ${snapshot.size} documents. Check console.`);
+                }
+            } catch (error) {
+                log(`❌ Read failed: ${error.code} - ${error.message}`, 'error');
+                log(`Error stack: ${error.stack}`, 'error');
+                alert('❌ Read failed. Check console for details.');
+            }
+        }
+
+        // Test Signup Flow
+        async function testSignup() {
+            log('🧪 Testing signup flow...', 'info');
+            const testEmail = `test${Date.now()}@uc-bcf.edu.ph`;
+            const testPassword = 'test123456';
+            
+            try {
+                log(`Creating user with email: ${testEmail}`, 'info');
+                const userCredential = await auth.createUserWithEmailAndPassword(testEmail, testPassword);
+                const user = userCredential.user;
+                log(`✅ User created with UID: ${user.uid}`, 'success');
+
+                // Save to Firestore
+                const userData = {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: 'Test User',
+                    firstName: 'Test',
+                    lastName: 'User',
+                    affiliation: 'Test College',
+                    loginType: 'Email/Password',
+                    isAdmin: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                log('Saving user data to "Registered Accounts" collection...', 'info');
+                await db.collection('Registered Accounts').doc(user.uid).set(userData);
+                log(`✅ User data saved successfully to document: ${user.uid}`, 'success');
+                
+                alert(`✅ Signup test successful!\n\nEmail: ${testEmail}\nUID: ${user.uid}\n\nCheck Firebase Console → Firestore → "Registered Accounts"`);
+                
+                // Clean up (delete test user)
+                log('Cleaning up test user...', 'info');
+                await user.delete();
+                log('✅ Test user deleted from Authentication', 'success');
+                
+            } catch (error) {
+                log(`❌ Signup test failed: ${error.code} - ${error.message}`, 'error');
+                log(`Error stack: ${error.stack}`, 'error');
+                alert('❌ Signup test failed. Check console for details.');
+            }
+        }
+
+        log('Ready to test! Click a button above.', 'success');
+    </script>
+</body>
+</html>

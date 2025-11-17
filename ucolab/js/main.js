@@ -429,7 +429,6 @@ document.addEventListener('DOMContentLoaded', function() {
             await user.updateProfile({
                 displayName: `${firstName} ${lastName}`
             });
-<<<<<<< HEAD
             console.log("✅ User profile updated");
             
             // Get affiliation from form
@@ -456,8 +455,6 @@ document.addEventListener('DOMContentLoaded', function() {
             await db.collection('Registered Accounts').doc(user.uid).set(userData);
             console.log("✅ User data saved to Firestore successfully with document ID:", user.uid);
             
-=======
->>>>>>> 7eebd8863d91ad933bd8e36698144b2d05fef0c1
             closeAuthModal();
             alert('Registration successful! Welcome to UCoLab.');
             console.log('User signed up and profile updated:', user);
@@ -468,7 +465,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function handleSignIn(email, password) {
-<<<<<<< HEAD
     try {
         console.log('🔵 Starting email/password sign in...');
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
@@ -610,57 +606,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 return; // Stop execution after scheduling redirect
             } else {
                 console.log("👤 Regular user, closing modal...");
-=======
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            console.log('User signed in successfully.');
-
-            if (email === ADMIN_EMAIL) {
-                // Admin user, redirect to admin page
-                window.location.href = '../admin/dashboard.html'; 
-            } else {
-                // Normal user, just close modal
->>>>>>> 7eebd8863d91ad933bd8e36698144b2d05fef0c1
                 closeAuthModal();
             }
-
-        } catch (error) {
-            displayFormError(signinForm, error.message);
-            console.error('Sign In Error:', error.code, error.message);
         }
+
+    } catch (error) {
+        console.error('❌ Google Sign-In Error:', error.code, error.message);
+        const activeForm = signinPanel && signinPanel.classList.contains('hidden') ? signupForm : signinForm;
+        displayFormError(activeForm, `Google Sign-In Failed: ${error.message}`);
     }
+}
 
-    async function handleGoogleSignIn() {
-        clearFormErrors();
-        try {
-            const result = await auth.signInWithPopup(googleProvider);
-            const user = result.user;
-            console.log("Google Sign-in successful:", user.displayName, user.email);
-
-            if (user.email === ADMIN_EMAIL) {
-                // Admin user, redirect to admin page
-                window.location.href = '../admin/dashboard.html';
-            } else {
-                // Normal user, just close modal
-                closeAuthModal();
-
-                if (result.additionalUserInfo.isNewUser) {
-                    console.log("New user signed up with Google. No pop-up shown."); 
-                }
-            }
-
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            if (errorCode === 'auth/popup-closed-by-user') {
-                console.log('Google Sign-In popup closed by user.');
-                return;
-            }
-            console.error('Google Sign-In Error:', errorCode, errorMessage);
-            const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
-            displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
-        }
-    }
 async function handleProfileUpdate(event) {
         event.preventDefault();
         clearFormErrors();
@@ -675,14 +631,6 @@ async function handleProfileUpdate(event) {
             displayFormError(profileForm, 'You are not signed in.');
             return;
         }
-<<<<<<< HEAD
-        console.error('❌ Google Sign-In Error:', errorCode, errorMessage);
-        const activeForm = signinPanel && signinPanel.classList.contains('hidden') ? signupForm : signinForm;
-        displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
-    }
-}
-=======
->>>>>>> 7eebd8863d91ad933bd8e36698144b2d05fef0c1
 
         try {
             // Update the profile in Firebase Auth
