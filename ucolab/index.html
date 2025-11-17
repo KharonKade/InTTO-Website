@@ -89,17 +89,32 @@
                 </div>
                 <div class="filter-dropdowns">
                     <div class="custom-dropdown" id="filter-industry">
-                        <button class="dropdown-toggle"> <span>All Industries</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button>
+                        <button class="dropdown-toggle"> <span>All Industries</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
                         <ul class="dropdown-menu"> <li>All Industries</li> <li>Agritech</li> <li>Crimintech</li> <li>Healthtech</li> <li>Fintech</li> <li>Sustainability</li> <li>Edutech</li> </ul>
                     </div>
                     <div class="custom-dropdown" id="filter-college">
                         <button class="dropdown-toggle"> <span>All Colleges</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
                         <ul class="dropdown-menu"> <li>All Colleges</li> <li>College of Business</li> <li>College of Computer Studies</li> <li>College of Nursing</li> <li>College of Architecture</li> <li>College of Arts & Sciences</li> <li>College of Engineering</li> <li>College of Teacher Education</li> </ul>
                     </div>
+                    
+                    <!-- === MODIFICATION START === -->
                     <div class="custom-dropdown" id="filter-trl">
-                        <button class="dropdown-toggle"> <span>All TRL Levels</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button>
-                        <ul class="dropdown-menu"> <li>All TRL Levels</li> <li>TRL 3</li> <li>TRL 4</li> <li>TRL 5</li> <li>TRL 6</li> <li>TRL 7</li> </ul>
+                        <button class="dropdown-toggle"> <span>All TRL Levels</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu">
+                            <li>All TRL Levels</li>
+                            <li>TRL 1</li>
+                            <li>TRL 2</li>
+                            <li>TRL 3</li>
+                            <li>TRL 4</li>
+                            <li>TRL 5</li>
+                            <li>TRL 6</li>
+                            <li>TRL 7</li>
+                            <li>TRL 8</li>
+                            <li>TRL 9</li>
+                        </ul>
                     </div>
+                    <!-- === MODIFICATION END === -->
+
                     <div class="custom-dropdown" id="filter-type">
                         <button class="dropdown-toggle"> <span>All Types</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button>
                         <ul class="dropdown-menu"> <li>All Types</li> <li>Thesis</li> <li>Capstone</li> <li>Research</li> <li>Startup</li> </ul>
@@ -126,7 +141,8 @@
             <h2 id="projects-count"> Projects Found</h2>
             <p class="section-subtitle">Browse through innovative projects from across the university</p>
             <div class="project-grid" id="project-list">
-                </div>
+                <!-- This div will be filled by js/main.js -->
+            </div>
         </section>
     </main>
 
@@ -184,6 +200,7 @@
       </div>
     </footer>
 
+    <!-- Auth Modal (Sign In / Sign Up) -->
     <div class="modal-overlay modal-hidden" id="auth-modal-overlay">
         <div class="auth-modal">
             <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
@@ -229,6 +246,8 @@
                 <p class="form-switcher">Don't have an account? <a href="signupform.html" id="show-signup-link">Sign Up</a></p>
                 <p class="form-switcher">Login as <a href="#" id="admin-login-link">Admin</a></p>
             </div>
+            
+            <!-- Sign Up Panel -->
             <div class="form-panel hidden" id="signup-panel">
                 <h2>Create Account</h2>
                 <p>Join the UC innovation community</p>
@@ -316,10 +335,13 @@
         navLinks.classList.toggle('open');
         this.classList.toggle('open');
     });
+<<<<<<< Updated upstream
 
     const navbar = document.querySelector('.navbar');
     navbar.classList.add('logged-in'); 
 
+=======
+>>>>>>> Stashed changes
     </script>
 </body>
 </html>

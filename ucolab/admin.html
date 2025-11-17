@@ -24,12 +24,78 @@
             margin: 2rem auto;
             padding: 0 1rem;
         }
-        /* Reuse project card styles but add new buttons */
+
+        /* --- MODIFICATION START --- */
+
+        /* 1. Remove padding from the card itself */
+        .project-card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            list-style-type: none;
+            font-family: 'Poppins', sans-serif;
+            padding: 0; /* REMOVED padding */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 2. Add new image styles */
+        .card-image-container {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background-color: var(--bg-light-grey);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 3. Add new content wrapper */
+        .card-content-wrapper {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* 4. Style the text content */
+        .project-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        .project-card .card-college {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+        }
+        .project-card .card-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* 5. Update footer and action buttons */
         .project-card .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: auto; /* Stick to bottom */
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .card-link {
+            text-decoration: none;
+            color: var(--primary-green);
+            font-weight: 600;
         }
         .admin-actions {
             display: flex;
@@ -54,6 +120,7 @@
             color: white;
         }
         .btn-reject:hover { background-color: #c62828; }
+        /* --- MODIFICATION END --- */
     </style>
 </head>
 <body>

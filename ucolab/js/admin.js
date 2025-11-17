@@ -69,20 +69,38 @@ document.addEventListener('DOMContentLoaded', function() {
         addAdminActionListeners();
     }
 
-    function createPendingCardHTML(project) {
-        // We can reuse most of the card HTML structure
+function createPendingCardHTML(project) {
+        
+        // --- NEW: Get the cover image (Slot 1) ---
+        const imageUrl = (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0)
+            ? project.imageUrls[0] // Use the first image
+            : `https://via.placeholder.com/500x350.png?text=${(project.title || 'Project').replace(/ /g, '+')}`; // Fallback
+
+        // --- NEW: Convert college array to string ---
+        const collegeText = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || 'N/A';
+
         return `
             <article class="project-card" data-id="${project.id}">
-                <h3>${project.title || 'Untitled Project'}</h3>
-                <p class="card-college">${project.college || 'N/A'}</p>
-                <p class="card-description">${project.shortDescription || 'No description.'}</p>
-                <div class="card-footer">
-                    <a href="project-detail.html?id=${project.id}" target="_blank" class="card-link">Preview →</a>
-                    <div class="admin-actions">
-                        <button class="btn-reject" data-id="${project.id}">Reject</button>
-                        <button class="btn-approve" data-id="${project.id}">Approve</button>
-                    </div>
+
+                <!-- NEW: Image Header -->
+                <div class="card-image-container">
+                    <img src="${imageUrl}" alt="${project.title || 'Project'} cover image">
                 </div>
+
+                <!-- NEW: Content Wrapper -->
+                <div class="card-content-wrapper">
+                    <h3>${project.title || 'Untitled Project'}</h3>
+                    <p class="card-college">${collegeText}</p>
+                    <p class="card-description">${project.shortDescription || 'No description.'}</p>
+                    
+                    <div class="card-footer">
+                        <a href="project-detail.html?id=${project.id}" target="_blank" class="card-link">Preview →</a>
+                        <div class="admin-actions">
+                            <button class="btn-reject" data-id="${project.id}">Reject</button>
+                            <button class="btn-approve" data-id="${project.id}">Approve</button>
+                        </div>
+                    </div>
+                </div> <!-- End content wrapper -->
             </article>`;
     }
 

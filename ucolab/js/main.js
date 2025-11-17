@@ -530,41 +530,51 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const trlNumMatch = project.trl?.match(/TRL (\d+)/); const trlNum = trlNumMatch ? parseInt(trlNumMatch[1], 10) : 0; let trlClass = 'grey'; let trlText = project.trl || 'TRL ?'; if (trlNum <= 3) { trlClass = 'blue'; trlText = `TRL ${trlNum} – Proof of Concept`; } else if (trlNum <= 4) { trlClass = 'yellow'; trlText = `TRL ${trlNum} – Laboratory Testing`; } else if (trlNum <= 6) { trlClass = 'orange'; trlText = `TRL ${trlNum} – Prototype/Pilot`; } else if (trlNum <= 9) { trlClass = 'green'; trlText = `TRL ${trlNum} – System Prototype/Demo`; }
         let typeClass = 'grey'; if (project.type?.toLowerCase() === 'thesis') typeClass = 'blue'; else if (project.type?.toLowerCase() === 'capstone') typeClass = 'green'; else if (project.type?.toLowerCase() === 'research') typeClass = 'blue'; else if (project.type?.toLowerCase() === 'startup') typeClass = 'purple';
+        // Note: The iconClass is no longer used here, but we leave the logic
         let iconClass = 'icon-default'; if (project.industry?.toLowerCase() === 'agritech') iconClass = 'icon-agritech'; else if (project.industry?.toLowerCase() === 'healthtech') iconClass = 'icon-health'; else if (project.industry?.toLowerCase() === 'fintech') iconClass = 'icon-fintech'; else if (project.industry?.toLowerCase() === 'sustainability') iconClass = 'icon-sustainability'; else if (project.industry?.toLowerCase() === 'edutech') iconClass = 'icon-edutech'; else if (project.industry?.toLowerCase() === 'crimintech') iconClass = 'icon-security';
 
         const detailPageLink = (`project-detail.html?id=${project.id}`);
 
-        // --- !! CRITICAL FIX !! ---
-        // Check against the global Firebase auth object, NOT localStorage
         const currentUser = auth.currentUser;
         let showActions = false;
         if (currentUser) {
-            // Check against email OR display name for flexibility
             showActions = (project.userId === currentUser.email || project.userId === currentUser.displayName);
         }
 
+        // --- NEW: Get the cover image (Slot 1) ---
+        const imageUrl = (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0)
+            ? project.imageUrls[0] // Use the first image
+            : `https://via.placeholder.com/500x350.png?text=${(project.title || 'Project').replace(/ /g, '+')}`; // Fallback
+
+        // --- NEW: Convert college array to string ---
+        const collegeText = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || 'N/A';
+
         return `
-            <article class="project-card animate-on-scroll" data-id="${project.id}" data-views="${project.views || 0}" data-inquiries="${project.inquiries || 0}" data-title="${project.title || ''}" data-type="${project.type || ''}" data-industry="${project.industry || ''}" data-college="${project.college || ''}" data-trl="TRL ${trlNum}" data-user-id="${project.userId || ''}">
-                <div class="card-icon ${iconClass}">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        ${iconClass === 'icon-agritech' ? '<path d="M17.2 9.2C17.2 9.2 16.4 14.8 12 14.8C7.6 14.8 6.8 9.2 6.8 9.2C6.8 6.2 9.1 4 12 4C14.9 4 17.2 6.2 17.2 9.2Z"></path><path d="M12 14.8V20"></path><path d="M10 18H14"></path><path d="M12 4C10.9 2.8 9.1 2 7 2"></path><path d="M12 4C13.1 2.8 14.9 2 17 2"></path>' : ''}
-                        ${iconClass === 'icon-security' ? '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>' : ''}
-                        ${iconClass === 'icon-health' ? '<line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>' : ''}
-                        ${iconClass === 'icon-fintech' ? '<line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>' : ''}
-                        ${iconClass === 'icon-sustainability' ? '<path d="M2 12s2-4 6-4 6 4 6 4-2 4-6 4-6-4-6-4z"></path><path d="M12 12s2-4 6-4 6 4 6 4-2 4-6 4-6-4-6-4z"></path><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>' : ''}
-                        ${iconClass === 'icon-edutech' ? '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5V4.5A2.5 2.5 0 0 1 6.5 2z"></path>' : ''}
-                        ${(iconClass === 'icon-default' || !iconClass.includes('icon-')) ? '<circle cx="12" cy="12" r="10"></circle>' : ''}
-                    </svg>
+            <article class="project-card animate-on-scroll" data-id="${project.id}" data-views="${project.views || 0}" data-inquiries="${project.inquiries || 0}" data-title="${project.title || ''}" data-type="${project.type || ''}" data-industry="${project.industry || ''}" data-college="${collegeText}" data-trl="TRL ${trlNum}" data-user-id="${project.userId || ''}">
+                
+                <!-- NEW: Image Header -->
+                <div class="card-image-container">
+                    <img src="${imageUrl}" alt="${project.title || 'Project'} cover image">
                 </div>
-                <h3>${project.title || 'Untitled Project'}</h3>
-                <div class="card-tags">${project.type ? `<span class="tag tag-${typeClass}">${project.type}</span>` : ''} ${project.industry ? `<span class="tag tag-grey">${project.industry}</span>` : ''}</div>
-                <p class="card-college">${project.college || 'N/A'}</p>
-                <p class="card-trl trl-${trlClass}">${trlText}</p>
-                <p class="card-description">${project.shortDescription || 'No description available.'}</p>
-                <div class="card-footer">
-                    <a href="${detailPageLink}" class="card-link">View Details →</a>
-                    ${showActions ? `<div class="card-actions"><button class="btn-edit" data-id="${project.id}">Edit</button><button class="btn-delete" data-id="${project.id}">Delete</button></div>` : ''}
-                </div>
+
+                <!-- NEW: Content Wrapper -->
+                <div class="card-content-wrapper">
+
+                    <!-- The old .card-icon div is now removed -->
+                    
+                    <h3>${project.title || 'Untitled Project'}</h3>
+                    <div class="card-tags">${project.type ? `<span class="tag tag-${typeClass}">${project.type}</span>` : ''} ${project.industry ? `<span class="tag tag-grey">${project.industry}</span>` : ''}</div>
+                    <p class="card-college">${collegeText}</p>
+                    <p class="card-trl trl-${trlClass}">${trlText}</p>
+                    <p class="card-description">${project.shortDescription || 'No description available.'}</p>
+                    
+                    <div class="card-footer">
+                        <a href="${detailPageLink}" class="card-link">View Details →</a>
+                        ${showActions ? `<div class="card-actions"><button class="btn-edit" data-id="${project.id}">Edit</button><button class="btn-delete" data-id="${project.id}">Delete</button></div>` : ''}
+                    </div>
+
+                </div> <!-- End of card-content-wrapper -->
+
             </article>`;
     }
 

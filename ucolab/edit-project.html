@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Your Project - UCoLab</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/submit-project.css?v=1.1">
+    <link rel="stylesheet" href="css/submit-project.css?v=1.2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="submit-page-body">
@@ -15,12 +15,11 @@
             <div class="logo">
                 <img src="Logo/InTTO Logo White.png" alt="UCoLab Logo" class="header-logo">
             </div>
-
             <div class="header-user-info">
-                    <span class="user-status-pill" id="user-display">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        Loading...
-                    </span>
+                <span class="user-status-pill" id="user-display">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Loading...
+                </span>
                 <a href="#" class="btn-signout" id="signout-btn">
                     Sign Out
                 </a>
@@ -55,10 +54,49 @@
                     </div>
                 </div>
                 <div class="form-row">
+                    
                     <div class="form-group">
-                        <label for="college">College <span class="required">*</span></label>
-                        <input type="text" id="college" required>
+                        <label for="college-dropdown-btn">College <span class="required">*</span></label>
+                        <div class="multi-select-dropdown" id="college-multi-select">
+                            <div class="dropdown-button" id="college-dropdown-btn" tabindex="0">
+                                <span class="dropdown-button-text">Select one or more colleges...</span>
+                                <div class="selected-pills" id="college-selected-pills"></div>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <div class="checkbox-list" id="college-checkbox-list">
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-cbis" name="college-option" value="College of Business">
+                                    <label for="college-cbis">College of Business</label>
+                                </div>
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-ccs" name="college-option" value="College of Computer Studies">
+                                    <label for="college-ccs">College of Computer Studies</label>
+                                </div>
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-con" name="college-option" value="College of Nursing">
+                                    <label for="college-con">College of Nursing</label>
+                                </div>
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-coa" name="college-option" value="College of Architecture">
+                                    <label for="college-coa">College of Architecture</label>
+                                </div>
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-cas" name="college-option" value="College of Arts & Sciences">
+                                    <label for="college-cas">College of Arts & Sciences</label>
+                                </div>
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-coe" name="college-option" value="College of Engineering">
+                                    <label for="college-coe">College of Engineering</label>
+                                </div>
+                                <div class="checkbox-list-item">
+                                    <input type="checkbox" id="college-cte" name="college-option" value="College of Teacher Education">
+                                    <label for="college-cte">College of Teacher Education</label>
+                                </div>
+                                </div>
+                        </div>
+                        <input type="text" id="college-validation" required style="display: none; height: 0; padding: 0; border: none;">
                     </div>
+
                     <div class="form-group">
                         <label for="trl-level">TRL Level <span class="required">*</span></label>
                         <input type="text" id="trl-level" required>
@@ -134,7 +172,6 @@
                 <h2>Project Images</h2>
                 <p class="image-note">Upload up to 5 images (max 2MB each). The first image will be the cover. You can click a preview to replace an image.</p>
                 <div class="image-upload-grid">
-
                     <div class="image-upload-slot">
                         <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
                         <img src="" alt="Image preview 1" class="image-preview" id="image-preview-1">
@@ -144,7 +181,6 @@
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 1" data-index="0" style="display: none;">×</button>
                     </div>
-
                     <div class="image-upload-slot">
                         <input type="file" id="image-upload-2" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
                         <img src="" alt="Image preview 2" class="image-preview" id="image-preview-2">
@@ -154,7 +190,6 @@
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 2" data-index="1" style="display: none;">×</button>
                     </div>
-
                     <div class="image-upload-slot">
                         <input type="file" id="image-upload-3" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
                         <img src="" alt="Image preview 3" class="image-preview" id="image-preview-3">
@@ -164,7 +199,6 @@
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 3" data-index="2" style="display: none;">×</button>
                     </div>
-
                     <div class="image-upload-slot">
                         <input type="file" id="image-upload-4" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
                         <img src="" alt="Image preview 4" class="image-preview" id="image-preview-4">
@@ -174,7 +208,6 @@
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 4" data-index="3" style="display: none;">×</button>
                     </div>
-
                     <div class="image-upload-slot">
                         <input type="file" id="image-upload-5" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
                         <img src="" alt="Image preview 5" class="image-preview" id="image-preview-5">
@@ -184,9 +217,9 @@
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 5" data-index="4" style="display: none;">×</button>
                     </div>
-
                 </div>
             </div>
+            
             <div class="form-section">
                 <h2>Project Information</h2>
                 <div class="form-row">
@@ -248,28 +281,27 @@
             </div>
             <button type="button" class="btn-close-window" id="success-close-btn">Close this window</button>
         </div>
-        </main>
+    </main>
 
     <footer>
     </footer>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-<script>
-    // Use your provided Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
-        authDomain: "uc-intto.firebaseapp.com",
-        projectId: "uc-intto",
-        storageBucket: "uc-intto.firebasestorage.app",
-        messagingSenderId: "156771180433",
-        appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
-        measurementId: "G-ETY9E0F1K6"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    // Expose auth object
-    const auth = firebase.auth();
-</script>
+
     <script src="js/edit-project.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+    </script>
 </body>
 </html>
