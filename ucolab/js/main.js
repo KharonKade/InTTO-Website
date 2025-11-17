@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Main.js - Auth available:", auth ? "✅" : "❌");
     console.log("Main.js - Firestore available:", db ? "✅" : "❌");
 
-    // --- 1. DEFAULT PROJECT DATA ---
+    // --- 1. DEFAULT PROJECT DATA (FIXED) ---
     const defaultProjects = [
         {
             id: 15, views: 204, inquiries: 15, title: "FarmConnect", type: "Thesis", industry: "Agritech", college: ["College of Business"], trl: "TRL 4",
             shortDescription: "Digital cooperative management system for highland farmers.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=FarmConnect+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "This innovative project addresses critical challenges in the agritech sector through cutting-edge technology and research. Developed by students and faculty from the College of Business, the initiative showcases the University of the Cordilleras' commitment to innovation and community impact. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Communities in the Cordillera region face unique challenges in agritech, requiring localized solutions that account for geographical, cultural, and economic factors. Traditional approaches have proven insufficient in addressing these complex needs.",
             solution: "FarmConnect leverages innovative technology to provide a sustainable, scalable solution tailored to the unique needs of the Cordillera region. By combining local insights with cutting-edge research, the project delivers measurable impact while remaining accessible and affordable for the target community.",
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 14, views: 150, inquiries: 10, title: "VeggieTrack", type: "Capstone", industry: "Agritech", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "IoT-based supply chain monitoring for vegetable produce from farm to.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=VeggieTrack+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "VeggieTrack ensures transparency and quality in the vegetable supply chain through real-time IoT monitoring from harvest to consumer. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Vegetable farmers face significant post-harvest losses and price uncertainty due to lack of supply chain visibility and quality degradation during transport.",
             solution: "IoT sensors and blockchain technology track produce conditions throughout the supply chain, providing traceability, quality assurance, and fair pricing mechanisms.",
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 13, views: 301, inquiries: 25, title: "SafeCity", type: "Capstone", industry: "Crimintech", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "Community-based crime reporting and prevention mobile application.", userId:"default",
-            imageUrls: ["httpss://via.placeholder.com/500x350.png?text=SafeCity+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "SafeCity aims to enhance community safety by providing a user-friendly mobile platform for reporting incidents and receiving timely alerts. Developed by students from the College of Computer Studies, this project leverages technology to foster a more connected and secure environment.",
             problemStatement: "Delayed crime reporting and lack of real-time safety information can hinder effective prevention and response efforts within communities. Existing channels may be slow or inaccessible to some residents.",
             solution: "A mobile application allowing residents to quickly report incidents (anonymously if desired), view a map of recent activity, and receive official safety alerts, empowering community members and aiding local authorities.",
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 12, views: 220, inquiries: 12, title: "MediCord", type: "Capstone", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 4",
             shortDescription: "AI-powered health monitoring for rural clinics.", userId:"default",
-            imageUrls: [], // <-- Example of project with no image
+            imageUrls: [], // <-- FIXED
             detailedDescription: "MediCord brings advanced diagnostic capabilities to rural health centers through AI-powered health monitoring and decision support systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Rural clinics lack diagnostic equipment and specialist expertise, leading to delayed or inaccurate diagnoses and patient referrals to distant hospitals.",
             solution: "AI-powered diagnostic tools that analyze symptoms, vital signs, and medical images to provide decision support for rural healthcare workers.",
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 11, views: 88, inquiries: 5, title: "CraftConnect", type: "Thesis", industry: "Fintech", college: ["College of Architecture"], trl: "TRL 4",
             shortDescription: "Digital marketplace connecting indigenous craftspeople with global.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=CraftConnect+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "CraftConnect preserves and promotes indigenous craftsmanship while providing economic opportunities for artisans in the Cordillera region through a modern e-commerce platform. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Indigenous craftspeople struggle to access broader markets due to geographical isolation and lack of digital infrastructure, resulting in limited income opportunities and potential loss of traditional skills.",
             solution: "A dedicated marketplace platform that showcases indigenous crafts to global audiences while providing fair trade mechanisms, cultural storytelling, and logistical support for artisan communities.",
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 10, views: 450, inquiries: 30, title: "NutriTrack", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 5",
             shortDescription: "AI-powered nutrition monitoring app for maternal and child health.", userId:"default",
-            imageUrls: ["httpshttps://via.placeholder.com/500x350.png?text=NutriTrack+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "NutriTrack revolutionizes maternal and child healthcare through advanced AI technology. This comprehensive nutrition monitoring platform provides real-time insights and personalized recommendations to improve health outcomes in underserved communities. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Maternal and child malnutrition remains a critical challenge in the Cordillera region, with limited access to professional nutrition monitoring and guidance. Healthcare workers struggle to track and manage multiple cases efficiently.",
             solution: "Using artificial intelligence and mobile technology, NutriTrack enables healthcare workers and mothers to monitor nutritional status, receive alerts for concerning trends, and access evidence-based feeding recommendations tailored to local dietary practices.",
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 9, views: 120, inquiries: 8, title: "CrimSight", type: "Research", industry: "Crimintech", college: ["College of Arts & Sciences"], trl: "TRL 5",
             shortDescription: "Digital forensic analysis toolkit for local law enforcement.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=CrimSight+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "CrimSight provides affordable digital forensic capabilities to local law enforcement agencies, enabling them to investigate cybercrimes and digital evidence effectively. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Local police units lack the tools and expertise for digital forensics, limiting their ability to investigate modern crimes involving digital evidence.",
             solution: "A user-friendly toolkit that automates common digital forensic procedures and provides guided workflows for non-expert investigators.",
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 8, views: 95, inquiries: 7, title: "EcoBlock", type: "Thesis", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 3",
             shortDescription: "Sustainable concrete blend using local bio-waste materials.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=EcoBlock+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "EcoBlock develops environmentally sustainable construction materials by incorporating local agricultural waste into concrete production. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 3, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Traditional concrete production is carbon-intensive, while agricultural waste disposal creates environmental problems in the region.",
             solution: "A novel concrete blend incorporating rice husks, coffee grounds, and other local bio-waste materials, reducing environmental impact while maintaining structural integrity.",
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 7, views: 180, inquiries: 11, title: "WaterSense", type: "Research", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 4",
             shortDescription: "Smart water quality monitoring system for Baguio's watershed areas.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=WaterSense+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "WaterSense addresses critical water quality concerns in Baguio's watershed areas through IoT-enabled monitoring and early warning systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Watershed areas face increasing pollution threats, but traditional monitoring methods are labor-intensive and provide delayed results, limiting effective intervention.",
             solution: "Deployed sensor networks continuously monitor water quality parameters, providing real-time data and automated alerts to authorities and communities when contamination is detected.",
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 6, views: 75, inquiries: 3, title: "LearnHub CAR", type: "Research", industry: "Edutech", college: ["College of Teacher Education"], trl: "TRL 5",
             shortDescription: "Adaptive learning platform for indigenous communities in the.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=LearnHub+CAR+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "LearnHub CAR creates culturally responsive educational content and adaptive learning experiences for indigenous learners in the Cordillera Administrative Region. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Indigenous students face educational disadvantages due to curriculum that doesn't reflect their cultural context and language, leading to lower engagement and achievement.",
             solution: "An adaptive learning platform that incorporates indigenous languages, cultural knowledge, and learning styles while meeting national curriculum standards.",
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 5, views: 512, inquiries: 45, title: "HealthBridge", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 6",
             shortDescription: "Telemedicine platform connecting rural patients with urban healthcare", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=HealthBridge+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "HealthBridge breaks down geographical barriers to healthcare access by connecting rural patients with qualified medical professionals through an integrated telemedicine platform. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 6, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Rural communities face severe healthcare access challenges due to distance from medical facilities, shortage of healthcare workers, and high transportation costs.",
             solution: "A comprehensive telemedicine platform enabling video consultations, digital prescriptions, and remote monitoring, bringing quality healthcare to underserved rural areas.",
@@ -189,10 +189,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 4, views: 60, inquiries: 2, title: "GreenArch", type: "Research", industry: "Sustainability", college: ["College of Architecture"], trl: "TRL 3",
             shortDescription: "Passive cooling design framework for tropical highland architecture.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=GreenArch+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "GreenArch pioneers sustainable architectural solutions for the unique climate conditions of tropical highland regions. This research-based framework integrates traditional knowledge with modern design principles. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 3, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "High-land tropical architecture faces unique challenges in maintaining comfortable indoor temperatures without excessive energy consumption. Current building designs often rely heavily on mechanical cooling systems.",
-            solution: "A comprehensive passive cooling framework that leverages natural ventilation, thermal mass, and strategic building orientation to reduce energy consumption while maintaining thermal comfort.",
+            solution: "A comprehensive passive-cooling framework that leverages natural ventilation, thermal mass, and strategic building orientation to reduce energy consumption while maintaining thermal comfort.",
             features: [
                 {title: "Energy Efficiency", description: "Reduce cooling energy needs by up to 40%"},
                 {title: "Local Materials", description: "Utilizes readily available regional building materials"},
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 3, views: 333, inquiries: 22, title: "Agrilera", type: "Startup", industry: "Agritech", college: ["College of Engineering"], trl: "TRL 6",
             shortDescription: "Automated tray-seeding and smart farming solution for Benguet farmers.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=Agrilera+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "Agrilera introduces an automated tray-seeding system designed to significantly improve efficiency and reduce labor costs for vegetable farmers. Coupled with smart farming sensors, this solution aims to optimize crop yields and resource management.",
             problemStatement: "Traditional tray seeding is a labor-intensive and time-consuming process for Benguet farmers. Additionally, optimizing irrigation and fertilization often relies on manual methods, leading to potential resource waste and inconsistent yields.",
             solution: "An automated seeding machine that precisely plants seeds into trays, dramatically increasing speed and consistency. Integrated sensors provide real-time data on soil moisture and nutrient levels, enabling data-driven smart farming decisions.",
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 2, views: 210, inquiries: 19, title: "SunShare", type: "Startup", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 6",
             shortDescription: "Peer-to-peer solar energy trading platform connecting Baguio", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=SunShare+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "SunShare enables households with solar panels to sell excess energy to neighbors, creating a decentralized and sustainable local energy grid. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 6, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Households with solar panels have no way to monetize excess energy production, while neighbors without solar continue to rely entirely on traditional power sources.",
             solution: "A blockchain-based platform for peer-to-peer energy trading within microgrids, allowing solar households to sell excess power to nearby residents.",
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 1, views: 490, inquiries: 51, title: "FinGuard", type: "Startup", industry: "Fintech", college: ["College of Business"], trl: "TRL 7",
             shortDescription: "Blockchain-based microfinance platform for SMEs in the Cordillera", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=FinGuard+Image"],
+            imageUrls: [], // <-- FIXED
             detailedDescription: "FinGuard revolutionizes access to capital for small and medium enterprises through blockchain-enabled microfinance and transparent lending mechanisms. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 7, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "SMEs in the region struggle to access traditional financing due to lack of collateral, credit history, and formal business documentation.",
             solution: "A blockchain-based platform that uses alternative credit scoring, peer-to-peer lending, and smart contracts to provide accessible, transparent microfinance.",
@@ -480,165 +480,158 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function handleSignIn(email, password) {
-    try {
-        console.log('🔵 Starting email/password sign in...');
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        console.log('✅ User signed in successfully. UID:', user.uid);
-        console.log('📧 Email:', user.email);
+        try {
+            console.log('🔵 Starting email/password sign in...');
+            const userCredential = await auth.signInWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            console.log('✅ User signed in successfully. UID:', user.uid);
+            console.log('📧 Email:', user.email);
 
-        // Check Firestore for user's isAdmin status
-        console.log('🔍 Checking Firestore for user document...');
-        console.log('🔍 DB instance:', db);
-        console.log('🔍 User UID:', user.uid);
-        
-        const userDocRef = db.collection('Registered Accounts').doc(user.uid);
-        console.log('🔍 Document reference created:', userDocRef);
-        
-        const userDoc = await userDocRef.get();
-        console.log('🔍 Document snapshot:', userDoc);
-        console.log('🔍 userDoc.exists (property):', userDoc.exists);
-        
-        if (userDoc.exists) {
-            console.log('✅ User document found in Firestore');
-            const userData = userDoc.data();
-            console.log('📄 User data:', JSON.stringify(userData, null, 2));
+            // Check Firestore for user's isAdmin status
+            console.log('🔍 Checking Firestore for user document...');
+            console.log('🔍 DB instance:', db);
+            console.log('🔍 User UID:', user.uid);
             
-            const isAdmin = userData.isAdmin || false;
-            console.log('🛡️  isAdmin (raw):', userData.isAdmin);
-            console.log('🛡️  isAdmin (type):', typeof userData.isAdmin);
-            console.log('🛡️  isAdmin || false:', isAdmin);
-            console.log('🛡️  isAdmin === true:', isAdmin === true);
+            const userDocRef = db.collection('Registered Accounts').doc(user.uid);
+            console.log('🔍 Document reference created:', userDocRef);
             
-            // Update last login
-            console.log('⏰ Updating last login timestamp...');
-            await userDocRef.update({
-                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            console.log('✅ Last login updated');
+            const userDoc = await userDocRef.get();
+            console.log('🔍 Document snapshot:', userDoc);
+            console.log('🔍 userDoc.exists (property):', userDoc.exists);
             
-            // Redirect based on admin status
-            if (isAdmin === true) {
-                console.log('👑 ADMIN USER DETECTED!');
-                console.log('🚀 Redirecting to: ../admin/dashboard.html');
-                console.log('⚠️  About to redirect in 1 second...');
+            if (userDoc.exists) { // <-- This is the v8/compat syntax (correct)
+                console.log('✅ User document found in Firestore');
+                const userData = userDoc.data();
+                console.log('📄 User data:', JSON.stringify(userData, null, 2));
                 
-                // Show alert and redirect after user clicks OK
-                setTimeout(() => {
-                    alert('Welcome Admin! You will be redirected to the dashboard.');
-                    console.log('🚀 EXECUTING REDIRECT NOW!');
-                    window.location.href = '../admin/dashboard.html';
-                }, 500);
-                return; // Stop execution after scheduling redirect
+                const isAdmin = userData.isAdmin || false;
+                console.log('🛡️  isAdmin (raw):', userData.isAdmin);
+                console.log('🛡️  isAdmin (type):', typeof userData.isAdmin);
+                console.log('🛡️  isAdmin || false:', isAdmin);
+                console.log('🛡️  isAdmin === true:', isAdmin === true);
+                
+                // Update last login
+                console.log('⏰ Updating last login timestamp...');
+                await userDocRef.update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp() // v8/compat syntax (correct)
+                });
+                console.log('✅ Last login updated');
+                
+                // Redirect based on admin status
+                if (isAdmin === true) {
+                    console.log('👑 ADMIN USER DETECTED!');
+                    console.log('🚀 Redirecting to: ../admin/dashboard.html');
+                    console.log('⚠️  About to redirect in 1 second...');
+                    
+                    // Show alert and redirect after user clicks OK
+                    setTimeout(() => {
+                        alert('Welcome Admin! You will be redirected to the dashboard.');
+                        console.log('🚀 EXECUTING REDIRECT NOW!');
+                        window.location.href = '../admin/dashboard.html';
+                    }, 500);
+                    return; // Stop execution after scheduling redirect
+                } else {
+                    console.log('👤 Regular user detected');
+                    console.log('✅ Closing modal and staying on page');
+                    closeAuthModal();
+                }
             } else {
-                console.log('👤 Regular user detected');
-                console.log('✅ Closing modal and staying on page');
+                // User exists in Auth but not in Firestore
+                console.warn('⚠️  User not found in Firestore, creating profile...');
                 closeAuthModal();
             }
-        } else {
-            // User exists in Auth but not in Firestore
-            console.warn('⚠️  User not found in Firestore, creating profile...');
-            closeAuthModal();
-        }
 
-    } catch (error) {
-        displayFormError(signinForm, error.message);
-        console.error('❌ Sign In Error:', error.code, error.message);
+        } catch (error) {
+            displayFormError(signinForm, error.message);
+            console.error('❌ Sign In Error:', error.code, error.message);
+        }
     }
-}
 
     /**
      * Handles Google Sign-In/Sign-Up using a pop-up window.
      */
     async function handleGoogleSignIn() {
-    clearFormErrors();
-    try {
-        console.log("🔵 Starting Google Sign-In...");
-        const result = await auth.signInWithPopup(googleProvider);
-        const user = result.user;
-        const isNewUser = result.additionalUserInfo?.isNewUser || false;
-        console.log("Google Sign-in successful:", user.displayName, user.email, "New user:", isNewUser);
-
-        // For new users or users without Firestore record, save to database
-        const db = firebase.firestore();
-        const userDocRef = db.collection('Registered Accounts').doc(user.uid);
-        const userDoc = await userDocRef.get();
-        
-        if (isNewUser || !userDoc.exists) {
-            console.log("💾 Saving new Google user to Firestore...");
-            const userData = {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName || 'N/A',
-                firstName: user.displayName?.split(' ')[0] || 'N/A',
-                lastName: user.displayName?.split(' ').slice(1).join(' ') || 'N/A',
-                affiliation: 'N/A', // Can be updated later in profile
-                loginType: 'Google',
-                photoURL: user.photoURL || null,
-                isAdmin: false, // Default to false, can be manually changed in Firestore
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                submittedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            
-            await userDocRef.set(userData);
-            console.log("✅ Google user data saved successfully with document ID:", user.uid);
-            
-            closeAuthModal();
-            setTimeout(() => {
-                showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
-            }, 500);
-        } else {
-            // Existing user, check admin status and update last login
-            const userData = userDoc.data();
-            console.log("✅ Existing Google user found in Firestore");
-            console.log("📄 User data:", JSON.stringify(userData, null, 2));
-            
-            const isAdmin = userData.isAdmin || false;
-            console.log("🛡️  isAdmin (raw):", userData.isAdmin);
-            console.log("🛡️  isAdmin (type):", typeof userData.isAdmin);
-            console.log("🛡️  isAdmin || false:", isAdmin);
-            console.log("🛡️  isAdmin === true:", isAdmin === true);
-            
-            console.log("⏰ Updating last login for existing user...");
-            await userDocRef.update({
-                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            console.log("✅ Last login updated");
-            
-            // Redirect based on admin status
-            if (isAdmin === true) {
-                console.log("👑 ADMIN USER DETECTED!");
-                console.log("🚀 Redirecting to: ../admin/dashboard.html");
-                console.log("⚠️  About to redirect in 1 second...");
-                
-                // Show alert and redirect after user clicks OK
-                setTimeout(() => {
-                    alert('Welcome Admin! You will be redirected to the dashboard.');
-                    console.log('🚀 EXECUTING REDIRECT NOW!');
-                    window.location.href = '../admin/dashboard.html';
-                }, 500);
-                return; // Stop execution after scheduling redirect
-            } else {
-                console.log("👤 Regular user, closing modal...");
-                closeAuthModal();
-            }
-        }
-
-    } catch (error) {
-        console.error('❌ Google Sign-In Error:', error.code, error.message);
-        const activeForm = signinPanel && signinPanel.classList.contains('hidden') ? signupForm : signinForm;
-        displayFormError(activeForm, `Google Sign-In Failed: ${error.message}`);
-    }
-}
-
-async function handleProfileUpdate(event) {
-        event.preventDefault();
         clearFormErrors();
-        const newName = profileNameInput.value;
-        const user = auth.currentUser;
+        try {
+            console.log("🔵 Starting Google Sign-In...");
+            const result = await auth.signInWithPopup(googleProvider);
+            const user = result.user;
+            const isNewUser = result.additionalUserInfo?.isNewUser || false;
+            console.log("Google Sign-in successful:", user.displayName, user.email, "New user:", isNewUser);
 
-    // --- NEW: Function to handle profile update ---
+            // For new users or users without Firestore record, save to database
+            const userDocRef = db.collection('Registered Accounts').doc(user.uid);
+            const userDoc = await userDocRef.get();
+            
+            if (isNewUser || !userDoc.exists) {
+                console.log("💾 Saving new Google user to Firestore...");
+                const userData = {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || 'N/A',
+                    firstName: user.displayName?.split(' ')[0] || 'N/A',
+                    lastName: user.displayName?.split(' ').slice(1).join(' ') || 'N/A',
+                    affiliation: 'N/A', // Can be updated later in profile
+                    loginType: 'Google',
+                    photoURL: user.photoURL || null,
+                    isAdmin: false, // Default to false, can be manually changed in Firestore
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                    submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                await userDocRef.set(userData);
+                console.log("✅ Google user data saved successfully with document ID:", user.uid);
+                
+                closeAuthModal();
+                setTimeout(() => {
+                    showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
+                }, 500);
+            } else {
+                // Existing user, check admin status and update last login
+                const userData = userDoc.data();
+                console.log("✅ Existing Google user found in Firestore");
+                console.log("📄 User data:", JSON.stringify(userData, null, 2));
+                
+                const isAdmin = userData.isAdmin || false;
+                console.log("🛡️  isAdmin (raw):", userData.isAdmin);
+                console.log("🛡️  isAdmin (type):", typeof userData.isAdmin);
+                console.log("🛡️  isAdmin || false:", isAdmin);
+                console.log("🛡️  isAdmin === true:", isAdmin === true);
+                
+                console.log("⏰ Updating last login for existing user...");
+                await userDocRef.update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log("✅ Last login updated");
+                
+                // Redirect based on admin status
+                if (isAdmin === true) {
+                    console.log("👑 ADMIN USER DETECTED!");
+                    console.log("🚀 Redirecting to: ../admin/dashboard.html");
+                    console.log("⚠️  About to redirect in 1 second...");
+                    
+                    // Show alert and redirect after user clicks OK
+                    setTimeout(() => {
+                        alert('Welcome Admin! You will be redirected to the dashboard.');
+                        console.log('🚀 EXECUTING REDIRECT NOW!');
+                        window.location.href = '../admin/dashboard.html';
+                    }, 500);
+                    return; // Stop execution after scheduling redirect
+                } else {
+                    console.log("👤 Regular user, closing modal...");
+                    closeAuthModal();
+                }
+            }
+
+        } catch (error) {
+            console.error('❌ Google Sign-In Error:', error.code, error.message);
+            const activeForm = signinPanel && signinPanel.classList.contains('hidden') ? signupForm : signinForm;
+            displayFormError(activeForm, `Google Sign-In Failed: ${error.message}`);
+        }
+    }
+
+    // --- THIS IS THE CORRECT, SINGLE FUNCTION ---
     async function handleProfileUpdate(event) {
         event.preventDefault();
         clearFormErrors();
@@ -676,7 +669,7 @@ async function handleProfileUpdate(event) {
             displayFormError(profileForm, error.message);
         }
     }
-    // --- END NEW ---
+    // --- END ---
 
     async function handleSignOut() {
         try {
@@ -1074,4 +1067,4 @@ async function handleProfileUpdate(event) {
     createRandomCircles();
     console.log("Initial load sequence complete. Waiting for auth state change.");
 
-}}); // --- END OF DOMCONTENTLOADED ---
+}); // --- END OF DOMCONTENTLOADED ---
