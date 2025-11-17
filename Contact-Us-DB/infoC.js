@@ -1,5 +1,3 @@
-// Your final working infoContactUs.js script:
-
 import { saveApplication } from "../Contact-Us-DB/saveInfoC.js"; 
 
 document.addEventListener('DOMContentLoaded', () => {
