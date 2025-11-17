@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Admin Setter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #f5576c;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+        .btn {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn:hover {
+            background: #e4476a;
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .current-user {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .hidden {
+            display: none;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Quick Admin Setter</h1>
+        <p class="subtitle">Quickly set yourself as admin with one click</p>
+        
+        <div id="current-user-info" class="current-user hidden">
+            <strong>Currently signed in as:</strong><br>
+            <span id="current-email"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Option 1: Set Currently Logged In User as Admin</label>
+            <button class="btn" id="set-current-admin" onclick="setCurrentUserAsAdmin()">
+                👑 Make Me Admin
+            </button>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0; color: #999;">OR</div>
+
+        <div class="form-group">
+            <label for="email-input">Option 2: Set Specific User as Admin by Email</label>
+            <input type="email" id="email-input" placeholder="user@example.com">
+        </div>
+
+        <button class="btn" id="set-email-admin" onclick="setUserAsAdminByEmail()">
+            👑 Make This User Admin
+        </button>
+
+        <div id="message" class="message hidden"></div>
+
+        <div class="info" style="margin-top: 30px; font-size: 13px;">
+            <strong>⚠️ Note:</strong> This tool sets the <code>isAdmin</code> field to <code>true</code> (boolean) in Firestore. After setting, sign out and sign back in to test the redirect.
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+
+        // Monitor auth state
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('current-user-info').classList.remove('hidden');
+                document.getElementById('current-email').textContent = user.email;
+            } else {
+                document.getElementById('current-user-info').classList.add('hidden');
+                showMessage('⚠️ You are not signed in. Please sign in first.', 'error');
+            }
+        });
+
+        function showMessage(message, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = message;
+            messageEl.className = 'message ' + type;
+            messageEl.classList.remove('hidden');
+        }
+
+        async function setCurrentUserAsAdmin() {
+            if (!currentUser) {
+                showMessage('❌ You must be signed in to use this feature.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('set-current-admin');
+            btn.disabled = true;
+            btn.textContent = 'Setting admin status...';
+
+            try {
+                const userDocRef = db.collection('Registered Accounts').doc(currentUser.uid);
+                
+                console.log('Updating isAdmin for user:', currentUser.uid);
+                
+                // Update with BOOLEAN true (not string)
+                await userDocRef.update({
+                    isAdmin: true,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                console.log('✅ isAdmin set to true (boolean)');
+
+                showMessage(`✅ Success! User ${currentUser.email} is now an admin. Please sign out and sign back in to test the redirect.`, 'success');
+
+                // Verify the update
+                const doc = await userDocRef.get();
+                const data = doc.data();
+                console.log('Verification - isAdmin value:', data.isAdmin);
+                console.log('Verification - isAdmin type:', typeof data.isAdmin);
+
+            } catch (error) {
+                console.error('Error setting admin:', error);
+                showMessage('❌ Error: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '👑 Make Me Admin';
+            }
+        }
+
+        async function setUserAsAdminByEmail() {
+            const email = document.getElementById('email-input').value.trim();
+            
+            if (!email) {
+                showMessage('❌ Please enter an email address.', 'error');
+                return;
+            }
+
+            if (!currentUser) {
+                showMessage('❌ You must be signed in to use this feature.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('set-email-admin');
+            btn.disabled = true;
+            btn.textContent = 'Searching for user...';
+
+            try {
+                console.log('Searching for user with email:', email);
+                
+                // Search for user by email
+                const querySnapshot = await db.collection('Registered Accounts')
+                    .where('email', '==', email)
+                    .get();
+
+                if (querySnapshot.empty) {
+                    showMessage('❌ No user found with email: ' + email, 'error');
+                    btn.disabled = false;
+                    btn.textContent = '👑 Make This User Admin';
+                    return;
+                }
+
+                btn.textContent = 'Setting admin status...';
+
+                // Update the first matching user
+                const userDoc = querySnapshot.docs[0];
+                console.log('Found user with UID:', userDoc.id);
+                
+                await userDoc.ref.update({
+                    isAdmin: true,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                console.log('✅ isAdmin set to true (boolean)');
+
+                showMessage(`✅ Success! User ${email} is now an admin. They need to sign out and sign back in to test the redirect.`, 'success');
+
+                // Clear input
+                document.getElementById('email-input').value = '';
+
+                // Verify the update
+                const doc = await userDoc.ref.get();
+                const data = doc.data();
+                console.log('Verification - isAdmin value:', data.isAdmin);
+                console.log('Verification - isAdmin type:', typeof data.isAdmin);
+
+            } catch (error) {
+                console.error('Error setting admin:', error);
+                showMessage('❌ Error: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '👑 Make This User Admin';
+            }
+        }
+    </script>
+</body>
+</html>

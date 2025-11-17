@@ -4,20 +4,43 @@ document.addEventListener('DOMContentLoaded', () => {
     emailjs.init("5_58lLK_G13DczpUQ");
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.querySelector('.contact-btn');
-
-
     if (!contactForm || !submitButton) {
         console.error("Contact form or submit button not found.");
         return;
     }
-
     const showSuccessPage = () => {
         const btn = document.querySelector('.contact-btn');
         if (btn) {
             btn.innerHTML = 'Send Message <span class="arrow-contact">➜</span>';
             btn.disabled = false;
         }
-        alert(`✅ Message Sent Successfully! We will respond soon.`); 
+        // Create confirmation modal
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999;';
+        
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = 'background: white; padding: 30px; border-radius: 10px; text-align: center; max-width: 400px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);';
+        modalContent.innerHTML = `
+            <div style="font-size: 24px; margin-bottom: 15px;">Thank you for Contacting Us</div>
+            <h2 style="margin: 0 0 10px 0; color: #333;">Message Sent Successfully!</h2>
+            <p style="color: #666; margin-bottom: 20px;">We will respond soon.</p>
+            <button style="background: #166c41; color: white; border: none; padding: 10px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>
+        `;
+        
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+        
+        // Close modal on button click
+        modalContent.querySelector('button').addEventListener('click', () => {
+            modal.remove();
+        });
+        
+        // Close modal on backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+            modal.remove();
+            }
+        });
         contactForm.reset();
     };
 

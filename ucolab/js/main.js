@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed. Running main.js");
+    
+    // Get Firebase instances from global scope (initialized in index.html)
+    const auth = window.auth || firebase.auth();
+    const db = window.db || firebase.firestore();
+    
+    console.log("Main.js - Auth available:", auth ? "✅" : "❌");
+    console.log("Main.js - Firestore available:", db ? "✅" : "❌");
 
     // --- 1. DEFAULT PROJECT DATA ---
     const defaultProjects = [
@@ -427,18 +434,46 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     async function handleSignUp(email, password, firstName, lastName) {
         try {
+            console.log("📝 Creating user account for:", email);
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
+            console.log("✅ User account created. UID:", user.uid);
+            
             await user.updateProfile({
                 displayName: `${firstName} ${lastName}`
             });
-            // Optional: Save additional user data (like affiliation) to Firestore
-            // e.g., db.collection('users').doc(user.uid).set({ ... });
+            console.log("✅ User profile updated");
+            
+            // Get affiliation from form
+            const affiliation = signupAffiliationInput ? signupAffiliationInput.value : 'N/A';
+            
+            // Save user data to Firestore "Registered Accounts" collection
+            const userData = {
+                uid: user.uid,
+                email: user.email,
+                displayName: `${firstName} ${lastName}`,
+                firstName: firstName || 'N/A',
+                lastName: lastName || 'N/A',
+                affiliation: affiliation,
+                loginType: 'Email/Password',
+                isAdmin: false, // Default to false, can be manually changed in Firestore
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            console.log("💾 Saving user data to Firestore:", userData);
+            
+            // Use set() with the UID as document ID instead of add()
+            await db.collection('Registered Accounts').doc(user.uid).set(userData);
+            console.log("✅ User data saved to Firestore successfully with document ID:", user.uid);
+            
             closeAuthModal();
+            alert('Registration successful! Welcome to UCoLab.');
             console.log('User signed up and profile updated:', user);
         } catch (error) {
+            console.error('❌ Sign Up Error:', error.code, error.message);
             displayFormError(signupForm, error.message);
-            console.error('Sign Up Error:', error.code, error.message);
         }
     }
 
@@ -447,22 +482,69 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     async function handleSignIn(email, password) {
     try {
-        await auth.signInWithEmailAndPassword(email, password);
-        console.log('User signed in successfully.');
+        console.log('🔵 Starting email/password sign in...');
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        console.log('✅ User signed in successfully. UID:', user.uid);
+        console.log('📧 Email:', user.email);
 
-        // --- NEW: Check if user is admin ---
-        if (email === ADMIN_EMAIL) {
-            // Admin user, redirect to admin page
-            window.location.href = 'admin.html';
+        // Check Firestore for user's isAdmin status
+        console.log('🔍 Checking Firestore for user document...');
+        console.log('🔍 DB instance:', db);
+        console.log('🔍 User UID:', user.uid);
+        
+        const userDocRef = db.collection('Registered Accounts').doc(user.uid);
+        console.log('🔍 Document reference created:', userDocRef);
+        
+        const userDoc = await userDocRef.get();
+        console.log('🔍 Document snapshot:', userDoc);
+        console.log('🔍 userDoc.exists (property):', userDoc.exists);
+        
+        if (userDoc.exists) {
+            console.log('✅ User document found in Firestore');
+            const userData = userDoc.data();
+            console.log('📄 User data:', JSON.stringify(userData, null, 2));
+            
+            const isAdmin = userData.isAdmin || false;
+            console.log('🛡️  isAdmin (raw):', userData.isAdmin);
+            console.log('🛡️  isAdmin (type):', typeof userData.isAdmin);
+            console.log('🛡️  isAdmin || false:', isAdmin);
+            console.log('🛡️  isAdmin === true:', isAdmin === true);
+            
+            // Update last login
+            console.log('⏰ Updating last login timestamp...');
+            await userDocRef.update({
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log('✅ Last login updated');
+            
+            // Redirect based on admin status
+            if (isAdmin === true) {
+                console.log('👑 ADMIN USER DETECTED!');
+                console.log('🚀 Redirecting to: ../admin/dashboard.html');
+                console.log('⚠️  About to redirect in 1 second...');
+                
+                // Show alert and redirect after user clicks OK
+                setTimeout(() => {
+                    alert('Welcome Admin! You will be redirected to the dashboard.');
+                    console.log('🚀 EXECUTING REDIRECT NOW!');
+                    window.location.href = '../admin/dashboard.html';
+                }, 500);
+                return; // Stop execution after scheduling redirect
+            } else {
+                console.log('👤 Regular user detected');
+                console.log('✅ Closing modal and staying on page');
+                closeAuthModal();
+            }
         } else {
-            // Normal user, just close modal
+            // User exists in Auth but not in Firestore
+            console.warn('⚠️  User not found in Firestore, creating profile...');
             closeAuthModal();
         }
-        // --- End of new code ---
 
     } catch (error) {
         displayFormError(signinForm, error.message);
-        console.error('Sign In Error:', error.code, error.message);
+        console.error('❌ Sign In Error:', error.code, error.message);
     }
 }
 
@@ -472,22 +554,75 @@ document.addEventListener('DOMContentLoaded', function() {
     async function handleGoogleSignIn() {
     clearFormErrors();
     try {
+        console.log("🔵 Starting Google Sign-In...");
         const result = await auth.signInWithPopup(googleProvider);
         const user = result.user;
-        console.log("Google Sign-in successful:", user.displayName, user.email);
+        const isNewUser = result.additionalUserInfo?.isNewUser || false;
+        console.log("Google Sign-in successful:", user.displayName, user.email, "New user:", isNewUser);
 
-        // --- NEW: Check if user is admin ---
-        if (user.email === ADMIN_EMAIL) {
-            // Admin user, redirect to admin page
-            window.location.href = 'admin.html';
-        } else {
-            // Normal user, just close modal
+        // For new users or users without Firestore record, save to database
+        const db = firebase.firestore();
+        const userDocRef = db.collection('Registered Accounts').doc(user.uid);
+        const userDoc = await userDocRef.get();
+        
+        if (isNewUser || !userDoc.exists) {
+            console.log("💾 Saving new Google user to Firestore...");
+            const userData = {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName || 'N/A',
+                firstName: user.displayName?.split(' ')[0] || 'N/A',
+                lastName: user.displayName?.split(' ').slice(1).join(' ') || 'N/A',
+                affiliation: 'N/A', // Can be updated later in profile
+                loginType: 'Google',
+                photoURL: user.photoURL || null,
+                isAdmin: false, // Default to false, can be manually changed in Firestore
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            await userDocRef.set(userData);
+            console.log("✅ Google user data saved successfully with document ID:", user.uid);
+            
             closeAuthModal();
-            if (result.additionalUserInfo.isNewUser) {
-                console.log("New user signed up with Google.");
+            setTimeout(() => {
+                showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
+            }, 500);
+        } else {
+            // Existing user, check admin status and update last login
+            const userData = userDoc.data();
+            console.log("✅ Existing Google user found in Firestore");
+            console.log("📄 User data:", JSON.stringify(userData, null, 2));
+            
+            const isAdmin = userData.isAdmin || false;
+            console.log("🛡️  isAdmin (raw):", userData.isAdmin);
+            console.log("🛡️  isAdmin (type):", typeof userData.isAdmin);
+            console.log("🛡️  isAdmin || false:", isAdmin);
+            console.log("🛡️  isAdmin === true:", isAdmin === true);
+            
+            console.log("⏰ Updating last login for existing user...");
+            await userDocRef.update({
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("✅ Last login updated");
+            
+            // Redirect based on admin status
+            if (isAdmin === true) {
+                console.log("👑 ADMIN USER DETECTED!");
+                console.log("🚀 Redirecting to: ../admin/dashboard.html");
+                console.log("⚠️  About to redirect in 1 second...");
+                
+                // Show alert and redirect after user clicks OK
                 setTimeout(() => {
-                    showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
-                }, 500); 
+                    alert('Welcome Admin! You will be redirected to the dashboard.');
+                    console.log('🚀 EXECUTING REDIRECT NOW!');
+                    window.location.href = '../admin/dashboard.html';
+                }, 500);
+                return; // Stop execution after scheduling redirect
+            } else {
+                console.log("👤 Regular user, closing modal...");
+                closeAuthModal();
             }
         }
         // --- End of new code ---
@@ -499,8 +634,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Google Sign-In popup closed by user.');
             return;
         }
-        console.error('Google Sign-In Error:', errorCode, errorMessage);
-        const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
+        console.error('❌ Google Sign-In Error:', errorCode, errorMessage);
+        const activeForm = signinPanel && signinPanel.classList.contains('hidden') ? signupForm : signinForm;
         displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
     }
 }

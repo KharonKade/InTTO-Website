@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 ULTIMATE ADMIN REDIRECT TESTER</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #111;
+            border: 2px solid #0f0;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #0ff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .section h2 {
+            color: #ff0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .status-box {
+            background: #222;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #0f0;
+        }
+        .status-box.warning { border-left-color: #ff0; }
+        .status-box.error { border-left-color: #f00; }
+        .status-box.info { border-left-color: #0ff; }
+        .status-label {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .status-value {
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        .btn:hover { background: #0ff; }
+        .btn-danger { background: #f00; color: #fff; }
+        .btn-danger:hover { background: #f33; }
+        .btn-warning { background: #ff0; color: #000; }
+        .btn-warning:hover { background: #fc3; }
+        .console {
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            border-radius: 5px;
+            height: 400px;
+            overflow-y: auto;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .log-line {
+            margin: 2px 0;
+            padding: 2px 0;
+        }
+        .log-error { color: #f00; }
+        .log-warning { color: #ff0; }
+        .log-success { color: #0f0; }
+        .log-info { color: #0ff; }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .badge-success { background: #0f0; color: #000; }
+        .badge-error { background: #f00; color: #fff; }
+        .badge-warning { background: #ff0; color: #000; }
+        .badge-info { background: #0ff; color: #000; }
+        .hidden { display: none; }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        .test-pass { background: #0f0; color: #000; border-left-color: #0f0; }
+        .test-fail { background: #f00; color: #fff; border-left-color: #f00; }
+        .test-warn { background: #ff0; color: #000; border-left-color: #ff0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 ULTIMATE ADMIN REDIRECT DIAGNOSTIC TOOL</h1>
+        
+        <div class="section">
+            <h2>📊 CURRENT STATUS</h2>
+            <div class="status-grid">
+                <div class="status-box">
+                    <div class="status-label">Authentication</div>
+                    <div class="status-value" id="auth-status">Checking...</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">User Email</div>
+                    <div class="status-value" id="user-email">-</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">User UID</div>
+                    <div class="status-value" id="user-uid" style="font-size: 11px;">-</div>
+                </div>
+                <div class="status-box" id="admin-box">
+                    <div class="status-label">Admin Status</div>
+                    <div class="status-value" id="admin-status">-</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">isAdmin Value</div>
+                    <div class="status-value" id="isadmin-value">-</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">isAdmin Type</div>
+                    <div class="status-value" id="isadmin-type">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎮 ACTIONS</h2>
+            <button class="btn" onclick="setAdmin(true)">👑 SET AS ADMIN (true)</button>
+            <button class="btn" onclick="setAdmin(false)">👤 SET AS REGULAR (false)</button>
+            <button class="btn btn-warning" onclick="testRedirect()">🧪 TEST REDIRECT</button>
+            <button class="btn btn-warning" onclick="runDiagnostics()">🔍 RUN DIAGNOSTICS</button>
+            <button class="btn btn-danger" onclick="signOut()">🚪 SIGN OUT</button>
+            <button class="btn" onclick="refreshData()">🔄 REFRESH</button>
+        </div>
+
+        <div class="section">
+            <h2>🧪 DIAGNOSTIC TESTS</h2>
+            <div id="test-results"></div>
+        </div>
+
+        <div class="section">
+            <h2>📋 LIVE CONSOLE</h2>
+            <button class="btn" onclick="clearConsole()" style="float: right; margin: 0;">CLEAR</button>
+            <div style="clear: both;"></div>
+            <div class="console" id="console-output"></div>
+        </div>
+
+        <div class="section">
+            <h2>💾 RAW FIRESTORE DATA</h2>
+            <pre class="console" id="firestore-data" style="height: 300px;">-</pre>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+        let userData = null;
+        let logs = [];
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = { time: timestamp, message, type };
+            logs.push(entry);
+            updateConsole();
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function updateConsole() {
+            const output = document.getElementById('console-output');
+            output.innerHTML = logs.map(l => 
+                `<div class="log-line log-${l.type}">[${l.time}] ${l.message}</div>`
+            ).join('');
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearConsole() {
+            logs = [];
+            updateConsole();
+        }
+
+        log('🔥 Firebase initialized', 'success');
+        log('⏳ Waiting for auth state...', 'info');
+
+        // Monitor auth state
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                log('❌ NO USER SIGNED IN', 'error');
+                document.getElementById('auth-status').innerHTML = '<span class="badge badge-error">NOT SIGNED IN</span>';
+                document.getElementById('user-email').textContent = 'N/A';
+                document.getElementById('user-uid').textContent = 'N/A';
+                document.getElementById('admin-status').textContent = 'N/A';
+                document.getElementById('isadmin-value').textContent = 'N/A';
+                document.getElementById('isadmin-type').textContent = 'N/A';
+                document.getElementById('firestore-data').textContent = '⚠️ Please sign in at /ucolab/index.html first';
+                return;
+            }
+
+            currentUser = user;
+            log(`✅ User authenticated: ${user.email}`, 'success');
+            
+            document.getElementById('auth-status').innerHTML = '<span class="badge badge-success">SIGNED IN</span>';
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('user-uid').textContent = user.uid;
+
+            // Fetch Firestore data
+            await refreshData();
+        });
+
+        async function refreshData() {
+            if (!currentUser) {
+                log('❌ No user to refresh', 'error');
+                return;
+            }
+
+            try {
+                log('🔍 Fetching Firestore document...', 'info');
+                const userDocRef = db.collection('Registered Accounts').doc(currentUser.uid);
+                const userDoc = await userDocRef.get();
+
+                if (!userDoc.exists()) {
+                    log('❌ USER DOCUMENT NOT FOUND IN FIRESTORE!', 'error');
+                    document.getElementById('firestore-data').textContent = '❌ Document not found!';
+                    document.getElementById('admin-status').innerHTML = '<span class="badge badge-error">NO DOCUMENT</span>';
+                    return;
+                }
+
+                userData = userDoc.data();
+                log('✅ User document found', 'success');
+                log(`📄 Document data: ${JSON.stringify(userData, null, 2)}`, 'info');
+
+                // Display raw data
+                document.getElementById('firestore-data').textContent = JSON.stringify(userData, null, 2);
+
+                // Check isAdmin
+                const isAdminRaw = userData.isAdmin;
+                const isAdminType = typeof isAdminRaw;
+                const isAdminValue = isAdminRaw || false;
+                const isAdminStrict = isAdminRaw === true;
+
+                log(`🛡️  isAdmin (raw): ${JSON.stringify(isAdminRaw)}`, 'info');
+                log(`🛡️  isAdmin (type): ${isAdminType}`, 'info');
+                log(`🛡️  isAdmin || false: ${isAdminValue}`, 'info');
+                log(`🛡️  isAdmin === true: ${isAdminStrict}`, 'info');
+
+                // Update UI
+                document.getElementById('isadmin-value').textContent = JSON.stringify(isAdminRaw);
+                
+                if (isAdminType === 'boolean') {
+                    document.getElementById('isadmin-type').innerHTML = `<span class="badge badge-success">${isAdminType}</span>`;
+                } else {
+                    document.getElementById('isadmin-type').innerHTML = `<span class="badge badge-error">${isAdminType}</span>`;
+                }
+
+                const adminBox = document.getElementById('admin-box');
+                if (isAdminStrict) {
+                    document.getElementById('admin-status').innerHTML = '<span class="badge badge-success">ADMIN ✓</span>';
+                    adminBox.classList.remove('error');
+                    adminBox.classList.add('info');
+                    log('👑 USER IS ADMIN!', 'success');
+                } else {
+                    document.getElementById('admin-status').innerHTML = '<span class="badge badge-info">REGULAR USER</span>';
+                    adminBox.classList.remove('info');
+                    log('👤 User is regular user', 'info');
+                }
+
+            } catch (error) {
+                log(`❌ ERROR: ${error.message}`, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        async function setAdmin(value) {
+            if (!currentUser) {
+                alert('No user signed in!');
+                return;
+            }
+
+            log(`⚙️  Setting isAdmin to: ${value} (${typeof value})`, 'warning');
+
+            try {
+                const userDocRef = db.collection('Registered Accounts').doc(currentUser.uid);
+                await userDocRef.update({
+                    isAdmin: value,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                log(`✅ Successfully set isAdmin to ${value}`, 'success');
+                
+                // Verify
+                const doc = await userDocRef.get();
+                const data = doc.data();
+                log(`🔍 Verification - isAdmin: ${data.isAdmin} (${typeof data.isAdmin})`, 'success');
+
+                // Refresh display
+                await refreshData();
+
+            } catch (error) {
+                log(`❌ ERROR: ${error.message}`, 'error');
+            }
+        }
+
+        function testRedirect() {
+            if (!userData) {
+                alert('No user data loaded!');
+                return;
+            }
+
+            const isAdmin = userData.isAdmin === true;
+            
+            log('🧪 TESTING REDIRECT...', 'warning');
+            log(`isAdmin === true: ${isAdmin}`, 'warning');
+
+            if (isAdmin) {
+                if (confirm('You are an ADMIN!\n\nWill redirect to: ../admin/dashboard.html\n\nContinue?')) {
+                    log('🚀 REDIRECTING TO ADMIN DASHBOARD...', 'success');
+                    window.location.href = '../admin/dashboard.html';
+                }
+            } else {
+                alert('You are NOT an admin.\n\nNo redirect will occur.\n\nSet as admin first using the button above.');
+                log('❌ Cannot redirect - user is not admin', 'error');
+            }
+        }
+
+        async function runDiagnostics() {
+            log('🔍 RUNNING DIAGNOSTICS...', 'warning');
+            
+            const results = document.getElementById('test-results');
+            results.innerHTML = '';
+
+            const tests = [];
+
+            // Test 1: User authenticated
+            tests.push({
+                name: 'User Authentication',
+                pass: currentUser !== null,
+                message: currentUser ? `User: ${currentUser.email}` : 'No user signed in'
+            });
+
+            // Test 2: Firestore document exists
+            tests.push({
+                name: 'Firestore Document',
+                pass: userData !== null && userData !== undefined,
+                message: userData ? 'Document found' : 'Document not found'
+            });
+
+            // Test 3: isAdmin field exists
+            const hasIsAdmin = userData && ('isAdmin' in userData);
+            tests.push({
+                name: 'isAdmin Field Exists',
+                pass: hasIsAdmin,
+                message: hasIsAdmin ? 'Field exists' : 'Field missing'
+            });
+
+            // Test 4: isAdmin is boolean
+            const isBoolean = userData && typeof userData.isAdmin === 'boolean';
+            tests.push({
+                name: 'isAdmin Type Check',
+                pass: isBoolean,
+                message: userData ? `Type: ${typeof userData.isAdmin}` : 'N/A',
+                critical: !isBoolean && userData
+            });
+
+            // Test 5: Redirect path
+            const currentPath = window.location.pathname;
+            const inUcolab = currentPath.includes('/ucolab/');
+            tests.push({
+                name: 'Path Check',
+                pass: inUcolab,
+                message: `Current path: ${currentPath}`,
+                info: true
+            });
+
+            // Test 6: Admin dashboard exists
+            tests.push({
+                name: 'Admin Dashboard Path',
+                pass: true,
+                message: '../admin/dashboard.html (relative to /ucolab/)',
+                info: true
+            });
+
+            // Display results
+            tests.forEach(test => {
+                const className = test.critical ? 'test-fail' : test.pass ? 'test-pass' : test.info ? 'test-warn' : 'test-fail';
+                const icon = test.critical ? '❌' : test.pass ? '✅' : test.info ? 'ℹ️' : '❌';
+                
+                results.innerHTML += `
+                    <div class="${className} test-result">
+                        ${icon} <strong>${test.name}:</strong> ${test.message}
+                    </div>
+                `;
+
+                log(`${icon} ${test.name}: ${test.message}`, test.pass ? 'success' : 'error');
+            });
+
+            log('✅ Diagnostics complete', 'success');
+        }
+
+        function signOut() {
+            log('🚪 Signing out...', 'warning');
+            auth.signOut().then(() => {
+                log('✅ Signed out successfully', 'success');
+                window.location.href = 'index.html';
+            });
+        }
+
+        // Auto-run diagnostics on load
+        setTimeout(() => {
+            if (currentUser) {
+                runDiagnostics();
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

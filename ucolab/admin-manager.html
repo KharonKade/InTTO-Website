@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Manager - UCoLab</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .user-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .user-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        .user-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .user-card.admin {
+            border-left-color: #4CAF50;
+            background: #f1f8f4;
+        }
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-details {
+            flex: 1;
+        }
+        .user-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        .user-email {
+            color: #666;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+        .user-meta {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .admin-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .regular-badge {
+            background: #e0e0e0;
+            color: #666;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        button.danger {
+            background: #f44336;
+        }
+        button.danger:hover {
+            background: #da190b;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👑 Admin Manager</h1>
+        <p class="subtitle">Manage user permissions for UCoLab</p>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-users">-</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="admin-users">-</div>
+                <div class="stat-label">Admins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="regular-users">-</div>
+                <div class="stat-label">Regular Users</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 Search Users</h2>
+            <input type="text" class="search-box" id="search-box" placeholder="Search by name or email...">
+        </div>
+
+        <div class="section">
+            <h2>👥 All Users</h2>
+            <div id="user-list" class="user-list">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading users from Firestore...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let allUsers = [];
+
+        // Load all users from Firestore
+        async function loadUsers() {
+            try {
+                console.log("Loading users from Firestore...");
+                const snapshot = await db.collection('Registered Accounts').get();
+                
+                allUsers = [];
+                snapshot.forEach(doc => {
+                    allUsers.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                console.log(`Loaded ${allUsers.length} users`);
+                displayUsers(allUsers);
+                updateStats();
+            } catch (error) {
+                console.error("Error loading users:", error);
+                document.getElementById('user-list').innerHTML = `
+                    <div style="color: red; padding: 20px; text-align: center;">
+                        ❌ Error loading users: ${error.message}
+                        <br><br>
+                        Check console for details.
+                    </div>
+                `;
+            }
+        }
+
+        // Display users in the list
+        function displayUsers(users) {
+            const userList = document.getElementById('user-list');
+            
+            if (users.length === 0) {
+                userList.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">No users found</div>';
+                return;
+            }
+
+            userList.innerHTML = users.map(user => `
+                <div class="user-card ${user.isAdmin ? 'admin' : ''}">
+                    <div class="user-info">
+                        <div class="user-details">
+                            <div class="user-name">${user.displayName || 'No Name'}</div>
+                            <div class="user-email">${user.email || 'No Email'}</div>
+                            <div class="user-meta">
+                                ${user.affiliation || 'No Affiliation'} • 
+                                ${user.loginType || 'Unknown'} • 
+                                UID: ${user.uid?.substring(0, 8)}...
+                            </div>
+                        </div>
+                        <div>
+                            <span class="${user.isAdmin ? 'admin-badge' : 'regular-badge'}">
+                                ${user.isAdmin ? '👑 Admin' : '👤 User'}
+                            </span>
+                            ${user.isAdmin ? 
+                                `<button class="danger" onclick="removeAdmin('${user.id}', '${user.email}')">Remove Admin</button>` :
+                                `<button onclick="makeAdmin('${user.id}', '${user.email}')">Make Admin</button>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = allUsers.length;
+            const admins = allUsers.filter(u => u.isAdmin).length;
+            const regular = total - admins;
+
+            document.getElementById('total-users').textContent = total;
+            document.getElementById('admin-users').textContent = admins;
+            document.getElementById('regular-users').textContent = regular;
+        }
+
+        // Make a user admin
+        async function makeAdmin(userId, email) {
+            if (!confirm(`Make ${email} an admin?`)) return;
+
+            try {
+                await db.collection('Registered Accounts').doc(userId).update({
+                    isAdmin: true
+                });
+                alert(`✅ ${email} is now an admin!`);
+                loadUsers(); // Reload list
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+                console.error(error);
+            }
+        }
+
+        // Remove admin status
+        async function removeAdmin(userId, email) {
+            if (!confirm(`Remove admin status from ${email}?`)) return;
+
+            try {
+                await db.collection('Registered Accounts').doc(userId).update({
+                    isAdmin: false
+                });
+                alert(`✅ Admin status removed from ${email}`);
+                loadUsers(); // Reload list
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+                console.error(error);
+            }
+        }
+
+        // Search functionality
+        document.getElementById('search-box').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allUsers.filter(user => 
+                user.displayName?.toLowerCase().includes(query) ||
+                user.email?.toLowerCase().includes(query) ||
+                user.affiliation?.toLowerCase().includes(query)
+            );
+            displayUsers(filtered);
+        });
+
+        // Load users on page load
+        loadUsers();
+    </script>
+</body>
+</html>
