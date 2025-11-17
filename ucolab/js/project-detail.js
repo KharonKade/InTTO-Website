@@ -40,6 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function openLightbox(imageUrl) {
         if (!lightboxOverlay || !lightboxImage) return;
         console.log("Opening lightbox for:", imageUrl);
+        
+        // --- Don't open lightbox for the default image ---
+        if (imageUrl.includes('Logo/No image.png')) {
+            return;
+        }
+
         lightboxImage.src = imageUrl;
         lightboxOverlay.style.display = 'flex'; // Use flex for centering
         // Need a tiny delay for the CSS transition to work from display:none
@@ -185,7 +191,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const teamSizeEl = document.getElementById('detail-team-size');
         if(teamSizeEl) teamSizeEl.textContent = project.teamSize || 'N/A';
         const collegeEl = document.getElementById('detail-college');
-        if(collegeEl) collegeEl.textContent = project.college || 'N/A';
+        // --- MODIFIED: Handle college array ---
+        if(collegeEl) collegeEl.textContent = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || 'N/A';
         const founderNameEl = document.getElementById('detail-founder-name');
         if(founderNameEl) founderNameEl.textContent = project.founderName || 'N/A';
         const founderRoleEl = document.getElementById('detail-founder-role');
@@ -206,7 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // --- SLIDESHOW AND GALLERY LOGIC ---
 
-        const placeholderUrl = `https://via.placeholder.com/500x350.png?text=${(project.title || 'Project').replace(/ /g, '+')}`;
+        // --- MODIFIED: Use new default image ---
+        const defaultImageUrl = 'Logo/No image.png';
 
         galleryImageUrls = []; // Reset before populating
         if (project.imageUrls && Array.isArray(project.imageUrls)) {
@@ -227,8 +235,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(() => {
                 currentDetailImage.src = galleryImageUrls[index]; // Change src
+                
                 // MODIFIED: Click on hero image now opens lightbox
                 currentDetailImage.onclick = () => { openLightbox(galleryImageUrls[index]); };
+                
+                // --- NEW: Add class if it's the default image ---
+                if (galleryImageUrls[index] === defaultImageUrl) {
+                    currentDetailImage.classList.add('default-image');
+                } else {
+                    currentDetailImage.classList.remove('default-image');
+                }
+
                 currentDetailImage.style.opacity = 1; // Start Fade In
 
                 // Update active thumbnail
@@ -259,6 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         // --- Main Image & Gallery Setup ---
+        // --- MODIFIED: Check length *before* adding default ---
         if (galleryImageUrls.length > 0 && detailImage) {
             // 1. Populate the Gallery Grid
             if (galleryGrid) {
@@ -272,9 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     // MODIFIED: Click on gallery image opens lightbox
                     img.onclick = () => {
                         openLightbox(imageUrl);
-                        // Optional: Could also update hero image behind the scenes if desired
-                        // showImage(index);
-                        // resetTimer();
                     };
 
                     galleryGrid.appendChild(img);
@@ -302,9 +317,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } else { // --- No images ---
              if(detailImage){ /* ... (set placeholder, remove onclick) ... */
-                detailImage.src = placeholderUrl;
+                // --- MODIFIED: Use new default image ---
+                detailImage.src = defaultImageUrl;
                 detailImage.alt = `${project.title || 'Project'} Image (Placeholder)`;
                 detailImage.onclick = null; // Remove click listener
+                detailImage.classList.add('default-image'); // Add class
             }
             if (galleryGrid) { galleryGrid.innerHTML = '<p>No images were uploaded for this project.</p>'; }
             if (prevBtn && nextBtn) { /* ... (hide buttons) ... */

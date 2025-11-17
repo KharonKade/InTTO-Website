@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 13, views: 301, inquiries: 25, title: "SafeCity", type: "Capstone", industry: "Crimintech", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "Community-based crime reporting and prevention mobile application.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=SafeCity+Image"],
+            imageUrls: ["httpss://via.placeholder.com/500x350.png?text=SafeCity+Image"],
             detailedDescription: "SafeCity aims to enhance community safety by providing a user-friendly mobile platform for reporting incidents and receiving timely alerts. Developed by students from the College of Computer Studies, this project leverages technology to foster a more connected and secure environment.",
             problemStatement: "Delayed crime reporting and lack of real-time safety information can hinder effective prevention and response efforts within communities. Existing channels may be slow or inaccessible to some residents.",
             solution: "A mobile application allowing residents to quickly report incidents (anonymously if desired), view a map of recent activity, and receive official safety alerts, empowering community members and aiding local authorities.",
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 12, views: 220, inquiries: 12, title: "MediCord", type: "Capstone", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 4",
             shortDescription: "AI-powered health monitoring for rural clinics.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=MediCord+Image"],
+            imageUrls: [], // <-- Example of project with no image
             detailedDescription: "MediCord brings advanced diagnostic capabilities to rural health centers through AI-powered health monitoring and decision support systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Rural clinics lack diagnostic equipment and specialist expertise, leading to delayed or inaccurate diagnoses and patient referrals to distant hospitals.",
             solution: "AI-powered diagnostic tools that analyze symptoms, vital signs, and medical images to provide decision support for rural healthcare workers.",
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 10, views: 450, inquiries: 30, title: "NutriTrack", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 5",
             shortDescription: "AI-powered nutrition monitoring app for maternal and child health.", userId:"default",
-            imageUrls: ["https://via.placeholder.com/500x350.png?text=NutriTrack+Image"],
+            imageUrls: ["httpshttps://via.placeholder.com/500x350.png?text=NutriTrack+Image"],
             detailedDescription: "NutriTrack revolutionizes maternal and child healthcare through advanced AI technology. This comprehensive nutrition monitoring platform provides real-time insights and personalized recommendations to improve health outcomes in underserved communities. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
             problemStatement: "Maternal and child malnutrition remains a critical challenge in the Cordillera region, with limited access to professional nutrition monitoring and guidance. Healthcare workers struggle to track and manage multiple cases efficiently.",
             solution: "Using artificial intelligence and mobile technology, NutriTrack enables healthcare workers and mothers to monitor nutritional status, receive alerts for concerning trends, and access evidence-based feeding recommendations tailored to local dietary practices.",
@@ -285,12 +285,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const alertModalOverlay = document.getElementById('alert-modal-overlay');
     const alertModalOkBtn = document.getElementById('alert-modal-ok-btn');
     const alertModalMessage = document.getElementById('alert-modal-message');
-    const alertModalTitle = document.getElementById('alert-modal-title');
+    const alertModalTitle = document.getElementById('alert-modal-title'); // <-- ADDED
+
+    // --- Profile Modal Elements ---
     const profileModalOverlay = document.getElementById('profile-modal-overlay');
     const profileForm = document.getElementById('profile-form');
     const profileNameInput = document.getElementById('profile-name-input');
     const closeProfileModalBtn = document.getElementById('close-profile-modal-btn');
     const cancelProfileBtn = document.getElementById('cancel-profile-btn');
+
     // --- Auth Form Elements ---
     const signinForm = document.getElementById('signin-form');
     const signinEmailInput = document.getElementById('signin-email-input');
@@ -326,16 +329,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
-    function showAlertModal(message, title = 'Alert') { // <-- MODIFIED
-    if (!alertModalOverlay || !alertModalMessage || !alertModalTitle) return; // <-- MODIFIED
-    alertModalTitle.textContent = title; // <-- ADD THIS
-    alertModalMessage.textContent = message;
-    alertModalOverlay.classList.remove('modal-hidden');
-}
+    // --- MODIFIED FUNCTION ---
+    function showAlertModal(message, title = 'Alert') {
+        if (!alertModalOverlay || !alertModalMessage || !alertModalTitle) return;
+        
+        alertModalTitle.textContent = title; // <-- SETS TITLE
+        alertModalMessage.textContent = message;
+        alertModalOverlay.classList.remove('modal-hidden');
+    }
 
     function closeAlertModal() {
         if (alertModalOverlay) alertModalOverlay.classList.add('modal-hidden');
     }
+
+    // --- NEW: Profile Modal Functions ---
     function openProfileModal() {
         if (!profileModalOverlay || !profileNameInput) return;
         const currentUser = auth.currentUser;
@@ -351,6 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeProfileModal() {
         if (profileModalOverlay) profileModalOverlay.classList.add('modal-hidden');
     }
+    // --- END NEW ---
 
     function displayFormError(formElement, message) {
         if (!formElement) return;
@@ -385,6 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.open('submit-project.html', '_blank');
         } else {
             // User is not signed in, show alert
+            // --- MODIFIED ---
             showAlertModal('You must be signed in to submit a project. Please sign in or create an account.', 'Sign In Required');
         }
     }
@@ -401,17 +410,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     ${displayName.split('@')[0]}
                 `;
+                
+                // --- NEW: Add click listener to open profile modal ---
                 userDisplayMain.onclick = () => {
                     openProfileModal();
                 };
+                // --- END NEW ---
             }
         } else {
             // --- User is SIGNED OUT ---
             if (openSigninBtn) openSigninBtn.classList.remove('hidden');
             if (userInfoContainer) userInfoContainer.classList.add('hidden');
+            
+            // --- NEW: Remove click listener if logged out ---
             if (userDisplayMain) {
                 userDisplayMain.onclick = null;
             }
+            // --- END NEW ---
         }
         
         renderProjects(); 
@@ -623,36 +638,7 @@ async function handleProfileUpdate(event) {
         const newName = profileNameInput.value;
         const user = auth.currentUser;
 
-        if (!newName || newName.trim() === '') {
-            displayFormError(profileForm, 'Name cannot be empty.');
-            return;
-        }
-        if (!user) {
-            displayFormError(profileForm, 'You are not signed in.');
-            return;
-        }
-
-        try {
-            // Update the profile in Firebase Auth
-            await user.updateProfile({
-                displayName: newName
-            });
-            
-            console.log('Profile updated successfully.');
-            closeProfileModal();
-            
-            // IMPORTANT: Manually update the UI pill
-            // onAuthStateChanged won't re-fire, so we call updateUI again
-            updateUI(auth.currentUser); 
-
-            // Use the existing alert modal for success
-            showAlertModal('Your profile has been updated.', 'Profile Updated');
-            
-        } catch (error) {
-            console.error('Profile Update Error:', error);
-            displayFormError(profileForm, error.message);
-        }
-    }
+    // --- NEW: Function to handle profile update ---
     async function handleProfileUpdate(event) {
         event.preventDefault();
         clearFormErrors();
@@ -682,18 +668,22 @@ async function handleProfileUpdate(event) {
             updateUI(auth.currentUser); 
 
             // Use the existing alert modal for success
-            showAlertModal('Your profile has been updated.');
+            // --- MODIFIED ---
+            showAlertModal('Your profile has been updated.', 'Profile Updated');
             
         } catch (error) {
             console.error('Profile Update Error:', error);
             displayFormError(profileForm, error.message);
         }
     }
+    // --- END NEW ---
+
     async function handleSignOut() {
         try {
             await auth.signOut();
             console.log('User signed out successfully.');
         } catch (error) {
+            // --- MODIFIED ---
             showAlertModal('Error signing out. Please try again.', 'Error');
             console.error('Sign Out Error:', error.code, error.message);
         }
@@ -718,9 +708,10 @@ async function handleProfileUpdate(event) {
             showActions = (project.userId === userIdentifier);
         }
 
+        // --- THIS IS THE MODIFIED LINE ---
         const imageUrl = (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0)
             ? project.imageUrls[0]
-            : `https://via.placeholder.com/500x350.png?text=${(project.title || 'Project').replace(/ /g, '+')}`;
+            : 'Logo/No image.png'; // Use your new default image
 
         const collegeText = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || 'N/A';
 
@@ -1039,9 +1030,6 @@ async function handleProfileUpdate(event) {
     if (googleSignupBtn) {
         googleSignupBtn.addEventListener('click', handleGoogleSignIn);
     }
-    if (googleSignupBtn) {
-        googleSignupBtn.addEventListener('click', handleGoogleSignIn);
-    }
 
     // --- NEW: Profile Modal Listeners ---
     if (profileForm) {
@@ -1060,6 +1048,7 @@ async function handleProfileUpdate(event) {
             }
         });
     }
+    // --- END NEW ---
 
     // --- Submit Project Button Listener ---
     if (submitProjectBtn) {
@@ -1085,4 +1074,4 @@ async function handleProfileUpdate(event) {
     createRandomCircles();
     console.log("Initial load sequence complete. Waiting for auth state change.");
 
-}); // --- END OF DOMCONTENTLOADED ---
+}}); // --- END OF DOMCONTENTLOADED ---
