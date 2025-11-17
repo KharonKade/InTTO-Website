@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 1. DEFAULT PROJECT DATA ---
     const defaultProjects = [
         {
-            id: 15, views: 204, inquiries: 15, title: "FarmConnect", type: "Thesis", industry: "Agritech", college: "College of Business", trl: "TRL 4",
+            id: 15, views: 204, inquiries: 15, title: "FarmConnect", type: "Thesis", industry: "Agritech", college: ["College of Business"], trl: "TRL 4",
             shortDescription: "Digital cooperative management system for highland farmers.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=FarmConnect+Image"],
             detailedDescription: "This innovative project addresses critical challenges in the agritech sector through cutting-edge technology and research. Developed by students and faculty from the College of Business, the initiative showcases the University of the Cordilleras' commitment to innovation and community impact. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Maria Santos", founderRole: "Project Lead & Principal Investigator", founderAffiliation: "College of Business, University of the Cordilleras", founderEmail: "maria.santos@uc-bcf.edu.ph", founderPhone: "+63 917 123 4567"
         },
         {
-            id: 14, views: 150, inquiries: 10, title: "VeggieTrack", type: "Capstone", industry: "Agritech", college: "College of Computer Studies", trl: "TRL 5",
+            id: 14, views: 150, inquiries: 10, title: "VeggieTrack", type: "Capstone", industry: "Agritech", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "IoT-based supply chain monitoring for vegetable produce from farm to.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=VeggieTrack+Image"],
             detailedDescription: "VeggieTrack ensures transparency and quality in the vegetable supply chain through real-time IoT monitoring from harvest to consumer. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Antonio Bautista", founderRole: "Capstone Project Adviser", founderAffiliation: "College of Computer Studies, University of the Cordilleras", founderEmail: "a.bautista@uc-bcf.edu.ph", founderPhone: "+63 917 890 1234"
         },
         {
-            id: 13, views: 301, inquiries: 25, title: "SafeCity", type: "Capstone", industry: "Crimintech", college: "College of Computer Studies", trl: "TRL 5",
+            id: 13, views: 301, inquiries: 25, title: "SafeCity", type: "Capstone", industry: "Crimintech", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "Community-based crime reporting and prevention mobile application.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=SafeCity+Image"],
             detailedDescription: "SafeCity aims to enhance community safety by providing a user-friendly mobile platform for reporting incidents and receiving timely alerts. Developed by students from the College of Computer Studies, this project leverages technology to foster a more connected and secure environment.",
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Juan Dela Cruz", founderRole: "Capstone Adviser", founderAffiliation: "College of Computer Studies, University of the Cordilleras", founderEmail: "j.delacruz@uc-bcf.edu.ph", founderPhone: "+63 917 111 2222"
         },
         {
-            id: 12, views: 220, inquiries: 12, title: "MediCord", type: "Capstone", industry: "Healthtech", college: "College of Nursing", trl: "TRL 4",
+            id: 12, views: 220, inquiries: 12, title: "MediCord", type: "Capstone", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 4",
             shortDescription: "AI-powered health monitoring for rural clinics.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=MediCord+Image"],
             detailedDescription: "MediCord brings advanced diagnostic capabilities to rural health centers through AI-powered health monitoring and decision support systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Grace Ramos", founderRole: "Project Supervisor", founderAffiliation: "College of Nursing, University of the Cordilleras", founderEmail: "g.ramos@uc-bcf.edu.ph", founderPhone: "+63 917 224 5501"
         },
         {
-            id: 11, views: 88, inquiries: 5, title: "CraftConnect", type: "Thesis", industry: "Fintech", college: "College of Architecture", trl: "TRL 4",
+            id: 11, views: 88, inquiries: 5, title: "CraftConnect", type: "Thesis", industry: "Fintech", college: ["College of Architecture"], trl: "TRL 4",
             shortDescription: "Digital marketplace connecting indigenous craftspeople with global.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=CraftConnect+Image"],
             detailedDescription: "CraftConnect preserves and promotes indigenous craftsmanship while providing economic opportunities for artisans in the Cordillera region through a modern e-commerce platform. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Patricia Gomez", founderRole: "Project Coordinator", founderAffiliation: "College of Architecture, University of the Cordilleras", founderEmail: "p.gomez@uc-bcf.edu.ph", founderPhone: "+63 917 557 8901"
         },
         {
-            id: 10, views: 450, inquiries: 30, title: "NutriTrack", type: "Startup", industry: "Healthtech", college: "College of Nursing", trl: "TRL 5",
+            id: 10, views: 450, inquiries: 30, title: "NutriTrack", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 5",
             shortDescription: "AI-powered nutrition monitoring app for maternal and child health.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=NutriTrack+Image"],
             detailedDescription: "NutriTrack revolutionizes maternal and child healthcare through advanced AI technology. This comprehensive nutrition monitoring platform provides real-time insights and personalized recommendations to improve health outcomes in underserved communities. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Jennifer Dela Cruz", founderRole: "Research Adviser", founderAffiliation: "College of Nursing, University of the Cordilleras", founderEmail: "j.delacruz@uc-bcf.edu.ph", founderPhone: "+63 917 234 5678"
         },
         {
-            id: 9, views: 120, inquiries: 8, title: "CrimSight", type: "Research", industry: "Crimintech", college: "College of Arts & Sciences", trl: "TRL 5",
+            id: 9, views: 120, inquiries: 8, title: "CrimSight", type: "Research", industry: "Crimintech", college: ["College of Arts & Sciences"], trl: "TRL 5",
             shortDescription: "Digital forensic analysis toolkit for local law enforcement.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=CrimSight+Image"],
             detailedDescription: "CrimSight provides affordable digital forensic capabilities to local law enforcement agencies, enabling them to investigate cybercrimes and digital evidence effectively. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Diana Santiago", founderRole: "Research Director", founderAffiliation: "College of Arts & Sciences, University of the Cordilleras", founderEmail: "d.santiago@uc-bcf.edu.ph", founderPhone: "+63 917 456 0123"
         },
         {
-            id: 8, views: 95, inquiries: 7, title: "EcoBlock", type: "Thesis", industry: "Sustainability", college: "College of Engineering", trl: "TRL 3",
+            id: 8, views: 95, inquiries: 7, title: "EcoBlock", type: "Thesis", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 3",
             shortDescription: "Sustainable concrete blend using local bio-waste materials.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=EcoBlock+Image"],
             detailedDescription: "EcoBlock develops environmentally sustainable construction materials by incorporating local agricultural waste into concrete production. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 3, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Carlos Mendoza", founderRole: "Thesis Adviser", founderAffiliation: "College of Engineering, University of the Cordilleras", founderEmail: "c.mendoza@uc-bcf.edu.ph", founderPhone: "+63 917 113 4560"
         },
         {
-            id: 7, views: 180, inquiries: 11, title: "WaterSense", type: "Research", industry: "Sustainability", college: "College of Engineering", trl: "TRL 4",
+            id: 7, views: 180, inquiries: 11, title: "WaterSense", type: "Research", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 4",
             shortDescription: "Smart water quality monitoring system for Baguio's watershed areas.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=WaterSense+Image"],
             detailedDescription: "WaterSense addresses critical water quality concerns in Baguio's watershed areas through IoT-enabled monitoring and early warning systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Thomas Aquino", founderRole: "Research Supervisor", founderAffiliation: "College of Engineering, University of the Cordilleras", founderEmail: "t.aquino@uc-bcf.edu.ph", founderPhone: "+63 917 878 9012"
         },
         {
-            id: 6, views: 75, inquiries: 3, title: "LearnHub CAR", type: "Research", industry: "Edutech", college: "College of Teacher Education", trl: "TRL 5",
+            id: 6, views: 75, inquiries: 3, title: "LearnHub CAR", type: "Research", industry: "Edutech", college: ["College of Teacher Education"], trl: "TRL 5",
             shortDescription: "Adaptive learning platform for indigenous communities in the.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=LearnHub+CAR+Image"],
             detailedDescription: "LearnHub CAR creates culturally responsive educational content and adaptive learning experiences for indigenous learners in the Cordillera Administrative Region. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Elena Cordero", founderRole: "Principal Investigator", founderAffiliation: "College of Teacher Education, University of the Cordilleras", founderEmail: "e.cordero@uc-bcf.edu.ph", founderPhone: "+63 917 901 2345"
         },
         {
-            id: 5, views: 512, inquiries: 45, title: "HealthBridge", type: "Startup", industry: "Healthtech", college: "College of Nursing", trl: "TRL 6",
+            id: 5, views: 512, inquiries: 45, title: "HealthBridge", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 6",
             shortDescription: "Telemedicine platform connecting rural patients with urban healthcare", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=HealthBridge+Image"],
             detailedDescription: "HealthBridge breaks down geographical barriers to healthcare access by connecting rural patients with qualified medical professionals through an integrated telemedicine platform. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 6, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Sarah Fernandez", founderRole: "Startup Mentor & Co-founder", founderAffiliation: "College of Nursing, University of the Cordilleras", founderEmail: "s.fernandez@uc-bcf.edu.ph", founderPhone: "+63 917 789 0123"
         },
         {
-            id: 4, views: 60, inquiries: 2, title: "GreenArch", type: "Research", industry: "Sustainability", college: "College of Architecture", trl: "TRL 3",
+            id: 4, views: 60, inquiries: 2, title: "GreenArch", type: "Research", industry: "Sustainability", college: ["College of Architecture"], trl: "TRL 3",
             shortDescription: "Passive cooling design framework for tropical highland architecture.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=GreenArch+Image"],
             detailedDescription: "GreenArch pioneers sustainable architectural solutions for the unique climate conditions of tropical highland regions. This research-based framework integrates traditional knowledge with modern design principles. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 3, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Arch. Roberto Villanueva", founderRole: "Lead Researcher", founderAffiliation: "College of Architecture, University of the Cordilleras", founderEmail: "r.villanueva@uc-bcf.edu.ph", founderPhone: "+63 917 345 6780"
         },
         {
-            id: 3, views: 333, inquiries: 22, title: "Agrilera", type: "Startup", industry: "Agritech", college: "College of Engineering", trl: "TRL 6",
+            id: 3, views: 333, inquiries: 22, title: "Agrilera", type: "Startup", industry: "Agritech", college: ["College of Engineering"], trl: "TRL 6",
             shortDescription: "Automated tray-seeding and smart farming solution for Benguet farmers.", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=Agrilera+Image"],
             detailedDescription: "Agrilera introduces an automated tray-seeding system designed to significantly improve efficiency and reduce labor costs for vegetable farmers. Coupled with smart farming sensors, this solution aims to optimize crop yields and resource management.",
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Isabella Reyes", founderRole: "Project Lead & Co-founder", founderAffiliation: "College of Engineering, University of the Cordilleras", founderEmail: "i.reyes@uc-bcf.edu.ph", founderPhone: "+63 917 333 4444"
         },
         {
-            id: 2, views: 210, inquiries: 19, title: "SunShare", type: "Startup", industry: "Sustainability", college: "College of Engineering", trl: "TRL 6",
+            id: 2, views: 210, inquiries: 19, title: "SunShare", type: "Startup", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 6",
             shortDescription: "Peer-to-peer solar energy trading platform connecting Baguio", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=SunShare+Image"],
             detailedDescription: "SunShare enables households with solar panels to sell excess energy to neighbors, creating a decentralized and sustainable local energy grid. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 6, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Luis Navarro", founderRole: "Startup Co-founder", founderAffiliation: "College of Computer Studies, University of the Cordilleras", founderEmail: "l.navarro@uc-bcf.edu.ph", founderPhone: "+63 917 567 0124"
         },
         {
-            id: 1, views: 490, inquiries: 51, title: "FinGuard", type: "Startup", industry: "Fintech", college: "College of Business", trl: "TRL 7",
+            id: 1, views: 490, inquiries: 51, title: "FinGuard", type: "Startup", industry: "Fintech", college: ["College of Business"], trl: "TRL 7",
             shortDescription: "Blockchain-based microfinance platform for SMEs in the Cordillera", userId:"default",
             imageUrls: ["https://via.placeholder.com/500x350.png?text=FinGuard+Image"],
             detailedDescription: "FinGuard revolutionizes access to capital for small and medium enterprises through blockchain-enabled microfinance and transparent lending mechanisms. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 7, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -295,13 +295,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 4. FIREBASE PROVIDER ---
     const googleProvider = new firebase.auth.GoogleAuthProvider();
-    const ADMIN_EMAIL = "admin@ucolab.com";
+
     // --- 5. AUTH UI FUNCTIONS ---
 
-    /**
-     * Shows the main authentication modal.
-     * @param {string} panelId - 'signin-panel' or 'signup-panel' to show initially.
-     */
     function openAuthModal(panelId = 'signin-panel') {
         if (!authModalOverlay || !signinPanel || !signupPanel) return;
         signinPanel.classList.toggle('hidden', panelId !== 'signin-panel');
@@ -310,35 +306,20 @@ document.addEventListener('DOMContentLoaded', function() {
         clearFormErrors();
     }
 
-    /**
-     * Hides the main authentication modal.
-     */
     function closeAuthModal() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
-    /**
-     * Shows a custom alert modal for errors or warnings.
-     * @param {string} message - The message to display.
-     */
     function showAlertModal(message) {
         if (!alertModalOverlay || !alertModalMessage) return;
         alertModalMessage.textContent = message;
         alertModalOverlay.classList.remove('modal-hidden');
     }
 
-    /**
-     * Hides the custom alert modal.
-     */
     function closeAlertModal() {
         if (alertModalOverlay) alertModalOverlay.classList.add('modal-hidden');
     }
 
-    /**
-     * Displays an error message inside the specified form.
-     * @param {HTMLElement} formElement - The sign-in or sign-up form.
-     * @param {string} message - The error message.
-     */
     function displayFormError(formElement, message) {
         if (!formElement) return;
         let errorElement = formElement.querySelector('.form-error-message');
@@ -359,44 +340,22 @@ document.addEventListener('DOMContentLoaded', function() {
         errorElement.style.marginTop = '10px';
     }
 
-    /**
-     * Clears any error messages in both sign-in and sign-up forms.
-     */
     function clearFormErrors() {
         document.querySelectorAll('.form-error-message').forEach(el => el.remove());
     }
 
     // --- 6. PROJECT AUTH ALERT ---
-    /**
-     * Prevents navigation and shows an alert if the user is not signed in.
-     * @param {Event} e 
-     */
-    function showProjectAuthAlert(e) {
-        e.preventDefault(); // Stop the link from navigating
-        showAlertModal('You must be signed in to submit a project. Please sign in or create an account.');
-    }
-
-    /**
-     * Handles submit project button click - either navigates or shows auth alert
-     * @param {Event} e 
-     */
     function handleSubmitProjectClick(e) {
         e.preventDefault();
         const currentUser = auth.currentUser;
         if (currentUser) {
-            // User is signed in, navigate to submit page
-            window.location.href = 'submit-project.html';
+            window.open('submit-project.html', '_blank');
         } else {
-            // User is not signed in, show alert
             showAlertModal('You must be signed in to submit a project. Please sign in or create an account.');
         }
     }
 
     // --- 7. MAIN UI UPDATE FUNCTION (COMBINED) ---
-    /**
-     * Updates the header UI based on the user's authentication state.
-     * @param {firebase.User|null} user - The currently authenticated Firebase user.
-     */
     function updateUI(user) {
         if (user) {
             // --- User is SIGNED IN ---
@@ -415,16 +374,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (userInfoContainer) userInfoContainer.classList.add('hidden');
         }
         
-        // --- !! CRITICAL FIX !! ---
-        // Re-render projects to show/hide edit/delete buttons
         renderProjects(); 
     }
 
     // --- 8. FIREBASE AUTH FUNCTIONS ---
 
-    /**
-     * Handles user registration with Email/Password.
-     */
     async function handleSignUp(email, password, firstName, lastName) {
         try {
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
@@ -432,8 +386,6 @@ document.addEventListener('DOMContentLoaded', function() {
             await user.updateProfile({
                 displayName: `${firstName} ${lastName}`
             });
-            // Optional: Save additional user data (like affiliation) to Firestore
-            // e.g., db.collection('users').doc(user.uid).set({ ... });
             closeAuthModal();
             console.log('User signed up and profile updated:', user);
         } catch (error) {
@@ -442,72 +394,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /**
-     * Handles user sign-in with Email/Password.
-     */
     async function handleSignIn(email, password) {
-    try {
-        await auth.signInWithEmailAndPassword(email, password);
-        console.log('User signed in successfully.');
-
-        // --- NEW: Check if user is admin ---
-        if (email === ADMIN_EMAIL) {
-            // Admin user, redirect to admin page
-            window.location.href = 'admin.html';
-        } else {
-            // Normal user, just close modal
-            closeAuthModal();
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            console.log('User signed in successfully.');
+            closeAuthModal(); 
+        } catch (error) {
+            displayFormError(signinForm, error.message);
+            console.error('Sign In Error:', error.code, error.message);
         }
-        // --- End of new code ---
-
-    } catch (error) {
-        displayFormError(signinForm, error.message);
-        console.error('Sign In Error:', error.code, error.message);
     }
-}
 
-    /**
-     * Handles Google Sign-In/Sign-Up using a pop-up window.
-     */
     async function handleGoogleSignIn() {
-    clearFormErrors();
-    try {
-        const result = await auth.signInWithPopup(googleProvider);
-        const user = result.user;
-        console.log("Google Sign-in successful:", user.displayName, user.email);
+        clearFormErrors();
+        try {
+            const result = await auth.signInWithPopup(googleProvider);
+            const user = result.user;
+            console.log("Google Sign-in successful:", user.displayName, user.email);
 
-        // --- NEW: Check if user is admin ---
-        if (user.email === ADMIN_EMAIL) {
-            // Admin user, redirect to admin page
-            window.location.href = 'admin.html';
-        } else {
-            // Normal user, just close modal
             closeAuthModal();
+
             if (result.additionalUserInfo.isNewUser) {
                 console.log("New user signed up with Google.");
                 setTimeout(() => {
                     showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
                 }, 500); 
             }
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if (errorCode === 'auth/popup-closed-by-user') {
+                console.log('Google Sign-In popup closed by user.');
+                return;
+            }
+            console.error('Google Sign-In Error:', errorCode, errorMessage);
+            const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
+            displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
         }
-        // --- End of new code ---
-
-    } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if (errorCode === 'auth/popup-closed-by-user') {
-            console.log('Google Sign-In popup closed by user.');
-            return;
-        }
-        console.error('Google Sign-In Error:', errorCode, errorMessage);
-        const activeForm = signinPanel.classList.contains('hidden') ? signupForm : signinForm;
-        displayFormError(activeForm, `Google Sign-In Failed: ${errorMessage}`);
     }
-}
 
-    /**
-     * Handles user sign-out.
-     */
     async function handleSignOut() {
         try {
             await auth.signOut();
@@ -520,9 +445,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 9. PROJECT RENDERING FUNCTIONS ---
 
-    /**
-     * Creates the HTML for a single project card.
-     */
     function createProjectCardHTML(project) {
         if (!project || typeof project !== 'object') {
             console.error("Invalid project data for createProjectCardHTML:", project); return '';
@@ -530,8 +452,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const trlNumMatch = project.trl?.match(/TRL (\d+)/); const trlNum = trlNumMatch ? parseInt(trlNumMatch[1], 10) : 0; let trlClass = 'grey'; let trlText = project.trl || 'TRL ?'; if (trlNum <= 3) { trlClass = 'blue'; trlText = `TRL ${trlNum} – Proof of Concept`; } else if (trlNum <= 4) { trlClass = 'yellow'; trlText = `TRL ${trlNum} – Laboratory Testing`; } else if (trlNum <= 6) { trlClass = 'orange'; trlText = `TRL ${trlNum} – Prototype/Pilot`; } else if (trlNum <= 9) { trlClass = 'green'; trlText = `TRL ${trlNum} – System Prototype/Demo`; }
         let typeClass = 'grey'; if (project.type?.toLowerCase() === 'thesis') typeClass = 'blue'; else if (project.type?.toLowerCase() === 'capstone') typeClass = 'green'; else if (project.type?.toLowerCase() === 'research') typeClass = 'blue'; else if (project.type?.toLowerCase() === 'startup') typeClass = 'purple';
-        // Note: The iconClass is no longer used here, but we leave the logic
-        let iconClass = 'icon-default'; if (project.industry?.toLowerCase() === 'agritech') iconClass = 'icon-agritech'; else if (project.industry?.toLowerCase() === 'healthtech') iconClass = 'icon-health'; else if (project.industry?.toLowerCase() === 'fintech') iconClass = 'icon-fintech'; else if (project.industry?.toLowerCase() === 'sustainability') iconClass = 'icon-sustainability'; else if (project.industry?.toLowerCase() === 'edutech') iconClass = 'icon-edutech'; else if (project.industry?.toLowerCase() === 'crimintech') iconClass = 'icon-security';
 
         const detailPageLink = (`project-detail.html?id=${project.id}`);
 
@@ -541,27 +461,20 @@ document.addEventListener('DOMContentLoaded', function() {
             showActions = (project.userId === currentUser.email || project.userId === currentUser.displayName);
         }
 
-        // --- NEW: Get the cover image (Slot 1) ---
         const imageUrl = (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0)
-            ? project.imageUrls[0] // Use the first image
-            : `https://via.placeholder.com/500x350.png?text=${(project.title || 'Project').replace(/ /g, '+')}`; // Fallback
+            ? project.imageUrls[0]
+            : `https://via.placeholder.com/500x350.png?text=${(project.title || 'Project').replace(/ /g, '+')}`;
 
-        // --- NEW: Convert college array to string ---
         const collegeText = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || 'N/A';
 
         return `
             <article class="project-card animate-on-scroll" data-id="${project.id}" data-views="${project.views || 0}" data-inquiries="${project.inquiries || 0}" data-title="${project.title || ''}" data-type="${project.type || ''}" data-industry="${project.industry || ''}" data-college="${collegeText}" data-trl="TRL ${trlNum}" data-user-id="${project.userId || ''}">
                 
-                <!-- NEW: Image Header -->
                 <div class="card-image-container">
                     <img src="${imageUrl}" alt="${project.title || 'Project'} cover image">
                 </div>
 
-                <!-- NEW: Content Wrapper -->
                 <div class="card-content-wrapper">
-
-                    <!-- The old .card-icon div is now removed -->
-                    
                     <h3>${project.title || 'Untitled Project'}</h3>
                     <div class="card-tags">${project.type ? `<span class="tag tag-${typeClass}">${project.type}</span>` : ''} ${project.industry ? `<span class="tag tag-grey">${project.industry}</span>` : ''}</div>
                     <p class="card-college">${collegeText}</p>
@@ -572,21 +485,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="${detailPageLink}" class="card-link">View Details →</a>
                         ${showActions ? `<div class="card-actions"><button class="btn-edit" data-id="${project.id}">Edit</button><button class="btn-delete" data-id="${project.id}">Delete</button></div>` : ''}
                     </div>
-
-                </div> <!-- End of card-content-wrapper -->
-
+                </div>
             </article>`;
     }
 
-    /**
-     * Loads all projects from localStorage or initializes with defaults.
-     */
     function loadProjects() {
-        console.log("Attempting to load projects...");
+        console.log("Attempting to load public projects...");
         try {
-            const storedProjects = localStorage.getItem('ucolabProjects');
+            const storedProjects = localStorage.getItem('ucolabProjects'); 
             if (!storedProjects || storedProjects === '[]' || storedProjects === 'null' || !storedProjects.startsWith('[')) {
-                console.log("No valid projects found in localStorage. Loading default projects.");
+                console.log("No valid public projects found. Loading default projects.");
                 localStorage.setItem('ucolabProjects', JSON.stringify(defaultProjects));
                 allProjectsData = [...defaultProjects];
             } else {
@@ -601,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error("allProjectsData is still not an array after loading!");
                 allProjectsData = [];
             }
-            console.log("Finished loading. Project count:", allProjectsData.length);
+            console.log("Finished loading public projects. Count:", allProjectsData.length);
         } catch (error) {
             console.error("Error loading or initializing projects from localStorage:", error);
             console.log("Falling back to default projects due to error.");
@@ -614,11 +522,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /**
-     * Filters, sorts, and renders the projects to the grid.
-     */
     function renderProjects() {
-        console.log("renderProjects called");
         if (!projectGrid || !projectsCountHeader) {
             console.error("Missing project-list or projects-count element.");
             return;
@@ -644,11 +548,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const filteredData = allProjectsData.filter(project => {
             if (!project) return false;
+            
+            const collegeText = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || '';
+            const collegeMatch = (filters.college === 'All Colleges') || (collegeText.includes(filters.college));
+            
             const searchMatch = (project.title?.toLowerCase().includes(filters.search) || project.shortDescription?.toLowerCase().includes(filters.search));
             const industryMatch = (filters.industry === 'All Industries') || (project.industry === filters.industry);
-            const collegeMatch = (filters.college === 'All Colleges') || (project.college === filters.college);
             const trlMatch = (filters.trl === 'All TRL Levels') || (project.trl && project.trl.startsWith(filters.trl.split(' ')[0]));
             const typeMatch = (filters.type === 'All Types') || (project.type === filters.type);
+            
             return searchMatch && industryMatch && collegeMatch && trlMatch && typeMatch;
         });
 
@@ -662,7 +570,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         projectGrid.innerHTML = '';
         if (filteredData.length === 0) {
-            console.log("No projects match filters.");
             projectGrid.innerHTML = '<p class="no-projects-message">No projects match the current filters.</p>';
         } else {
             filteredData.forEach(project => {
@@ -677,12 +584,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const count = filteredData.length;
         projectsCountHeader.textContent = `${count} Project${count === 1 ? '' : 's'} Found`;
         addEditDeleteListeners();
-        setupScrollAnimations(); // Re-run observer setup
+        setupScrollAnimations();
     }
 
-    /**
-     * Adds click listeners for edit/delete buttons.
-     */
     function addEditDeleteListeners() {
         const editButtons = projectGrid.querySelectorAll('.btn-edit');
         const deleteButtons = projectGrid.querySelectorAll('.btn-delete');
@@ -698,7 +602,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleDeleteClick(event) {
         const projectId = event.target.dataset.id;
-        console.log(`Delete clicked for project ID: ${projectId}`);
         if (confirm(`Are you sure you want to delete this project? This action cannot be undone.`)) {
             deleteProject(projectId);
         }
@@ -709,9 +612,9 @@ document.addEventListener('DOMContentLoaded', function() {
             let projects = JSON.parse(localStorage.getItem('ucolabProjects') || '[]');
             projects = projects.filter(project => String(project.id) !== String(idToDelete));
             localStorage.setItem('ucolabProjects', JSON.stringify(projects));
-            loadProjects(); // Reload data array
-            renderProjects(); // Re-render the grid
-            console.log(`Project ID: ${idToDelete} deleted.`);
+            
+            loadProjects(); 
+            renderProjects(); 
             alert("Project deleted successfully.");
         } catch(error) {
             console.error("Error deleting project:", error);
@@ -721,9 +624,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 10. OTHER UI FUNCTIONS ---
 
-    /**
-     * Closes all dropdowns except the current one.
-     */
     function closeOtherDropdowns(currentDropdown) {
         allDropdowns.forEach(dropdown => {
             if (dropdown !== currentDropdown) {
@@ -733,9 +633,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /**
-     * Creates decorative background circles.
-     */
     function createRandomCircles() {
         const body = document.body; if (!body) return;
         const circleCount = Math.floor(Math.random() * 6) + 5;
@@ -752,9 +649,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /**
-     * Sets up the Intersection Observer for scroll animations.
-     */
     function setupScrollAnimations() {
         const animatedElements = document.querySelectorAll('.animate-on-scroll');
         if ("IntersectionObserver" in window) {
@@ -893,47 +787,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (submitProjectBtn) {
         submitProjectBtn.addEventListener('click', handleSubmitProjectClick);
     }
-if (googleSignupBtn) {
-    googleSignupBtn.addEventListener('click', handleGoogleSignIn);
-}
 
-// --- NEW: Add this listener for the admin link ---
-const adminLoginLink = document.getElementById('admin-login-link');
-if (adminLoginLink) {
-    adminLoginLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Just open the normal sign-in modal
-        openAuthModal('signin-panel'); 
-    });
-}
-// --- End of new code ---
     // --- CRITICAL: FIREBASE AUTH STATE LISTENER ---
-    // This is the "controller" that runs on page load and on auth changes.
     auth.onAuthStateChanged((user) => {
         console.log("Auth state changed, user:", user);
-        updateUI(user); // This updates the header and ATTACHES/REMOVES the 'Submit Project' listener
+        updateUI(user);
         
         if (!user) {
-            // Ensure sign-in panel is default when modal opens
             if(signinPanel && signupPanel) {
                 signinPanel.classList.remove('hidden');
                 signupPanel.classList.add('hidden');
             }
         }
-        // updateUI() already calls renderProjects(), so it's handled.
     });
 
     // --- INITIAL PAGE LOAD ---
     console.log("Running initial load sequence...");
-    loadProjects();         // Load project data from localStorage
-    createRandomCircles();  // Create decorative circles
-    
-    // Note: We don't call renderProjects() or updateUI() here.
-    // The `auth.onAuthStateChanged` listener above will fire automatically
-    // on page load and will call `updateUI(user)`, which in turn
-    // calls `renderProjects()`. This ensures everything happens
-    // in the correct order.
-    
+    loadProjects();
+    createRandomCircles();
     console.log("Initial load sequence complete. Waiting for auth state change.");
 
 }); // --- END OF DOMCONTENTLOADED ---
