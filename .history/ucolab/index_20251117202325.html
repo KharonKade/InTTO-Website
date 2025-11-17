@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCoLab - Discover Innovation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    
+    <header class="main-wrapper">
+        <div class="navbar">
+            <div class="navbar-header">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="/graphics/InTTOLogo.png" alt="UCoLab Logo" class="header-logo">
+                    </a>
+                </div>
+                <div class="hamburger-menu" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="nav-wrapper">
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html">Home</a>
+                    <a href="../aboutUs.html">About</a>
+                    <a href="../services.html">Services</a>
+                    <a href="../startups.html">Startups</a>
+                    <a href="../events.html">Events</a>
+                    <a href="/ucolab/index.html" class="active">UCoLab</a>
+                    <a href="../sdgPage.html">SDG</a>
+
+                    <a href="../incubation.html" class="mobile-apply-btn">Apply for Incubation</a>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <a href="#" class="btn-apply" id="open-signin-btn">
+                    <span>Sign In</span>
+                    <span class="arrow-circle">→</span>
+                </a>
+                <div class="header-user-info hidden" id="user-info-container">
+                    <span class="user-status-pill" id="user-display-main">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Loading...
+                    </span>
+                    <a href="#" class="btn-signout" id="signout-btn-main">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-container">
+            <div class="hero-content">
+                <p class="sub-heading">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    Innovation Hub of UC
+                </p>
+                <h1>Discover Innovation Across the University.</h1>
+                <p class="description">
+                    The UCoLab Portal connects ideas, research, and
+                    startups across UC — showcasing projects from
+                    every college to spark collaboration and
+                    commercialization.
+                </p>
+                <div class="hero-buttons">
+                    <a href="submit-project.html" class="btn btn-primary" id="submit-project-btn">Submit Your Project</a>
+                    <a href="#projects-grid" class="btn btn-secondary">
+                        Join A Startup
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="Logo/innovation pic.jpeg" alt="World map showcasing innovation projects">
+            </div>
+        </section>
+
+        <section class="search-filter-container animate-on-scroll">
+            <div class="filter-row">
+                <div class="search-bar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" placeholder="Search projects, keywords, or titles..." id="search-input">
+                </div>
+                <div class="filter-dropdowns">
+                    <div class="custom-dropdown" id="filter-industry">
+                        <button class="dropdown-toggle"> <span>All Industries</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button>
+                        <ul class="dropdown-menu"> <li>All Industries</li> <li>Agritech</li> <li>Crimintech</li> <li>Healthtech</li> <li>Fintech</li> <li>Sustainability</li> <li>Edutech</li> </ul>
+                    </div>
+                    <div class="custom-dropdown" id="filter-college">
+                        <button class="dropdown-toggle"> <span>All Colleges</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu"> <li>All Colleges</li> <li>College of Business</li> <li>College of Computer Studies</li> <li>College of Nursing</li> <li>College of Architecture</li> <li>College of Arts & Sciences</li> <li>College of Engineering</li> <li>College of Teacher Education</li> </ul>
+                    </div>
+                    <div class="custom-dropdown" id="filter-trl">
+                        <button class="dropdown-toggle"> <span>All TRL Levels</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button>
+                        <ul class="dropdown-menu"> <li>All TRL Levels</li> <li>TRL 3</li> <li>TRL 4</li> <li>TRL 5</li> <li>TRL 6</li> <li>TRL 7</li> </ul>
+                    </div>
+                    <div class="custom-dropdown" id="filter-type">
+                        <button class="dropdown-toggle"> <span>All Types</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </ button>
+                        <ul class="dropdown-menu"> <li>All Types</li> <li>Thesis</li> <li>Capstone</li> <li>Research</li> <li>Startup</li> </ul>
+                    </div>
+                </div>
+                <div class="sort-by-container">
+                    <div class="custom-dropdown" id="filter-sort">
+                        <button class="dropdown-toggle" id="sort-icon-btn" aria-label="Sort projects"> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg> <span class="visually-hidden">Newest</span> </button>
+                        <ul class="dropdown-menu"> <li>Newest</li> <li>Most Viewed</li> <li>Most Inquiries</li> </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="modal-overlay modal-hidden" id="alert-modal-overlay">
+            <div class="alert-modal">
+                <h4 id="alert-modal-title">Sign In Required</h4>
+                <p id="alert-modal-message">You must be signed in to submit a project.</p>
+                <button class="btn-alert-ok" id="alert-modal-ok-btn">OK</button>
+            </div>
+        </div>
+
+        <section class="projects-section animate-on-scroll" id="projects-grid">
+            <h2 id="projects-count"> Projects Found</h2>
+            <p class="section-subtitle">Browse through innovative projects from across the university</p>
+            <div class="project-grid" id="project-list">
+                </div>
+        </section>
+    </main>
+
+    <section class="closing-section">
+      <div class="footer-row">
+        <div class="footer-logo">
+          <img src="/graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
+        </div>
+        <div class="footer-tagline">
+          Driving the Culture of Innovation
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-divider"></div>
+
+    <footer class="footer-section">
+      <div class="footer-top">
+        <div class="footer-column">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="incubationProgram.html">Incubation Programs</a></li>
+            <li><a href="ipp.html">Intellectual Property</a></li>
+            <li><a href="tbiAsses.html">TBI Assessment</a></li>
+            <li><a href="training.html">Train the Trainers</a></li>
+            <li><a href="internship.html">Internship</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Startups</h4>
+          <ul>
+            <li><a href="services.html">Startup Portfolio</a></li>
+            <li><a href="services.html">Join a Team</a></li>
+            <li><a href="mentor.html">Be a Mentor</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Contact Info</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/UCInTTO" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="intto@uc-bcf.edu.ph" class="social-icon"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4>Visit Us</h4>
+          <div class="map-container">
+            <iframe src="http://googleusercontent.com/maps/google.com/0" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="footer-divider bottom-line"></div>
+      <div class="footer-bottom">
+        <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div class="modal-overlay modal-hidden" id="auth-modal-overlay">
+        <div class="auth-modal">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div class="form-panel" id="signin-panel">
+                <h2>Welcome Back</h2>
+                <p>Sign in to submit and manage your projects</p>
+                <form id="signin-form">
+                    <div class="form-group">
+                        <label for="signin-email-input">Email Address *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            <input type="email" id="signin-email-input" placeholder="your.email@uc-bcf.edu.ph" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-password-input">Password *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <input type="password" id="signin-password-input" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-form btn-form-primary">Sign In</button>
+                    
+                    <div class="divider-with-text" style="display: flex; align-items: center; text-align: center; margin: 15px 0; color: #999;">
+                        <span style="flex: 1; border-bottom: 1px solid #eee; margin-right: 0.5em;"></span>
+                        <span>OR</span>
+                        <span style="flex: 1; border-bottom: 1px solid #eee; margin-left: 0.5em;"></span>
+                    </div>
+
+                    <button type="button" class="btn-form btn-form-primary" id="google-signin-btn" style="background-color: var(--primary-green); display: flex; align-items: center; justify-content: center;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
+                            <path d="M22.56 12.038c0-.75-.064-1.46-.17-2.14h-10.02v4.067h5.66c-.246 1.258-.934 2.457-1.957 3.238l3.4 2.67c2.02-1.87 3.2-4.634 3.2-8.035z" fill="#4285F4"/>
+                            <path d="M12.43 23c2.722 0 4.982-.907 6.64-2.454l-3.4-2.67c-.933.626-2.128.995-3.24.995-2.5 0-4.63-1.688-5.38-3.95H3.64v3.987C5.353 21.09 8.653 23 12.43 23z" fill="#34A853"/>
+                            <path d="M7.05 13.79c-.198-.63-.31-1.3-.31-2.002s.112-1.372.31-2.002V5.8H3.64C3.047 7.02 2.75 8.444 2.75 9.988c0 1.544.297 2.968.89 4.21L7.05 13.79z" fill="#FBBC05"/>
+                            <path d="M12.43 5.34c1.378 0 2.628.47 3.6 1.408l3.013-3.01C17.067 1.488 14.808.038 12.43.038c-3.777 0-7.077 1.91-8.78 4.63l3.41 3.987c.75-2.262 2.88-3.95 5.38-3.95z" fill="#EA4335"/>
+                        </svg>
+                        Sign in with Google
+                    </button>
+                </form>
+                <p class="form-switcher">Don't have an account? <a href="signupform.html" id="show-signup-link">Sign Up</a></p>
+            </div>
+            <div class="form-panel hidden" id="signup-panel">
+                <h2>Create Account</h2>
+                <p>Join the UC innovation community</p>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-first-name-input">First Name *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <input type="text" id="signup-first-name-input" placeholder="Enter your first name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-last-name-input">Last Name *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <input type="text" id="signup-last-name-input" placeholder="Enter your last name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email-input">Email Address *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            <input type="email" id="signup-email-input" placeholder="your.email@uc-bcf.edu.ph" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-affiliation-input">Affiliation *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            <input type="text" id="signup-affiliation-input" placeholder="e.g., College of Business" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password-input">Password *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <input type="password" id="signup-password-input" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password2-input">Repeat Password *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <input type="password" id="signup-password2-input" placeholder="Repeat your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-form btn-form-primary">Create Account</button>
+                </form>
+                <button type="button" class="btn-form btn-google" id="google-signup-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22.56 12.038c0-.75-.064-1.46-.17-2.14h-10.02v4.067h5.66c-.246 1.258-.934 2.457-1.957 3.238l3.4 2.67c2.02-1.87 3.2-4.634 3.2-8.035z" fill="#4285F4"/>
+                        <path d="M12.43 23c2.722 0 4.982-.907 6.64-2.454l-3.4-2.67c-.933.626-2.128.995-3.24.995-2.5 0-4.63-1.688-5.38-3.95H3.64v3.987C5.353 21.09 8.653 23 12.43 23z" fill="#34A853"/>
+                        <path d="M7.05 13.79c-.198-.63-.31-1.3-.31-2.002s.112-1.372.31-2.002V5.8H3.64C3.047 7.02 2.75 8.444 2.75 9.988c0 1.544.297 2.968.89 4.21L7.05 13.79z" fill="#FBBC05"/>
+                        <path d="M12.43 5.34c1.378 0 2.628.47 3.6 1.408l3.013-3.01C17.067 1.488 14.808.038 12.43.038c-3.777 0-7.077 1.91-8.78 4.63l3.41 3.987c.75-2.262 2.88-3.95 5.38-3.95z" fill="#EA4335"/>
+                    </svg>
+                    Sign Up with Google
+                </button>
+                <p class="form-switcher">Already have an account? <a href="#" id="show-signin-link">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- === NEW: EDIT PROFILE MODAL === -->
+    <div class="modal-overlay modal-hidden" id="profile-modal-overlay">
+        <div class="auth-modal"> <!-- Re-using auth-modal class for styling -->
+            <button class="modal-close-btn" id="close-profile-modal-btn" aria-label="Close modal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div class="form-panel" id="profile-panel">
+                <h2>Edit Profile</h2>
+                <p>Update your display name</p>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="profile-name-input">Full Name *</label>
+                        <div class="input-with-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <input type="text" id="profile-name-input" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+                    <!-- A space for error messages will be injected here by JS -->
+                    
+                    <button type="submit" class="btn-form btn-form-primary">Save Changes</button>
+                    <button type="button" class="btn-form btn-form-secondary" id="cancel-profile-btn">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- === END OF NEW MODAL === -->
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Replace this with your actual Firebase project configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        // Expose auth and db objects to the global scope (use var or window for global access)
+        var auth = firebase.auth();
+        var db = firebase.firestore();
+        
+        // Also attach to window object for absolute certainty
+        window.auth = auth;
+        window.db = db;
+        
+        console.log("🔥 Firebase initialized in index.html");
+        console.log("Auth instance:", auth ? "✅" : "❌");
+        console.log("Firestore instance:", db ? "✅" : "❌");
+        console.log("Window.auth:", window.auth ? "✅" : "❌");
+        console.log("Window.db:", window.db ? "✅" : "❌");
+    </script>
+    
+    <script src="js/main.js"></script>
+    
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    </script>
+</body>
+</html>
