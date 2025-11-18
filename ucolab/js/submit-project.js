@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Cloudinary Configuration ---
     const CLOUDINARY_CLOUD_NAME = 'dy9tykp58u';
-    const CLOUDINARY_API_KEY = '975855525185299';
+    const CLOUDINARY_UPLOAD_PRESET = 'ucolab_project'; // Create this in Cloudinary dashboard
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
     
-    // TEMPORARY FIX: Store as base64 until backend is set up
-    // Cloudinary requires either:
-    // 1. Unsigned preset (needs to be created in dashboard)
-    // 2. Signed upload (needs backend server to generate signature)
-    const USE_CLOUDINARY = false; // Set to true once preset is created
+    // --- EmailJS Configuration ---
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS public key
 
     // --- Global vars ---
     let uploadedImageUrls = ["", "", "", "", ""]; // Array to hold 5 Cloudinary URLs
@@ -169,7 +169,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 5. Multi-Image File Handling ---
     function initializeImageUploaders() {
-        // Convert image to base64 for temporary storage
+        // Upload image to Cloudinary
+        async function uploadToCloudinary(file, index) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+            formData.append('folder', 'ucolab_projects'); // Organize in folder
+
+            try {
+                uploadingImages[index] = true;
+                console.log(`🔄 Uploading image ${index + 1} to Cloudinary...`);
+                
+                const response = await fetch(CLOUDINARY_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('❌ Cloudinary error:', errorData);
+                    throw new Error(`Upload failed: ${errorData.error?.message || response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(`✅ Image ${index + 1} uploaded:`, data.secure_url);
+                
+                uploadingImages[index] = false;
+                return data.secure_url;
+                
+            } catch (error) {
+                uploadingImages[index] = false;
+                console.error(`❌ Error uploading image ${index + 1}:`, error);
+                throw error;
+            }
+        }
+
+        // Fallback: Convert to base64 if Cloudinary fails
         function convertToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -208,19 +243,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
                         </svg>
-                        <div>Processing...</div>
+                        <div>Uploading...</div>
                     `;
                     uploadLabel.style.opacity = '0.6';
                 }
 
-                // Convert to base64 (temporary solution until Cloudinary preset is created)
-                convertToBase64(file)
-                    .then(base64String => {
-                        uploadedImageUrls[index] = base64String;
-                        previewElement.src = base64String;
+                // Try Cloudinary first, fallback to base64
+                uploadToCloudinary(file, index)
+                    .then(cloudinaryUrl => {
+                        uploadedImageUrls[index] = cloudinaryUrl;
+                        previewElement.src = cloudinaryUrl;
                         previewElement.classList.add('visible');
                         removeBtn.style.display = 'block';
-                        console.log(`✅ Image ${index + 1} processed successfully`);
+                        console.log(`✅ Image ${index + 1} uploaded to Cloudinary`);
                         
                         // Reset label
                         if (uploadLabel) {
@@ -231,6 +266,28 @@ document.addEventListener('DOMContentLoaded', function() {
                             `;
                             uploadLabel.style.opacity = '1';
                         }
+                    })
+                    .catch(cloudinaryError => {
+                        console.warn('⚠️ Cloudinary failed, using base64 fallback:', cloudinaryError);
+                        // Fallback to base64
+                        return convertToBase64(file)
+                            .then(base64String => {
+                                uploadedImageUrls[index] = base64String;
+                                previewElement.src = base64String;
+                                previewElement.classList.add('visible');
+                                removeBtn.style.display = 'block';
+                                console.log(`✅ Image ${index + 1} stored as base64`);
+                                
+                                // Reset label
+                                if (uploadLabel) {
+                                    const labelText = index === 0 ? 'Project Logo(1mb)' : `Image ${index}`;
+                                    uploadLabel.innerHTML = `
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                        <div>${labelText}</div>
+                                    `;
+                                    uploadLabel.style.opacity = '1';
+                                }
+                            });
                     })
                     .catch(error => {
                         console.error(`Error processing image ${index + 1}:`, error);
@@ -291,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeFormSubmit(loggedInUser) {
         const submitForm = document.querySelector('.submit-form');
         if (submitForm) {
-            submitForm.addEventListener('submit', function(event) {
+            submitForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
 
                 // Check if any images are still uploading
@@ -300,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // Get uploaded Cloudinary URLs (filter out empty strings)
+                // Get uploaded image URLs (filter out empty strings)
                 const finalImageUrls = uploadedImageUrls.filter(url => url !== "");
                 const projectNameValue = document.getElementById('project-name')?.value || 'Project';
                 
@@ -311,26 +368,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 console.log('📸 Final image URLs:', finalImageUrls);
                 
-                // --- MODIFICATION: Read selected colleges ---
+                // --- Read selected colleges ---
                 const selectedColleges = Array.from(document.querySelectorAll('input[name="college-option"]:checked'))
                                               .map(cb => cb.value);
                 
                 // Basic validation check
                 if (selectedColleges.length === 0) {
                     alert("Please select at least one college.");
-                    return; // Stop submission
+                    return;
                 }
-                // --- End Modification ---
+
+                // Extract SDG number from "SDG X: Name" format
+                const sdgValue = document.getElementById('project-sdg')?.value || 'N/A';
+                const sdgNumber = sdgValue.match(/SDG (\d+)/) ? parseInt(sdgValue.match(/SDG (\d+)/)[1]) : null;
+                const sdgsArray = sdgNumber ? [sdgNumber] : [];
 
                 const newProject = {
                     id: Date.now(),
-                    title: projectNameValue,
+                    createdAt: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+                    name: projectNameValue, // Changed from 'title' to 'name' for admin compatibility
+                    title: projectNameValue, // Keep for backward compatibility
+                    logo: finalImageUrls[0].startsWith('http') ? '🚀' : '🚀', // Emoji logo for admin view
                     type: document.getElementById('project-type')?.value || 'N/A',
-                    industry: document.getElementById('industry')?.value || 'N/A', // <-- Corrected
-                    college: selectedColleges, // <-- SAVE AS ARRAY
-                    trl: document.getElementById('trl-level')?.value || 'TRL ?', // <-- Corrected
-                    sdg: document.getElementById('project-sdg')?.value || 'N/A', // <-- NEW
-                    shortDescription: document.getElementById('short-description')?.value || '', // <-- Corrected
+                    industry: document.getElementById('industry')?.value || 'N/A',
+                    category: document.getElementById('industry')?.value || 'N/A', // Alias for admin
+                    college: selectedColleges,
+                    trl: parseInt(document.getElementById('trl-level')?.value.match(/\d+/)?.[0]) || 1, // Extract number
+                    trlFull: document.getElementById('trl-level')?.value || 'TRL 1',
+                    sdg: sdgValue,
+                    sdgs: sdgsArray, // Array format for admin
+                    shortDescription: document.getElementById('short-description')?.value || '',
+                    description: document.getElementById('short-description')?.value || '', // For admin card
                     detailedDescription: document.getElementById('detailed-description')?.value || '',
                     problemStatement: document.getElementById('problem-statement')?.value || '',
                     solution: document.getElementById('solution')?.value || '',
@@ -350,15 +418,53 @@ document.addEventListener('DOMContentLoaded', function() {
                     founderPhone: document.getElementById('founder-phone')?.value || '',
                     views: 0,
                     inquiries: 0,
-                    userId: loggedInUser
+                    userId: loggedInUser,
+                    status: 'pending', // Admin approval status: pending, active, graduated, rejected
+                    collab: false, // Default to not open for collaboration
+                    tags: [document.getElementById('project-type')?.value || 'Project'], // Auto-generate tags
+                    website: '' // Can be added later
                 };
 
                 try {
-                    // Save to pendingProjects
-                    const existingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
-                    existingProjects.push(newProject);
-                    localStorage.setItem('pendingProjects', JSON.stringify(existingProjects));
-                    console.log("Project saved to pending list.");
+                    // Save to pendingProjects (for backward compatibility)
+                    const existingPendingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
+                    existingPendingProjects.push(newProject);
+                    localStorage.setItem('pendingProjects', JSON.stringify(existingPendingProjects));
+                    console.log("✅ Project saved to pendingProjects");
+
+                    // --- NEW: Save to admin startups data ---
+                    const ADMIN_STORAGE_KEY = 'ucInttoStartupsData';
+                    const adminStartupsData = JSON.parse(localStorage.getItem(ADMIN_STORAGE_KEY) || '[]');
+                    adminStartupsData.push(newProject);
+                    localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(adminStartupsData));
+                    console.log("✅ Project saved to admin startups data");
+
+                    // --- NEW: Send email notification using EmailJS ---
+                    try {
+                        if (typeof emailjs !== 'undefined' && EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID') {
+                            await emailjs.send(
+                                EMAILJS_SERVICE_ID,
+                                EMAILJS_TEMPLATE_ID,
+                                {
+                                    project_name: newProject.name,
+                                    founder_name: newProject.founderName,
+                                    founder_email: newProject.founderEmail,
+                                    industry: newProject.industry,
+                                    college: selectedColleges.join(', '),
+                                    trl: newProject.trlFull,
+                                    submission_date: newProject.createdAt,
+                                    admin_link: `${window.location.origin}/admin/startups.html`
+                                },
+                                EMAILJS_PUBLIC_KEY
+                            );
+                            console.log("✅ Email notification sent to admin");
+                        } else {
+                            console.warn("⚠️ EmailJS not configured or loaded");
+                        }
+                    } catch (emailError) {
+                        console.error("❌ Email notification failed:", emailError);
+                        // Don't block submission if email fails
+                    }
 
                     // Reload opener tab
                     try {
@@ -387,10 +493,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         pageSubtitle.style.display = 'none';
                         backLink.style.display = 'none';
                         successTitle.textContent = 'Project Submitted!';
-                        // --- MODIFIED Success Text ---
-                        successText.textContent = `Your project "${newProject.title}" has been submitted for admin approval.`;
+                        successText.textContent = `Your project "${newProject.name}" has been submitted for admin approval. You'll be notified once it's reviewed.`;
                         successLinkHome.href = 'index.html';
-                        // Hide the "View Project" button as it's not public yet
                         successLinkProject.style.display = 'none'; 
                         successContainer.style.display = 'block';
                         successCloseBtn.addEventListener('click', () => window.close());
@@ -399,11 +503,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.close();
                     }
                 } catch (error) {
-                    console.error("Error saving project to localStorage:", error);
+                    console.error("Error saving project:", error);
                     if (error.name === 'QuotaExceededError') {
-                        alert("Error: Could not save project. Storage is full. This is likely due to large images (max ~5MB total). Please reduce image sizes or remove some.");
+                        alert("Error: Storage limit exceeded. Please use smaller images or contact admin.");
                     } else {
-                        alert("There was an error saving your project.");
+                        alert("Error saving project. Please try again or contact support.");
                     }
                 }
             });

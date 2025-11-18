@@ -143,7 +143,10 @@
 }
 .tag-status-active { background-color: #d1e7dd; color: #0f5132; }
 .tag-status-graduated { background-color: #cfe2ff; color: #0a3675; }
+.tag-status-pending { background-color: #fff3cd; color: #856404; font-weight: 600; }
+.tag-status-rejected { background-color: #f8d7da; color: #721c24; }
 .tag-collab { background-color: #cff4fc; color: #055160; font-weight: 600;}
+.tag-sdg { background-color: #e7f1ff; color: #004085; font-weight: 600; }
 .startup-actions {
     display: flex;
     flex-direction: column;
@@ -158,10 +161,29 @@
     font-size: 16px;
     color: var(--text-light);
     padding: 5px;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
 }
 .icon-btn:hover {
     color: var(--text-dark);
+    transform: scale(1.1);
+}
+.icon-btn.approve-btn {
+    color: #0f5132;
+}
+.icon-btn.approve-btn:hover {
+    color: #0a3622;
+}
+.icon-btn.reject-btn {
+    color: #721c24;
+}
+.icon-btn.reject-btn:hover {
+    color: #4a1117;
+}
+.icon-btn.edit-btn:hover {
+    color: #0d6efd;
+}
+.icon-btn.delete-btn:hover {
+    color: #dc3545;
 }
 
 /* --- Modal Styles --- */

@@ -81,19 +81,36 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'startup-card';
             card.dataset.id = startup.id;
             
-            // --- MODIFIED: Add SDG tags ---
+            // --- MODIFIED: Add SDG tags and status badges ---
             const sdgTagsHTML = (startup.sdgs && Array.isArray(startup.sdgs))
                 ? startup.sdgs.map(sdg => `<span class="tag tag-sdg">SDG ${sdg}</span>`).join('')
                 : '';
             
+            // Status-specific styling
+            let statusClass = 'tag-status-' + startup.status;
+            let statusText = startup.status;
+            if (startup.status === 'pending') {
+                statusClass = 'tag-status-pending';
+                statusText = '⏳ Pending Review';
+            } else if (startup.status === 'rejected') {
+                statusClass = 'tag-status-rejected';
+                statusText = '❌ Rejected';
+            }
+            
             const tagsHTML = `
-                <span class="tag tag-status-${startup.status}">${startup.status}</span>
+                <span class="tag ${statusClass}">${statusText}</span>
                 <span class="tag">${startup.category}</span>
                 <span class="tag">TRL ${startup.trl}</span>
                 ${startup.collab ? `<span class="tag tag-collab">Open for Collab</span>` : ''}
                 ${startup.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                ${sdgTagsHTML} `;
-            // --- END MODIFICATION ---
+                ${sdgTagsHTML}
+            `;
+            
+            // Show approval buttons only for pending projects
+            const approvalButtonsHTML = startup.status === 'pending' ? `
+                <button class="icon-btn approve-btn" title="Approve"><i class="fa-solid fa-check"></i></button>
+                <button class="icon-btn reject-btn" title="Reject"><i class="fa-solid fa-xmark"></i></button>
+            ` : '';
             
             card.innerHTML = `
                 <div class="startup-logo logo-${startup.category.toLowerCase()}">${startup.logo}</div>
@@ -103,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="tags-container">${tagsHTML}</div>
                 </div>
                 <div class="startup-actions">
+                    ${approvalButtonsHTML}
                     <button class="icon-btn edit-btn"><i class="fa-solid fa-pencil"></i></button>
                     <button class="icon-btn delete-btn"><i class="fa-solid fa-trash"></i></button>
                 </div>
@@ -113,6 +131,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const attachActionListeners = () => {
+        document.querySelectorAll('.approve-btn').forEach(button => {
+            button.addEventListener('click', e => {
+                const id = parseInt(e.target.closest('.startup-card').dataset.id);
+                approveStartup(id);
+            });
+        });
+        document.querySelectorAll('.reject-btn').forEach(button => {
+            button.addEventListener('click', e => {
+                const id = parseInt(e.target.closest('.startup-card').dataset.id);
+                rejectStartup(id);
+            });
+        });
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', e => {
                 const id = parseInt(e.target.closest('.startup-card').dataset.id);
@@ -132,6 +162,33 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.classList.remove('active');
         startupForm.reset();
         editingStartupId = null;
+    };
+
+    const approveStartup = (id) => {
+        const startup = startupsData.find(s => s.id === id);
+        if (!startup) return;
+        
+        if (confirm(`Approve "${startup.name}"? This will make it publicly visible.`)) {
+            startup.status = 'active';
+            saveData();
+            renderStartups();
+            console.log(`✅ Startup "${startup.name}" approved`);
+        }
+    };
+
+    const rejectStartup = (id) => {
+        const startup = startupsData.find(s => s.id === id);
+        if (!startup) return;
+        
+        const reason = prompt(`Reject "${startup.name}"?\n\nOptionally provide a reason (will be logged):`);
+        if (reason !== null) { // User clicked OK (even if empty)
+            startup.status = 'rejected';
+            startup.rejectionReason = reason || 'No reason provided';
+            startup.rejectionDate = new Date().toISOString().split('T')[0];
+            saveData();
+            renderStartups();
+            console.log(`❌ Startup "${startup.name}" rejected. Reason: ${startup.rejectionReason}`);
+        }
     };
 
     const editStartup = (id) => {
