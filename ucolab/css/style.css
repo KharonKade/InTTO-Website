@@ -1840,3 +1840,61 @@ main {
 .card-footer {
     margin-top: auto; /* This is the most important change */
 }
+/* --- Hero Image Slideshow --- */
+.hero-image-slideshow {
+    position: relative;
+    width: 100%; /* Adjust as needed */
+    height: 100%; /* Adjust as needed */
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.hero-image-slideshow .slideshow-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1.5s ease-in-out; /* Smooth fade effect */
+}
+
+/* --- Hero Image Slideshow --- */
+.hero-image-slideshow {
+    position: relative;
+    width: 100%;
+    min-height: 400px; /* Give it a minimum height */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* This is crucial */
+    flex: 1; /* Allow it to take up space */
+}
+
+.hero-image-slideshow .slideshow-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the area */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1.5s ease-in-out; /* Smooth fade effect */
+}
+
+.hero-image-slideshow .slideshow-img.active {
+    opacity: 1; /* Make active image visible */
+}
+
+/* This rule is from your file, it's correct */
+.hero-image {
+    flex: 1;
+}
+
+@media (max-width: 992px) {
+    .hero-image-slideshow {
+        order: 1; /* Image above content on mobile */
+        height: 300px; /* Fixed height on mobile */
+        margin-bottom: 30px;
+    }
+}
