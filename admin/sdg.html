@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDG Tracking - UC InTTO Admin</title>
+    <link rel="stylesheet" href="css/dashboard-style.css">
+    <link rel="stylesheet" href="css/sdg-style.css"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>UC InTTO</h3>
+            <p>Admin Portal</p>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+                <li><a href="startups.html"><i class="fa-solid fa-rocket"></i> Startups</a></li>
+                <li><a href="ip-applications.html"><i class="fa-solid fa-file-shield"></i> IP Applications</a></li>
+                <li><a href="metrics.html"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
+                <li><a href="news-events.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+                <li><a href="team.html"><i class="fa-solid fa-users"></i> Team</a></li>
+                <li><a href="sdg.html" class="active"><i class="fa-solid fa-bullseye"></i> SDG</a></li> </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </header>
+
+        <section class="page-content">
+            <div class="page-header">
+                <div>
+                    <h1>SDG Tracking</h1>
+                    <p class="subtitle">Track Sustainable Development Goals across startups and news/events</p>
+                </div>
+            </div>
+
+            <div class="sdg-tabs">
+                <button class="tab-btn active" data-filter="all">All</button>
+                <button class="tab-btn" data-filter="startup">Startup</button>
+                <button class="tab-btn" data-filter="news_event">News & Event</button>
+            </div>
+
+            <div class="sdg-stats-grid">
+                <div class="sdg-stat-card primary">
+                    <p class="stat-title">Total SDG Usage</p>
+                    <p class="stat-number" id="total-sdg-usage">0</p>
+                    <p class="stat-subtitle">Total usages</p>
+                </div>
+                <div class="sdg-stat-card">
+                    <p class="stat-title">Unique SDGs</p>
+                    <p class="stat-number" id="unique-sdgs">0</p>
+                    <p class="stat-subtitle">Out of 17 SDGs</p>
+                </div>
+                <div class="sdg-stat-card">
+                    <p class="stat-title" id="item-count-label">Items</p>
+                    <p class="stat-number" id="item-count">0</p>
+                    <p class="stat-subtitle">With SDG tags</p>
+                </div>
+            </div>
+
+            <div class="content-card chart-container">
+                <h2>SDG Distribution</h2>
+                <div class="chart-wrapper">
+                    <canvas id="sdgPieChart"></canvas>
+                </div>
+            </div>
+
+        </section>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/sdg.js"></script> </body>
+</html>

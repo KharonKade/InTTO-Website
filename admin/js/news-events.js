@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Default data if nothing is in localStorage
     const defaultNewsEvents = [
-        { id: 1, title: "InTTO Hosts Innovation Week 2024", type: "event", status: "published", date: "2024-11-01", tags: ["Innovation Week", "Event"], content: "Join us for a week-long celebration of innovation featuring startup pitches, workshops, and networking events." },
-        { id: 2, title: "New Partnership with DOST Region CAR", type: "news", status: "published", date: "2024-10-15", tags: ["Partnership", "DOST"], content: "UC InTTO announces strategic partnership with DOST CAR to accelerate technology transfer and commercialization." },
-        { id: 3, title: "IP Protection Workshop", type: "event", status: "draft", date: "2024-11-15", tags: ["Workshop", "IP", "TTO"], content: "Learn about intellectual property protection strategies for your innovations. Open to all UC faculty and students." },
-        { id: 4, title: "Seed Funding Opportunity for UC Startups", type: "news", status: "published", date: "2024-09-20", tags: ["Funding", "Startup"], content: "Exciting new seed funding program launched for University of the Cordilleras-affiliated startups. Apply now!" }
+        { id: 1, title: "InTTO Hosts Innovation Week 2024", type: "event", status: "published", date: "2024-11-01", tags: ["Innovation Week", "Event"], content: "Join us for a week-long celebration of innovation featuring startup pitches, workshops, and networking events.", sdgs: [9, 17] }, // Added example SDGs
+        { id: 2, title: "New Partnership with DOST Region CAR", type: "news", status: "published", date: "2024-10-15", tags: ["Partnership", "DOST"], content: "UC InTTO announces strategic partnership with DOST CAR to accelerate technology transfer and commercialization.", sdgs: [17] }, // Added example SDGs
+        { id: 3, title: "IP Protection Workshop", type: "event", status: "draft", date: "2024-11-15", tags: ["Workshop", "IP", "TTO"], content: "Learn about intellectual property protection strategies for your innovations. Open to all UC faculty and students.", sdgs: [4, 9] }, // Added example SDGs
+        { id: 4, title: "Seed Funding Opportunity for UC Startups", type: "news", status: "published", date: "2024-09-20", tags: ["Funding", "Startup"], content: "Exciting new seed funding program launched for University of the Cordilleras-affiliated startups. Apply now!", sdgs: [8] } // Added example SDGs
     ];
 
     // --- Load/Save Data ---
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newsEventStatusSelect = document.getElementById('news-event-status');
     const newsEventDateInput = document.getElementById('news-event-date');
     const newsEventTagsInput = document.getElementById('news-event-tags');
+    const newsEventSdgsInput = document.getElementById('news-event-sdgs'); // <-- NEW
     const newsEventContentTextarea = document.getElementById('news-event-content');
 
     // --- Render News/Events ---
@@ -80,6 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'news-event-card';
             card.dataset.id = item.id;
+            
+            // --- NEW: Add SDG tags ---
+            const sdgTagsHTML = (item.sdgs && Array.isArray(item.sdgs))
+                ? item.sdgs.map(sdg => `<span class="tag tag-sdg">SDG ${sdg}</span>`).join('')
+                : '';
+
             card.innerHTML = `
                 <div class="card-content">
                     <h3>${item.title}</h3>
@@ -90,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa-regular fa-calendar-alt date-icon"></i>
                         <span>${new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                         ${item.tags.map(tag => `<span class="tag item-tag">${tag}</span>`).join('')}
-                    </div>
+                        ${sdgTagsHTML} </div>
                 </div>
                 <div class="card-actions">
                     <button class="action-btn edit-btn" title="Edit"><i class="fa-solid fa-pencil"></i></button>
@@ -137,6 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
         newsEventDateInput.value = item.date;
         newsEventTagsInput.value = item.tags.join(', ');
         newsEventContentTextarea.value = item.content;
+        
+        // --- NEW: Load SDG data into form ---
+        if (item.sdgs && Array.isArray(item.sdgs)) {
+            newsEventSdgsInput.value = item.sdgs.join(', ');
+        } else {
+            newsEventSdgsInput.value = '';
+        }
+        // --- END NEW ---
+        
         newsEventModalTitle.textContent = 'Edit Item';
         newsEventModalSubtitle.textContent = 'Update news or event information';
         submitNewsEventBtn.textContent = 'Update';
@@ -167,6 +183,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     newsEventForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        
+        // --- NEW: Process SDGs from text input to array ---
+        const sdgString = newsEventSdgsInput.value || '';
+        const sdgs = sdgString
+            .split(',')
+            .map(s => parseInt(s.trim()))
+            .filter(n => !isNaN(n) && n >= 1 && n <= 17);
+        // --- END NEW ---
+        
         const formData = {
             title: newsEventTitleInput.value,
             type: newsEventTypeSelect.value,
@@ -174,14 +199,20 @@ document.addEventListener('DOMContentLoaded', () => {
             date: newsEventDateInput.value,
             tags: newsEventTagsInput.value.split(',').map(tag => tag.trim()).filter(Boolean),
             content: newsEventContentTextarea.value,
+            sdgs: sdgs // <-- NEW: Add the processed array
         };
+        
         if (editingItemId !== null) {
             const index = newsEventsData.findIndex(item => item.id === editingItemId);
-            if (index !== -1) newsEventsData[index] = { ...newsEventsData[index], ...formData };
+            if (index !== -1) {
+                // Preserve existing data like ID
+                newsEventsData[index] = { ...newsEventsData[index], ...formData };
+            }
         } else {
             formData.id = newsEventsData.length > 0 ? Math.max(...newsEventsData.map(item => item.id)) + 1 : 1;
             newsEventsData.push(formData);
         }
+        
         saveData();
         renderNewsEvents();
         closeModal();

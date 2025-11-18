@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Default data includes a 'createdAt' date for sorting
     const defaultStartups = [
-        { id: 1, createdAt: "2025-01-15", name: "AgroTech Solutions", logo: "🌱", category: "Agritech", trl: 7, status: "active", collab: true, website: "https://agrotech.example.com", description: "Smart farming solutions using IoT sensors for precision agriculture and crop monitoring.", tags: ["IoT", "Agriculture", "Sensors"] },
-        { id: 2, createdAt: "2025-03-20", name: "HealthHub PH", logo: "🏥", category: "Healthtech", trl: 6, status: "active", collab: false, website: "https://healthhub.example.com", description: "Telemedicine platform connecting rural communities with healthcare professionals.", tags: ["Telemedicine", "Healthcare", "Mobile App"] },
-        { id: 3, createdAt: "2025-05-10", name: "SafeCity Monitor", logo: "🚨", category: "CriminTech", trl: 5, status: "active", collab: true, website: "https://safecity.example.com", description: "AI-powered community safety monitoring system with real-time incident reporting.", tags: ["AI", "Safety", "Community"] },
-        { id: 4, createdAt: "2024-11-05", name: "Cordillera Crafts", logo: "🎨", category: "Creative", trl: 8, status: "graduated", collab: false, website: "https://cordillera.example.com", description: "Digital marketplace showcasing indigenous Cordilleran arts and crafts.", tags: ["E-commerce", "Arts", "Culture"] },
-        { id: 5, createdAt: "2025-08-01", name: "EduLearn Platform", logo: "📚", category: "Edtech", trl: 6, status: "active", collab: true, website: "https://edulearn.example.com", description: "Interactive learning management system for K-12 education in the Philippines.", tags: ["Education", "LMS", "K-12"] }
+        { id: 1, createdAt: "2025-01-15", name: "AgroTech Solutions", logo: "🧑‍🌾", category: "Agritech", trl: 7, status: "active", collab: true, website: "https://agrotech.example.com", description: "Smart farming solutions using IoT sensors for precision agriculture and crop monitoring.", tags: ["IoT", "Agriculture", "Sensors"], sdgs: [2, 9, 13] }, // Added example SDGs
+        { id: 2, createdAt: "2025-03-20", name: "HealthHub PH", logo: "❤️", category: "Healthtech", trl: 6, status: "active", collab: false, website: "https://healthhub.example.com", description: "Telemedicine platform connecting rural communities with healthcare professionals.", tags: ["Telemedicine", "Healthcare", "Mobile App"], sdgs: [3, 10] }, // Added example SDGs
+        { id: 3, createdAt: "2025-05-10", name: "SafeCity Monitor", logo: "🛡️", category: "CriminTech", trl: 5, status: "active", collab: true, website: "https://safecity.example.com", description: "AI-powered community safety monitoring system with real-time incident reporting.", tags: ["AI", "Safety", "Community"], sdgs: [11, 16] }, // Added example SDGs
+        { id: 4, createdAt: "2024-11-05", name: "Cordillera Crafts", logo: "🏺", category: "Creative", trl: 8, status: "graduated", collab: false, website: "https://cordillera.example.com", description: "Digital marketplace showcasing indigenous Cordilleran arts and crafts.", tags: ["E-commerce", "Arts", "Culture"], sdgs: [1, 8, 10] }, // Added example SDGs
+        { id: 5, createdAt: "2025-08-01", name: "EduLearn Platform", logo: "📚", category: "Edtech", trl: 6, status: "active", collab: true, website: "https://edulearn.example.com", description: "Interactive learning management system for K-12 education in the Philippines.", tags: ["Education", "LMS", "K-12"], sdgs: [4] } // Added example SDGs
     ];
 
     const loadData = () => {
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startupWebsiteInput = document.getElementById('startup-website');
     const startupDescriptionTextarea = document.getElementById('startup-description');
     const startupTagsInput = document.getElementById('startup-tags');
+    const startupSdgsInput = document.getElementById('startup-sdgs'); // <-- NEW
     const startupCollabCheckbox = document.getElementById('startup-collab');
 
     const renderStartups = () => {
@@ -79,13 +80,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'startup-card';
             card.dataset.id = startup.id;
+            
+            // --- MODIFIED: Add SDG tags ---
+            const sdgTagsHTML = (startup.sdgs && Array.isArray(startup.sdgs))
+                ? startup.sdgs.map(sdg => `<span class="tag tag-sdg">SDG ${sdg}</span>`).join('')
+                : '';
+            
             const tagsHTML = `
                 <span class="tag tag-status-${startup.status}">${startup.status}</span>
                 <span class="tag">${startup.category}</span>
                 <span class="tag">TRL ${startup.trl}</span>
                 ${startup.collab ? `<span class="tag tag-collab">Open for Collab</span>` : ''}
                 ${startup.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-            `;
+                ${sdgTagsHTML} `;
+            // --- END MODIFICATION ---
+            
             card.innerHTML = `
                 <div class="startup-logo logo-${startup.category.toLowerCase()}">${startup.logo}</div>
                 <div class="startup-details">
@@ -138,6 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
         startupDescriptionTextarea.value = startup.description;
         startupTagsInput.value = startup.tags.join(', ');
         startupCollabCheckbox.checked = startup.collab;
+        
+        // --- NEW: Load SDG data into form ---
+        if (startup.sdgs && Array.isArray(startup.sdgs)) {
+            startupSdgsInput.value = startup.sdgs.join(', ');
+        } else {
+            startupSdgsInput.value = '';
+        }
+        // --- END NEW ---
+        
         modalTitle.textContent = 'Edit Startup';
         modalSubtitle.textContent = 'Update startup information';
         submitBtn.textContent = 'Update Startup';
@@ -167,6 +185,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startupForm.addEventListener('submit', e => {
         e.preventDefault();
+        
+        // --- NEW: Process SDGs from text input to array ---
+        const sdgString = startupSdgsInput.value || '';
+        const sdgs = sdgString
+            .split(',')
+            .map(s => parseInt(s.trim()))
+            .filter(n => !isNaN(n) && n >= 1 && n <= 17);
+        // --- END NEW ---
+        
         const formData = {
             name: startupNameInput.value,
             logo: startupLogoInput.value,
@@ -177,10 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
             description: startupDescriptionTextarea.value,
             tags: startupTagsInput.value.split(',').map(tag => tag.trim()).filter(Boolean),
             collab: startupCollabCheckbox.checked,
+            sdgs: sdgs // <-- NEW: Add the processed array
         };
+        
         if (editingStartupId !== null) {
             const index = startupsData.findIndex(item => item.id === editingStartupId);
             if (index !== -1) {
+                // Preserve existing data like createdAt
                 startupsData[index] = { ...startupsData[index], ...formData };
             }
         } else {
@@ -188,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.createdAt = new Date().toISOString().split('T')[0]; // Add creation date
             startupsData.push(formData);
         }
+        
         saveData();
         renderStartups();
         closeModal();
