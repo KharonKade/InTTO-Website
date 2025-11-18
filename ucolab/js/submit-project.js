@@ -1,8 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
+<<<<<<< Updated upstream
     console.log("Submit project script loaded.");
 
     // --- Global var for multi-select ---
     let imageBase64Array = ["", "", "", "", ""]; // Array to hold 5 image strings
+=======
+    console.log("✅ Submit project script loaded");
+    console.log("✅ CloudinaryUploader loaded:", typeof CloudinaryUploader !== 'undefined');
+    
+    // --- EmailJS Configuration ---
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS public key
+
+    // --- Global vars ---
+    let uploadedImageUrls = ["", "", "", "", ""]; // Array to hold 5 Cloudinary URLs
+    let uploadingImages = [false, false, false, false, false]; // Track upload status
+>>>>>>> Stashed changes
 
     // --- 1. Authentication Check (Firebase) ---
     auth.onAuthStateChanged(function(user) {
@@ -194,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 6. Multi-Image File Handling ---
     function initializeImageUploaders() {
-        function handleImageUpload(fileInput, previewElement, index) {
+        async function handleImageUpload(fileInput, previewElement, index) {
             const file = fileInput.files[0];
             const slot = previewElement.closest('.image-upload-slot');
             const removeBtn = slot ? slot.querySelector('.remove-image-btn') : null;
@@ -203,24 +217,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             if (file) {
-                if (file.size > 2 * 1024 * 1024) { // 2MB limit
-                    alert(`Image in Slot ${index + 1} is too large! Max 2MB.`);
-                    fileInput.value = "";
-                    previewElement.src = "";
-                    previewElement.classList.remove('visible');
-                    imageBase64Array[index] = "";
-                    removeBtn.style.display = 'none';
-                    return;
-                }
+                // Show preview immediately
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const base64String = e.target.result;
-                    previewElement.src = base64String;
+                    previewElement.src = e.target.result;
                     previewElement.classList.add('visible');
-                    imageBase64Array[index] = base64String;
                     removeBtn.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
+
+                // Upload to Cloudinary
+                uploadingImages[index] = true;
+                try {
+                    console.log(`📤 Uploading image ${index + 1}...`);
+                    const imageUrl = await CloudinaryUploader.uploadImage(file, index);
+                    uploadedImageUrls[index] = imageUrl;
+                    console.log(`✅ Image ${index + 1} uploaded successfully!`);
+                } catch (error) {
+                    console.error(`❌ Error uploading image ${index + 1}:`, error);
+                    alert(`Error uploading image ${index + 1}: ${error.message}`);
+                } finally {
+                    uploadingImages[index] = false;
+                }
             }
         }
 
@@ -245,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const fileInput = slot ? slot.querySelector('.hidden-file-input') : null;
                     if (isNaN(index) || !slot || !preview || !fileInput) return;
                     
-                    imageBase64Array[index] = "";
+                    uploadedImageUrls[index] = "";
                     preview.src = "";
                     preview.classList.remove('visible');
                     fileInput.value = "";
@@ -259,10 +277,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeFormSubmit(loggedInUser) {
         const submitForm = document.querySelector('.submit-form');
         if (submitForm) {
-            submitForm.addEventListener('submit', function(event) {
+            submitForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
 
-                const finalImageUrls = imageBase64Array.filter(url => url !== "");
+                // Check if any images are still uploading
+                if (uploadingImages.some(status => status === true)) {
+                    alert('Please wait for all images to finish uploading before submitting.');
+                    return;
+                }
+
+                const finalImageUrls = uploadedImageUrls.filter(url => url !== "");
                 const projectNameValue = document.getElementById('project-name')?.value || 'Project';
                 if (finalImageUrls.length === 0) {
                     finalImageUrls.push(`https://via.placeholder.com/500x350.png?text=${projectNameValue.replace(/ /g, '+')}`);
@@ -309,16 +333,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     founderPhone: document.getElementById('founder-phone')?.value || '',
                     views: 0,
                     inquiries: 0,
-                    userId: loggedInUser
+                    userId: loggedInUser,
+                    status: 'pending', // Mark as pending for admin review
+                    createdAt: new Date().toISOString().split('T')[0],
+                    logo: '🚀', // Default logo
+                    tags: [], // Empty tags array
+                    collab: false // Default no collaboration
                 };
                 // --- END UPDATE ---
 
                 try {
-                    // Save to pendingProjects
+                    // Save to pendingProjects for admin to review
                     const existingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
                     existingProjects.push(newProject);
                     localStorage.setItem('pendingProjects', JSON.stringify(existingProjects));
-                    console.log("Project saved to pending list.");
+                    console.log("✅ Project saved to pending list (admin will review)");
+                    console.log("📋 Project details:", newProject);
 
                     // Reload opener tab
                     try {

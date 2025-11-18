@@ -12,7 +12,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadData = () => {
         const savedData = localStorage.getItem(STORAGE_KEY);
-        return savedData ? JSON.parse(savedData) : defaultStartups;
+        const existingStartups = savedData ? JSON.parse(savedData) : defaultStartups;
+        
+        // Load pending projects and merge them
+        const pendingProjects = localStorage.getItem('pendingProjects');
+        if (pendingProjects) {
+            const pending = JSON.parse(pendingProjects);
+            console.log(`📥 Loading ${pending.length} pending project(s) from submissions`);
+            
+            // Add pending projects that aren't already in the startups list
+            pending.forEach(project => {
+                const exists = existingStartups.find(s => s.id === project.id);
+                if (!exists) {
+                    // Normalize the project data to match startup format
+                    const normalizedProject = {
+                        ...project,
+                        status: 'pending', // Always mark as pending
+                        createdAt: project.createdAt || new Date().toISOString().split('T')[0],
+                        name: project.title || project.name,
+                        category: project.industry || project.category || 'Other',
+                        description: project.shortDescription || project.description || '',
+                        logo: project.logo || '🚀'
+                    };
+                    existingStartups.push(normalizedProject);
+                    console.log(`✅ Added pending project: ${normalizedProject.name}`);
+                }
+            });
+            
+            // Clear pendingProjects after loading (they're now in main storage)
+            localStorage.removeItem('pendingProjects');
+        }
+        
+        return existingStartups;
     };
     const saveData = () => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(startupsData));
