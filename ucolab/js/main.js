@@ -1115,3 +1115,51 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Initial load sequence complete. Waiting for auth state change.");
 
 }); // --- END OF DOMCONTENTLOADED ---
+
+
+// --- Hero Image Slideshow ---
+// This code runs *after* the main DOMContentLoaded event for the projects
+document.addEventListener('DOMContentLoaded', () => {
+    const slideshowContainer = document.querySelector('.hero-image-slideshow');
+    
+    if (slideshowContainer) {
+        const images = Array.from(slideshowContainer.querySelectorAll('.slideshow-img'));
+        let currentImageIndex = 0;
+        let intervalTime = 5000; // 5 seconds per image
+
+        // Function to show a specific image
+        const showImage = (index) => {
+            if (!images[index]) return; // Safety check
+            images.forEach((img, i) => {
+                img.classList.remove('active');
+                if (i === index) {
+                    img.classList.add('active');
+                }
+            });
+        };
+
+        // Function to get a random image index different from the current one
+        const getRandomIndex = (max, current) => {
+            let randomIndex;
+            if (max <= 1) return 0; // Don't loop if only one image
+            do {
+                randomIndex = Math.floor(Math.random() * max);
+            } while (randomIndex === current);
+            return randomIndex;
+        };
+
+        // Initialize: Show a random image first
+        if (images.length > 0) {
+            currentImageIndex = getRandomIndex(images.length, -1);
+            showImage(currentImageIndex);
+        }
+
+        // Start the slideshow
+        setInterval(() => {
+            if (images.length > 1) {
+                currentImageIndex = getRandomIndex(images.length, currentImageIndex);
+                showImage(currentImageIndex);
+            }
+        }, intervalTime);
+    }
+});
