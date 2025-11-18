@@ -1,0 +1,254 @@
+/**
+ * Cloudinary Upload Module
+ * Handles image uploads to Cloudinary with fallback to base64
+ * 
+ * Configuration:
+ * - Cloud Name: dy9tykp58u
+ * - Upload Preset: ucolab_project (must be created as UNSIGNED in Cloudinary dashboard)
+ * - Folder: ucolab_projects
+ * 
+ * IMPORTANT: The upload preset MUST be configured as "Unsigned" in Cloudinary
+ * Go to: https://cloudinary.com/console/dy9tykp58u/settings/upload
+ * Create preset named "ucolab_project" with Signing Mode set to "Unsigned"
+ */
+
+const CloudinaryUploader = (function() {
+    'use strict';
+
+    // --- Configuration ---
+    const CONFIG = {
+        CLOUD_NAME: 'dy9tykp58u',
+        UPLOAD_PRESET: 'ucolab_project',
+        FOLDER: 'ucolab_projects',
+        MAX_FILE_SIZE: 2 * 1024 * 1024, // 2MB in bytes
+        ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/webp'],
+        get UPLOAD_URL() {
+            return `https://api.cloudinary.com/v1_1/${this.CLOUD_NAME}/image/upload`;
+        }
+    };
+
+    /**
+     * Upload image to Cloudinary
+     * @param {File} file - The image file to upload
+     * @param {number} index - The index of the image (for logging)
+     * @returns {Promise<string>} - The secure URL of the uploaded image
+     */
+    async function uploadToCloudinary(file, index = 0) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CONFIG.UPLOAD_PRESET);
+        formData.append('folder', CONFIG.FOLDER);
+        
+        // Add public_id for better organization
+        const timestamp = Date.now();
+        const fileName = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
+        const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_'); // Remove special chars
+        formData.append('public_id', `project_${timestamp}_img${index + 1}_${sanitizedFileName}`);
+
+        try {
+            console.log(`🔄 [Cloudinary] Uploading image ${index + 1}...`);
+            console.log('📤 [Cloudinary] Upload details:', {
+                cloudName: CONFIG.CLOUD_NAME,
+                preset: CONFIG.UPLOAD_PRESET,
+                folder: CONFIG.FOLDER,
+                fileName: file.name,
+                fileSize: `${(file.size / 1024).toFixed(2)} KB`,
+                fileType: file.type
+            });
+            
+            const response = await fetch(CONFIG.UPLOAD_URL, {
+                method: 'POST',
+                body: formData
+            });
+
+            // Get response text first for debugging
+            const responseText = await response.text();
+            console.log('📥 [Cloudinary] Response status:', response.status, response.statusText);
+            
+            if (!response.ok) {
+                let errorData;
+                try {
+                    errorData = JSON.parse(responseText);
+                } catch (e) {
+                    errorData = { message: responseText };
+                }
+                
+                console.error('❌ [Cloudinary] Upload failed:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    error: errorData
+                });
+                
+                // Specific error messages
+                if (response.status === 401) {
+                    const error = new Error(
+                        `Upload preset "${CONFIG.UPLOAD_PRESET}" not found or not configured as unsigned.\n\n` +
+                        `Fix: Go to https://cloudinary.com/console/${CONFIG.CLOUD_NAME}/settings/upload\n` +
+                        `1. Click "Add upload preset"\n` +
+                        `2. Set preset name to: ${CONFIG.UPLOAD_PRESET}\n` +
+                        `3. Set Signing Mode to: Unsigned ⚠️\n` +
+                        `4. Set Folder to: ${CONFIG.FOLDER}\n` +
+                        `5. Click Save`
+                    );
+                    error.code = 'PRESET_NOT_FOUND';
+                    throw error;
+                } else if (response.status === 400) {
+                    const error = new Error(`Invalid upload request: ${errorData.error?.message || 'Check file format and size'}`);
+                    error.code = 'INVALID_REQUEST';
+                    throw error;
+                } else {
+                    const error = new Error(`Upload failed (${response.status}): ${errorData.error?.message || responseText}`);
+                    error.code = 'UPLOAD_FAILED';
+                    throw error;
+                }
+            }
+
+            const data = JSON.parse(responseText);
+            console.log(`✅ [Cloudinary] Image ${index + 1} uploaded successfully!`, {
+                url: data.secure_url,
+                publicId: data.public_id,
+                format: data.format,
+                dimensions: `${data.width}x${data.height}`,
+                bytes: data.bytes
+            });
+            
+            return data.secure_url;
+            
+        } catch (error) {
+            console.error(`❌ [Cloudinary] Error uploading image ${index + 1}:`, error);
+            
+            // Log troubleshooting tips
+            if (error.code === 'PRESET_NOT_FOUND') {
+                console.error('💡 [Cloudinary] Troubleshooting:', {
+                    step1: `Go to https://cloudinary.com/console/${CONFIG.CLOUD_NAME}/settings/upload`,
+                    step2: 'Scroll to "Upload presets" section',
+                    step3: 'Click "Add upload preset"',
+                    step4: `Set preset name to: ${CONFIG.UPLOAD_PRESET}`,
+                    step5: 'Set Signing Mode to: Unsigned ⚠️ (CRITICAL!)',
+                    step6: `Set Folder to: ${CONFIG.FOLDER}`,
+                    step7: 'Click Save and try again'
+                });
+            }
+            
+            throw error;
+        }
+    }
+
+    /**
+     * Convert file to base64 (fallback if Cloudinary fails)
+     * @param {File} file - The file to convert
+     * @returns {Promise<string>} - Base64 encoded string
+     */
+    function convertToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    /**
+     * Validate file before upload
+     * @param {File} file - The file to validate
+     * @returns {Object} - { valid: boolean, error: string }
+     */
+    function validateFile(file) {
+        if (!file) {
+            return { valid: false, error: 'No file selected' };
+        }
+
+        if (file.size > CONFIG.MAX_FILE_SIZE) {
+            return { 
+                valid: false, 
+                error: `File too large! Maximum size is ${CONFIG.MAX_FILE_SIZE / 1024 / 1024}MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB.`
+            };
+        }
+
+        if (!CONFIG.ALLOWED_TYPES.includes(file.type)) {
+            return { 
+                valid: false, 
+                error: `Invalid file type! Allowed types: ${CONFIG.ALLOWED_TYPES.join(', ')}. Your file type: ${file.type}`
+            };
+        }
+
+        return { valid: true };
+    }
+
+    /**
+     * Upload image with automatic fallback to base64
+     * @param {File} file - The file to upload
+     * @param {number} index - The index of the image
+     * @returns {Promise<string>} - The image URL (Cloudinary or base64)
+     */
+    async function uploadImage(file, index = 0) {
+        // Validate file first
+        const validation = validateFile(file);
+        if (!validation.valid) {
+            throw new Error(validation.error);
+        }
+
+        try {
+            // Try Cloudinary first
+            const cloudinaryUrl = await uploadToCloudinary(file, index);
+            return cloudinaryUrl;
+        } catch (cloudinaryError) {
+            console.warn(`⚠️ [Cloudinary] Upload failed, using base64 fallback:`, cloudinaryError.message);
+            
+            // Fallback to base64
+            try {
+                const base64String = await convertToBase64(file);
+                console.log(`✅ [Fallback] Image ${index + 1} stored as base64 (${(base64String.length / 1024).toFixed(2)} KB)`);
+                return base64String;
+            } catch (base64Error) {
+                console.error(`❌ [Fallback] Base64 conversion failed:`, base64Error);
+                throw new Error(`Failed to process image: ${base64Error.message}`);
+            }
+        }
+    }
+
+    /**
+     * Verify if Cloudinary preset is configured
+     * @returns {Promise<Object>} - { configured: boolean, message: string }
+     */
+    async function verifyPreset() {
+        // Create a tiny 1x1 transparent PNG for testing
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        
+        return new Promise((resolve) => {
+            canvas.toBlob(async (blob) => {
+                const testFile = new File([blob], 'test.png', { type: 'image/png' });
+                
+                try {
+                    await uploadToCloudinary(testFile, -1);
+                    resolve({ 
+                        configured: true, 
+                        message: '✅ Cloudinary preset is configured correctly!' 
+                    });
+                } catch (error) {
+                    resolve({ 
+                        configured: false, 
+                        message: error.message 
+                    });
+                }
+            }, 'image/png');
+        });
+    }
+
+    // Public API
+    return {
+        uploadImage,
+        uploadToCloudinary,
+        convertToBase64,
+        validateFile,
+        verifyPreset,
+        config: CONFIG
+    };
+})();
+
+// Export for use in other scripts
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = CloudinaryUploader;
+}

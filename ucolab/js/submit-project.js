@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Submit project script loaded.");
 
-    // --- Cloudinary Configuration ---
-    const CLOUDINARY_CLOUD_NAME = 'dy9tykp58u';
-    const CLOUDINARY_UPLOAD_PRESET = 'ucolab_project'; // Create this in Cloudinary dashboard
-    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+    // --- Check if CloudinaryUploader is loaded ---
+    if (typeof CloudinaryUploader === 'undefined') {
+        console.error('❌ CloudinaryUploader module not loaded! Make sure cloudinary.js is included before submit-project.js');
+        alert('Configuration error: Cloudinary module not loaded. Please contact support.');
+        return;
+    }
     
     // --- EmailJS Configuration ---
     const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
@@ -169,98 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 5. Multi-Image File Handling ---
     function initializeImageUploaders() {
-        // Upload image to Cloudinary
-        async function uploadToCloudinary(file, index) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-            formData.append('folder', 'ucolab_projects'); // Organize in folder
-            
-            // Optional: Add public_id for better organization
-            const timestamp = Date.now();
-            const fileName = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
-            formData.append('public_id', `project_${timestamp}_img${index + 1}_${fileName}`);
-
-            try {
-                uploadingImages[index] = true;
-                console.log(`🔄 Uploading image ${index + 1} to Cloudinary...`);
-                console.log('📤 Upload details:', {
-                    cloudName: CLOUDINARY_CLOUD_NAME,
-                    preset: CLOUDINARY_UPLOAD_PRESET,
-                    fileName: file.name,
-                    fileSize: `${(file.size / 1024).toFixed(2)} KB`,
-                    fileType: file.type
-                });
-                
-                const response = await fetch(CLOUDINARY_URL, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                // Get response text first for debugging
-                const responseText = await response.text();
-                console.log('📥 Cloudinary response status:', response.status);
-                
-                if (!response.ok) {
-                    let errorData;
-                    try {
-                        errorData = JSON.parse(responseText);
-                    } catch (e) {
-                        errorData = { message: responseText };
-                    }
-                    console.error('❌ Cloudinary error details:', {
-                        status: response.status,
-                        statusText: response.statusText,
-                        error: errorData
-                    });
-                    
-                    // Specific error messages
-                    if (response.status === 401) {
-                        throw new Error(`Upload preset "${CLOUDINARY_UPLOAD_PRESET}" not found or not configured as unsigned. Please create it in Cloudinary Settings > Upload > Add upload preset`);
-                    } else if (response.status === 400) {
-                        throw new Error(`Invalid upload request: ${errorData.error?.message || 'Check file format and size'}`);
-                    } else {
-                        throw new Error(`Upload failed (${response.status}): ${errorData.error?.message || responseText}`);
-                    }
-                }
-
-                const data = JSON.parse(responseText);
-                console.log(`✅ Image ${index + 1} uploaded successfully!`, {
-                    url: data.secure_url,
-                    publicId: data.public_id,
-                    format: data.format,
-                    width: data.width,
-                    height: data.height
-                });
-                
-                uploadingImages[index] = false;
-                return data.secure_url;
-                
-            } catch (error) {
-                uploadingImages[index] = false;
-                console.error(`❌ Error uploading image ${index + 1}:`, error);
-                console.error('💡 Troubleshooting tips:', {
-                    step1: 'Go to Cloudinary Dashboard > Settings > Upload',
-                    step2: 'Click "Add upload preset"',
-                    step3: `Set preset name to: ${CLOUDINARY_UPLOAD_PRESET}`,
-                    step4: 'Set Signing Mode to: Unsigned',
-                    step5: 'Set Folder to: ucolab_projects (optional)',
-                    step6: 'Save the preset'
-                });
-                throw error;
-            }
-        }
-
-        // Fallback: Convert to base64 if Cloudinary fails
-        function convertToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
         function handleImageUpload(fileInput, previewElement, index) {
             const file = fileInput.files[0];
             const slot = previewElement.closest('.image-upload-slot');
@@ -273,9 +183,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (file) {
-                // Validate file size (2MB limit)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert(`Image in Slot ${index + 1} is too large! Max 2MB.`);
+                // Validate file using CloudinaryUploader
+                const validation = CloudinaryUploader.validateFile(file);
+                if (!validation.valid) {
+                    alert(`Image in Slot ${index + 1}: ${validation.error}`);
                     fileInput.value = "";
                     previewElement.src = "";
                     previewElement.classList.remove('visible');
@@ -285,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // Show loading state
+                uploadingImages[index] = true;
                 if (uploadLabel) {
                     uploadLabel.innerHTML = `
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -295,14 +207,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     uploadLabel.style.opacity = '0.6';
                 }
 
-                // Try Cloudinary first, fallback to base64
-                uploadToCloudinary(file, index)
-                    .then(cloudinaryUrl => {
-                        uploadedImageUrls[index] = cloudinaryUrl;
-                        previewElement.src = cloudinaryUrl;
+                // Upload using CloudinaryUploader module
+                CloudinaryUploader.uploadImage(file, index)
+                    .then(imageUrl => {
+                        uploadedImageUrls[index] = imageUrl;
+                        previewElement.src = imageUrl;
                         previewElement.classList.add('visible');
                         removeBtn.style.display = 'block';
-                        console.log(`✅ Image ${index + 1} uploaded to Cloudinary`);
+                        uploadingImages[index] = false;
+                        
+                        // Determine if Cloudinary or base64
+                        const isCloudinary = imageUrl.startsWith('http');
+                        console.log(`✅ Image ${index + 1} processed:`, {
+                            type: isCloudinary ? 'Cloudinary' : 'Base64 Fallback',
+                            url: isCloudinary ? imageUrl : `Base64 (${(imageUrl.length / 1024).toFixed(2)} KB)`
+                        });
                         
                         // Reset label
                         if (uploadLabel) {
@@ -314,35 +233,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             uploadLabel.style.opacity = '1';
                         }
                     })
-                    .catch(cloudinaryError => {
-                        console.warn('⚠️ Cloudinary failed, using base64 fallback:', cloudinaryError);
-                        // Fallback to base64
-                        return convertToBase64(file)
-                            .then(base64String => {
-                                uploadedImageUrls[index] = base64String;
-                                previewElement.src = base64String;
-                                previewElement.classList.add('visible');
-                                removeBtn.style.display = 'block';
-                                console.log(`✅ Image ${index + 1} stored as base64`);
-                                
-                                // Reset label
-                                if (uploadLabel) {
-                                    const labelText = index === 0 ? 'Project Logo(1mb)' : `Image ${index}`;
-                                    uploadLabel.innerHTML = `
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                        <div>${labelText}</div>
-                                    `;
-                                    uploadLabel.style.opacity = '1';
-                                }
-                            });
-                    })
                     .catch(error => {
                         console.error(`Error processing image ${index + 1}:`, error);
-                        alert(`Failed to process image ${index + 1}. Please try again.`);
+                        alert(`Failed to process image ${index + 1}: ${error.message}`);
                         previewElement.src = "";
                         previewElement.classList.remove('visible');
                         uploadedImageUrls[index] = "";
                         fileInput.value = "";
+                        uploadingImages[index] = false;
                         
                         // Reset label
                         if (uploadLabel) {
