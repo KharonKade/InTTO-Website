@@ -1,8 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Submit project script loaded.");
 
-    // --- Global var for multi-select ---
-    let imageBase64Array = ["", "", "", "", ""]; // Array to hold 5 image strings
+    // --- Cloudinary Configuration ---
+    const CLOUDINARY_CLOUD_NAME = 'dy9tykp58u';
+    const CLOUDINARY_API_KEY = '975855525185299';
+    
+    // TEMPORARY FIX: Store as base64 until backend is set up
+    // Cloudinary requires either:
+    // 1. Unsigned preset (needs to be created in dashboard)
+    // 2. Signed upload (needs backend server to generate signature)
+    const USE_CLOUDINARY = false; // Set to true once preset is created
+
+    // --- Global vars ---
+    let uploadedImageUrls = ["", "", "", "", ""]; // Array to hold 5 Cloudinary URLs
+    let uploadingImages = [false, false, false, false, false]; // Track upload status
 
     // --- 1. Authentication Check (Firebase) ---
     auth.onAuthStateChanged(function(user) {
@@ -158,33 +169,87 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 5. Multi-Image File Handling ---
     function initializeImageUploaders() {
+        // Convert image to base64 for temporary storage
+        function convertToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
         function handleImageUpload(fileInput, previewElement, index) {
             const file = fileInput.files[0];
             const slot = previewElement.closest('.image-upload-slot');
             const removeBtn = slot ? slot.querySelector('.remove-image-btn') : null;
+            const uploadLabel = slot ? slot.querySelector('.upload-label') : null;
+            
             if (!slot || !previewElement || !removeBtn) {
                 console.error(`handleImageUpload: Could not find elements for slot ${index}`);
                 return;
             }
+            
             if (file) {
-                if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                // Validate file size (2MB limit)
+                if (file.size > 2 * 1024 * 1024) {
                     alert(`Image in Slot ${index + 1} is too large! Max 2MB.`);
                     fileInput.value = "";
                     previewElement.src = "";
                     previewElement.classList.remove('visible');
-                    imageBase64Array[index] = "";
+                    uploadedImageUrls[index] = "";
                     removeBtn.style.display = 'none';
                     return;
                 }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64String = e.target.result;
-                    previewElement.src = base64String;
-                    previewElement.classList.add('visible');
-                    imageBase64Array[index] = base64String;
-                    removeBtn.style.display = 'block';
+
+                // Show loading state
+                if (uploadLabel) {
+                    uploadLabel.innerHTML = `
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        <div>Processing...</div>
+                    `;
+                    uploadLabel.style.opacity = '0.6';
                 }
-                reader.readAsDataURL(file);
+
+                // Convert to base64 (temporary solution until Cloudinary preset is created)
+                convertToBase64(file)
+                    .then(base64String => {
+                        uploadedImageUrls[index] = base64String;
+                        previewElement.src = base64String;
+                        previewElement.classList.add('visible');
+                        removeBtn.style.display = 'block';
+                        console.log(`✅ Image ${index + 1} processed successfully`);
+                        
+                        // Reset label
+                        if (uploadLabel) {
+                            const labelText = index === 0 ? 'Project Logo(1mb)' : `Image ${index}`;
+                            uploadLabel.innerHTML = `
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>${labelText}</div>
+                            `;
+                            uploadLabel.style.opacity = '1';
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error processing image ${index + 1}:`, error);
+                        alert(`Failed to process image ${index + 1}. Please try again.`);
+                        previewElement.src = "";
+                        previewElement.classList.remove('visible');
+                        uploadedImageUrls[index] = "";
+                        fileInput.value = "";
+                        
+                        // Reset label
+                        if (uploadLabel) {
+                            const labelText = index === 0 ? 'Project Logo(1mb)' : `Image ${index}`;
+                            uploadLabel.innerHTML = `
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>${labelText}</div>
+                            `;
+                            uploadLabel.style.opacity = '1';
+                        }
+                    });
             }
         }
 
@@ -209,11 +274,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     const fileInput = slot ? slot.querySelector('.hidden-file-input') : null;
                     if (isNaN(index) || !slot || !preview || !fileInput) return;
                     
-                    imageBase64Array[index] = "";
+                    // Clear the Cloudinary URL
+                    uploadedImageUrls[index] = "";
                     preview.src = "";
                     preview.classList.remove('visible');
                     fileInput.value = "";
                     button.style.display = 'none';
+                    
+                    console.log(`🗑️ Removed image from slot ${index + 1}`);
                 }
             });
         }
@@ -226,11 +294,22 @@ document.addEventListener('DOMContentLoaded', function() {
             submitForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                const finalImageUrls = imageBase64Array.filter(url => url !== "");
+                // Check if any images are still uploading
+                if (uploadingImages.some(status => status === true)) {
+                    alert('Please wait for all images to finish uploading before submitting.');
+                    return;
+                }
+
+                // Get uploaded Cloudinary URLs (filter out empty strings)
+                const finalImageUrls = uploadedImageUrls.filter(url => url !== "");
                 const projectNameValue = document.getElementById('project-name')?.value || 'Project';
+                
+                // If no images uploaded, use placeholder
                 if (finalImageUrls.length === 0) {
                     finalImageUrls.push(`https://via.placeholder.com/500x350.png?text=${projectNameValue.replace(/ /g, '+')}`);
                 }
+                
+                console.log('📸 Final image URLs:', finalImageUrls);
                 
                 // --- MODIFICATION: Read selected colleges ---
                 const selectedColleges = Array.from(document.querySelectorAll('input[name="college-option"]:checked'))
