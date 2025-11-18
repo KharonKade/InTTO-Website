@@ -204,10 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const phoneEl = document.getElementById('detail-founder-phone-container');
         const phoneValueEl = document.getElementById('detail-founder-phone');
         if (phoneEl && phoneValueEl) { if (project.founderPhone) { phoneValueEl.textContent = project.founderPhone; phoneEl.style.display = 'flex'; } else { phoneEl.style.display = 'none'; }}
-        const viewsEl = document.getElementById('detail-views');
-        if(viewsEl) viewsEl.textContent = project.views || 0;
-        const inquiriesEl = document.getElementById('detail-inquiries');
-        if(inquiriesEl) inquiriesEl.textContent = project.inquiries || 0;
         const industryEl = document.getElementById('detail-industry');
         if(industryEl) industryEl.textContent = project.industry || 'N/A';
 
