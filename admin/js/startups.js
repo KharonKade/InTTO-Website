@@ -39,12 +39,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const startupNameInput = document.getElementById('startup-name');
     const startupLogoInput = document.getElementById('startup-logo');
     const startupCategorySelect = document.getElementById('startup-category');
+    const startupTypeInput = document.getElementById('startup-type');
     const startupTrlInput = document.getElementById('startup-trl');
     const startupStatusSelect = document.getElementById('startup-status');
     const startupWebsiteInput = document.getElementById('startup-website');
+    const startupCollegeInput = document.getElementById('startup-college');
     const startupDescriptionTextarea = document.getElementById('startup-description');
+    const startupDetailedDescriptionTextarea = document.getElementById('startup-detailed-description');
+    const startupProblemTextarea = document.getElementById('startup-problem');
+    const startupSolutionTextarea = document.getElementById('startup-solution');
+    const startupImageLogoInput = document.getElementById('startup-image-logo');
+    const startupImage1Input = document.getElementById('startup-image-1');
+    const startupImage2Input = document.getElementById('startup-image-2');
+    const startupImage3Input = document.getElementById('startup-image-3');
+    const startupImage4Input = document.getElementById('startup-image-4');
+    const startupStartDateInput = document.getElementById('startup-start-date');
+    const startupTeamSizeInput = document.getElementById('startup-team-size');
+    const startupFounderNameInput = document.getElementById('startup-founder-name');
+    const startupFounderRoleInput = document.getElementById('startup-founder-role');
+    const startupFounderEmailInput = document.getElementById('startup-founder-email');
+    const startupFounderPhoneInput = document.getElementById('startup-founder-phone');
+    const startupFounderAffiliationInput = document.getElementById('startup-founder-affiliation');
     const startupTagsInput = document.getElementById('startup-tags');
-    const startupSdgsInput = document.getElementById('startup-sdgs'); // <-- NEW
+    const startupSdgsInput = document.getElementById('startup-sdgs');
     const startupCollabCheckbox = document.getElementById('startup-collab');
 
     const renderStartups = () => {
@@ -195,23 +212,71 @@ document.addEventListener('DOMContentLoaded', () => {
         const startup = startupsData.find(s => s.id === id);
         if (!startup) return;
         editingStartupId = id;
-        startupNameInput.value = startup.name;
-        startupLogoInput.value = startup.logo;
-        startupCategorySelect.value = startup.category;
-        startupTrlInput.value = startup.trl;
-        startupStatusSelect.value = startup.status;
-        startupWebsiteInput.value = startup.website;
-        startupDescriptionTextarea.value = startup.description;
-        startupTagsInput.value = startup.tags.join(', ');
-        startupCollabCheckbox.checked = startup.collab;
         
-        // --- NEW: Load SDG data into form ---
+        // Basic Info
+        startupNameInput.value = startup.name || '';
+        startupLogoInput.value = startup.logo || '🚀';
+        startupCategorySelect.value = startup.category || startup.industry || 'Other';
+        startupTypeInput.value = startup.type || '';
+        startupTrlInput.value = startup.trl || 1;
+        startupStatusSelect.value = startup.status || 'pending';
+        startupWebsiteInput.value = startup.website || '';
+        
+        // College (array to comma-separated string)
+        if (Array.isArray(startup.college)) {
+            startupCollegeInput.value = startup.college.join(', ');
+        } else {
+            startupCollegeInput.value = startup.college || '';
+        }
+        
+        // Descriptions
+        startupDescriptionTextarea.value = startup.description || startup.shortDescription || '';
+        startupDetailedDescriptionTextarea.value = startup.detailedDescription || '';
+        startupProblemTextarea.value = startup.problemStatement || '';
+        startupSolutionTextarea.value = startup.solution || '';
+        
+        // Images (5 separate fields)
+        if (Array.isArray(startup.imageUrls) && startup.imageUrls.length > 0) {
+            startupImageLogoInput.value = startup.imageUrls[0] || '';
+            startupImage1Input.value = startup.imageUrls[1] || '';
+            startupImage2Input.value = startup.imageUrls[2] || '';
+            startupImage3Input.value = startup.imageUrls[3] || '';
+            startupImage4Input.value = startup.imageUrls[4] || '';
+        } else {
+            startupImageLogoInput.value = '';
+            startupImage1Input.value = '';
+            startupImage2Input.value = '';
+            startupImage3Input.value = '';
+            startupImage4Input.value = '';
+        }
+        
+        // Project Info
+        startupStartDateInput.value = startup.startDate || '';
+        startupTeamSizeInput.value = startup.teamSize || '';
+        
+        // Founder Info
+        startupFounderNameInput.value = startup.founderName || '';
+        startupFounderRoleInput.value = startup.founderRole || '';
+        startupFounderEmailInput.value = startup.founderEmail || '';
+        startupFounderPhoneInput.value = startup.founderPhone || '';
+        startupFounderAffiliationInput.value = startup.founderAffiliation || '';
+        
+        // Tags
+        if (Array.isArray(startup.tags)) {
+            startupTagsInput.value = startup.tags.join(', ');
+        } else {
+            startupTagsInput.value = '';
+        }
+        
+        // SDGs
         if (startup.sdgs && Array.isArray(startup.sdgs)) {
             startupSdgsInput.value = startup.sdgs.join(', ');
         } else {
             startupSdgsInput.value = '';
         }
-        // --- END NEW ---
+        
+        // Collaboration
+        startupCollabCheckbox.checked = startup.collab || false;
         
         modalTitle.textContent = 'Edit Startup';
         modalSubtitle.textContent = 'Update startup information';
@@ -243,36 +308,67 @@ document.addEventListener('DOMContentLoaded', () => {
     startupForm.addEventListener('submit', e => {
         e.preventDefault();
         
-        // --- NEW: Process SDGs from text input to array ---
+        // Process SDGs from text input to array
         const sdgString = startupSdgsInput.value || '';
         const sdgs = sdgString
             .split(',')
             .map(s => parseInt(s.trim()))
             .filter(n => !isNaN(n) && n >= 1 && n <= 17);
-        // --- END NEW ---
+        
+        // Process college from comma-separated to array
+        const collegeString = startupCollegeInput.value || '';
+        const collegeArray = collegeString
+            .split(',')
+            .map(c => c.trim())
+            .filter(Boolean);
+        
+        // Process image URLs into array
+        const imageUrls = [
+            startupImageLogoInput.value,
+            startupImage1Input.value,
+            startupImage2Input.value,
+            startupImage3Input.value,
+            startupImage4Input.value
+        ].filter(url => url && url.trim() !== '');
         
         const formData = {
             name: startupNameInput.value,
-            logo: startupLogoInput.value,
+            title: startupNameInput.value, // For compatibility
+            logo: startupLogoInput.value || '🚀',
             category: startupCategorySelect.value,
+            industry: startupCategorySelect.value, // Alias
+            type: startupTypeInput.value || '',
             trl: parseInt(startupTrlInput.value),
             status: startupStatusSelect.value,
-            website: startupWebsiteInput.value,
+            website: startupWebsiteInput.value || '',
+            college: collegeArray,
             description: startupDescriptionTextarea.value,
+            shortDescription: startupDescriptionTextarea.value, // Alias
+            detailedDescription: startupDetailedDescriptionTextarea.value || '',
+            problemStatement: startupProblemTextarea.value || '',
+            solution: startupSolutionTextarea.value || '',
+            imageUrls: imageUrls,
+            startDate: startupStartDateInput.value || '',
+            teamSize: startupTeamSizeInput.value || '',
+            founderName: startupFounderNameInput.value || '',
+            founderRole: startupFounderRoleInput.value || '',
+            founderEmail: startupFounderEmailInput.value || '',
+            founderPhone: startupFounderPhoneInput.value || '',
+            founderAffiliation: startupFounderAffiliationInput.value || '',
             tags: startupTagsInput.value.split(',').map(tag => tag.trim()).filter(Boolean),
             collab: startupCollabCheckbox.checked,
-            sdgs: sdgs // <-- NEW: Add the processed array
+            sdgs: sdgs
         };
         
         if (editingStartupId !== null) {
             const index = startupsData.findIndex(item => item.id === editingStartupId);
             if (index !== -1) {
-                // Preserve existing data like createdAt
+                // Preserve existing data like createdAt, features, etc.
                 startupsData[index] = { ...startupsData[index], ...formData };
             }
         } else {
             formData.id = startupsData.length > 0 ? Math.max(...startupsData.map(item => item.id)) + 1 : 1;
-            formData.createdAt = new Date().toISOString().split('T')[0]; // Add creation date
+            formData.createdAt = new Date().toISOString().split('T')[0];
             startupsData.push(formData);
         }
         
