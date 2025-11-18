@@ -3,12 +3,12 @@
  * Handles image uploads to Cloudinary with fallback to base64
  * 
  * Configuration:
- * - Cloud Name: dy9tykp58u
+ * - Cloud Name: dy9tkp58u (FIXED - removed extra 'y')
  * - Upload Preset: ucolab_project (must be created as UNSIGNED in Cloudinary dashboard)
- * - Folder: ucolab_projects
+ * - Folder: ucolab_project (singular - matches preset configuration)
  * 
  * IMPORTANT: The upload preset MUST be configured as "Unsigned" in Cloudinary
- * Go to: https://cloudinary.com/console/dy9tykp58u/settings/upload
+ * Go to: https://cloudinary.com/console/dy9tkp58u/settings/upload
  * Create preset named "ucolab_project" with Signing Mode set to "Unsigned"
  */
 
@@ -17,9 +17,9 @@ const CloudinaryUploader = (function() {
 
     // --- Configuration ---
     const CONFIG = {
-        CLOUD_NAME: 'dy9tykp58u',
+        CLOUD_NAME: 'dy9tkp58u', // FIXED: Correct cloud name (no 'y' after 't')
         UPLOAD_PRESET: 'ucolab_project',
-        FOLDER: 'ucolab_projects',
+        FOLDER: 'ucolab_project', // FIXED: Matches Cloudinary preset (no 's')
         MAX_FILE_SIZE: 2 * 1024 * 1024, // 2MB in bytes
         ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/webp'],
         get UPLOAD_URL() {
@@ -37,20 +37,13 @@ const CloudinaryUploader = (function() {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', CONFIG.UPLOAD_PRESET);
-        formData.append('folder', CONFIG.FOLDER);
-        
-        // Add public_id for better organization
-        const timestamp = Date.now();
-        const fileName = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
-        const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_'); // Remove special chars
-        formData.append('public_id', `project_${timestamp}_img${index + 1}_${sanitizedFileName}`);
+        // Don't send folder or public_id - let the preset handle everything
 
         try {
             console.log(`🔄 [Cloudinary] Uploading image ${index + 1}...`);
             console.log('📤 [Cloudinary] Upload details:', {
                 cloudName: CONFIG.CLOUD_NAME,
                 preset: CONFIG.UPLOAD_PRESET,
-                folder: CONFIG.FOLDER,
                 fileName: file.name,
                 fileSize: `${(file.size / 1024).toFixed(2)} KB`,
                 fileType: file.type
