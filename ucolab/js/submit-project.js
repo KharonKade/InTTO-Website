@@ -175,24 +175,63 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('file', file);
             formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
             formData.append('folder', 'ucolab_projects'); // Organize in folder
+            
+            // Optional: Add public_id for better organization
+            const timestamp = Date.now();
+            const fileName = file.name.replace(/\.[^/.]+$/, ""); // Remove extension
+            formData.append('public_id', `project_${timestamp}_img${index + 1}_${fileName}`);
 
             try {
                 uploadingImages[index] = true;
                 console.log(`🔄 Uploading image ${index + 1} to Cloudinary...`);
+                console.log('📤 Upload details:', {
+                    cloudName: CLOUDINARY_CLOUD_NAME,
+                    preset: CLOUDINARY_UPLOAD_PRESET,
+                    fileName: file.name,
+                    fileSize: `${(file.size / 1024).toFixed(2)} KB`,
+                    fileType: file.type
+                });
                 
                 const response = await fetch(CLOUDINARY_URL, {
                     method: 'POST',
                     body: formData
                 });
 
+                // Get response text first for debugging
+                const responseText = await response.text();
+                console.log('📥 Cloudinary response status:', response.status);
+                
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    console.error('❌ Cloudinary error:', errorData);
-                    throw new Error(`Upload failed: ${errorData.error?.message || response.status}`);
+                    let errorData;
+                    try {
+                        errorData = JSON.parse(responseText);
+                    } catch (e) {
+                        errorData = { message: responseText };
+                    }
+                    console.error('❌ Cloudinary error details:', {
+                        status: response.status,
+                        statusText: response.statusText,
+                        error: errorData
+                    });
+                    
+                    // Specific error messages
+                    if (response.status === 401) {
+                        throw new Error(`Upload preset "${CLOUDINARY_UPLOAD_PRESET}" not found or not configured as unsigned. Please create it in Cloudinary Settings > Upload > Add upload preset`);
+                    } else if (response.status === 400) {
+                        throw new Error(`Invalid upload request: ${errorData.error?.message || 'Check file format and size'}`);
+                    } else {
+                        throw new Error(`Upload failed (${response.status}): ${errorData.error?.message || responseText}`);
+                    }
                 }
 
-                const data = await response.json();
-                console.log(`✅ Image ${index + 1} uploaded:`, data.secure_url);
+                const data = JSON.parse(responseText);
+                console.log(`✅ Image ${index + 1} uploaded successfully!`, {
+                    url: data.secure_url,
+                    publicId: data.public_id,
+                    format: data.format,
+                    width: data.width,
+                    height: data.height
+                });
                 
                 uploadingImages[index] = false;
                 return data.secure_url;
@@ -200,6 +239,14 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (error) {
                 uploadingImages[index] = false;
                 console.error(`❌ Error uploading image ${index + 1}:`, error);
+                console.error('💡 Troubleshooting tips:', {
+                    step1: 'Go to Cloudinary Dashboard > Settings > Upload',
+                    step2: 'Click "Add upload preset"',
+                    step3: `Set preset name to: ${CLOUDINARY_UPLOAD_PRESET}`,
+                    step4: 'Set Signing Mode to: Unsigned',
+                    step5: 'Set Folder to: ucolab_projects (optional)',
+                    step6: 'Save the preset'
+                });
                 throw error;
             }
         }

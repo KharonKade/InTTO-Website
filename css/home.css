@@ -1338,6 +1338,25 @@ body {
     border-radius:50%;
     object-fit:cover;
     flex-shrink: 0;
+    display: block;
+}
+
+.startup-logo-emoji {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    flex-shrink: 0;
+}
+
+.tag.sdg-tag {
+    background: #e7f1ff;
+    color: #004085;
+    font-weight: 600;
 }
 
 .card-meta .startup-name{
