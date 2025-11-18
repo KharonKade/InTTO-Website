@@ -46,7 +46,14 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="project-type">Project Type <span class="required">*</span></label>
-                        <input type="text" id="project-type" required placeholder="e.g., Startup, Research">
+                        <select id="project-type" required>
+                            <option value="" disabled selected>Select a project type...</option>
+                            <option value="Startup">Startup</option>
+                            <option value="Research">Research</option>
+                            <option value="Capstone">Capstone</option>
+                            <option value="Thesis">Thesis</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
@@ -63,7 +70,7 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                    </div>
+                </div>
                 <div class="form-row">
                     
                     <div class="form-group">
@@ -123,7 +130,7 @@
                             <option value="TRL 9">TRL 9 - System Proven in Operation</option>
                         </select>
                     </div>
-                    </div>
+                </div>
                 
                 <div class="form-group full-width">
                     <label for="project-sdg">Primary Sustainable Development Goal (SDG)</label>
@@ -148,9 +155,11 @@
                         <option value="SDG 17">SDG 17: Partnerships for the Goals</option>
                     </select>
                 </div>
+                
                 <div class="form-group full-width">
                     <label for="short-description">Short Description <span class="required">*</span></label>
-                    <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 1-2 lines)" required></textarea>
+                    <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 1-2 lines)" required maxlength="100"></textarea>
+                    <div class="char-counter" id="short-desc-counter">0 / 100</div>
                 </div>
                 </div>
 
@@ -271,7 +280,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="start-date">Start Date <span class="required">*</span></label>
-                        <input type="text" id="start-date" placeholder="e.g., October 2025" required>
+                        <input type="date" id="start-date" required>
                     </div>
                     <div class="form-group">
                         <label for="team-size">Team Size <span class="required">*</span></label>
@@ -284,22 +293,28 @@
                 <h2>Founder Information</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="founder-name">Full Name <span class="required">*</span></label>
-                        <input type="text" id="founder-name" placeholder="Enter founder's full name" required>
+                        <label for="founder-first-name">First Name <span class="required">*</span></label>
+                        <input type="text" id="founder-first-name" placeholder="Enter founder's first name" required>
                     </div>
+                    <div class="form-group">
+                        <label for="founder-last-name">Last Name <span class="required">*</span></label>
+                        <input type="text" id="founder-last-name" placeholder="Enter founder's last name" required>
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
                         <label for="founder-role">Role <span class="required">*</span></label>
                         <input type="text" id="founder-role" placeholder="e.g., Project Lead" required>
                     </div>
-                </div>
-                <div class="form-group full-width">
-                    <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
-                    <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                    <div class="form-group">
+                        <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
+                        <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="founder-email">Email <span class="required">*</span></label>
-                        <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required>
+                        <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required readonly>
                     </div>
                     <div class="form-group">
                         <label for="founder-phone">Phone (Optional)</label>
