@@ -111,13 +111,17 @@ if (signInForm) {
         } catch (error) {
             console.error('Sign in error:', error);
             if (error.code === 'auth/user-not-found') {
-                alert('No account found with this email. Please sign up first.');
+                alert('This account is not registered yet. Please register first before logging in.');
             } else if (error.code === 'auth/wrong-password') {
-                alert('Incorrect password. Please try again.');
+                alert("The password you've entered is incorrect.");
+            } else if (error.code === 'auth/invalid-login-credentials') {
+                alert("This account is not registered yet or the password is incorrect. Please register first if you don't have an account.");
             } else if (error.code === 'auth/invalid-email') {
                 alert('Please enter a valid email address.');
+            } else if (error.code === 'auth/too-many-requests') {
+                alert('Too many failed attempts. Please try again later.');
             } else {
-                alert('Sign in failed: ' + error.message);
+                alert('Sign in failed. Please check your credentials and try again.');
             }
         }
     });

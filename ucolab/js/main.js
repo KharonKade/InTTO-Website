@@ -329,6 +329,25 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
+    // --- Forgot Password Modal Functions ---
+    const forgotPasswordModalOverlay = document.getElementById('forgot-password-modal-overlay');
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
+    const forgotPasswordEmailInput = document.getElementById('forgot-password-email-input');
+    const closeForgotPasswordModalBtn = document.getElementById('close-forgot-password-modal-btn');
+    const cancelForgotPasswordBtn = document.getElementById('cancel-forgot-password-btn');
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+
+    function openForgotPasswordModal() {
+        if (!forgotPasswordModalOverlay) return;
+        closeAuthModal(); // Close sign-in modal
+        forgotPasswordModalOverlay.classList.remove('modal-hidden');
+        clearFormErrors();
+    }
+
+    function closeForgotPasswordModal() {
+        if (forgotPasswordModalOverlay) forgotPasswordModalOverlay.classList.add('modal-hidden');
+    }
+
     // --- MODIFIED FUNCTION ---
     function showAlertModal(message, title = 'Alert') {
         if (!alertModalOverlay || !alertModalMessage || !alertModalTitle) return;
@@ -542,8 +561,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
         } catch (error) {
-            displayFormError(signinForm, error.message);
             console.error('❌ Sign In Error:', error.code, error.message);
+            
+            // Display user-friendly error messages
+            let errorMessage;
+            if (error.code === 'auth/user-not-found') {
+                errorMessage = 'This account is not registered yet. Please register first before logging in.';
+            } else if (error.code === 'auth/wrong-password') {
+                errorMessage = "The password you've entered is incorrect.";
+            } else if (error.code === 'auth/invalid-login-credentials') {
+                errorMessage = "This account is not registered yet or the password is incorrect. Please register first if you don't have an account.";
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'Please enter a valid email address.';
+            } else if (error.code === 'auth/too-many-requests') {
+                errorMessage = 'Too many failed attempts. Please try again later.';
+            } else {
+                errorMessage = 'Sign in failed. Please check your credentials and try again.';
+            }
+            
+            displayFormError(signinForm, errorMessage);
         }
     }
 
@@ -679,6 +715,57 @@ document.addEventListener('DOMContentLoaded', function() {
             // --- MODIFIED ---
             showAlertModal('Error signing out. Please try again.', 'Error');
             console.error('Sign Out Error:', error.code, error.message);
+        }
+    }
+
+    // --- Forgot Password Handler ---
+    async function handleForgotPassword(email) {
+        if (!email || email.trim() === '') {
+            displayFormError(forgotPasswordForm, 'Please enter your email address.');
+            return;
+        }
+
+        try {
+            console.log('🔄 Attempting to send password reset email to:', email);
+            
+            // Configure action code settings
+            const actionCodeSettings = {
+                url: window.location.origin + '/ucolab/index.html',
+                handleCodeInApp: false
+            };
+            
+            await auth.sendPasswordResetEmail(email, actionCodeSettings);
+            console.log('✅ Password reset email sent successfully to:', email);
+            
+            // Close the forgot password modal
+            closeForgotPasswordModal();
+            
+            // Show success message
+            showAlertModal(
+                `A password reset link has been sent to ${email}. Please check your email inbox (and spam folder) and follow the instructions to reset your password.`,
+                'Reset Email Sent'
+            );
+            
+            // Clear the input
+            if (forgotPasswordEmailInput) {
+                forgotPasswordEmailInput.value = '';
+            }
+        } catch (error) {
+            console.error('❌ Password Reset Error:', error.code, error.message);
+            console.error('Full error:', error);
+            
+            let errorMessage;
+            if (error.code === 'auth/user-not-found') {
+                errorMessage = 'No account found with this email address. Please check your email or sign up for a new account.';
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'Please enter a valid email address.';
+            } else if (error.code === 'auth/too-many-requests') {
+                errorMessage = 'Too many requests. Please try again later.';
+            } else {
+                errorMessage = 'Failed to send reset email. Please try again.';
+            }
+            
+            displayFormError(forgotPasswordForm, errorMessage);
         }
     }
 
@@ -1022,6 +1109,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (googleSignupBtn) {
         googleSignupBtn.addEventListener('click', handleGoogleSignIn);
+    }
+
+    // --- Forgot Password Modal Listeners ---
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openForgotPasswordModal();
+        });
+    }
+    if (closeForgotPasswordModalBtn) {
+        closeForgotPasswordModalBtn.addEventListener('click', closeForgotPasswordModal);
+    }
+    if (cancelForgotPasswordBtn) {
+        cancelForgotPasswordBtn.addEventListener('click', closeForgotPasswordModal);
+    }
+    if (forgotPasswordModalOverlay) {
+        forgotPasswordModalOverlay.addEventListener('click', (e) => {
+            if (e.target === forgotPasswordModalOverlay) {
+                closeForgotPasswordModal();
+            }
+        });
+    }
+    if (forgotPasswordForm) {
+        forgotPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearFormErrors();
+            await handleForgotPassword(forgotPasswordEmailInput.value);
+        });
     }
 
     // --- NEW: Profile Modal Listeners ---
