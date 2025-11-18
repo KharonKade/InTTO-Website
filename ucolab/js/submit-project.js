@@ -1,10 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-<<<<<<< Updated upstream
-    console.log("Submit project script loaded.");
-
-    // --- Global var for multi-select ---
-    let imageBase64Array = ["", "", "", "", ""]; // Array to hold 5 image strings
-=======
     console.log("✅ Submit project script loaded");
     console.log("✅ CloudinaryUploader loaded:", typeof CloudinaryUploader !== 'undefined');
     
@@ -16,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Global vars ---
     let uploadedImageUrls = ["", "", "", "", ""]; // Array to hold 5 Cloudinary URLs
     let uploadingImages = [false, false, false, false, false]; // Track upload status
->>>>>>> Stashed changes
 
     // --- 1. Authentication Check (Firebase) ---
     auth.onAuthStateChanged(function(user) {
