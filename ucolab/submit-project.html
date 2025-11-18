@@ -67,9 +67,15 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="project-type">Project Type <span class="required">*</span></label>
-                        <input type="text" id="project-type" placeholder="e.g., Startup, Research" required>
+                        <select id="project-type" required>
+                            <option value="" disabled selected>Select a project type...</option>
+                            <option value="Startup">Startup</option>
+                            <option value="Research">Research</option>
+                            <option value="Capstone">Capstone</option>
+                            <option value="Thesis">Thesis</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                    
                     <div class="form-group">
                         <label for="industry">Industry <span class="required">*</span></label>
                         <select id="industry" required>
@@ -84,7 +90,7 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                    </div>
+                </div>
                 <div class="form-row">
                     
                     <div class="form-group">
@@ -144,7 +150,7 @@
                             <option value="TRL 9">TRL 9 - System Proven in Operation</option>
                         </select>
                     </div>
-                    </div>
+                </div>
                 
                 <div class="form-group full-width">
                     <label for="project-sdg">Primary Sustainable Development Goal (SDG)</label>
@@ -169,11 +175,12 @@
                         <option value="SDG 17">SDG 17: Partnerships for the Goals</option>
                     </select>
                 </div>
+                
                 <div class="form-group full-width">
                     <label for="short-description">Short Description <span class="required">*</span></label>
                     <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 1-2 lines)" required></textarea>
                 </div>
-                </div>
+            </div>
 
             <div class="form-section">
                 <h2>Project Details</h2>
@@ -244,7 +251,7 @@
                         <img src="" alt="Image preview 1" class="image-preview" id="image-preview-1">
                         <label for="image-upload-1" class="upload-label">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Project Logo(1mb)</div>
+                            <div>Slot 1 (Cover)</div>
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 1" data-index="0" style="display: none;">×</button>
                     </div>
@@ -253,7 +260,7 @@
                         <img src="" alt="Image preview 2" class="image-preview" id="image-preview-2">
                         <label for="image-upload-2" class="upload-label">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Image 1</div>
+                            <div>Slot 2</div>
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 2" data-index="1" style="display: none;">×</button>
                     </div>
@@ -262,7 +269,7 @@
                         <img src="" alt="Image preview 3" class="image-preview" id="image-preview-3">
                         <label for="image-upload-3" class="upload-label">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Image 2</div>
+                            <div>Slot 3</div>
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 3" data-index="2" style="display: none;">×</button>
                     </div>
@@ -271,7 +278,7 @@
                         <img src="" alt="Image preview 4" class="image-preview" id="image-preview-4">
                         <label for="image-upload-4" class="upload-label">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Image 3</div>
+                            <div>Slot 4</div>
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 4" data-index="3" style="display: none;">×</button>
                     </div>
@@ -280,7 +287,7 @@
                         <img src="" alt="Image preview 5" class="image-preview" id="image-preview-5">
                         <label for="image-upload-5" class="upload-label">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Image 4</div>
+                            <div>Slot 5</div>
                         </label>
                         <button type="button" class="remove-image-btn" aria-label="Remove image 5" data-index="4" style="display: none;">×</button>
                     </div>
@@ -292,7 +299,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="start-date">Start Date <span class="required">*</span></label>
-                        <input type="text" id="start-date" placeholder="e.g., October 2025" required>
+                        <input type="date" id="start-date" required>
                     </div>
                     <div class="form-group">
                         <label for="team-size">Team Size <span class="required">*</span></label>
@@ -305,22 +312,28 @@
                 <h2>Founder Information</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="founder-name">Full Name <span class="required">*</span></label>
-                        <input type="text" id="founder-name" placeholder="Enter founder's full name" required>
+                        <label for="founder-first-name">First Name <span class="required">*</span></label>
+                        <input type="text" id="founder-first-name" placeholder="Enter founder's first name" required>
                     </div>
+                    <div class="form-group">
+                        <label for="founder-last-name">Last Name <span class="required">*</span></label>
+                        <input type="text" id="founder-last-name" placeholder="Enter founder's last name" required>
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
                         <label for="founder-role">Role <span class="required">*</span></label>
                         <input type="text" id="founder-role" placeholder="e.g., Project Lead" required>
                     </div>
-                </div>
-                <div class="form-group full-width">
-                    <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
-                    <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                    <div class="form-group">
+                        <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
+                        <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="founder-email">Email <span class="required">*</span></label>
-                        <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required>
+                        <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required readonly>
                     </div>
                     <div class="form-group">
                         <label for="founder-phone">Phone (Optional)</label>
@@ -353,18 +366,6 @@
     <footer>
     </footer>
 
-    <!-- Cloudinary Upload Widget (Optional - for advanced features) -->
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
-    
-    <!-- EmailJS for sending notifications -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        // Initialize EmailJS (will be configured in submit-project.js)
-        if (typeof emailjs !== 'undefined') {
-            emailjs.init('YOUR_PUBLIC_KEY'); // This will be overridden by the key in submit-project.js
-        }
-    </script>
-    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script>
@@ -381,10 +382,6 @@
         const auth = firebase.auth();
     </script>
     
-    <!-- Cloudinary Upload Module (MUST load before submit-project.js) -->
-    <script src="js/cloudinary.js"></script>
-    
-    <!-- Submit Project Main Script -->
     <script src="js/submit-project.js"></script>
 
 </body>

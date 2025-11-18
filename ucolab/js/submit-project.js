@@ -1,21 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Submit project script loaded.");
 
-    // --- Check if CloudinaryUploader is loaded ---
-    if (typeof CloudinaryUploader === 'undefined') {
-        console.error('❌ CloudinaryUploader module not loaded! Make sure cloudinary.js is included before submit-project.js');
-        alert('Configuration error: Cloudinary module not loaded. Please contact support.');
-        return;
-    }
-    
-    // --- EmailJS Configuration ---
-    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
-    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
-    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS public key
-
-    // --- Global vars ---
-    let uploadedImageUrls = ["", "", "", "", ""]; // Array to hold 5 Cloudinary URLs
-    let uploadingImages = [false, false, false, false, false]; // Track upload status
+    // --- Global var for multi-select ---
+    let imageBase64Array = ["", "", "", "", ""]; // Array to hold 5 image strings
 
     // --- 1. Authentication Check (Firebase) ---
     auth.onAuthStateChanged(function(user) {
@@ -45,20 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 2. Update Header Function ---
     function updateHeader(user, loggedInUser) {
         const userDisplayPill = document.getElementById('user-display');
-        const signOutButton = document.getElementById('signout-btn-main'); // <-- Corrected ID from submit-project.html
+        const signOutButton = document.getElementById('signout-btn-main');
+        
         if (userDisplayPill) {
             userDisplayPill.innerHTML = `
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 ${loggedInUser.split('@')[0]}
             `;
-            const founderEmailInput = document.getElementById('founder-email');
-            if (founderEmailInput && user.email) {
-                founderEmailInput.value = user.email;
-            }
-            const founderNameInput = document.getElementById('founder-name');
-            if(founderNameInput && user.displayName) {
-                founderNameInput.value = user.displayName;
-            }
         }
         if (signOutButton) {
             signOutButton.addEventListener('click', (e) => {
@@ -69,6 +49,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         }
+        
+        // --- UPDATED: Pre-fill and lock Founder Info ---
+        const founderEmailInput = document.getElementById('founder-email');
+        const founderFirstNameInput = document.getElementById('founder-first-name');
+        const founderLastNameInput = document.getElementById('founder-last-name');
+
+        if (founderEmailInput && user.email) {
+            founderEmailInput.value = user.email;
+            founderEmailInput.readOnly = true; // Make it readonly
+        }
+        
+        if (founderFirstNameInput && founderLastNameInput && user.displayName) {
+            const names = user.displayName.split(' ');
+            const firstName = names[0];
+            const lastName = names.slice(1).join(' ');
+            
+            founderFirstNameInput.value = firstName;
+            founderLastNameInput.value = lastName;
+        }
+        // --- END UPDATE ---
     }
 
     // --- 3. DYNAMIC BACKGROUND CIRCLES ---
@@ -175,83 +175,29 @@ document.addEventListener('DOMContentLoaded', function() {
             const file = fileInput.files[0];
             const slot = previewElement.closest('.image-upload-slot');
             const removeBtn = slot ? slot.querySelector('.remove-image-btn') : null;
-            const uploadLabel = slot ? slot.querySelector('.upload-label') : null;
-            
             if (!slot || !previewElement || !removeBtn) {
                 console.error(`handleImageUpload: Could not find elements for slot ${index}`);
                 return;
             }
-            
             if (file) {
-                // Validate file using CloudinaryUploader
-                const validation = CloudinaryUploader.validateFile(file);
-                if (!validation.valid) {
-                    alert(`Image in Slot ${index + 1}: ${validation.error}`);
+                if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                    alert(`Image in Slot ${index + 1} is too large! Max 2MB.`);
                     fileInput.value = "";
                     previewElement.src = "";
                     previewElement.classList.remove('visible');
-                    uploadedImageUrls[index] = "";
+                    imageBase64Array[index] = "";
                     removeBtn.style.display = 'none';
                     return;
                 }
-
-                // Show loading state
-                uploadingImages[index] = true;
-                if (uploadLabel) {
-                    uploadLabel.innerHTML = `
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                        </svg>
-                        <div>Uploading...</div>
-                    `;
-                    uploadLabel.style.opacity = '0.6';
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64String = e.target.result;
+                    previewElement.src = base64String;
+                    previewElement.classList.add('visible');
+                    imageBase64Array[index] = base64String;
+                    removeBtn.style.display = 'block';
                 }
-
-                // Upload using CloudinaryUploader module
-                CloudinaryUploader.uploadImage(file, index)
-                    .then(imageUrl => {
-                        uploadedImageUrls[index] = imageUrl;
-                        previewElement.src = imageUrl;
-                        previewElement.classList.add('visible');
-                        removeBtn.style.display = 'block';
-                        uploadingImages[index] = false;
-                        
-                        // Determine if Cloudinary or base64
-                        const isCloudinary = imageUrl.startsWith('http');
-                        console.log(`✅ Image ${index + 1} processed:`, {
-                            type: isCloudinary ? 'Cloudinary' : 'Base64 Fallback',
-                            url: isCloudinary ? imageUrl : `Base64 (${(imageUrl.length / 1024).toFixed(2)} KB)`
-                        });
-                        
-                        // Reset label
-                        if (uploadLabel) {
-                            const labelText = index === 0 ? 'Project Logo(1mb)' : `Image ${index}`;
-                            uploadLabel.innerHTML = `
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                <div>${labelText}</div>
-                            `;
-                            uploadLabel.style.opacity = '1';
-                        }
-                    })
-                    .catch(error => {
-                        console.error(`Error processing image ${index + 1}:`, error);
-                        alert(`Failed to process image ${index + 1}: ${error.message}`);
-                        previewElement.src = "";
-                        previewElement.classList.remove('visible');
-                        uploadedImageUrls[index] = "";
-                        fileInput.value = "";
-                        uploadingImages[index] = false;
-                        
-                        // Reset label
-                        if (uploadLabel) {
-                            const labelText = index === 0 ? 'Project Logo(1mb)' : `Image ${index}`;
-                            uploadLabel.innerHTML = `
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                <div>${labelText}</div>
-                            `;
-                            uploadLabel.style.opacity = '1';
-                        }
-                    });
+                reader.readAsDataURL(file);
             }
         }
 
@@ -276,14 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const fileInput = slot ? slot.querySelector('.hidden-file-input') : null;
                     if (isNaN(index) || !slot || !preview || !fileInput) return;
                     
-                    // Clear the Cloudinary URL
-                    uploadedImageUrls[index] = "";
+                    imageBase64Array[index] = "";
                     preview.src = "";
                     preview.classList.remove('visible');
                     fileInput.value = "";
                     button.style.display = 'none';
-                    
-                    console.log(`🗑️ Removed image from slot ${index + 1}`);
                 }
             });
         }
@@ -293,57 +236,37 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeFormSubmit(loggedInUser) {
         const submitForm = document.querySelector('.submit-form');
         if (submitForm) {
-            submitForm.addEventListener('submit', async function(event) {
+            submitForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                // Check if any images are still uploading
-                if (uploadingImages.some(status => status === true)) {
-                    alert('Please wait for all images to finish uploading before submitting.');
-                    return;
-                }
-
-                // Get uploaded image URLs (filter out empty strings)
-                const finalImageUrls = uploadedImageUrls.filter(url => url !== "");
+                const finalImageUrls = imageBase64Array.filter(url => url !== "");
                 const projectNameValue = document.getElementById('project-name')?.value || 'Project';
-                
-                // If no images uploaded, use placeholder
                 if (finalImageUrls.length === 0) {
                     finalImageUrls.push(`https://via.placeholder.com/500x350.png?text=${projectNameValue.replace(/ /g, '+')}`);
                 }
                 
-                console.log('📸 Final image URLs:', finalImageUrls);
-                
-                // --- Read selected colleges ---
                 const selectedColleges = Array.from(document.querySelectorAll('input[name="college-option"]:checked'))
                                               .map(cb => cb.value);
                 
-                // Basic validation check
                 if (selectedColleges.length === 0) {
                     alert("Please select at least one college.");
                     return;
                 }
 
-                // Extract SDG number from "SDG X: Name" format
-                const sdgValue = document.getElementById('project-sdg')?.value || 'N/A';
-                const sdgNumber = sdgValue.match(/SDG (\d+)/) ? parseInt(sdgValue.match(/SDG (\d+)/)[1]) : null;
-                const sdgsArray = sdgNumber ? [sdgNumber] : [];
+                // --- UPDATED: Collect new fields ---
+                const founderFirstName = document.getElementById('founder-first-name')?.value;
+                const founderLastName = document.getElementById('founder-last-name')?.value;
+                const founderFullName = `${founderFirstName} ${founderLastName}`;
 
                 const newProject = {
                     id: Date.now(),
-                    createdAt: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
-                    name: projectNameValue, // Changed from 'title' to 'name' for admin compatibility
-                    title: projectNameValue, // Keep for backward compatibility
-                    logo: finalImageUrls[0].startsWith('http') ? '🚀' : '🚀', // Emoji logo for admin view
-                    type: document.getElementById('project-type')?.value || 'N/A',
+                    title: projectNameValue,
+                    type: document.getElementById('project-type')?.value || 'N/A', // From new select
                     industry: document.getElementById('industry')?.value || 'N/A',
-                    category: document.getElementById('industry')?.value || 'N/A', // Alias for admin
                     college: selectedColleges,
-                    trl: parseInt(document.getElementById('trl-level')?.value.match(/\d+/)?.[0]) || 1, // Extract number
-                    trlFull: document.getElementById('trl-level')?.value || 'TRL 1',
-                    sdg: sdgValue,
-                    sdgs: sdgsArray, // Array format for admin
+                    trl: document.getElementById('trl-level')?.value || 'TRL ?',
+                    sdg: document.getElementById('project-sdg')?.value || 'N/A',
                     shortDescription: document.getElementById('short-description')?.value || '',
-                    description: document.getElementById('short-description')?.value || '', // For admin card
                     detailedDescription: document.getElementById('detailed-description')?.value || '',
                     problemStatement: document.getElementById('problem-statement')?.value || '',
                     solution: document.getElementById('solution')?.value || '',
@@ -354,62 +277,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         { title: document.getElementById('feature4-title')?.value, description: document.getElementById('feature4-desc')?.value },
                     ].filter(f => f.title && f.description),
                     imageUrls: finalImageUrls,
-                    startDate: document.getElementById('start-date')?.value || 'N/A',
+                    startDate: document.getElementById('start-date')?.value || 'N/A', // From new date input
                     teamSize: document.getElementById('team-size')?.value || 'N/A',
-                    founderName: document.getElementById('founder-name')?.value,
+                    founderName: founderFullName, // From new inputs
                     founderRole: document.getElementById('founder-role')?.value,
                     founderAffiliation: document.getElementById('founder-affiliation')?.value,
                     founderEmail: document.getElementById('founder-email')?.value,
                     founderPhone: document.getElementById('founder-phone')?.value || '',
                     views: 0,
                     inquiries: 0,
-                    userId: loggedInUser,
-                    status: 'pending', // Admin approval status: pending, active, graduated, rejected
-                    collab: false, // Default to not open for collaboration
-                    tags: [document.getElementById('project-type')?.value || 'Project'], // Auto-generate tags
-                    website: '' // Can be added later
+                    userId: loggedInUser
                 };
+                // --- END UPDATE ---
 
                 try {
-                    // Save to pendingProjects (for backward compatibility)
-                    const existingPendingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
-                    existingPendingProjects.push(newProject);
-                    localStorage.setItem('pendingProjects', JSON.stringify(existingPendingProjects));
-                    console.log("✅ Project saved to pendingProjects");
-
-                    // --- NEW: Save to admin startups data ---
-                    const ADMIN_STORAGE_KEY = 'ucInttoStartupsData';
-                    const adminStartupsData = JSON.parse(localStorage.getItem(ADMIN_STORAGE_KEY) || '[]');
-                    adminStartupsData.push(newProject);
-                    localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(adminStartupsData));
-                    console.log("✅ Project saved to admin startups data");
-
-                    // --- NEW: Send email notification using EmailJS ---
-                    try {
-                        if (typeof emailjs !== 'undefined' && EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID') {
-                            await emailjs.send(
-                                EMAILJS_SERVICE_ID,
-                                EMAILJS_TEMPLATE_ID,
-                                {
-                                    project_name: newProject.name,
-                                    founder_name: newProject.founderName,
-                                    founder_email: newProject.founderEmail,
-                                    industry: newProject.industry,
-                                    college: selectedColleges.join(', '),
-                                    trl: newProject.trlFull,
-                                    submission_date: newProject.createdAt,
-                                    admin_link: `${window.location.origin}/admin/startups.html`
-                                },
-                                EMAILJS_PUBLIC_KEY
-                            );
-                            console.log("✅ Email notification sent to admin");
-                        } else {
-                            console.warn("⚠️ EmailJS not configured or loaded");
-                        }
-                    } catch (emailError) {
-                        console.error("❌ Email notification failed:", emailError);
-                        // Don't block submission if email fails
-                    }
+                    // Save to pendingProjects
+                    const existingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
+                    existingProjects.push(newProject);
+                    localStorage.setItem('pendingProjects', JSON.stringify(existingProjects));
+                    console.log("Project saved to pending list.");
 
                     // Reload opener tab
                     try {
@@ -438,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         pageSubtitle.style.display = 'none';
                         backLink.style.display = 'none';
                         successTitle.textContent = 'Project Submitted!';
-                        successText.textContent = `Your project "${newProject.name}" has been submitted for admin approval. You'll be notified once it's reviewed.`;
+                        successText.textContent = `Your project "${newProject.title}" has been submitted for admin approval.`;
                         successLinkHome.href = 'index.html';
                         successLinkProject.style.display = 'none'; 
                         successContainer.style.display = 'block';
@@ -448,11 +334,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.close();
                     }
                 } catch (error) {
-                    console.error("Error saving project:", error);
+                    console.error("Error saving project to localStorage:", error);
                     if (error.name === 'QuotaExceededError') {
-                        alert("Error: Storage limit exceeded. Please use smaller images or contact admin.");
+                        alert("Error: Could not save project. Storage is full. This is likely due to large images (max ~5MB total). Please reduce image sizes or remove some.");
                     } else {
-                        alert("Error saving project. Please try again or contact support.");
+                        alert("There was an error saving your project.");
                     }
                 }
             });
