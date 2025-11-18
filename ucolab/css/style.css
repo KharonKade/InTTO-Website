@@ -1029,6 +1029,7 @@ main {
     font-weight: 600;
     margin-bottom: 1rem;
     font-family: 'Poppins', sans-serif;
+    align-self: flex-start;
 }
 .trl-blue { background-color: #e9e7fd; color: #4527a0; }
 .trl-yellow { background-color: #fff8e1; color: #f9a825; }

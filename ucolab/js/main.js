@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>${project.title || 'Untitled Project'}</h3>
                     <div class="card-tags">${project.type ? `<span class="tag tag-${typeClass}">${project.type}</span>` : ''} ${project.industry ? `<span class="tag tag-grey">${project.industry}</span>` : ''}</div>
                     <p class="card-college">${collegeText}</p>
-                    <p class="card-trl trl-${trlClass}">${trlText}</p>
+                    <span class="card-trl trl-${trlClass}">${trlText}</span>
                     <p class="card-description">${project.shortDescription || 'No description available.'}</p>
                     
                     <div class="card-footer">
