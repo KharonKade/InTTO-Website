@@ -1,26 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Submit project script loaded.");
 
-<<<<<<< Updated upstream
     // --- Global var for multi-select ---
     let imageBase64Array = ["", "", "", "", ""]; // Array to hold 5 image strings
-=======
-    // --- Check if CloudinaryUploader is loaded ---
-    if (typeof CloudinaryUploader === 'undefined') {
-        console.error('CloudinaryUploader module not loaded! Make sure cloudinary.js is included before submit-project.js');
-        alert('Configuration error: Cloudinary module not loaded. Please contact support.');
-        return;
-    }
-    
-    // --- EmailJS Configuration ---
-    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS service ID
-    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS template ID
-    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS public key
-
-    // --- Global vars ---
-    let uploadedImageUrls = ["", "", "", "", ""]; // Array to hold 5 Cloudinary URLs
-    let uploadingImages = [false, false, false, false, false]; // Track upload status
->>>>>>> Stashed changes
 
     // --- 1. Authentication Check (Firebase) ---
     auth.onAuthStateChanged(function(user) {
@@ -36,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             createRandomCircles();
             initializeImageUploaders();
             initializeCollegeDropdown();
+            initializeCharCounter(); // <-- ADDED
             initializeFormSubmit(loggedInUser);
             initializeCancelButton();
 
@@ -106,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
          }
     }
 
-    // --- 4. NEW: College Multi-Select Dropdown Logic ---
+    // --- 4. College Multi-Select Dropdown Logic ---
     function initializeCollegeDropdown() {
         const dropdownBtn = document.getElementById('college-dropdown-btn');
         const checkboxList = document.getElementById('college-checkbox-list');
@@ -186,8 +169,30 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+    
+    // --- 5. NEW: Character Counter Logic ---
+    function initializeCharCounter() {
+        const shortDescTextarea = document.getElementById('short-description');
+        const counterElement = document.getElementById('short-desc-counter');
 
-    // --- 5. Multi-Image File Handling ---
+        if (shortDescTextarea && counterElement) {
+            // Function to update the counter
+            const updateCounter = () => {
+                const currentLength = shortDescTextarea.value.length;
+                counterElement.textContent = `${currentLength} / 100`;
+            };
+
+            // Add event listener
+            shortDescTextarea.addEventListener('input', updateCounter);
+            
+            // Initial call in case the browser autofills
+            updateCounter(); 
+        } else {
+            console.warn("Could not find short description counter elements.");
+        }
+    }
+
+    // --- 6. Multi-Image File Handling ---
     function initializeImageUploaders() {
         function handleImageUpload(fileInput, previewElement, index) {
             const file = fileInput.files[0];
@@ -250,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 6. FORM SUBMISSION HANDLING (Updated) ---
+    // --- 7. FORM SUBMISSION HANDLING (Updated) ---
     function initializeFormSubmit(loggedInUser) {
         const submitForm = document.querySelector('.submit-form');
         if (submitForm) {
@@ -363,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 7. Cancel Button Logic ---
+    // --- 8. Cancel Button Logic ---
     function initializeCancelButton() {
         const cancelButton = document.querySelector('.btn-cancel');
         if(cancelButton) {

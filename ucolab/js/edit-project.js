@@ -5,10 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.submit-form');
     const projectName = document.getElementById('project-name');
     const projectType = document.getElementById('project-type');
-    const industry = document.getElementById('industry'); // <-- Now a select
-    const trlLevel = document.getElementById('trl-level'); // <-- Now a select
-    const projectSdg = document.getElementById('project-sdg'); // <-- NEW
-    const shortDescription = document.getElementById('short-description'); // <-- Now a textarea
+    const industry = document.getElementById('industry');
+    const trlLevel = document.getElementById('trl-level');
+    const projectSdg = document.getElementById('project-sdg');
+    const shortDescription = document.getElementById('short-description');
+    const shortDescCounter = document.getElementById('short-desc-counter'); // <-- NEW
     const detailedDescription = document.getElementById('detailed-description');
     const problemStatement = document.getElementById('problem-statement');
     const solution = document.getElementById('solution');
@@ -22,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const feature4Desc = document.getElementById('feature4-desc');
     const startDate = document.getElementById('start-date');
     const teamSize = document.getElementById('team-size');
-    const founderName = document.getElementById('founder-name');
+    const founderFirstName = document.getElementById('founder-first-name'); // <-- NEW
+    const founderLastName = document.getElementById('founder-last-name'); // <-- NEW
     const founderRole = document.getElementById('founder-role');
     const founderAffiliation = document.getElementById('founder-affiliation');
     const founderEmail = document.getElementById('founder-email');
@@ -67,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // --- 5. Initialize Page Functions ---
             initializeImageUploaders();
-            initializeCollegeDropdown(); // <-- Will run to load college data
+            initializeCollegeDropdown();
+            initializeCharCounter(); // <-- ADDED
             initializeFormSubmit(loggedInUser);
             setupActionButtons();
             createRandomCircles();
@@ -118,10 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Populate all text/select fields
             if(projectName) projectName.value = projectToEdit.title || '';
             if(projectType) projectType.value = projectToEdit.type || '';
-            if(industry) industry.value = projectToEdit.industry || ''; // <-- Updated
-            if(trlLevel) trlLevel.value = projectToEdit.trl || ''; // <-- Updated
-            if(projectSdg) projectSdg.value = projectToEdit.sdg || 'N/A'; // <-- NEW
-            if(shortDescription) shortDescription.value = projectToEdit.shortDescription || ''; // <-- Updated
+            if(industry) industry.value = projectToEdit.industry || '';
+            if(trlLevel) trlLevel.value = projectToEdit.trl || '';
+            if(projectSdg) projectSdg.value = projectToEdit.sdg || 'N/A';
+            
+            // --- UPDATED: Load Short Description and Update Counter ---
+            if(shortDescription) shortDescription.value = projectToEdit.shortDescription || '';
+            if(shortDescCounter) shortDescCounter.textContent = `${(projectToEdit.shortDescription || '').length} / 100`;
+            // --- END UPDATE ---
             
             // --- Load College Data ---
             if (Array.isArray(projectToEdit.college)) {
@@ -131,8 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         checkbox.checked = true;
                     }
                 });
-                // After checking boxes, update the pills
-                initializeCollegeDropdown(); // Call this again to build pills
+                initializeCollegeDropdown(); 
             }
             
             if(detailedDescription) detailedDescription.value = projectToEdit.detailedDescription || '';
@@ -140,10 +146,27 @@ document.addEventListener('DOMContentLoaded', function() {
             if(solution) solution.value = projectToEdit.solution || '';
             if(startDate) startDate.value = projectToEdit.startDate || '';
             if(teamSize) teamSize.value = projectToEdit.teamSize || '';
-            if(founderName) founderName.value = projectToEdit.founderName || '';
+            
+            // --- UPDATED: Split Full Name into First and Last ---
+            if (founderFirstName && founderLastName && projectToEdit.founderName) {
+                const names = projectToEdit.founderName.split(' ');
+                const firstName = names[0];
+                const lastName = names.slice(1).join(' ');
+                founderFirstName.value = firstName;
+                founderLastName.value = lastName;
+            }
+            // --- END UPDATE ---
+
             if(founderRole) founderRole.value = projectToEdit.founderRole || '';
             if(founderAffiliation) founderAffiliation.value = projectToEdit.founderAffiliation || '';
-            if(founderEmail) founderEmail.value = projectToEdit.founderEmail || '';
+            
+            // --- UPDATED: Pre-fill and lock email ---
+            if(founderEmail) {
+                founderEmail.value = projectToEdit.founderEmail || '';
+                founderEmail.readOnly = true; // Make it readonly
+            }
+            // --- END UPDATE ---
+
             if(founderPhone) founderPhone.value = projectToEdit.founderPhone || '';
 
             if (projectToEdit.features && Array.isArray(projectToEdit.features)) {
@@ -153,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (projectToEdit.features[3] && feature4Title && feature4Desc) { feature4Title.value = projectToEdit.features[3].title; feature4Desc.value = projectToEdit.features[3].description; }
             }
 
-            // ** Load existing images into previews **
             const imageUrlsToLoad = Array.isArray(projectToEdit.imageUrls) ? projectToEdit.imageUrls : [];
             for (let i = 0; i < 5; i++) {
                 const slot = document.querySelector(`#image-upload-${i + 1}`)?.closest('.image-upload-slot');
@@ -163,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (imageUrlsToLoad[i] && preview && removeBtn) {
                         preview.src = imageUrlsToLoad[i];
                         preview.classList.add('visible');
-                        imageBase64Array[i] = imageUrlsToLoad[i]; // Store image data
+                        imageBase64Array[i] = imageUrlsToLoad[i];
                         removeBtn.style.display = 'block';
                     } else if (preview && removeBtn) {
                         preview.src = "";
@@ -267,8 +289,29 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+    
+    // --- 7. NEW: Character Counter Logic ---
+    function initializeCharCounter() {
+        const shortDescTextarea = document.getElementById('short-description');
+        const counterElement = document.getElementById('short-desc-counter');
 
-    // --- 7. Handle Form Submission (Update) ---
+        if (shortDescTextarea && counterElement) {
+            // Function to update the counter
+            const updateCounter = () => {
+                const currentLength = shortDescTextarea.value.length;
+                counterElement.textContent = `${currentLength} / 100`;
+            };
+
+            // Add event listener
+            shortDescTextarea.addEventListener('input', updateCounter);
+            
+            // Initial call is handled in loadAndPopulateData
+        } else {
+            console.warn("Could not find short description counter elements.");
+        }
+    }
+
+    // --- 8. Handle Form Submission (Update) ---
     function initializeFormSubmit(loggedInUser) {
         if (form) {
             form.addEventListener('submit', function(event) {
@@ -281,25 +324,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     finalImageUrls.push(`https://via.placeholder.com/500x350.png?text=${projectNameValue.replace(/ /g, '+')}`);
                 }
 
-                // --- Read selected colleges ---
                 const selectedColleges = Array.from(document.querySelectorAll('input[name="college-option"]:checked'))
                                               .map(cb => cb.value);
                 
                 if (selectedColleges.length === 0) {
                     alert("Please select at least one college.");
-                    return; // Stop submission
+                    return;
                 }
-                // --- End ---
 
+                // --- UPDATED: Collect from new fields ---
+                const founderFirstNameValue = document.getElementById('founder-first-name')?.value;
+                const founderLastNameValue = document.getElementById('founder-last-name')?.value;
+                const founderFullName = `${founderFirstNameValue} ${founderLastNameValue}`;
+                
                 const updatedProject = {
                     ...projectToEdit,
                     title: projectNameValue,
                     type: projectType?.value || projectToEdit.type,
-                    industry: industry?.value || projectToEdit.industry, // <-- Updated
-                    college: selectedColleges, // <-- Updated
-                    trl: trlLevel?.value || projectToEdit.trl, // <-- Updated
-                    sdg: projectSdg?.value || 'N/A', // <-- NEW
-                    shortDescription: shortDescription?.value || projectToEdit.shortDescription, // <-- Updated
+                    industry: industry?.value || projectToEdit.industry,
+                    college: selectedColleges,
+                    trl: trlLevel?.value || projectToEdit.trl,
+                    sdg: projectSdg?.value || 'N/A',
+                    shortDescription: shortDescription?.value || projectToEdit.shortDescription,
                     detailedDescription: detailedDescription?.value || projectToEdit.detailedDescription,
                     problemStatement: problemStatement?.value || projectToEdit.problemStatement,
                     solution: solution?.value || projectToEdit.solution,
@@ -312,13 +358,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     imageUrls: finalImageUrls,
                     startDate: startDate?.value || projectToEdit.startDate,
                     teamSize: teamSize?.value || projectToEdit.teamSize,
-                    founderName: founderName?.value || projectToEdit.founderName,
+                    founderName: founderFullName, // Use new combined name
                     founderRole: founderRole?.value || projectToEdit.founderRole,
                     founderAffiliation: founderAffiliation?.value || projectToEdit.founderAffiliation,
                     founderEmail: founderEmail?.value || projectToEdit.founderEmail,
                     founderPhone: founderPhone?.value || projectToEdit.founderPhone,
                     userId: (projectToEdit.userId === 'default' && (loggedInUser.includes('demo') || loggedInUser === 'Demo User')) ? loggedInUser : projectToEdit.userId
                 };
+                // --- END UPDATE ---
 
                 try {
                     allProjects[projectIndex] = updatedProject;
@@ -372,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 8. Handle Cancel / Back Buttons ---
+    // --- 9. Handle Cancel / Back Buttons ---
     function setupActionButtons() {
         if (cancelEditButton) {
             cancelEditButton.addEventListener('click', () => {
@@ -391,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 9. DYNAMIC BACKGROUND CIRCLES ---
+    // --- 10. DYNAMIC BACKGROUND CIRCLES ---
     function createRandomCircles() {
         const body = document.body; if (!body) return;
         const circleCount = Math.floor(Math.random() * 6) + 5;
@@ -408,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 10. College Dropdown (re-using submit-project.js logic) ---
+    // --- 11. College Dropdown (re-using submit-project.js logic) ---
     function initializeCollegeDropdown() {
         const dropdownBtn = document.getElementById('college-dropdown-btn');
         const checkboxList = document.getElementById('college-checkbox-list');

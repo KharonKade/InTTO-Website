@@ -132,6 +132,7 @@
 .form-group {
     margin-bottom: 1.25rem;
     flex: 1;
+    position: relative; /* Added for counter */
 }
 .form-section > *:last-child:not(.form-row) > .form-group:last-child,
 .form-section > .form-row:last-child > .form-group {
@@ -151,10 +152,11 @@
     margin-left: 2px;
 }
 
-/* UPDATED: Added 'select' */
+/* --- UPDATED: Added 'select' and 'input[type="date"]' --- */
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="tel"],
+.form-group input[type="date"],
 .form-group select,
 .form-group textarea {
     width: 100%;
@@ -165,14 +167,44 @@
     font-size: 0.95rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     background-color: #fdfdfd;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: #aaa;
 }
 
-/* UPDATED: Added 'select' */
+/* --- NEW: Add custom arrow for select dropdowns --- */
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 16px;
+    padding-right: 2.5rem; /* Make space for the arrow */
+}
+
+/* --- NEW: Let date input keep its own icon --- */
+.form-group input[type="date"] {
+    background-image: none;
+}
+/* Fix for date input text not aligning in some browsers */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+}
+.form-group input[type="date"]::-webkit-datetime-edit {
+    color: var(--text-dark);
+}
+.form-group input[type="date"]:invalid::-webkit-datetime-edit {
+    color: #aaa;
+}
+
+
+/* --- UPDATED: Added 'select' and 'input[type="date"]' --- */
 .form-group input:focus,
+.form-group input[type="date"]:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
@@ -181,14 +213,35 @@
     background-color: #fff;
 }
 
+/* --- NEW: Style for readonly email field --- */
+.form-group input:read-only {
+    background-color: #f0f0f0;
+    color: #777;
+    cursor: not-allowed;
+    border-color: #e0e0e0;
+}
+.form-group input:read-only:focus {
+    box-shadow: none;
+    border-color: #e0e0e0;
+}
+
 .form-group textarea {
     resize: vertical;
     min-height: 80px;
 }
 
-/* NEW: Override for short description */
+/* Override for short description */
 #short-description {
     min-height: auto;
+}
+
+/* --- NEW: Character Counter Style --- */
+.char-counter {
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+    padding-right: 0.25rem;
 }
 
 /* Form Row Layout */
@@ -365,8 +418,6 @@ footer {
     background-color: rgba(200, 0, 0, 0.8); /* Red on hover */
 }
 
-/* REMOVED the complex CSS rule for showing the button automatically */
-
 /* ======== Success Message Styles ======== */
 .success-message-container {
     display: block; /* Required for the style.display='' to work */
@@ -405,7 +456,6 @@ footer {
     margin-bottom: 1.5rem;
 }
 
-/* We need to re-define the button styles here since style.css isn't on this page */
 .success-actions .btn {
     text-decoration: none;
     padding: 0.8rem 1.75rem;
