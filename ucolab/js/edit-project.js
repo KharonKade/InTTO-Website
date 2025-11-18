@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.submit-form');
     const projectName = document.getElementById('project-name');
     const projectType = document.getElementById('project-type');
-    const industry = document.getElementById('industry');
-    const college = document.getElementById('college');
-    const trlLevel = document.getElementById('trl-level');
-    const shortDescription = document.getElementById('short-description');
+    const industry = document.getElementById('industry'); // <-- Now a select
+    const trlLevel = document.getElementById('trl-level'); // <-- Now a select
+    const projectSdg = document.getElementById('project-sdg'); // <-- NEW
+    const shortDescription = document.getElementById('short-description'); // <-- Now a textarea
     const detailedDescription = document.getElementById('detailed-description');
     const problemStatement = document.getElementById('problem-statement');
     const solution = document.getElementById('solution');
@@ -39,11 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let projectIndex = -1;
 
     // --- 2. Authentication Check (Firebase) ---
-    // Wait for Firebase to determine the user state
     auth.onAuthStateChanged(function(user) {
         if (user) {
             // --- USER IS LOGGED IN ---
-            const loggedInUser = user.displayName || user.email; // Use Firebase user info
+            const loggedInUser = user.displayName || user.email;
             console.log("User is logged in:", loggedInUser);
 
             // --- 3. Update Header User Info ---
@@ -68,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // --- 5. Initialize Page Functions ---
             initializeImageUploaders();
+            initializeCollegeDropdown(); // <-- Will run to load college data
             initializeFormSubmit(loggedInUser);
             setupActionButtons();
             createRandomCircles();
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // --- USER IS LOGGED OUT ---
             console.log("User is not logged in. Redirecting.");
-            alert("You must be signed in to edit a project."); // <-- THIS IS THE ALERT YOU WERE SEEING
+            alert("You must be signed in to edit a project.");
             window.location.href = 'index.html';
         }
     });
@@ -115,13 +115,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log("Loading data for project:", projectToEdit);
 
-            // Populate all text fields
+            // Populate all text/select fields
             if(projectName) projectName.value = projectToEdit.title || '';
             if(projectType) projectType.value = projectToEdit.type || '';
-            if(industry) industry.value = projectToEdit.industry || '';
-            if(college) college.value = projectToEdit.college || '';
-            if(trlLevel) trlLevel.value = projectToEdit.trl || '';
-            if(shortDescription) shortDescription.value = projectToEdit.shortDescription || '';
+            if(industry) industry.value = projectToEdit.industry || ''; // <-- Updated
+            if(trlLevel) trlLevel.value = projectToEdit.trl || ''; // <-- Updated
+            if(projectSdg) projectSdg.value = projectToEdit.sdg || 'N/A'; // <-- NEW
+            if(shortDescription) shortDescription.value = projectToEdit.shortDescription || ''; // <-- Updated
+            
+            // --- Load College Data ---
+            if (Array.isArray(projectToEdit.college)) {
+                projectToEdit.college.forEach(collegeName => {
+                    const checkbox = document.querySelector(`input[name="college-option"][value="${collegeName}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+                // After checking boxes, update the pills
+                initializeCollegeDropdown(); // Call this again to build pills
+            }
+            
             if(detailedDescription) detailedDescription.value = projectToEdit.detailedDescription || '';
             if(problemStatement) problemStatement.value = projectToEdit.problemStatement || '';
             if(solution) solution.value = projectToEdit.solution || '';
@@ -268,14 +281,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     finalImageUrls.push(`https://via.placeholder.com/500x350.png?text=${projectNameValue.replace(/ /g, '+')}`);
                 }
 
+                // --- Read selected colleges ---
+                const selectedColleges = Array.from(document.querySelectorAll('input[name="college-option"]:checked'))
+                                              .map(cb => cb.value);
+                
+                if (selectedColleges.length === 0) {
+                    alert("Please select at least one college.");
+                    return; // Stop submission
+                }
+                // --- End ---
+
                 const updatedProject = {
                     ...projectToEdit,
                     title: projectNameValue,
                     type: projectType?.value || projectToEdit.type,
-                    industry: industry?.value || projectToEdit.industry,
-                    college: college?.value || projectToEdit.college,
-                    trl: trlLevel?.value || projectToEdit.trl,
-                    shortDescription: shortDescription?.value || projectToEdit.shortDescription,
+                    industry: industry?.value || projectToEdit.industry, // <-- Updated
+                    college: selectedColleges, // <-- Updated
+                    trl: trlLevel?.value || projectToEdit.trl, // <-- Updated
+                    sdg: projectSdg?.value || 'N/A', // <-- NEW
+                    shortDescription: shortDescription?.value || projectToEdit.shortDescription, // <-- Updated
                     detailedDescription: detailedDescription?.value || projectToEdit.detailedDescription,
                     problemStatement: problemStatement?.value || projectToEdit.problemStatement,
                     solution: solution?.value || projectToEdit.solution,
@@ -293,7 +317,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     founderAffiliation: founderAffiliation?.value || projectToEdit.founderAffiliation,
                     founderEmail: founderEmail?.value || projectToEdit.founderEmail,
                     founderPhone: founderPhone?.value || projectToEdit.founderPhone,
-                    // Ensure userId is correctly maintained
                     userId: (projectToEdit.userId === 'default' && (loggedInUser.includes('demo') || loggedInUser === 'Demo User')) ? loggedInUser : projectToEdit.userId
                 };
 
@@ -383,6 +406,84 @@ document.addEventListener('DOMContentLoaded', function() {
             circle.style.opacity = Math.random() * 0.4 + 0.3;
             body.prepend(circle);
         }
+    }
+
+    // --- 10. College Dropdown (re-using submit-project.js logic) ---
+    function initializeCollegeDropdown() {
+        const dropdownBtn = document.getElementById('college-dropdown-btn');
+        const checkboxList = document.getElementById('college-checkbox-list');
+        const pillsContainer = document.getElementById('college-selected-pills');
+        const defaultText = document.querySelector('#college-dropdown-btn .dropdown-button-text');
+        const validationInput = document.getElementById('college-validation');
+
+        if (!dropdownBtn || !checkboxList || !pillsContainer || !defaultText || !validationInput) {
+            console.error("College dropdown elements not found!");
+            return;
+        }
+
+        const checkboxes = checkboxList.querySelectorAll('input[type="checkbox"]');
+
+        function updateCollegePills() {
+            pillsContainer.innerHTML = '';
+            let hasSelection = false;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    hasSelection = true;
+                    const pill = document.createElement('span');
+                    pill.className = 'pill';
+                    pill.textContent = checkbox.value;
+                    const removeBtn = document.createElement('span');
+                    removeBtn.className = 'pill-remove';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        checkbox.checked = false;
+                        updateCollegePills();
+                    };
+                    pill.appendChild(removeBtn);
+                    pillsContainer.appendChild(pill);
+                }
+            });
+
+            if (hasSelection) {
+                defaultText.style.display = 'none';
+                pillsContainer.style.display = 'flex';
+                validationInput.value = 'selected';
+            } else {
+                defaultText.style.display = 'block';
+                pillsContainer.style.display = 'none';
+                validationInput.value = '';
+            }
+        }
+        
+        // Initial call to build pills from loaded data
+        updateCollegePills(); 
+
+        dropdownBtn.addEventListener('click', () => {
+            checkboxList.classList.toggle('visible');
+            dropdownBtn.classList.toggle('open');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!document.getElementById('college-multi-select').contains(e.target)) {
+                checkboxList.classList.remove('visible');
+                dropdownBtn.classList.remove('open');
+            }
+        });
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateCollegePills);
+        });
+        
+        checkboxList.querySelectorAll('.checkbox-list-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    updateCollegePills();
+                }
+            });
+        });
     }
 
 }); // End DOMContentLoaded

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Maria Santos", founderRole: "Project Lead & Principal Investigator", founderAffiliation: "College of Business, University of the Cordilleras", founderEmail: "maria.santos@uc-bcf.edu.ph", founderPhone: "+63 917 123 4567"
         },
         {
-            id: 14, views: 150, inquiries: 10, title: "VeggieTrack", type: "Capstone", industry: "Agritech", college: ["College of Computer Studies"], trl: "TRL 5",
+            id: 14, views: 150, inquiries: 10, title: "VeggieTrack", type: "Capstone", industry: "Agriculture and Food", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "IoT-based supply chain monitoring for vegetable produce from farm to.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "VeggieTrack ensures transparency and quality in the vegetable supply chain through real-time IoT monitoring from harvest to consumer. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Antonio Bautista", founderRole: "Capstone Project Adviser", founderAffiliation: "College of Computer Studies, University of the Cordilleras", founderEmail: "a.bautista@uc-bcf.edu.ph", founderPhone: "+63 917 890 1234"
         },
         {
-            id: 13, views: 301, inquiries: 25, title: "SafeCity", type: "Capstone", industry: "Crimintech", college: ["College of Computer Studies"], trl: "TRL 5",
+            id: 13, views: 301, inquiries: 25, title: "SafeCity", type: "Capstone", industry: "Criminology, Forensics, and Public Safety", college: ["College of Computer Studies"], trl: "TRL 5",
             shortDescription: "Community-based crime reporting and prevention mobile application.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "SafeCity aims to enhance community safety by providing a user-friendly mobile platform for reporting incidents and receiving timely alerts. Developed by students from the College of Computer Studies, this project leverages technology to foster a more connected and secure environment.",
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Juan Dela Cruz", founderRole: "Capstone Adviser", founderAffiliation: "College of Computer Studies, University of the Cordilleras", founderEmail: "j.delacruz@uc-bcf.edu.ph", founderPhone: "+63 917 111 2222"
         },
         {
-            id: 12, views: 220, inquiries: 12, title: "MediCord", type: "Capstone", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 4",
+            id: 12, views: 220, inquiries: 12, title: "MediCord", type: "Capstone", industry: "Health", college: ["College of Nursing"], trl: "TRL 4",
             shortDescription: "AI-powered health monitoring for rural clinics.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "MediCord brings advanced diagnostic capabilities to rural health centers through AI-powered health monitoring and decision support systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Grace Ramos", founderRole: "Project Supervisor", founderAffiliation: "College of Nursing, University of the Cordilleras", founderEmail: "g.ramos@uc-bcf.edu.ph", founderPhone: "+63 917 224 5501"
         },
         {
-            id: 11, views: 88, inquiries: 5, title: "CraftConnect", type: "Thesis", industry: "Fintech", college: ["College of Architecture"], trl: "TRL 4",
+            id: 11, views: 88, inquiries: 5, title: "CraftConnect", type: "Thesis", industry: "E-commerce", college: ["College of Architecture"], trl: "TRL 4",
             shortDescription: "Digital marketplace connecting indigenous craftspeople with global.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "CraftConnect preserves and promotes indigenous craftsmanship while providing economic opportunities for artisans in the Cordillera region through a modern e-commerce platform. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Patricia Gomez", founderRole: "Project Coordinator", founderAffiliation: "College of Architecture, University of the Cordilleras", founderEmail: "p.gomez@uc-bcf.edu.ph", founderPhone: "+63 917 557 8901"
         },
         {
-            id: 10, views: 450, inquiries: 30, title: "NutriTrack", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 5",
+            id: 10, views: 450, inquiries: 30, title: "NutriTrack", type: "Startup", industry: "Health", college: ["College of Nursing"], trl: "TRL 5",
             shortDescription: "AI-powered nutrition monitoring app for maternal and child health.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "NutriTrack revolutionizes maternal and child healthcare through advanced AI technology. This comprehensive nutrition monitoring platform provides real-time insights and personalized recommendations to improve health outcomes in underserved communities. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Jennifer Dela Cruz", founderRole: "Research Adviser", founderAffiliation: "College of Nursing, University of the Cordilleras", founderEmail: "j.delacruz@uc-bcf.edu.ph", founderPhone: "+63 917 234 5678"
         },
         {
-            id: 9, views: 120, inquiries: 8, title: "CrimSight", type: "Research", industry: "Crimintech", college: ["College of Arts & Sciences"], trl: "TRL 5",
+            id: 9, views: 120, inquiries: 8, title: "CrimSight", type: "Research", industry: "Criminology, Forensics, and Public Safety", college: ["College of Arts & Sciences"], trl: "TRL 5",
             shortDescription: "Digital forensic analysis toolkit for local law enforcement.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "CrimSight provides affordable digital forensic capabilities to local law enforcement agencies, enabling them to investigate cybercrimes and digital evidence effectively. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Prof. Diana Santiago", founderRole: "Research Director", founderAffiliation: "College of Arts & Sciences, University of the Cordilleras", founderEmail: "d.santiago@uc-bcf.edu.ph", founderPhone: "+63 917 456 0123"
         },
         {
-            id: 8, views: 95, inquiries: 7, title: "EcoBlock", type: "Thesis", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 3",
+            id: 8, views: 95, inquiries: 7, title: "EcoBlock", type: "Thesis", industry: "Sustainability and Cleantech", college: ["College of Engineering"], trl: "TRL 3",
             shortDescription: "Sustainable concrete blend using local bio-waste materials.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "EcoBlock develops environmentally sustainable construction materials by incorporating local agricultural waste into concrete production. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 3, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Carlos Mendoza", founderRole: "Thesis Adviser", founderAffiliation: "College of Engineering, University of the Cordilleras", founderEmail: "c.mendoza@uc-bcf.edu.ph", founderPhone: "+63 917 113 4560"
         },
         {
-            id: 7, views: 180, inquiries: 11, title: "WaterSense", type: "Research", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 4",
+            id: 7, views: 180, inquiries: 11, title: "WaterSense", type: "Research", industry: "Sustainability and Cleantech", college: ["College of Engineering"], trl: "TRL 4",
             shortDescription: "Smart water quality monitoring system for Baguio's watershed areas.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "WaterSense addresses critical water quality concerns in Baguio's watershed areas through IoT-enabled monitoring and early warning systems. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 4, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Thomas Aquino", founderRole: "Research Supervisor", founderAffiliation: "College of Engineering, University of the Cordilleras", founderEmail: "t.aquino@uc-bcf.edu.ph", founderPhone: "+63 917 878 9012"
         },
         {
-            id: 6, views: 75, inquiries: 3, title: "LearnHub CAR", type: "Research", industry: "Edutech", college: ["College of Teacher Education"], trl: "TRL 5",
+            id: 6, views: 75, inquiries: 3, title: "LearnHub CAR", type: "Research", industry: "Education Technologies", college: ["College of Teacher Education"], trl: "TRL 5",
             shortDescription: "Adaptive learning platform for indigenous communities in the.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "LearnHub CAR creates culturally responsive educational content and adaptive learning experiences for indigenous learners in the Cordillera Administrative Region. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 5, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Elena Cordero", founderRole: "Principal Investigator", founderAffiliation: "College of Teacher Education, University of the Cordilleras", founderEmail: "e.cordero@uc-bcf.edu.ph", founderPhone: "+63 917 901 2345"
         },
         {
-            id: 5, views: 512, inquiries: 45, title: "HealthBridge", type: "Startup", industry: "Healthtech", college: ["College of Nursing"], trl: "TRL 6",
+            id: 5, views: 512, inquiries: 45, title: "HealthBridge", type: "Startup", industry: "Health", college: ["College of Nursing"], trl: "TRL 6",
             shortDescription: "Telemedicine platform connecting rural patients with urban healthcare", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "HealthBridge breaks down geographical barriers to healthcare access by connecting rural patients with qualified medical professionals through an integrated telemedicine platform. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 6, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Dr. Sarah Fernandez", founderRole: "Startup Mentor & Co-founder", founderAffiliation: "College of Nursing, University of the Cordilleras", founderEmail: "s.fernandez@uc-bcf.edu.ph", founderPhone: "+63 917 789 0123"
         },
         {
-            id: 4, views: 60, inquiries: 2, title: "GreenArch", type: "Research", industry: "Sustainability", college: ["College of Architecture"], trl: "TRL 3",
+            id: 4, views: 60, inquiries: 2, title: "GreenArch", type: "Research", industry: "Sustainability and Cleantech", college: ["College of Architecture"], trl: "TRL 3",
             shortDescription: "Passive cooling design framework for tropical highland architecture.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "GreenArch pioneers sustainable architectural solutions for the unique climate conditions of tropical highland regions. This research-based framework integrates traditional knowledge with modern design principles. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 3, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Arch. Roberto Villanueva", founderRole: "Lead Researcher", founderAffiliation: "College of Architecture, University of the Cordilleras", founderEmail: "r.villanueva@uc-bcf.edu.ph", founderPhone: "+63 917 345 6780"
         },
         {
-            id: 3, views: 333, inquiries: 22, title: "Agrilera", type: "Startup", industry: "Agritech", college: ["College of Engineering"], trl: "TRL 6",
+            id: 3, views: 333, inquiries: 22, title: "Agrilera", type: "Startup", industry: "Agriculture and Food", college: ["College of Engineering"], trl: "TRL 6",
             shortDescription: "Automated tray-seeding and smart farming solution for Benguet farmers.", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "Agrilera introduces an automated tray-seeding system designed to significantly improve efficiency and reduce labor costs for vegetable farmers. Coupled with smart farming sensors, this solution aims to optimize crop yields and resource management.",
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
             founderName: "Engr. Isabella Reyes", founderRole: "Project Lead & Co-founder", founderAffiliation: "College of Engineering, University of the Cordilleras", founderEmail: "i.reyes@uc-bcf.edu.ph", founderPhone: "+63 917 333 4444"
         },
         {
-            id: 2, views: 210, inquiries: 19, title: "SunShare", type: "Startup", industry: "Sustainability", college: ["College of Engineering"], trl: "TRL 6",
+            id: 2, views: 210, inquiries: 19, title: "SunShare", type: "Startup", industry: "Sustainability and Cleantech", college: ["College of Engineering"], trl: "TRL 6",
             shortDescription: "Peer-to-peer solar energy trading platform connecting Baguio", userId:"default",
             imageUrls: [], // <-- FIXED
             detailedDescription: "SunShare enables households with solar panels to sell excess energy to neighbors, creating a decentralized and sustainable local energy grid. The project demonstrates significant potential for commercialization and has garnered interest from industry partners and potential investors. With its current Technology Readiness Level (TRL) of 6, the team is actively seeking collaboration opportunities to advance the project toward market deployment.",
@@ -261,7 +261,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const projectGrid = document.getElementById('project-list');
     const projectsCountHeader = document.getElementById('projects-count');
     const searchInput = document.getElementById('search-input');
-    const industryFilter = document.getElementById('filter-industry');
+    
+    // === THIS IS THE UPDATED LINE ===
+    const industryFilter = document.getElementById('filter-startup-category'); // <-- ID CHANGED
+    // === END OF UPDATE ===
+    
     const collegeFilter = document.getElementById('filter-college');
     const trlFilter = document.getElementById('filter-trl');
     const typeFilter = document.getElementById('filter-type');
@@ -285,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const alertModalOverlay = document.getElementById('alert-modal-overlay');
     const alertModalOkBtn = document.getElementById('alert-modal-ok-btn');
     const alertModalMessage = document.getElementById('alert-modal-message');
-    const alertModalTitle = document.getElementById('alert-modal-title'); // <-- ADDED
+    const alertModalTitle = document.getElementById('alert-modal-title');
 
     // --- Profile Modal Elements ---
     const profileModalOverlay = document.getElementById('profile-modal-overlay');
@@ -329,6 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
+<<<<<<< Updated upstream
     // --- Forgot Password Modal Functions ---
     const forgotPasswordModalOverlay = document.getElementById('forgot-password-modal-overlay');
     const forgotPasswordForm = document.getElementById('forgot-password-form');
@@ -349,10 +354,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- MODIFIED FUNCTION ---
+=======
+>>>>>>> Stashed changes
     function showAlertModal(message, title = 'Alert') {
         if (!alertModalOverlay || !alertModalMessage || !alertModalTitle) return;
         
-        alertModalTitle.textContent = title; // <-- SETS TITLE
+        alertModalTitle.textContent = title;
         alertModalMessage.textContent = message;
         alertModalOverlay.classList.remove('modal-hidden');
     }
@@ -361,23 +368,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (alertModalOverlay) alertModalOverlay.classList.add('modal-hidden');
     }
 
-    // --- NEW: Profile Modal Functions ---
     function openProfileModal() {
         if (!profileModalOverlay || !profileNameInput) return;
         const currentUser = auth.currentUser;
-        if (!currentUser) return; // Safety check
+        if (!currentUser) return; 
 
-        // Pre-fill the input with the user's current display name
         profileNameInput.value = currentUser.displayName || '';
         
-        clearFormErrors(); // Clear any old errors
+        clearFormErrors();
         profileModalOverlay.classList.remove('modal-hidden');
     }
 
     function closeProfileModal() {
         if (profileModalOverlay) profileModalOverlay.classList.add('modal-hidden');
     }
-    // --- END NEW ---
 
     function displayFormError(formElement, message) {
         if (!formElement) return;
@@ -408,11 +412,8 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const currentUser = auth.currentUser;
         if (currentUser) {
-            // User is signed in, navigate to submit page
             window.open('submit-project.html', '_blank');
         } else {
-            // User is not signed in, show alert
-            // --- MODIFIED ---
             showAlertModal('You must be signed in to submit a project. Please sign in or create an account.', 'Sign In Required');
         }
     }
@@ -430,22 +431,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${displayName.split('@')[0]}
                 `;
                 
-                // --- NEW: Add click listener to open profile modal ---
                 userDisplayMain.onclick = () => {
                     openProfileModal();
                 };
-                // --- END NEW ---
             }
         } else {
             // --- User is SIGNED OUT ---
             if (openSigninBtn) openSigninBtn.classList.remove('hidden');
             if (userInfoContainer) userInfoContainer.classList.add('hidden');
             
-            // --- NEW: Remove click listener if logged out ---
             if (userDisplayMain) {
                 userDisplayMain.onclick = null;
             }
-            // --- END NEW ---
         }
         
         renderProjects(); 
@@ -465,10 +462,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             console.log("✅ User profile updated");
             
-            // Get affiliation from form
             const affiliation = signupAffiliationInput ? signupAffiliationInput.value : 'N/A';
             
-            // Save user data to Firestore "Registered Accounts" collection
             const userData = {
                 uid: user.uid,
                 email: user.email,
@@ -477,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 lastName: lastName || 'N/A',
                 affiliation: affiliation,
                 loginType: 'Email/Password',
-                isAdmin: false, // Default to false, can be manually changed in Firestore
+                isAdmin: false,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
                 submittedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -485,7 +480,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log("💾 Saving user data to Firestore:", userData);
             
-            // Use set() with the UID as document ID instead of add()
             await db.collection('Registered Accounts').doc(user.uid).set(userData);
             console.log("✅ User data saved to Firestore successfully with document ID:", user.uid);
             
@@ -506,7 +500,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ User signed in successfully. UID:', user.uid);
             console.log('📧 Email:', user.email);
 
-            // Check Firestore for user's isAdmin status
             console.log('🔍 Checking Firestore for user document...');
             console.log('🔍 DB instance:', db);
             console.log('🔍 User UID:', user.uid);
@@ -518,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('🔍 Document snapshot:', userDoc);
             console.log('🔍 userDoc.exists (property):', userDoc.exists);
             
-            if (userDoc.exists) { // <-- This is the v8/compat syntax (correct)
+            if (userDoc.exists) { 
                 console.log('✅ User document found in Firestore');
                 const userData = userDoc.data();
                 console.log('📄 User data:', JSON.stringify(userData, null, 2));
@@ -529,33 +522,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('🛡️  isAdmin || false:', isAdmin);
                 console.log('🛡️  isAdmin === true:', isAdmin === true);
                 
-                // Update last login
                 console.log('⏰ Updating last login timestamp...');
                 await userDocRef.update({
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp() // v8/compat syntax (correct)
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 console.log('✅ Last login updated');
                 
-                // Redirect based on admin status
                 if (isAdmin === true) {
                     console.log('👑 ADMIN USER DETECTED!');
                     console.log('🚀 Redirecting to: ../admin/dashboard.html');
                     console.log('⚠️  About to redirect in 1 second...');
                     
-                    // Show alert and redirect after user clicks OK
                     setTimeout(() => {
                         alert('Welcome Admin! You will be redirected to the dashboard.');
                         console.log('🚀 EXECUTING REDIRECT NOW!');
                         window.location.href = '../admin/dashboard.html';
                     }, 500);
-                    return; // Stop execution after scheduling redirect
+                    return;
                 } else {
                     console.log('👤 Regular user detected');
                     console.log('✅ Closing modal and staying on page');
                     closeAuthModal();
                 }
             } else {
-                // User exists in Auth but not in Firestore
                 console.warn('⚠️  User not found in Firestore, creating profile...');
                 closeAuthModal();
             }
@@ -583,9 +572,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /**
-     * Handles Google Sign-In/Sign-Up using a pop-up window.
-     */
     async function handleGoogleSignIn() {
         clearFormErrors();
         try {
@@ -595,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const isNewUser = result.additionalUserInfo?.isNewUser || false;
             console.log("Google Sign-in successful:", user.displayName, user.email, "New user:", isNewUser);
 
-            // For new users or users without Firestore record, save to database
             const userDocRef = db.collection('Registered Accounts').doc(user.uid);
             const userDoc = await userDocRef.get();
             
@@ -607,10 +592,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     displayName: user.displayName || 'N/A',
                     firstName: user.displayName?.split(' ')[0] || 'N/A',
                     lastName: user.displayName?.split(' ').slice(1).join(' ') || 'N/A',
-                    affiliation: 'N/A', // Can be updated later in profile
+                    affiliation: 'N/A',
                     loginType: 'Google',
                     photoURL: user.photoURL || null,
-                    isAdmin: false, // Default to false, can be manually changed in Firestore
+                    isAdmin: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
                     submittedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -624,7 +609,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     showAlertModal("Welcome! Please complete your profile (Affiliation) to submit a project.");
                 }, 500);
             } else {
-                // Existing user, check admin status and update last login
                 const userData = userDoc.data();
                 console.log("✅ Existing Google user found in Firestore");
                 console.log("📄 User data:", JSON.stringify(userData, null, 2));
@@ -641,19 +625,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 console.log("✅ Last login updated");
                 
-                // Redirect based on admin status
                 if (isAdmin === true) {
                     console.log("👑 ADMIN USER DETECTED!");
                     console.log("🚀 Redirecting to: ../admin/dashboard.html");
                     console.log("⚠️  About to redirect in 1 second...");
                     
-                    // Show alert and redirect after user clicks OK
                     setTimeout(() => {
                         alert('Welcome Admin! You will be redirected to the dashboard.');
                         console.log('🚀 EXECUTING REDIRECT NOW!');
                         window.location.href = '../admin/dashboard.html';
                     }, 500);
-                    return; // Stop execution after scheduling redirect
+                    return;
                 } else {
                     console.log("👤 Regular user, closing modal...");
                     closeAuthModal();
@@ -667,7 +649,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- THIS IS THE CORRECT, SINGLE FUNCTION ---
     async function handleProfileUpdate(event) {
         event.preventDefault();
         clearFormErrors();
@@ -684,7 +665,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            // Update the profile in Firebase Auth
             await user.updateProfile({
                 displayName: newName
             });
@@ -692,12 +672,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Profile updated successfully.');
             closeProfileModal();
             
-            // IMPORTANT: Manually update the UI pill
-            // onAuthStateChanged won't re-fire, so we call updateUI again
             updateUI(auth.currentUser); 
 
-            // Use the existing alert modal for success
-            // --- MODIFIED ---
             showAlertModal('Your profile has been updated.', 'Profile Updated');
             
         } catch (error) {
@@ -705,14 +681,12 @@ document.addEventListener('DOMContentLoaded', function() {
             displayFormError(profileForm, error.message);
         }
     }
-    // --- END ---
 
     async function handleSignOut() {
         try {
             await auth.signOut();
             console.log('User signed out successfully.');
         } catch (error) {
-            // --- MODIFIED ---
             showAlertModal('Error signing out. Please try again.', 'Error');
             console.error('Sign Out Error:', error.code, error.message);
         }
@@ -788,10 +762,9 @@ document.addEventListener('DOMContentLoaded', function() {
             showActions = (project.userId === userIdentifier);
         }
 
-        // --- THIS IS THE MODIFIED LINE ---
         const imageUrl = (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0)
             ? project.imageUrls[0]
-            : 'Logo/No image.png'; // Use your new default image
+            : 'Logo/No image.png'; 
 
         const collegeText = (Array.isArray(project.college) ? project.college.join(', ') : project.college) || 'N/A';
 
@@ -863,13 +836,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // === THIS IS THE UPDATED BLOCK ===
         const filters = {
             search: searchInput ? searchInput.value.toLowerCase() : '',
-            industry: industryFilter?.querySelector('span:not(.visually-hidden)').textContent || 'All Industries',
+            industry: industryFilter?.querySelector('span:not(.visually-hidden)').textContent || 'All Startups', // <-- VALUE CHANGED
             college: collegeFilter?.querySelector('span:not(.visually-hidden)').textContent || 'All Colleges',
             trl: trlFilter?.querySelector('span:not(.visually-hidden)').textContent || 'All TRL Levels',
             type: typeFilter?.querySelector('span:not(.visually-hidden)').textContent || 'All Types'
         };
+        // === END OF UPDATED BLOCK ===
+        
         const sortByElement = sortFilter?.querySelector('span:not(.visually-hidden)');
         const sortBy = sortByElement ? sortByElement.textContent : 'Newest';
 
@@ -881,7 +857,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const collegeMatch = (filters.college === 'All Colleges') || (collegeText.includes(filters.college));
             
             const searchMatch = (project.title?.toLowerCase().includes(filters.search) || project.shortDescription?.toLowerCase().includes(filters.search));
-            const industryMatch = (filters.industry === 'All Industries') || (project.industry === filters.industry);
+            
+            // === THIS IS THE UPDATED BLOCK ===
+            const industryMatch = (filters.industry === 'All Startups') || (project.industry === filters.industry); // <-- VALUE CHANGED
+            // === END OF UPDATED BLOCK ===
+            
             const trlMatch = (filters.trl === 'All TRL Levels') || (project.trl && project.trl.startsWith(filters.trl.split(' ')[0]));
             const typeMatch = (filters.type === 'All Types') || (project.type === filters.type);
             

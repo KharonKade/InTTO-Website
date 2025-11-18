@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // --- 3. Initialize Page Functions ---
             createRandomCircles();
             initializeImageUploaders();
-            initializeCollegeDropdown(); // <-- NEW
+            initializeCollegeDropdown();
             initializeFormSubmit(loggedInUser);
             initializeCancelButton();
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 2. Update Header Function ---
     function updateHeader(user, loggedInUser) {
         const userDisplayPill = document.getElementById('user-display');
-        const signOutButton = document.getElementById('signout-btn');
+        const signOutButton = document.getElementById('signout-btn-main'); // <-- Corrected ID from submit-project.html
         if (userDisplayPill) {
             userDisplayPill.innerHTML = `
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -247,10 +247,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     id: Date.now(),
                     title: projectNameValue,
                     type: document.getElementById('project-type')?.value || 'N/A',
-                    industry: document.getElementById('industry')?.value || 'N/A',
+                    industry: document.getElementById('industry')?.value || 'N/A', // <-- Corrected
                     college: selectedColleges, // <-- SAVE AS ARRAY
-                    trl: document.getElementById('trl-level')?.value || 'TRL ?',
-                    shortDescription: document.getElementById('short-description')?.value || '',
+                    trl: document.getElementById('trl-level')?.value || 'TRL ?', // <-- Corrected
+                    sdg: document.getElementById('project-sdg')?.value || 'N/A', // <-- NEW
+                    shortDescription: document.getElementById('short-description')?.value || '', // <-- Corrected
                     detailedDescription: document.getElementById('detailed-description')?.value || '',
                     problemStatement: document.getElementById('problem-statement')?.value || '',
                     solution: document.getElementById('solution')?.value || '',

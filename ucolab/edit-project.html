@@ -46,13 +46,24 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="project-type">Project Type <span class="required">*</span></label>
-                        <input type="text" id="project-type" required>
+                        <input type="text" id="project-type" required placeholder="e.g., Startup, Research">
                     </div>
+                    
                     <div class="form-group">
                         <label for="industry">Industry <span class="required">*</span></label>
-                        <input type="text" id="industry" required>
+                        <select id="industry" required>
+                            <option value="" disabled selected>Select an industry...</option>
+                            <option value="Agritech">Agritech</option>
+                            <option value="Crimintech">Crimintech</option>
+                            <option value="Healthtech">Healthtech</option>
+                            <option value="Fintech">Fintech</option>
+                            <option value="Sustainability">Sustainability</option>
+                            <option value="Edutech">Edutech</option>
+                            <option value="Creative">Creative</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
-                </div>
+                    </div>
                 <div class="form-row">
                     
                     <div class="form-group">
@@ -99,14 +110,49 @@
 
                     <div class="form-group">
                         <label for="trl-level">TRL Level <span class="required">*</span></label>
-                        <input type="text" id="trl-level" required>
+                        <select id="trl-level" required>
+                            <option value="" disabled selected>Select a TRL...</option>
+                            <option value="TRL 1">TRL 1 - Basic Principles Observed</option>
+                            <option value="TRL 2">TRL 2 - Technology Concept Formulated</option>
+                            <option value="TRL 3">TRL 3 - Experimental Proof of Concept</option>
+                            <option value="TRL 4">TRL 4 - Lab-scale Validation</option>
+                            <option value="TRL 5">TRL 5 - Environment Validation</option>
+                            <option value="TRL 6">TRL 6 - Environment Demonstration</option>
+                            <option value="TRL 7">TRL 7 - System Prototype Demonstration</option>
+                            <option value="TRL 8">TRL 8 - System Complete and Qualified</option>
+                            <option value="TRL 9">TRL 9 - System Proven in Operation</option>
+                        </select>
                     </div>
+                    </div>
+                
+                <div class="form-group full-width">
+                    <label for="project-sdg">Primary Sustainable Development Goal (SDG)</label>
+                    <select id="project-sdg">
+                        <option value="N/A" selected>Select an SDG (Optional)...</option>
+                        <option value="SDG 1">SDG 1: No Poverty</option>
+                        <option value="SDG 2">SDG 2: Zero Hunger</option>
+                        <option value="SDG 3">SDG 3: Good Health and Well-being</option>
+                        <option value="SDG 4">SDG 4: Quality Education</option>
+                        <option value="SDG 5">SDG 5: Gender Equality</option>
+                        <option value="SDG 6">SDG 6: Clean Water and Sanitation</option>
+                        <option value="SDG 7">SDG 7: Affordable and Clean Energy</option>
+                        <option value="SDG 8">SDG 8: Decent Work and Economic Growth</option>
+                        <option value="SDG 9">SDG 9: Industry, Innovation and Infrastructure</option>
+                        <option value="SDG 10">SDG 10: Reduced Inequalities</option>
+                        <option value="SDG 11">SDG 11: Sustainable Cities and Communities</option>
+                        <option value="SDG 12">SDG 12: Responsible Consumption and Production</option>
+                        <option value="SDG 13">SDG 13: Climate Action</option>
+                        <option value="SDG 14">SDG 14: Life Below Water</option>
+                        <option value="SDG 15">SDG 15: Life on Land</option>
+                        <option value="SDG 16">SDG 16: Peace, Justice and Strong Institutions</option>
+                        <option value="SDG 17">SDG 17: Partnerships for the Goals</option>
+                    </select>
                 </div>
                 <div class="form-group full-width">
                     <label for="short-description">Short Description <span class="required">*</span></label>
-                    <input type="text" id="short-description" placeholder="Brief description for the project card" required>
+                    <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 1-2 lines)" required></textarea>
                 </div>
-            </div>
+                </div>
 
             <div class="form-section">
                 <h2>Project Details</h2>
