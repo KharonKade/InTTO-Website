@@ -311,6 +311,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const signupAffiliationInput = document.getElementById('signup-affiliation-input');
     const googleSigninBtn = document.getElementById('google-signin-btn');
     const googleSignupBtn = document.getElementById('google-signup-btn');
+    
+    // --- Forgot Password Modal Elements ---
+    const forgotPasswordModalOverlay = document.getElementById('forgot-password-modal-overlay');
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    const closeForgotPasswordModalBtn = document.getElementById('close-forgot-password-modal-btn');
+    const cancelForgotPasswordBtn = document.getElementById('cancel-forgot-password-btn');
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
+    const forgotPasswordEmailInput = document.getElementById('forgot-password-email-input');
 
     // --- 4. FIREBASE PROVIDER ---
     const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -333,29 +341,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
     }
 
-<<<<<<< Updated upstream
-    // --- Forgot Password Modal Functions ---
-    const forgotPasswordModalOverlay = document.getElementById('forgot-password-modal-overlay');
-    const forgotPasswordForm = document.getElementById('forgot-password-form');
-    const forgotPasswordEmailInput = document.getElementById('forgot-password-email-input');
-    const closeForgotPasswordModalBtn = document.getElementById('close-forgot-password-modal-btn');
-    const cancelForgotPasswordBtn = document.getElementById('cancel-forgot-password-btn');
-    const forgotPasswordLink = document.getElementById('forgot-password-link');
-
-    function openForgotPasswordModal() {
-        if (!forgotPasswordModalOverlay) return;
-        closeAuthModal(); // Close sign-in modal
-        forgotPasswordModalOverlay.classList.remove('modal-hidden');
-        clearFormErrors();
-    }
-
-    function closeForgotPasswordModal() {
-        if (forgotPasswordModalOverlay) forgotPasswordModalOverlay.classList.add('modal-hidden');
-    }
-
-    // --- MODIFIED FUNCTION ---
-=======
->>>>>>> Stashed changes
     function showAlertModal(message, title = 'Alert') {
         if (!alertModalOverlay || !alertModalMessage || !alertModalTitle) return;
         
@@ -381,6 +366,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function closeProfileModal() {
         if (profileModalOverlay) profileModalOverlay.classList.add('modal-hidden');
+    }
+    
+    // --- Forgot Password Modal Functions ---
+    function openForgotPasswordModal() {
+        if (authModalOverlay) authModalOverlay.classList.add('modal-hidden'); // Close sign-in modal
+        if (forgotPasswordModalOverlay) {
+            forgotPasswordModalOverlay.classList.remove('modal-hidden');
+            clearFormErrors(); // Clear errors on the main modal
+        }
+    }
+
+    function closeForgotPasswordModal() {
+        if (forgotPasswordModalOverlay) {
+            forgotPasswordModalOverlay.classList.add('modal-hidden');
+            clearFormErrors(); // Clear errors on the forgot password modal
+        }
     }
 
     function displayFormError(formElement, message) {
@@ -552,7 +553,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('❌ Sign In Error:', error.code, error.message);
             
-            // Display user-friendly error messages
             let errorMessage;
             if (error.code === 'auth/user-not-found') {
                 errorMessage = 'This account is not registered yet. Please register first before logging in.';
@@ -702,7 +702,6 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             console.log('🔄 Attempting to send password reset email to:', email);
             
-            // Configure action code settings
             const actionCodeSettings = {
                 url: window.location.origin + '/ucolab/index.html',
                 handleCodeInApp: false
@@ -711,16 +710,13 @@ document.addEventListener('DOMContentLoaded', function() {
             await auth.sendPasswordResetEmail(email, actionCodeSettings);
             console.log('✅ Password reset email sent successfully to:', email);
             
-            // Close the forgot password modal
             closeForgotPasswordModal();
             
-            // Show success message
             showAlertModal(
                 `A password reset link has been sent to ${email}. Please check your email inbox (and spam folder) and follow the instructions to reset your password.`,
                 'Reset Email Sent'
             );
             
-            // Clear the input
             if (forgotPasswordEmailInput) {
                 forgotPasswordEmailInput.value = '';
             }
