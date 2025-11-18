@@ -47,30 +47,32 @@
                     <div class="form-group">
                         <label for="project-type">Project Type <span class="required">*</span></label>
                         <select id="project-type" required>
-                            <option value="" disabled selected>Select a project type...</option>
+                            <option value="" disabled selected>Select a project type</option>
                             <option value="Startup">Startup</option>
                             <option value="Research">Research</option>
                             <option value="Capstone">Capstone</option>
                             <option value="Thesis">Thesis</option>
-                            <option value="Other">Other</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="industry">Industry <span class="required">*</span></label>
+                        <label for="industry">Startup Category <span class="required">*</span></label>
                         <select id="industry" required>
-                            <option value="" disabled selected>Select an industry...</option>
-                            <option value="Agritech">Agritech</option>
-                            <option value="Crimintech">Crimintech</option>
-                            <option value="Healthtech">Healthtech</option>
+                            <option value="" disabled selected>Select a Startup Category</option>
+                            <option value="AI and Data Science">AI and Data Science</option>
+                            <option value="SaaS and Enterprise Solutions">SaaS and Enterprise Solutions</option>
                             <option value="Fintech">Fintech</option>
-                            <option value="Sustainability">Sustainability</option>
-                            <option value="Edutech">Edutech</option>
-                            <option value="Creative">Creative</option>
-                            <option value="Other">Other</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Health">Health</option>
+                            <option value="Agriculture and Food">Agriculture and Food</option>
+                            <option value="Education Technologies">Education Technologies</option>
+                            <option value="Creative Industries">Creative Industries</option>
+                            <option value="Criminology, Forensics, and Public Safety">Criminology, Forensics, and Public Safety</option>
+                            <option value="Sustainability and Cleantech">Sustainability and Cleantech</option>
+                            <option value="Smart Cities and Mobility">Smart Cities and Mobility</option>
                         </select>
                     </div>
-                </div>
+                    </div>
                 <div class="form-row">
                     
                     <div class="form-group">
@@ -118,7 +120,7 @@
                     <div class="form-group">
                         <label for="trl-level">TRL Level <span class="required">*</span></label>
                         <select id="trl-level" required>
-                            <option value="" disabled selected>Select a TRL...</option>
+                            <option value="" disabled selected>Select a TRL</option>
                             <option value="TRL 1">TRL 1 - Basic Principles Observed</option>
                             <option value="TRL 2">TRL 2 - Technology Concept Formulated</option>
                             <option value="TRL 3">TRL 3 - Experimental Proof of Concept</option>
@@ -135,7 +137,7 @@
                 <div class="form-group full-width">
                     <label for="project-sdg">Primary Sustainable Development Goal (SDG)</label>
                     <select id="project-sdg">
-                        <option value="N/A" selected>Select an SDG (Optional)...</option>
+                        <option value="N/A" selected>Select an SDG</option>
                         <option value="SDG 1">SDG 1: No Poverty</option>
                         <option value="SDG 2">SDG 2: Zero Hunger</option>
                         <option value="SDG 3">SDG 3: Good Health and Well-being</option>
@@ -158,7 +160,7 @@
                 
                 <div class="form-group full-width">
                     <label for="short-description">Short Description <span class="required">*</span></label>
-                    <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 1-2 lines)" required maxlength="100"></textarea>
+                    <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 100 Characters)" required maxlength="100"></textarea>
                     <div class="char-counter" id="short-desc-counter">0 / 100</div>
                 </div>
                 </div>
@@ -274,7 +276,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-section">
                 <h2>Project Information</h2>
                 <div class="form-row">
