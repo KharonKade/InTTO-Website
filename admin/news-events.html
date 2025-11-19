@@ -6,9 +6,11 @@
     <title>News & Events - UC InTTO Admin</title>
     <link rel="stylesheet" href="css/dashboard-style.css">
     <link rel="stylesheet" href="css/news-events-style.css">
+    <link rel="stylesheet" href="../ucolab/css/submit-project.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -33,7 +35,7 @@
 
     <main class="main-content">
         <header class="main-header">
-            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            <a href="/ucolab/index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
         </header>
 
         <section class="page-content">
@@ -73,89 +75,143 @@
     </main>
     
     <div id="news-event-modal-overlay" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content wide-modal">
             <div class="modal-header">
                 <h2 id="news-event-modal-title">Add News/Event</h2>
                 <button class="close-modal-btn" id="close-news-event-modal-btn">&times;</button>
             </div>
-            <p id="news-event-modal-subtitle">Create a new news article or event</p>
             
-            <form id="news-event-form" class="news-event-form">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="news-event-title">Title *</label>
-                        <input type="text" id="news-event-title" name="title" placeholder="Enter title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="news-event-type">Type *</label>
-                        <select id="news-event-type" name="type" required>
-                            <option value="news">News</option>
-                            <option value="event">Event</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="news-event-status">Status *</label>
-                        <select id="news-event-status" name="status" required>
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="news-event-date">Date *</label>
-                        <input type="date" id="news-event-date" name="date" required>
-                    </div>
+            <form id="news-event-form" class="submit-form">
+                
+                <div class="form-section">
+                    <h2>Basic Information</h2>
                     <div class="form-group full-width">
-                        <label for="news-event-tags">Tags (comma-separated)</label>
-                        <input type="text" id="news-event-tags" name="tags" placeholder="Innovation Week, Event, Workshop">
+                        <label for="news-event-title">Title <span class="required">*</span></label>
+                        <input type="text" id="news-event-title" name="title" placeholder="Enter headline" required>
                     </div>
                     
-                    <!-- UPDATED SDG Multi-Select for Admin Modal -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="news-event-type">Type <span class="required">*</span></label>
+                            <select id="news-event-type" name="type" required>
+                                <option value="news">News</option>
+                                <option value="event">Event</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="news-event-status">Status <span class="required">*</span></label>
+                            <select id="news-event-status" name="status" required>
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="news-event-date">Date <span class="required">*</span></label>
+                            <input type="date" id="news-event-date" name="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Cover & Gallery Images</h2>
+                    <p class="image-note">Upload up to 5 images. The first image will be the cover.</p>
+                    <div class="image-upload-grid">
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Preview 1" class="image-preview" id="image-preview-1">
+                            <label for="image-upload-1" class="upload-label">
+                                <i class="fa-solid fa-image"></i>
+                                <div>Slot 1 (Cover)</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" data-index="0">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-2" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Preview 2" class="image-preview" id="image-preview-2">
+                            <label for="image-upload-2" class="upload-label">
+                                <i class="fa-solid fa-image"></i><div>Slot 2</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" data-index="1">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-3" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Preview 3" class="image-preview" id="image-preview-3">
+                            <label for="image-upload-3" class="upload-label">
+                                <i class="fa-solid fa-image"></i><div>Slot 3</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" data-index="2">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-4" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Preview 4" class="image-preview" id="image-preview-4">
+                            <label for="image-upload-4" class="upload-label">
+                                <i class="fa-solid fa-image"></i><div>Slot 4</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" data-index="3">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-5" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Preview 5" class="image-preview" id="image-preview-5">
+                            <label for="image-upload-5" class="upload-label">
+                                <i class="fa-solid fa-image"></i><div>Slot 5</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" data-index="4">×</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Content Details</h2>
                     <div class="form-group full-width">
-                        <label for="sdg-dropdown-btn">Sustainable Development Goals (SDG)</label>
+                        <label for="news-event-content">Description / Content <span class="required">*</span></label>
+                        <textarea id="news-event-content" name="content" rows="6" placeholder="Enter full article or event details..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="news-event-tags">Tags (comma-separated)</label>
+                        <input type="text" id="news-event-tags" name="tags" placeholder="Innovation, Workshop, Funding">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Sustainable Development Goals (SDG)</label>
                         <div class="multi-select-dropdown" id="sdg-multi-select">
                             <div class="dropdown-button" id="sdg-dropdown-btn" tabindex="0">
-                                <span class="dropdown-button-text">Select SDGs (Multiple allowed)...</span>
+                                <span class="dropdown-button-text">Select SDGs...</span>
                                 <div class="selected-pills" id="sdg-selected-pills"></div>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="checkbox-list" id="sdg-checkbox-list">
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg1" name="sdg-option" value="SDG 1"><label for="sdg1">SDG 1: No Poverty</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg2" name="sdg-option" value="SDG 2"><label for="sdg2">SDG 2: Zero Hunger</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg3" name="sdg-option" value="SDG 3"><label for="sdg3">SDG 3: Good Health and Well-being</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg4" name="sdg-option" value="SDG 4"><label for="sdg4">SDG 4: Quality Education</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg5" name="sdg-option" value="SDG 5"><label for="sdg5">SDG 5: Gender Equality</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg6" name="sdg-option" value="SDG 6"><label for="sdg6">SDG 6: Clean Water and Sanitation</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg7" name="sdg-option" value="SDG 7"><label for="sdg7">SDG 7: Affordable and Clean Energy</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg8" name="sdg-option" value="SDG 8"><label for="sdg8">SDG 8: Decent Work and Economic Growth</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg9" name="sdg-option" value="SDG 9"><label for="sdg9">SDG 9: Industry, Innovation and Infrastructure</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg10" name="sdg-option" value="SDG 10"><label for="sdg10">SDG 10: Reduced Inequalities</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg11" name="sdg-option" value="SDG 11"><label for="sdg11">SDG 11: Sustainable Cities and Communities</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg12" name="sdg-option" value="SDG 12"><label for="sdg12">SDG 12: Responsible Consumption and Production</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg13" name="sdg-option" value="SDG 13"><label for="sdg13">SDG 13: Climate Action</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg14" name="sdg-option" value="SDG 14"><label for="sdg14">SDG 14: Life Below Water</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg15" name="sdg-option" value="SDG 15"><label for="sdg15">SDG 15: Life on Land</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg16" name="sdg-option" value="SDG 16"><label for="sdg16">SDG 16: Peace, Justice and Strong Institutions</label></div>
-                                <div class="checkbox-list-item"><input type="checkbox" id="sdg17" name="sdg-option" value="SDG 17"><label for="sdg17">SDG 17: Partnerships for the Goals</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg1" value="1"><label for="sdg1">SDG 1: No Poverty</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg2" value="2"><label for="sdg2">SDG 2: Zero Hunger</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg3" value="3"><label for="sdg3">SDG 3: Good Health</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg4" value="4"><label for="sdg4">SDG 4: Quality Education</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg5" value="5"><label for="sdg5">SDG 5: Gender Equality</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg6" value="6"><label for="sdg6">SDG 6: Clean Water</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg7" value="7"><label for="sdg7">SDG 7: Clean Energy</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg8" value="8"><label for="sdg8">SDG 8: Decent Work</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg9" value="9"><label for="sdg9">SDG 9: Industry & Innovation</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg10" value="10"><label for="sdg10">SDG 10: Reduced Inequalities</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg11" value="11"><label for="sdg11">SDG 11: Sustainable Cities</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg12" value="12"><label for="sdg12">SDG 12: Responsible Consumption</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg13" value="13"><label for="sdg13">SDG 13: Climate Action</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg14" value="14"><label for="sdg14">SDG 14: Life Below Water</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg15" value="15"><label for="sdg15">SDG 15: Life on Land</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg16" value="16"><label for="sdg16">SDG 16: Peace & Justice</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg17" value="17"><label for="sdg17">SDG 17: Partnerships</label></div>
                             </div>
                         </div>
-                        <!-- Validation input hidden -->
-                        <input type="text" id="sdg-validation" style="display: none; height: 0; padding: 0; border: none;">
-                    </div>
-
-                    <div class="form-group full-width">
-                        <label for="news-event-content">Content *</label>
-                        <textarea id="news-event-content" name="content" placeholder="Enter full description or announcement details" required></textarea>
                     </div>
                 </div>
 
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" id="cancel-news-event-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="submit-news-event-btn">Create</button>
+                    <button type="submit" class="btn btn-primary" id="submit-news-event-btn">Save Item</button>
                 </div>
             </form>
         </div>
     </div>
     
+    <script src="../ucolab/js/cloudinary.js"></script>
     <script src="js/news-events.js"></script>
 </body>
 </html>

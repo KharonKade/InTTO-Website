@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage News & Event - UC InTTO</title>
+    <link rel="stylesheet" href="css/dashboard-style.css">
+    <link rel="stylesheet" href="../ucolab/css/style.css">
+    <link rel="stylesheet" href="../ucolab/css/submit-project.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CRITICAL FIX: Override dashboard flex layout */
+        body { 
+            display: block !important; 
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styling */
+        .admin-form-header {
+            background: #1a5d3d;
+            padding: 15px 5%; /* Match standard padding */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-title {
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-link {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        .close-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* Form Positioning */
+        .submit-project-main {
+            margin-top: 40px;
+            margin-bottom: 60px;
+            max-width: 800px; /* Consistent width */
+        }
+    </style>
+</head>
+<body class="submit-page-body">
+
+    <div class="admin-form-header">
+        <div class="header-title">
+            <span>UC InTTO Admin Panel</span>
+        </div>
+        <a href="#" onclick="window.close()" class="close-link">Cancel & Close</a>
+    </div>
+
+    <main class="submit-project-main">
+        <h1 id="page-title">Add News or Event</h1>
+        <p class="page-subtitle">Manage content for the public portal</p>
+
+        <form class="submit-form" id="news-form">
+            
+            <div class="form-section">
+                <h2>Basic Information</h2>
+                <div class="form-group full-width">
+                    <label for="news-title">Title <span class="required">*</span></label>
+                    <input type="text" id="news-title" required placeholder="Enter headline">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="news-type">Type <span class="required">*</span></label>
+                        <select id="news-type" required>
+                            <option value="news">News</option>
+                            <option value="event">Event</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="news-status">Status <span class="required">*</span></label>
+                        <select id="news-status" required>
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="news-date">Date <span class="required">*</span></label>
+                        <input type="date" id="news-date" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Images</h2>
+                <p class="image-note">Upload up to 5 images. The first image will be the cover.</p>
+                <div class="image-upload-grid">
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/*">
+                        <img src="" class="image-preview" id="image-preview-1">
+                        <label for="image-upload-1" class="upload-label">Slot 1</label>
+                        <button type="button" class="remove-image-btn" data-index="0">×</button>
+                    </div>
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-2" class="hidden-file-input" accept="image/*">
+                        <img src="" class="image-preview" id="image-preview-2">
+                        <label for="image-upload-2" class="upload-label">Slot 2</label>
+                        <button type="button" class="remove-image-btn" data-index="1">×</button>
+                    </div>
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-3" class="hidden-file-input" accept="image/*">
+                        <img src="" class="image-preview" id="image-preview-3">
+                        <label for="image-upload-3" class="upload-label">Slot 3</label>
+                        <button type="button" class="remove-image-btn" data-index="2">×</button>
+                    </div>
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-4" class="hidden-file-input" accept="image/*">
+                        <img src="" class="image-preview" id="image-preview-4">
+                        <label for="image-upload-4" class="upload-label">Slot 4</label>
+                        <button type="button" class="remove-image-btn" data-index="3">×</button>
+                    </div>
+                    <div class="image-upload-slot">
+                        <input type="file" id="image-upload-5" class="hidden-file-input" accept="image/*">
+                        <img src="" class="image-preview" id="image-preview-5">
+                        <label for="image-upload-5" class="upload-label">Slot 5</label>
+                        <button type="button" class="remove-image-btn" data-index="4">×</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Content Details</h2>
+                <div class="form-group full-width">
+                    <label for="news-content">Content <span class="required">*</span></label>
+                    <textarea id="news-content" rows="8" required placeholder="Enter full details..."></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="news-tags">Tags (comma separated)</label>
+                    <input type="text" id="news-tags" placeholder="Innovation, Tech, Workshop">
+                </div>
+                
+                <div class="form-group full-width">
+                    <label>Sustainable Development Goals (SDG)</label>
+                    <div class="multi-select-dropdown" id="sdg-multi-select">
+                        <div class="dropdown-button" id="sdg-dropdown-btn">
+                            <span class="dropdown-button-text">Select SDGs...</span>
+                            <span style="font-size: 12px;">▼</span> 
+                        </div>
+                        <div class="checkbox-list" id="sdg-checkbox-list">
+                            <div class="checkbox-list-item"><input type="checkbox" value="1"> SDG 1: No Poverty</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="2"> SDG 2: Zero Hunger</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="3"> SDG 3: Good Health</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="4"> SDG 4: Quality Education</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="5"> SDG 5: Gender Equality</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="6"> SDG 6: Clean Water</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="7"> SDG 7: Clean Energy</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="8"> SDG 8: Decent Work</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="9"> SDG 9: Industry & Innovation</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="10"> SDG 10: Reduced Inequalities</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="11"> SDG 11: Sustainable Cities</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="12"> SDG 12: Responsible Consumption</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="13"> SDG 13: Climate Action</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="14"> SDG 14: Life Below Water</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="15"> SDG 15: Life on Land</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="16"> SDG 16: Peace & Justice</div>
+                            <div class="checkbox-list-item"><input type="checkbox" value="17"> SDG 17: Partnerships</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="window.close()">Cancel</button>
+                <button type="submit" class="btn-submit">Save News/Event</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="../ucolab/js/cloudinary.js"></script>
+    
+    <script>
+        // Inline script for form logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const STORAGE_KEY = 'ucInttoNewsEventsData';
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('id');
+            
+            let uploadedImageUrls = ["", "", "", "", ""];
+
+            // --- Load Data if Editing ---
+            if (editId) {
+                document.getElementById('page-title').textContent = "Edit News/Event";
+                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                const item = data.find(d => String(d.id) === String(editId));
+                
+                if (item) {
+                    document.getElementById('news-title').value = item.title;
+                    document.getElementById('news-type').value = item.type;
+                    document.getElementById('news-status').value = item.status;
+                    document.getElementById('news-date').value = item.date;
+                    document.getElementById('news-content').value = item.content;
+                    document.getElementById('news-tags').value = (item.tags || []).join(', ');
+                    
+                    // Images
+                    uploadedImageUrls = item.images || ["", "", "", "", ""];
+                    uploadedImageUrls.forEach((url, i) => {
+                        if(url) {
+                            const preview = document.getElementById(`image-preview-${i+1}`);
+                            preview.src = url;
+                            preview.classList.add('visible');
+                            preview.style.opacity = 1;
+                            document.querySelector(`.remove-image-btn[data-index="${i}"]`).style.display = 'block';
+                        }
+                    });
+                    
+                    // SDGs
+                    (item.sdgs || []).forEach(sdg => {
+                        const cb = document.querySelector(`#sdg-checkbox-list input[value="${sdg}"]`);
+                        if(cb) cb.checked = true;
+                    });
+                    updateDropdownText(); // Update text after checking
+                }
+            }
+
+            // --- Image Logic ---
+             const inputs = document.querySelectorAll('.hidden-file-input');
+             inputs.forEach(input => {
+                 input.addEventListener('change', function() {
+                     const file = this.files[0];
+                     if(file) {
+                         const reader = new FileReader();
+                         // Determine index from ID (image-upload-1 -> index 0)
+                         const idx = parseInt(this.id.split('-')[2]) - 1;
+                         reader.onload = (e) => {
+                             const preview = document.getElementById(`image-preview-${idx+1}`);
+                             preview.src = e.target.result;
+                             preview.classList.add('visible');
+                             preview.style.opacity = 1;
+                             document.querySelector(`.remove-image-btn[data-index="${idx}"]`).style.display = 'block';
+                             uploadedImageUrls[idx] = e.target.result; // Saving base64 for simplicity
+                         };
+                         reader.readAsDataURL(file);
+                     }
+                 });
+             });
+             
+             // Remove Image Logic
+             document.querySelectorAll('.remove-image-btn').forEach(btn => {
+                 btn.addEventListener('click', function() {
+                     const idx = this.getAttribute('data-index');
+                     uploadedImageUrls[idx] = "";
+                     const preview = document.getElementById(`image-preview-${parseInt(idx)+1}`);
+                     preview.src = "";
+                     preview.classList.remove('visible');
+                     preview.style.opacity = 0;
+                     this.style.display = 'none';
+                     // Clear input
+                     document.getElementById(`image-upload-${parseInt(idx)+1}`).value = "";
+                 });
+             });
+
+            // --- SDG Dropdown Toggle ---
+            const btn = document.getElementById('sdg-dropdown-btn');
+            const list = document.getElementById('sdg-checkbox-list');
+            
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                list.style.display = list.style.display === 'none' ? 'block' : 'none';
+                btn.classList.toggle('open');
+            });
+            
+            document.addEventListener('click', (e) => {
+                if(!btn.contains(e.target) && !list.contains(e.target)) {
+                    list.style.display = 'none';
+                }
+            });
+            
+            // Helper to update dropdown text
+            function updateDropdownText() {
+                const checked = document.querySelectorAll('#sdg-checkbox-list input:checked');
+                const textSpan = btn.querySelector('.dropdown-button-text');
+                if (checked.length > 0) {
+                    textSpan.textContent = `${checked.length} SDG(s) selected`;
+                    textSpan.style.color = '#333';
+                } else {
+                    textSpan.textContent = "Select SDGs...";
+                    textSpan.style.color = '#aaa';
+                }
+            }
+            
+            list.querySelectorAll('input').forEach(input => {
+                input.addEventListener('change', updateDropdownText);
+            });
+
+            // --- Submit ---
+            document.getElementById('news-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
+                const finalImages = uploadedImageUrls.filter(u => u && u !== "");
+
+                const newItem = {
+                    id: editId ? parseInt(editId) : Date.now(),
+                    title: document.getElementById('news-title').value,
+                    type: document.getElementById('news-type').value,
+                    status: document.getElementById('news-status').value,
+                    date: document.getElementById('news-date').value,
+                    content: document.getElementById('news-content').value,
+                    tags: document.getElementById('news-tags').value.split(',').map(t => t.trim()).filter(t => t),
+                    sdgs: sdgs,
+                    images: finalImages
+                };
+
+                if (editId) {
+                    const idx = data.findIndex(d => String(d.id) === String(editId));
+                    if(idx !== -1) data[idx] = newItem;
+                } else {
+                    data.push(newItem);
+                }
+
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                alert('Saved successfully!');
+                
+                // Try to refresh opener
+                if(window.opener) {
+                    window.opener.focus();
+                    window.opener.location.reload();
+                }
+                window.close();
+            });
+        });
+    </script>
+</body>
+</html>

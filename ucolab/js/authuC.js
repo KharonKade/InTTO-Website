@@ -3,7 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
-// Initialize Firebase (replace with your config)
+// Initialize Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",  
     authDomain: "uc-intto.firebaseapp.com",
@@ -19,115 +19,199 @@ const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
 console.log("🔥 Firebase initialized successfully in authuC.js");
-console.log("Firebase app name:", app.name);
-console.log("Firebase project:", firebaseConfig.projectId);
+
+// --- 1. INJECT CUSTOM POPUP (MATCHING YOUR IMAGE) ---
+const adminModalHTML = `
+<div id="admin-redirect-modal" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(245, 245, 245, 0.8); /* Light background like the image context */
+    backdrop-filter: blur(2px);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+">
+    <div class="admin-modal-card">
+        <div class="success-icon-floating">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+
+        <h2 class="modal-title">Login Success!</h2>
+        <p class="modal-subtitle">
+            Successfully logged in as Admin.<br>
+            Redirecting to dashboard...
+        </p>
+        
+        <div class="spinner-border"></div>
+    </div>
+
+    <style>
+        .admin-modal-card {
+            background: white;
+            padding: 60px 40px 40px; /* Top padding makes room for the icon */
+            border-radius: 6px; /* Slight radius like the image */
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            overflow: visible; /* CRITICAL: Allows icon to stick out */
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* The Green Circle Icon */
+        .success-icon-floating {
+            width: 80px;
+            height: 80px;
+            background-color: #4CAF50; /* The specific green from your image */
+            border-radius: 50%;
+            position: absolute;
+            top: -40px; /* Pulls it up half its height */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .success-icon-floating svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Typography matching the image */
+        .modal-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 400; /* Lighter weight like the image */
+            margin: 10px 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .modal-subtitle {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+        }
+
+        /* Simple Spinner */
+        .spinner-border {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: #4CAF50;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Active State */
+        #admin-redirect-modal.visible { opacity: 1; }
+        #admin-redirect-modal.visible .admin-modal-card { transform: scale(1); }
+    </style>
+</div>
+`;
+
+// Inject popup into body
+document.body.insertAdjacentHTML('beforeend', adminModalHTML);
 
 /**
  * Redirects user based on admin status
- * @param {boolean} isAdmin - Whether user is admin
  */
 function redirectUser(isAdmin) {
     console.log('🔀 redirectUser() called with isAdmin:', isAdmin);
-    console.log('🔀 isAdmin === true:', isAdmin === true);
-    console.log('🔀 typeof isAdmin:', typeof isAdmin);
     
     if (isAdmin === true) {
-        console.log('👑 ADMIN DETECTED - Redirecting to: ../admin/dashboard.html');
-        alert('Welcome Admin! Redirecting to dashboard...');
-        window.location.href = '../admin/dashboard.html';
+        console.log('👑 ADMIN DETECTED');
+        
+        // 1. Hide the login form
+        const authModal = document.getElementById('auth-modal-overlay');
+        if (authModal) authModal.classList.add('modal-hidden');
+
+        // 2. Show the Custom "Login Success" Popup
+        const adminModal = document.getElementById('admin-redirect-modal');
+        if (adminModal) {
+            adminModal.style.display = 'flex';
+            setTimeout(() => {
+                adminModal.classList.add('visible');
+            }, 10);
+        }
+
+        // 3. Redirect after delay
+        setTimeout(() => {
+            console.log('🚀 Redirecting to dashboard...');
+            window.location.href = '../admin/dashboard.html';
+        }, 2500);
+
     } else {
         console.log('👤 Regular user - Redirecting to: index.html');
         window.location.href = 'index.html';
     }
 }
 
-/**
- * Collects form data from the signup form, excluding password
- * @param {HTMLFormElement} form - The signup form element
- * @returns {Object} Form data without password
- */
+// --- FORM DATA HELPER ---
 function collectFormData(form) {
     const formData = new FormData(form);
     const data = {};
-    
     for (let [key, value] of formData.entries()) {
-        // CRITICAL: Never store passwords in Firestore
         if (key !== 'password' && key !== 'password2' && key !== 'confirmPassword') {
             data[key] = value;
         }
     }
-    
     return data;
 }
 
-// Sign In Form Handler
+// --- Sign In Form Handler ---
 const signInForm = document.getElementById('signin-form');
 const googleSignInBtn = document.getElementById('google-signin-btn');
 
 if (signInForm) {
     signInForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const email = document.getElementById('signin-email-input')?.value || document.getElementById('email')?.value;
+        const password = document.getElementById('signin-password-input')?.value || document.getElementById('password')?.value;
 
         try {
-            console.log('🔵 [authuC.js] Starting email/password sign in...');
+            console.log('🔵 Starting sign in...');
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log('✅ [authuC.js] User signed in. UID:', user.uid);
-            console.log('📧 [authuC.js] Email:', user.email);
             
-            // Update last login time in Registered Accounts collection
             const userDocRef = doc(db, 'Registered Accounts', user.uid);
-            console.log('🔍 [authuC.js] Fetching user document from Firestore...');
             const userDoc = await getDoc(userDocRef);
             
             if (!userDoc.exists()) {
-                console.error('❌ [authuC.js] User document not found in Firestore!');
                 alert('User profile not found. Please complete registration.');
                 window.location.href = 'signupform.html';
             } else {
-                console.log('✅ [authuC.js] User document found');
-                
-                // Update last login
-                await setDoc(userDocRef, {
-                    lastLogin: serverTimestamp()
-                }, { merge: true });
-                console.log('✅ [authuC.js] Last login updated');
-                
-                // Check if user is admin and redirect accordingly
+                await setDoc(userDocRef, { lastLogin: serverTimestamp() }, { merge: true });
                 const userData = userDoc.data();
-                console.log('📄 [authuC.js] User data:', JSON.stringify(userData, null, 2));
-                
                 const isAdmin = userData.isAdmin || false;
-                console.log('🛡️  [authuC.js] isAdmin (raw):', userData.isAdmin);
-                console.log('🛡️  [authuC.js] isAdmin (type):', typeof userData.isAdmin);
-                console.log('🛡️  [authuC.js] isAdmin || false:', isAdmin);
-                console.log('🛡️  [authuC.js] isAdmin === true:', isAdmin === true);
-                console.log('🔀 [authuC.js] Calling redirectUser()...');
-                
                 redirectUser(isAdmin);
             }
         } catch (error) {
             console.error('Sign in error:', error);
-            if (error.code === 'auth/user-not-found') {
-                alert('This account is not registered yet. Please register first before logging in.');
-            } else if (error.code === 'auth/wrong-password') {
-                alert("The password you've entered is incorrect.");
-            } else if (error.code === 'auth/invalid-login-credentials') {
-                alert("This account is not registered yet or the password is incorrect. Please register first if you don't have an account.");
-            } else if (error.code === 'auth/invalid-email') {
-                alert('Please enter a valid email address.');
-            } else if (error.code === 'auth/too-many-requests') {
-                alert('Too many failed attempts. Please try again later.');
-            } else {
-                alert('Sign in failed. Please check your credentials and try again.');
-            }
+            let msg = 'Sign in failed.';
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-login-credentials') msg = 'Incorrect email or password.';
+            else if (error.code === 'auth/wrong-password') msg = 'Incorrect password.';
+            alert(msg);
         }
     });
 }
 
-// Google Sign In Handler
+// --- Google Sign In Handler ---
 if (googleSignInBtn) {
     googleSignInBtn.addEventListener('click', async () => {
         try {
@@ -135,117 +219,59 @@ if (googleSignInBtn) {
             const user = result.user;
             const isNewUser = result._tokenResponse?.isNewUser || false;
             
-            // Check if user exists in our Registered Accounts collection
             const userDocRef = doc(db, 'Registered Accounts', user.uid);
             const userDoc = await getDoc(userDocRef);
             
             if (!userDoc.exists() || isNewUser) {
-                // New user - save to Registered Accounts
                 const userData = {
                     uid: user.uid,
                     email: user.email,
                     displayName: user.displayName || 'N/A',
                     firstName: user.displayName?.split(' ')[0] || 'N/A',
                     lastName: user.displayName?.split(' ').slice(1).join(' ') || 'N/A',
-                    affiliation: 'N/A', // Can be updated later in profile
+                    affiliation: 'N/A',
                     loginType: 'Google',
                     createdAt: serverTimestamp(),
                     lastLogin: serverTimestamp(),
                     photoURL: user.photoURL || null,
-                    isAdmin: false // New users are not admins by default
+                    isAdmin: false
                 };
-                
-                console.log("📝 Saving new Google user to Firestore:", userData);
                 await saveApplication(userData);
-                console.log("✅ Google user data saved successfully");
                 alert('Welcome! Please complete your profile.');
                 window.location.href = 'index.html';
             } else {
-                console.log('✅ [authuC.js] Existing Google user found');
-                // Existing user - just sign in and update last login
-                await setDoc(userDocRef, {
-                    lastLogin: serverTimestamp()
-                }, { merge: true });
-                console.log('✅ [authuC.js] Last login updated');
-                
-                // Check if user is admin and redirect accordingly
+                await setDoc(userDocRef, { lastLogin: serverTimestamp() }, { merge: true });
                 const userData = userDoc.data();
-                console.log('📄 [authuC.js] User data:', JSON.stringify(userData, null, 2));
-                
                 const isAdmin = userData.isAdmin || false;
-                console.log('🛡️  [authuC.js] isAdmin (raw):', userData.isAdmin);
-                console.log('🛡️  [authuC.js] isAdmin (type):', typeof userData.isAdmin);
-                console.log('🛡️  [authuC.js] isAdmin || false:', isAdmin);
-                console.log('🛡️  [authuC.js] isAdmin === true:', isAdmin === true);
-                console.log('🔀 [authuC.js] Calling redirectUser()...');
-                
                 redirectUser(isAdmin);
             }
         } catch (error) {
             console.error('Google sign in error:', error);
-            if (error.code === 'auth/popup-closed-by-user') {
-                console.log('Sign-in popup was closed.');
-            } else {
-                alert('Google sign in failed: ' + error.message);
-            }
+            alert('Google sign in failed: ' + error.message);
         }
     });
 }
 
-// Sign Up Form Handler
+// --- Sign Up Form Handler ---
 const signUpForm = document.getElementById('signup-form');
 if (signUpForm) {
     signUpForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Get form values from the actual input IDs
-        const email = document.getElementById('signup-email-input')?.value || 
-                     document.getElementById('email')?.value;
-        const password = document.getElementById('signup-password-input')?.value || 
-                        document.getElementById('password')?.value;
-        const password2 = document.getElementById('signup-password2-input')?.value;
-        const firstName = document.getElementById('signup-first-name-input')?.value || 
-                         document.getElementById('firstName')?.value || 
-                         document.getElementById('first-name')?.value || '';
-        const lastName = document.getElementById('signup-last-name-input')?.value || 
-                        document.getElementById('lastName')?.value || 
-                        document.getElementById('last-name')?.value || '';
-        const affiliation = document.getElementById('signup-affiliation-input')?.value || 
-                           document.getElementById('affiliation')?.value || '';
-        
-        // Validation
-        if (!email || !password) {
-            alert('Please provide both email and password.');
-            return;
-        }
-        
-        if (password2 && password !== password2) {
-            alert('Passwords do not match. Please try again.');
-            return;
-        }
-        
-        if (password.length < 6) {
-            alert('Password must be at least 6 characters long.');
-            return;
-        }
+        const email = document.getElementById('signup-email-input')?.value;
+        const password = document.getElementById('signup-password-input')?.value;
+        const firstName = document.getElementById('signup-first-name-input')?.value || '';
+        const lastName = document.getElementById('signup-last-name-input')?.value || '';
+        const affiliation = document.getElementById('signup-affiliation-input')?.value || '';
         
         try {
-            // Create user account with Firebase Auth (password handled securely by Firebase)
-            console.log("📝 Creating user account for:", email);
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log("✅ User account created successfully. UID:", user.uid);
             
-            // Update user profile with display name
             if (firstName && lastName) {
-                console.log("Updating user profile with display name...");
-                await updateProfile(user, {
-                    displayName: `${firstName} ${lastName}`
-                });
-                console.log("✅ User profile updated");
+                await updateProfile(user, { displayName: `${firstName} ${lastName}` });
             }
             
-            // Prepare user data for Firestore (NO PASSWORD)
             const userData = {
                 uid: user.uid,
                 email: user.email,
@@ -256,27 +282,15 @@ if (signUpForm) {
                 loginType: 'Email/Password',
                 createdAt: serverTimestamp(),
                 lastLogin: serverTimestamp(),
-                isAdmin: false // New users are not admins by default
+                isAdmin: false
             };
             
-            console.log("💾 Saving user data to Firestore:", userData);
-            // Save to Firestore "Registered Accounts" collection
-            const docId = await saveApplication(userData);
-            
-            console.log('🎉 User registered successfully. Document ID:', docId);
+            await saveApplication(userData);
             alert('Registration successful! Welcome to UCoLab.');
-            window.location.href = 'index.html'; // Redirect to main page
+            window.location.href = 'index.html';
         } catch (error) {
             console.error('Sign up error:', error);
-            if (error.code === 'auth/email-already-in-use') {
-                alert('This email is already registered. Please sign in instead.');
-            } else if (error.code === 'auth/weak-password') {
-                alert('Password should be at least 6 characters.');
-            } else if (error.code === 'auth/invalid-email') {
-                alert('Please enter a valid email address.');
-            } else {
-                alert('Registration failed: ' + error.message);
-            }
+            alert('Registration failed: ' + error.message);
         }
     });
 }
