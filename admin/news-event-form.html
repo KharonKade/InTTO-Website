@@ -10,7 +10,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CRITICAL FIX: Override dashboard flex layout */
+        /* CRITICAL LAYOUT FIXES */
         body { 
             display: block !important; 
             background-color: #f8f9fa;
@@ -21,7 +21,7 @@
         /* Header Styling */
         .admin-form-header {
             background: #1a5d3d;
-            padding: 15px 5%; /* Match standard padding */
+            padding: 15px 5%;
             color: white;
             display: flex;
             justify-content: space-between;
@@ -29,15 +29,12 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
         
         .header-title {
             font-weight: 600;
             font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .close-link {
@@ -48,17 +45,39 @@
             padding: 8px 16px;
             border-radius: 20px;
             transition: all 0.2s;
+            cursor: pointer;
+            border: none;
         }
         .close-link:hover {
             background: rgba(255,255,255,0.2);
             color: white;
         }
 
-        /* Form Positioning */
+        /* Center the form */
         .submit-project-main {
-            margin-top: 40px;
-            margin-bottom: 60px;
-            max-width: 800px; /* Consistent width */
+            margin: 40px auto 60px;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        /* Checkbox List Styling Fix for Admin */
+        .checkbox-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 0 0 8px 8px;
+            display: none;
+            position: absolute;
+            width: 100%;
+            z-index: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .checkbox-list.visible {
+            display: block;
+        }
+        .multi-select-dropdown {
+            position: relative;
         }
     </style>
 </head>
@@ -68,7 +87,7 @@
         <div class="header-title">
             <span>UC InTTO Admin Panel</span>
         </div>
-        <a href="#" onclick="window.close()" class="close-link">Cancel & Close</a>
+        <button type="button" onclick="window.close()" class="close-link">Cancel & Close</button>
     </div>
 
     <main class="submit-project-main">
@@ -193,103 +212,109 @@
     <script src="../ucolab/js/cloudinary.js"></script>
     
     <script>
-        // Inline script for form logic
         document.addEventListener('DOMContentLoaded', () => {
+            console.log("News Event Form Logic Loaded");
+            
             const STORAGE_KEY = 'ucInttoNewsEventsData';
             const urlParams = new URLSearchParams(window.location.search);
             const editId = urlParams.get('id');
             
             let uploadedImageUrls = ["", "", "", "", ""];
 
-            // --- Load Data if Editing ---
+            // 1. Load Data if Editing
             if (editId) {
                 document.getElementById('page-title').textContent = "Edit News/Event";
                 const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
                 const item = data.find(d => String(d.id) === String(editId));
                 
                 if (item) {
-                    document.getElementById('news-title').value = item.title;
-                    document.getElementById('news-type').value = item.type;
-                    document.getElementById('news-status').value = item.status;
-                    document.getElementById('news-date').value = item.date;
-                    document.getElementById('news-content').value = item.content;
+                    document.getElementById('news-title').value = item.title || '';
+                    document.getElementById('news-type').value = item.type || 'news';
+                    document.getElementById('news-status').value = item.status || 'draft';
+                    document.getElementById('news-date').value = item.date || '';
+                    document.getElementById('news-content').value = item.content || '';
                     document.getElementById('news-tags').value = (item.tags || []).join(', ');
                     
                     // Images
                     uploadedImageUrls = item.images || ["", "", "", "", ""];
                     uploadedImageUrls.forEach((url, i) => {
-                        if(url) {
+                        if(url && i < 5) {
                             const preview = document.getElementById(`image-preview-${i+1}`);
-                            preview.src = url;
-                            preview.classList.add('visible');
-                            preview.style.opacity = 1;
-                            document.querySelector(`.remove-image-btn[data-index="${i}"]`).style.display = 'block';
+                            const removeBtn = document.querySelector(`.remove-image-btn[data-index="${i}"]`);
+                            if(preview && removeBtn) {
+                                preview.src = url;
+                                preview.classList.add('visible');
+                                preview.style.opacity = 1;
+                                removeBtn.style.display = 'block';
+                            }
                         }
                     });
                     
                     // SDGs
                     (item.sdgs || []).forEach(sdg => {
-                        const cb = document.querySelector(`#sdg-checkbox-list input[value="${sdg}"]`);
+                        const cleanSdg = String(sdg).replace('SDG ', '');
+                        const cb = document.querySelector(`#sdg-checkbox-list input[value="${cleanSdg}"]`);
                         if(cb) cb.checked = true;
                     });
-                    updateDropdownText(); // Update text after checking
+                    updateDropdownText();
                 }
             }
 
-            // --- Image Logic ---
-             const inputs = document.querySelectorAll('.hidden-file-input');
-             inputs.forEach(input => {
-                 input.addEventListener('change', function() {
-                     const file = this.files[0];
-                     if(file) {
-                         const reader = new FileReader();
-                         // Determine index from ID (image-upload-1 -> index 0)
-                         const idx = parseInt(this.id.split('-')[2]) - 1;
-                         reader.onload = (e) => {
-                             const preview = document.getElementById(`image-preview-${idx+1}`);
-                             preview.src = e.target.result;
-                             preview.classList.add('visible');
-                             preview.style.opacity = 1;
-                             document.querySelector(`.remove-image-btn[data-index="${idx}"]`).style.display = 'block';
-                             uploadedImageUrls[idx] = e.target.result; // Saving base64 for simplicity
-                         };
-                         reader.readAsDataURL(file);
-                     }
-                 });
-             });
+            // 2. Image Upload Logic
+            const inputs = document.querySelectorAll('.hidden-file-input');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if(file) {
+                        const reader = new FileReader();
+                        // Determine index from ID (image-upload-1 -> index 0)
+                        const idx = parseInt(this.id.split('-')[2]) - 1;
+                        reader.onload = (e) => {
+                            const preview = document.getElementById(`image-preview-${idx+1}`);
+                            const removeBtn = document.querySelector(`.remove-image-btn[data-index="${idx}"]`);
+                            preview.src = e.target.result;
+                            preview.classList.add('visible');
+                            preview.style.opacity = 1;
+                            removeBtn.style.display = 'block';
+                            
+                            // Save base64 string immediately (simplest for local storage)
+                            uploadedImageUrls[idx] = e.target.result; 
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
              
-             // Remove Image Logic
-             document.querySelectorAll('.remove-image-btn').forEach(btn => {
-                 btn.addEventListener('click', function() {
-                     const idx = this.getAttribute('data-index');
-                     uploadedImageUrls[idx] = "";
-                     const preview = document.getElementById(`image-preview-${parseInt(idx)+1}`);
-                     preview.src = "";
-                     preview.classList.remove('visible');
-                     preview.style.opacity = 0;
-                     this.style.display = 'none';
-                     // Clear input
-                     document.getElementById(`image-upload-${parseInt(idx)+1}`).value = "";
-                 });
-             });
+            // Remove Image Logic
+            document.querySelectorAll('.remove-image-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = this.getAttribute('data-index');
+                    uploadedImageUrls[idx] = "";
+                    const preview = document.getElementById(`image-preview-${parseInt(idx)+1}`);
+                    preview.src = "";
+                    preview.classList.remove('visible');
+                    preview.style.opacity = 0;
+                    this.style.display = 'none';
+                    const fileInput = document.getElementById(`image-upload-${parseInt(idx)+1}`);
+                    if(fileInput) fileInput.value = "";
+                });
+            });
 
-            // --- SDG Dropdown Toggle ---
+            // 3. SDG Dropdown Toggle
             const btn = document.getElementById('sdg-dropdown-btn');
             const list = document.getElementById('sdg-checkbox-list');
             
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                list.style.display = list.style.display === 'none' ? 'block' : 'none';
-                btn.classList.toggle('open');
+                list.classList.toggle('visible');
             });
             
             document.addEventListener('click', (e) => {
                 if(!btn.contains(e.target) && !list.contains(e.target)) {
-                    list.style.display = 'none';
+                    list.classList.remove('visible');
                 }
             });
             
-            // Helper to update dropdown text
             function updateDropdownText() {
                 const checked = document.querySelectorAll('#sdg-checkbox-list input:checked');
                 const textSpan = btn.querySelector('.dropdown-button-text');
@@ -306,11 +331,12 @@
                 input.addEventListener('change', updateDropdownText);
             });
 
-            // --- Submit ---
+            // 4. SUBMIT HANDLER
             document.getElementById('news-form').addEventListener('submit', (e) => {
-                e.preventDefault();
+                e.preventDefault(); // CRITICAL: Prevents page reload
                 
                 const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                
                 const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
                 const finalImages = uploadedImageUrls.filter(u => u && u !== "");
 
@@ -329,18 +355,23 @@
                 if (editId) {
                     const idx = data.findIndex(d => String(d.id) === String(editId));
                     if(idx !== -1) data[idx] = newItem;
+                    else data.push(newItem);
                 } else {
                     data.push(newItem);
                 }
 
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                alert('Saved successfully!');
                 
-                // Try to refresh opener
-                if(window.opener) {
-                    window.opener.focus();
-                    window.opener.location.reload();
+                // 5. Refresh the Parent Window (Admin List)
+                if(window.opener && !window.opener.closed) {
+                    try {
+                        window.opener.location.reload();
+                    } catch (err) {
+                        console.warn("Could not reload opener:", err);
+                    }
                 }
+                
+                // 6. Close THIS tab immediately
                 window.close();
             });
         });
