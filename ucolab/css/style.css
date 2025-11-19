@@ -135,7 +135,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: auto;
-    max-width: 700px;
+    max-width: 750px;
     height: 64px;
     gap: 8px;
     position: static;
@@ -144,7 +144,6 @@ body {
     overflow: hidden;
     flex-grow: 1;
     margin: 0 20px;
-    font-family: poppins;
 }
 
 .nav-wrapper::before {
@@ -155,7 +154,6 @@ body {
     right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-    font-family: poppins;
 }
 
 .nav-wrapper::after {
@@ -166,25 +164,15 @@ body {
     width: 1px;
     height: 100%;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
-    font-family: poppins;
 }
 
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     flex-wrap: wrap;
     justify-content: center;
     flex-grow: 1;
     transition: all 0.4s ease-in-out;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-family: poppins;
-}
-
-.nav-links .mobile-auth-link {
-    display: none;
-    font-family: poppins;
 }
 
 .nav-links a {
@@ -202,19 +190,10 @@ body {
     min-width: 66px;
     height: 40px;
     flex-shrink: 0;
-    font-family: poppins;
-}
-
-.nav-links li {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    font-family: poppins;
 }
 
 .nav-links a:hover {
     opacity: 1;
-    font-family: poppins;
 }
 
 .nav-links a.active {
@@ -228,10 +207,13 @@ body {
     min-width: 81px;
     height: 40px;
     padding: 16px 8px;
+}
+
+.nav-links .mobile-auth-link {
+    display: none;
     font-family: poppins;
 }
 
-/* Mobile application button link (hidden on desktop) */
 .nav-links .mobile-apply-btn {
     display: none;
     font-family: poppins;
@@ -245,6 +227,7 @@ body {
     min-width: 250px; 
     justify-content: flex-end;
     font-family: poppins;
+
 }
 
 .btn-apply {

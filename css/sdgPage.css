@@ -104,7 +104,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: auto;
-    max-width: 700px;
+    max-width: 750px;
     height: 64px;
     gap: 8px;
     position: static;
@@ -140,7 +140,7 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     flex-wrap: wrap;
     justify-content: center;
     flex-grow: 1;
