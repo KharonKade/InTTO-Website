@@ -36,14 +36,16 @@
     gap: 16px;
     align-items: center;
     background-color: var(--white);
-    padding: 8px;
+    padding: 15px;
     border-radius: 12px;
     box-shadow: var(--shadow);
     margin-bottom: 30px;
+    flex-wrap: wrap;
 }
 .search-wrapper {
     position: relative;
     flex-grow: 1;
+    min-width: 200px;
 }
 .search-wrapper i {
     position: absolute;
@@ -65,16 +67,18 @@
 .category-filters {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 .filter-btn {
     padding: 8px 16px;
-    border: 1px solid transparent;
-    border-radius: 8px;
+    border: 1px solid var(--border-gray);
+    border-radius: 20px;
     background-color: transparent;
     color: var(--text-light);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    font-size: 13px;
 }
 .filter-btn:hover {
     background-color: var(--background-gray);
@@ -84,6 +88,7 @@
     background-color: var(--primary-green);
     color: var(--white);
     font-weight: 600;
+    border-color: var(--primary-green);
 }
 
 /* --- Startup Card --- */
@@ -109,13 +114,22 @@
     place-items: center;
     font-size: 24px;
     flex-shrink: 0;
-    background-color: #f0f0f0; /* Default background */
+    background-color: #f0f0f0;
 }
-.logo-agritech { background-color: #d1e7dd; }
-.logo-healthtech { background-color: #cfe2ff; }
-.logo-crimintech { background-color: #f8d7da; }
-.logo-creative { background-color: #fff3cd; }
-.logo-edtech { background-color: #e0cffc; }
+
+.logo-ai-and-data-science { background-color: #e3f2fd; }
+.logo-saas-and-enterprise-solutions { background-color: #e8eaf6; }
+.logo-fintech { background-color: #fff3e0; }
+.logo-e-commerce { background-color: #f3e5f5; }
+.logo-health { background-color: #fce4ec; }
+.logo-agriculture-and-food { background-color: #e8f5e9; }
+.logo-education-technologies { background-color: #ede7f6; }
+.logo-creative-industries { background-color: #fff8e1; }
+.logo-criminology--forensics--and-public-safety { background-color: #ffebee; }
+.logo-sustainability-and-cleantech { background-color: #e0f2f1; }
+.logo-smart-cities-and-mobility { background-color: #eceff1; }
+.logo-other { background-color: #f5f5f5; }
+
 .startup-details {
     flex-grow: 1;
 }
@@ -323,4 +337,122 @@ input:checked + .slider:before { transform: translateX(20px); }
 }
 .btn-secondary:hover {
     background-color: var(--background-gray);
+}
+
+/* --- Custom Multi-Select Dropdown Styles --- */
+.multi-select-dropdown {
+    position: relative;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.dropdown-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dropdown-button:hover {
+    border-color: #aaa;
+}
+
+.dropdown-button.open {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(44, 122, 82, 0.1);
+}
+
+.dropdown-button-text {
+    color: #6c757d;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-button .selected-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    max-height: 50px;
+    overflow-y: auto;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: var(--primary-green);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.pill-remove {
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    margin-left: 2px;
+}
+.pill-remove:hover {
+    color: #ffcdd2;
+}
+
+.checkbox-list {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    display: none;
+}
+
+.checkbox-list.visible {
+    display: block;
+}
+
+.checkbox-list-item {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-list-item:hover {
+    background-color: #f8f9fa;
+}
+
+.checkbox-list-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.8rem;
+    accent-color: var(--primary-green);
+    cursor: pointer;
+}
+
+.checkbox-list-item label {
+    font-size: 15px;
+    color: var(--text-dark);
+    margin-bottom: 0;
+    cursor: pointer;
+    flex: 1;
 }

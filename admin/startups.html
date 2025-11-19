@@ -52,11 +52,17 @@
                 </div>
                 <div class="category-filters">
                     <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="Agritech">Agritech</button>
-                    <button class="filter-btn" data-filter="Healthtech">Healthtech</button>
-                    <button class="filter-btn" data-filter="CriminTech">CriminTech</button>
-                    <button class="filter-btn" data-filter="Creative">Creative</button>
-                    <button class="filter-btn" data-filter="Edtech">Edtech</button>
+                    <button class="filter-btn" data-filter="AI and Data Science">AI & Data</button>
+                    <button class="filter-btn" data-filter="SaaS and Enterprise Solutions">SaaS</button>
+                    <button class="filter-btn" data-filter="Fintech">Fintech</button>
+                    <button class="filter-btn" data-filter="E-commerce">E-commerce</button>
+                    <button class="filter-btn" data-filter="Health">Health</button>
+                    <button class="filter-btn" data-filter="Agriculture and Food">Agri & Food</button>
+                    <button class="filter-btn" data-filter="Education Technologies">EdTech</button>
+                    <button class="filter-btn" data-filter="Creative Industries">Creative</button>
+                    <button class="filter-btn" data-filter="Criminology, Forensics, and Public Safety">Criminology</button>
+                    <button class="filter-btn" data-filter="Sustainability and Cleantech">Sustainability</button>
+                    <button class="filter-btn" data-filter="Smart Cities and Mobility">Smart Cities</button>
                 </div>
             </div>
 
@@ -71,184 +77,13 @@
             </div>
             
             <div class="startup-list">
-                </div>
+                <!-- Cards injected by JS -->
+            </div>
 
         </section>
     </main>
 
-    <div id="startup-modal-overlay" class="modal-overlay">
-        <div class="modal" id="startup-modal">
-            <div class="modal-header">
-                <div>
-                    <h2 id="modal-title">Add New Startup</h2>
-                    <p id="modal-subtitle">Add a new startup to the incubation program</p>
-                </div>
-                <button class="close-btn" id="close-modal-btn">&times;</button>
-            </div>
-            <form id="startup-form">
-                <!-- Basic Info Section -->
-                <h3 class="form-section-title">Basic Information</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="startup-name">Project Name *</label>
-                        <input type="text" id="startup-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-logo">Logo (Emoji)</label>
-                        <input type="text" id="startup-logo" placeholder="🚀">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-category">Industry/Category *</label>
-                        <select id="startup-category" required>
-                            <option value="Agritech">Agritech</option>
-                            <option value="Healthtech">Healthtech</option>
-                            <option value="CriminTech">CriminTech</option>
-                            <option value="Creative">Creative</option>
-                            <option value="Edtech">Edtech</option>
-                            <option value="Fintech">Fintech</option>
-                            <option value="Sustainability">Sustainability</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-type">Project Type</label>
-                        <input type="text" id="startup-type" placeholder="e.g., Startup, Research">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-trl">Technology Readiness Level (1-9) *</label>
-                        <input type="number" id="startup-trl" min="1" max="9" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-status">Status</label>
-                        <select id="startup-status">
-                            <option value="pending">Pending Review</option>
-                            <option value="active">Active</option>
-                            <option value="graduated">Graduated</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-website">Website URL</label>
-                        <input type="url" id="startup-website" placeholder="https://example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-college">College(s)</label>
-                        <input type="text" id="startup-college" placeholder="e.g., COE, CAS">
-                        <small>Comma-separated if multiple</small>
-                    </div>
-                </div>
-                
-                <!-- Descriptions Section -->
-                <h3 class="form-section-title">Descriptions</h3>
-                <div class="form-group">
-                    <label for="startup-description">Short Description *</label>
-                    <textarea id="startup-description" rows="2" placeholder="Brief description for card view" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="startup-detailed-description">Detailed Description</label>
-                    <textarea id="startup-detailed-description" rows="4" placeholder="Comprehensive project overview"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="startup-problem">Problem Statement</label>
-                    <textarea id="startup-problem" rows="3" placeholder="What problem does this project address?"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="startup-solution">Solution</label>
-                    <textarea id="startup-solution" rows="3" placeholder="How does this project solve the problem?"></textarea>
-                </div>
-                
-                <!-- Images Section -->
-                <h3 class="form-section-title">Images</h3>
-                <div class="form-group">
-                    <label for="startup-image-logo">Project Logo URL</label>
-                    <input type="url" id="startup-image-logo" placeholder="https://cloudinary.com/...">
-                    <small>First image - shown as project logo</small>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="startup-image-1">Image 1 URL</label>
-                        <input type="url" id="startup-image-1" placeholder="https://cloudinary.com/...">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-image-2">Image 2 URL</label>
-                        <input type="url" id="startup-image-2" placeholder="https://cloudinary.com/...">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-image-3">Image 3 URL</label>
-                        <input type="url" id="startup-image-3" placeholder="https://cloudinary.com/...">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-image-4">Image 4 URL</label>
-                        <input type="url" id="startup-image-4" placeholder="https://cloudinary.com/...">
-                    </div>
-                </div>
-                
-                <!-- Project Info Section -->
-                <h3 class="form-section-title">Project Information</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="startup-start-date">Start Date</label>
-                        <input type="text" id="startup-start-date" placeholder="e.g., January 2025">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-team-size">Team Size</label>
-                        <input type="text" id="startup-team-size" placeholder="e.g., 4-6 members">
-                    </div>
-                </div>
-                
-                <!-- Founder Info Section -->
-                <h3 class="form-section-title">Founder Information</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="startup-founder-name">Founder Name</label>
-                        <input type="text" id="startup-founder-name" placeholder="Full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-founder-role">Founder Role</label>
-                        <input type="text" id="startup-founder-role" placeholder="e.g., Project Lead">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-founder-email">Founder Email</label>
-                        <input type="email" id="startup-founder-email" placeholder="email@uc-bcf.edu.ph">
-                    </div>
-                    <div class="form-group">
-                        <label for="startup-founder-phone">Founder Phone</label>
-                        <input type="tel" id="startup-founder-phone" placeholder="+63 917 123 4567">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="startup-founder-affiliation">Founder Affiliation</label>
-                        <input type="text" id="startup-founder-affiliation" placeholder="e.g., University of the Cordilleras">
-                    </div>
-                </div>
-                
-                <!-- Tags & SDGs Section -->
-                <h3 class="form-section-title">Tags & SDGs</h3>
-                <div class="form-group">
-                    <label for="startup-tags">Tags (comma-separated)</label>
-                    <input type="text" id="startup-tags" placeholder="IoT, Agriculture, Sensors">
-                </div>
-                <div class="form-group">
-                    <label for="startup-sdgs">SDGs (comma-separated)</label>
-                    <input type="text" id="startup-sdgs" placeholder="e.g., 4, 9, 17">
-                    <small>Enter SDG numbers (1-17), separated by commas.</small>
-                </div>
-                
-                <!-- Other Options -->
-                <div class="form-group toggle-group">
-                    <label class="switch">
-                        <input type="checkbox" id="startup-collab">
-                        <span class="slider round"></span>
-                    </label>
-                    <span>Open for Collaboration</span>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="submit-btn">Create Startup</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- No modal needed anymore, using external pages -->
     
     <script src="js/startups.js"></script>
 </body>

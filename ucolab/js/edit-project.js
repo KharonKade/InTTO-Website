@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const trlLevel = document.getElementById('trl-level');
     const projectSdg = document.getElementById('project-sdg');
     const shortDescription = document.getElementById('short-description');
-    const shortDescCounter = document.getElementById('short-desc-counter'); // <-- NEW
+    const shortDescCounter = document.getElementById('short-desc-counter'); 
     const detailedDescription = document.getElementById('detailed-description');
     const problemStatement = document.getElementById('problem-statement');
     const solution = document.getElementById('solution');
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const feature4Desc = document.getElementById('feature4-desc');
     const startDate = document.getElementById('start-date');
     const teamSize = document.getElementById('team-size');
-    const founderFirstName = document.getElementById('founder-first-name'); // <-- NEW
-    const founderLastName = document.getElementById('founder-last-name'); // <-- NEW
+    const founderFirstName = document.getElementById('founder-first-name'); 
+    const founderLastName = document.getElementById('founder-last-name'); 
     const founderRole = document.getElementById('founder-role');
     const founderAffiliation = document.getElementById('founder-affiliation');
     const founderEmail = document.getElementById('founder-email');
@@ -39,15 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let allProjects = [];
     let projectToEdit = null;
     let projectIndex = -1;
+    let sourceList = ''; // NEW: Tracks if project is in 'ucolabProjects' or 'pendingProjects'
 
     // --- 2. Authentication Check (Firebase) ---
-    auth.onAuthStateChanged(function(user) {
+    auth.onAuthStateChanged(async function(user) {
         if (user) {
-            // --- USER IS LOGGED IN ---
             const loggedInUser = user.displayName || user.email;
             console.log("User is logged in:", loggedInUser);
 
-            // --- 3. Update Header User Info ---
             if (userDisplayPill) {
                 userDisplayPill.innerHTML = `
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -63,28 +62,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 });
             }
+            
+            // --- Check Admin Status ---
+            let isAdmin = false;
+            try {
+                const userDocRef = db.collection('Registered Accounts').doc(user.uid);
+                const docSnap = await userDocRef.get();
+                if (docSnap.exists) {
+                    isAdmin = docSnap.data().isAdmin === true;
+                }
+            } catch (e) {
+                console.error("Error checking admin status:", e);
+            }
 
-            // --- 4. Load and Populate Form ---
-            loadAndPopulateData(loggedInUser);
+            // --- Load and Populate Form ---
+            loadAndPopulateData(loggedInUser, isAdmin);
 
-            // --- 5. Initialize Page Functions ---
+            // --- Initialize Page Functions ---
             initializeImageUploaders();
             initializeCollegeDropdown();
-            initializeCharCounter(); // <-- ADDED
+            initializeCharCounter(); 
             initializeFormSubmit(loggedInUser);
             setupActionButtons();
             createRandomCircles();
 
         } else {
-            // --- USER IS LOGGED OUT ---
             console.log("User is not logged in. Redirecting.");
             alert("You must be signed in to edit a project.");
             window.location.href = 'index.html';
         }
     });
 
-    // --- 5. Load and Populate Form ---
-    function loadAndPopulateData(loggedInUser) {
+    // --- 5. Load and Populate Form (UPDATED) ---
+    function loadAndPopulateData(loggedInUser, isAdmin) {
         const urlParams = new URLSearchParams(window.location.search);
         const projectId = urlParams.get('id');
 
@@ -95,28 +105,47 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            allProjects = JSON.parse(localStorage.getItem('ucolabProjects') || '[]');
-            projectIndex = allProjects.findIndex(p => String(p.id) === String(projectId));
-            projectToEdit = allProjects[projectIndex];
+            // 1. Try searching Active Projects
+            const activeProjects = JSON.parse(localStorage.getItem('ucolabProjects') || '[]');
+            let foundIndex = activeProjects.findIndex(p => String(p.id) === String(projectId));
+            
+            if (foundIndex !== -1) {
+                allProjects = activeProjects;
+                projectIndex = foundIndex;
+                projectToEdit = activeProjects[foundIndex];
+                sourceList = 'ucolabProjects';
+            } else {
+                // 2. If not found, try Searching Pending Projects
+                const pendingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
+                foundIndex = pendingProjects.findIndex(p => String(p.id) === String(projectId));
+                
+                if (foundIndex !== -1) {
+                    allProjects = pendingProjects;
+                    projectIndex = foundIndex;
+                    projectToEdit = pendingProjects[foundIndex];
+                    sourceList = 'pendingProjects';
+                }
+            }
 
             if (!projectToEdit || projectIndex === -1) {
-                alert("Project not found.");
+                alert("Project not found in Active or Pending lists.");
                 window.location.href = 'index.html';
                 return;
             }
 
-            // --- PERMISSION CHECK (using Firebase user) ---
+            // --- PERMISSION CHECK ---
             const userIsDemo = (loggedInUser === 'Demo User' || loggedInUser.includes('demo'));
             const projectIsDefault = (projectToEdit.userId === 'default');
             const userIsOwner = (projectToEdit.userId === loggedInUser);
             
-            if (!userIsOwner && !(userIsDemo && projectIsDefault)) {
+            // Allow if: Owner OR (Demo & Default) OR Admin
+            if (!userIsOwner && !(userIsDemo && projectIsDefault) && !isAdmin) {
                  alert("You do not have permission to edit this project.");
                  window.location.href = 'index.html';
                  return;
             }
 
-            console.log("Loading data for project:", projectToEdit);
+            console.log(`Loading data from ${sourceList} for project:`, projectToEdit);
 
             // Populate all text/select fields
             if(projectName) projectName.value = projectToEdit.title || '';
@@ -125,12 +154,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if(trlLevel) trlLevel.value = projectToEdit.trl || '';
             if(projectSdg) projectSdg.value = projectToEdit.sdg || 'N/A';
             
-            // --- UPDATED: Load Short Description and Update Counter ---
             if(shortDescription) shortDescription.value = projectToEdit.shortDescription || '';
             if(shortDescCounter) shortDescCounter.textContent = `${(projectToEdit.shortDescription || '').length} / 100`;
-            // --- END UPDATE ---
             
-            // --- Load College Data ---
             if (Array.isArray(projectToEdit.college)) {
                 projectToEdit.college.forEach(collegeName => {
                     const checkbox = document.querySelector(`input[name="college-option"][value="${collegeName}"]`);
@@ -147,25 +173,21 @@ document.addEventListener('DOMContentLoaded', function() {
             if(startDate) startDate.value = projectToEdit.startDate || '';
             if(teamSize) teamSize.value = projectToEdit.teamSize || '';
             
-            // --- UPDATED: Split Full Name into First and Last ---
             if (founderFirstName && founderLastName && projectToEdit.founderName) {
                 const names = projectToEdit.founderName.split(' ');
                 const firstName = names[0];
                 const lastName = names.slice(1).join(' ');
-                founderFirstName.value = firstName;
-                founderLastName.value = lastName;
+                if(founderFirstName) founderFirstName.value = firstName;
+                if(founderLastName) founderLastName.value = lastName;
             }
-            // --- END UPDATE ---
 
             if(founderRole) founderRole.value = projectToEdit.founderRole || '';
             if(founderAffiliation) founderAffiliation.value = projectToEdit.founderAffiliation || '';
             
-            // --- UPDATED: Pre-fill and lock email ---
             if(founderEmail) {
                 founderEmail.value = projectToEdit.founderEmail || '';
-                founderEmail.readOnly = true; // Make it readonly
+                founderEmail.readOnly = true; 
             }
-            // --- END UPDATE ---
 
             if(founderPhone) founderPhone.value = projectToEdit.founderPhone || '';
 
@@ -192,8 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         preview.classList.remove('visible');
                         removeBtn.style.display = 'none';
                     }
-                } else {
-                    console.warn(`Could not find slot elements for image index ${i}`);
                 }
             }
         } catch (error) {
@@ -209,19 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const file = fileInput.files[0];
             const slot = previewElement.closest('.image-upload-slot');
             const removeBtn = slot ? slot.querySelector('.remove-image-btn') : null;
-            if (!slot || !previewElement || !removeBtn) {
-                console.error(`handleImageUpload: Could not find necessary elements for slot index ${index}`);
-                if (removeBtn) removeBtn.style.display = 'none';
-                return;
-            }
+            if (!slot || !previewElement || !removeBtn) return;
+
             if (file) {
                 if (file.size > 2 * 1024 * 1024) { // 2MB limit
                     alert(`Image in Slot ${index + 1} is too large! Please select an image under 2MB.`);
                     fileInput.value = "";
-                    previewElement.src = "";
-                    previewElement.classList.remove('visible');
-                    imageBase64Array[index] = "";
-                    removeBtn.style.display = 'none';
                     return;
                 }
                 const reader = new FileReader();
@@ -231,24 +244,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     previewElement.classList.add('visible');
                     imageBase64Array[index] = base64String;
                     removeBtn.style.display = 'block';
-                    console.log(`Image ${index + 1} stored/updated.`);
-                }
-                reader.onerror = function(e) {
-                    console.error(`Error reading file for slot index ${index}:`, e);
-                    alert(`Error reading image for Slot ${index + 1}. Please try again or use a different image.`);
-                    fileInput.value = "";
-                    previewElement.src = "";
-                    previewElement.classList.remove('visible');
-                    imageBase64Array[index] = "";
-                    removeBtn.style.display = 'none';
                 }
                 reader.readAsDataURL(file);
-            } else {
-                previewElement.src = "";
-                previewElement.classList.remove('visible');
-                imageBase64Array[index] = "";
-                removeBtn.style.display = 'none';
-                console.log(`Image ${index + 1} selection cancelled or cleared.`);
             }
         }
 
@@ -259,8 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 (function(currentIndex) {
                     input.addEventListener('change', () => handleImageUpload(input, preview, currentIndex - 1));
                 })(i);
-            } else {
-                console.warn(`Could not find input or preview elements for image slot ${i}`);
             }
         }
 
@@ -273,41 +268,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     const slot = button.closest('.image-upload-slot');
                     const preview = slot ? slot.querySelector('.image-preview') : null;
                     const fileInput = slot ? slot.querySelector('.hidden-file-input') : null;
-                    if (isNaN(index) || !slot || !preview || !fileInput) {
-                        console.error("Could not find required elements for removing image at index:", index);
-                        return;
-                    }
-                    if (index >= 0 && index < imageBase64Array.length) {
-                        imageBase64Array[index] = "";
-                    }
+                    if (isNaN(index) || !slot || !preview || !fileInput) return;
+                    
+                    imageBase64Array[index] = "";
                     preview.src = "";
                     preview.classList.remove('visible');
                     fileInput.value = "";
                     button.style.display = 'none';
-                    console.log(`Image ${index + 1} removed.`);
                 }
             });
         }
     }
     
-    // --- 7. NEW: Character Counter Logic ---
+    // --- 7. Character Counter Logic ---
     function initializeCharCounter() {
         const shortDescTextarea = document.getElementById('short-description');
         const counterElement = document.getElementById('short-desc-counter');
 
         if (shortDescTextarea && counterElement) {
-            // Function to update the counter
             const updateCounter = () => {
                 const currentLength = shortDescTextarea.value.length;
                 counterElement.textContent = `${currentLength} / 100`;
             };
-
-            // Add event listener
             shortDescTextarea.addEventListener('input', updateCounter);
-            
-            // Initial call is handled in loadAndPopulateData
-        } else {
-            console.warn("Could not find short description counter elements.");
         }
     }
 
@@ -316,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (form) {
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
-                if (projectIndex === -1) { alert("Error: Project data not loaded."); return; }
+                if (projectIndex === -1 || !sourceList) { alert("Error: Project data not loaded."); return; }
 
                 const finalImageUrls = imageBase64Array.filter(url => url && url.trim() !== "");
                 const projectNameValue = projectName?.value || 'Project';
@@ -332,7 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // --- UPDATED: Collect from new fields ---
                 const founderFirstNameValue = document.getElementById('founder-first-name')?.value;
                 const founderLastNameValue = document.getElementById('founder-last-name')?.value;
                 const founderFullName = `${founderFirstNameValue} ${founderLastNameValue}`;
@@ -358,22 +340,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     imageUrls: finalImageUrls,
                     startDate: startDate?.value || projectToEdit.startDate,
                     teamSize: teamSize?.value || projectToEdit.teamSize,
-                    founderName: founderFullName, // Use new combined name
+                    founderName: founderFullName, 
                     founderRole: founderRole?.value || projectToEdit.founderRole,
                     founderAffiliation: founderAffiliation?.value || projectToEdit.founderAffiliation,
                     founderEmail: founderEmail?.value || projectToEdit.founderEmail,
                     founderPhone: founderPhone?.value || projectToEdit.founderPhone,
-                    userId: (projectToEdit.userId === 'default' && (loggedInUser.includes('demo') || loggedInUser === 'Demo User')) ? loggedInUser : projectToEdit.userId
                 };
-                // --- END UPDATE ---
 
                 try {
+                    // Update the list it came from (active or pending)
                     allProjects[projectIndex] = updatedProject;
-                    localStorage.setItem('ucolabProjects', JSON.stringify(allProjects));
-                    console.log("Project updated:", updatedProject);
+                    localStorage.setItem(sourceList, JSON.stringify(allProjects));
+                    console.log(`Project updated in ${sourceList}:`, updatedProject);
 
                     try {
-                        if (window.opener && !window.opener.closed && window.opener.location) {
+                        if (window.opener && !window.opener.closed) {
+                            // Reload the admin dashboard or main page
                             window.opener.location.reload();
                         }
                     } catch (openerError) {
@@ -392,11 +374,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     const pageSubtitle = document.querySelector('.submit-project-main .page-subtitle');
                     const backLink = document.querySelector('.submit-project-main .back-link');
 
-                    if (formElement && successContainer && successTitle && successText) {
+                    if (formElement && successContainer) {
                         formElement.style.display = 'none';
-                        pageTitle.style.display = 'none';
-                        pageSubtitle.style.display = 'none';
-                        backLink.style.display = 'none';
+                        if(pageTitle) pageTitle.style.display = 'none';
+                        if(pageSubtitle) pageSubtitle.style.display = 'none';
+                        if(backLink) backLink.style.display = 'none';
+                        
                         successTitle.textContent = 'Project Updated!';
                         successText.textContent = `Your project "${updatedProject.title}" has been successfully updated.`;
                         successLinkHome.href = 'index.html';
@@ -410,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } catch (error) {
                     console.error("Error updating project in localStorage:", error);
                     if (error.name === 'QuotaExceededError') {
-                        alert("Error: Could not save. Storage is full. This is likely due to large images. Please reduce image sizes or remove some.");
+                        alert("Error: Could not save. Storage is full. Reduce image sizes.");
                     } else {
                         alert("An error occurred while saving your changes.");
                     }
@@ -455,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 11. College Dropdown (re-using submit-project.js logic) ---
+    // --- 11. College Dropdown ---
     function initializeCollegeDropdown() {
         const dropdownBtn = document.getElementById('college-dropdown-btn');
         const checkboxList = document.getElementById('college-checkbox-list');
@@ -463,10 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const defaultText = document.querySelector('#college-dropdown-btn .dropdown-button-text');
         const validationInput = document.getElementById('college-validation');
 
-        if (!dropdownBtn || !checkboxList || !pillsContainer || !defaultText || !validationInput) {
-            console.error("College dropdown elements not found!");
-            return;
-        }
+        if (!dropdownBtn || !checkboxList) return;
 
         const checkboxes = checkboxList.querySelectorAll('input[type="checkbox"]');
 
@@ -503,7 +483,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Initial call to build pills from loaded data
         updateCollegePills(); 
 
         dropdownBtn.addEventListener('click', () => {
