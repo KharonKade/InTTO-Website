@@ -1,15 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'ucInttoNewsEventsData';
 
-    // Default data if nothing is in localStorage
+    // Default data
     const defaultNewsEvents = [
-        { id: 1, title: "InTTO Hosts Innovation Week 2024", type: "event", status: "published", date: "2024-11-01", tags: ["Innovation Week", "Event"], content: "Join us for a week-long celebration of innovation featuring startup pitches, workshops, and networking events.", sdgs: [9, 17] }, // Added example SDGs
-        { id: 2, title: "New Partnership with DOST Region CAR", type: "news", status: "published", date: "2024-10-15", tags: ["Partnership", "DOST"], content: "UC InTTO announces strategic partnership with DOST CAR to accelerate technology transfer and commercialization.", sdgs: [17] }, // Added example SDGs
-        { id: 3, title: "IP Protection Workshop", type: "event", status: "draft", date: "2024-11-15", tags: ["Workshop", "IP", "TTO"], content: "Learn about intellectual property protection strategies for your innovations. Open to all UC faculty and students.", sdgs: [4, 9] }, // Added example SDGs
-        { id: 4, title: "Seed Funding Opportunity for UC Startups", type: "news", status: "published", date: "2024-09-20", tags: ["Funding", "Startup"], content: "Exciting new seed funding program launched for University of the Cordilleras-affiliated startups. Apply now!", sdgs: [8] } // Added example SDGs
+        { id: 1, title: "InTTO Hosts Innovation Week 2024", type: "event", status: "published", date: "2024-11-01", tags: ["Innovation Week", "Event"], content: "Join us for a week-long celebration of innovation...", sdgs: ["SDG 9", "SDG 17"] }, 
+        { id: 2, title: "New Partnership with DOST Region CAR", type: "news", status: "published", date: "2024-10-15", tags: ["Partnership", "DOST"], content: "UC InTTO announces strategic partnership...", sdgs: ["SDG 17"] },
+        { id: 3, title: "IP Protection Workshop", type: "event", status: "draft", date: "2024-11-15", tags: ["Workshop", "IP", "TTO"], content: "Learn about intellectual property protection...", sdgs: ["SDG 4", "SDG 9"] }, 
+        { id: 4, title: "Seed Funding Opportunity for UC Startups", type: "news", status: "published", date: "2024-09-20", tags: ["Funding", "Startup"], content: "Exciting new seed funding program launched...", sdgs: ["SDG 8"] } 
     ];
 
-    // --- Load/Save Data ---
     const loadData = () => {
         const savedData = localStorage.getItem(STORAGE_KEY);
         return savedData ? JSON.parse(savedData) : defaultNewsEvents;
@@ -44,8 +43,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const newsEventStatusSelect = document.getElementById('news-event-status');
     const newsEventDateInput = document.getElementById('news-event-date');
     const newsEventTagsInput = document.getElementById('news-event-tags');
-    const newsEventSdgsInput = document.getElementById('news-event-sdgs'); // <-- NEW
     const newsEventContentTextarea = document.getElementById('news-event-content');
+
+    // --- Initialize Dropdown Logic ---
+    const initializeDropdown = (btnId, listId, pillsId) => {
+        const dropdownBtn = document.getElementById(btnId);
+        const checkboxList = document.getElementById(listId);
+        const pillsContainer = document.getElementById(pillsId);
+        const defaultText = dropdownBtn.querySelector('.dropdown-button-text');
+        
+        if(!dropdownBtn || !checkboxList) return;
+        
+        const checkboxes = checkboxList.querySelectorAll('input[type="checkbox"]');
+        
+        const updatePills = () => {
+            pillsContainer.innerHTML = '';
+            let hasSelection = false;
+            checkboxes.forEach(cb => {
+                if(cb.checked) {
+                    hasSelection = true;
+                    pillsContainer.innerHTML += `<span class="pill">${cb.value}<span class="pill-remove" onclick="this.parentElement.remove(); document.getElementById('${cb.id}').checked=false; event.stopPropagation();">&times;</span></span>`;
+                }
+            });
+            defaultText.style.display = hasSelection ? 'none' : 'block';
+            pillsContainer.style.display = hasSelection ? 'flex' : 'none';
+        }
+        
+        // Toggle
+        dropdownBtn.addEventListener('click', () => { checkboxList.classList.toggle('visible'); dropdownBtn.classList.toggle('open'); });
+        
+        // Close on click outside
+        window.addEventListener('click', (e) => {
+            if (!dropdownBtn.contains(e.target) && !checkboxList.contains(e.target)) {
+                checkboxList.classList.remove('visible'); dropdownBtn.classList.remove('open');
+            }
+        });
+        
+        checkboxes.forEach(cb => cb.addEventListener('change', updatePills));
+        updatePills(); // Initial call
+    };
+    
+    // Initialize SDG Dropdown in Modal
+    initializeDropdown('sdg-dropdown-btn', 'sdg-checkbox-list', 'sdg-selected-pills');
+
 
     // --- Render News/Events ---
     const renderNewsEvents = () => {
@@ -60,17 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return matchesSearch && matchesType;
         });
         
+        // Sort logic ...
         const sortValue = sortDropdown.value;
-        if (sortValue === 'recent') {
-            filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
-        } else if (sortValue === 'oldest') {
-            filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
-        } else if (sortValue === 'a-z') {
-            filteredData.sort((a, b) => a.title.localeCompare(b.title));
-        } else if (sortValue === 'z-a') {
-            filteredData.sort((a, b) => b.title.localeCompare(a.title));
-        }
-
+        if (sortValue === 'recent') { filteredData.sort((a, b) => new Date(b.date) - new Date(a.date)); }
+        else if (sortValue === 'oldest') { filteredData.sort((a, b) => new Date(a.date) - new Date(b.date)); }
+        
         newsEventList.innerHTML = '';
         if (filteredData.length === 0) {
             newsEventList.innerHTML = '<p style="text-align: center; color: var(--text-light); margin-top: 30px;">No news or events found.</p>';
@@ -82,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'news-event-card';
             card.dataset.id = item.id;
             
-            // --- NEW: Add SDG tags ---
+            // Process SDGs array
             const sdgTagsHTML = (item.sdgs && Array.isArray(item.sdgs))
-                ? item.sdgs.map(sdg => `<span class="tag tag-sdg">SDG ${sdg}</span>`).join('')
+                ? item.sdgs.map(sdg => `<span class="tag tag-sdg">${sdg}</span>`).join('')
                 : '';
 
             card.innerHTML = `
@@ -109,31 +143,26 @@ document.addEventListener('DOMContentLoaded', () => {
         attachActionListeners();
     };
 
-    // --- Attach Listeners to Dynamic Buttons ---
     const attachActionListeners = () => {
         document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', e => {
-                const id = parseInt(e.target.closest('.news-event-card').dataset.id);
-                editNewsEvent(id);
-            });
+            button.addEventListener('click', e => { editNewsEvent(parseInt(e.target.closest('.news-event-card').dataset.id)); });
         });
         document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', e => {
-                const id = parseInt(e.target.closest('.news-event-card').dataset.id);
-                deleteNewsEvent(id);
-            });
+            button.addEventListener('click', e => { deleteNewsEvent(parseInt(e.target.closest('.news-event-card').dataset.id)); });
         });
     };
 
-    // --- Modal Functions ---
     const openModal = () => newsEventModalOverlay.classList.add('active');
     const closeModal = () => {
         newsEventModalOverlay.classList.remove('active');
         newsEventForm.reset();
         editingItemId = null;
+        // Reset SDGs
+        document.querySelectorAll('#sdg-checkbox-list input').forEach(cb => cb.checked = false);
+        // Trigger change to update UI
+        document.querySelector('#sdg-checkbox-list input').dispatchEvent(new Event('change'));
     };
 
-    // --- CRUD Functions ---
     const editNewsEvent = (id) => {
         const item = newsEventsData.find(ne => ne.id === id);
         if (!item) return;
@@ -145,14 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
         newsEventTagsInput.value = item.tags.join(', ');
         newsEventContentTextarea.value = item.content;
         
-        // --- NEW: Load SDG data into form ---
-        if (item.sdgs && Array.isArray(item.sdgs)) {
-            newsEventSdgsInput.value = item.sdgs.join(', ');
-        } else {
-            newsEventSdgsInput.value = '';
-        }
-        // --- END NEW ---
-        
+        // Populate SDGs
+        const sdgs = item.sdgs || [];
+        document.querySelectorAll('#sdg-checkbox-list input').forEach(cb => {
+            cb.checked = sdgs.includes(cb.value);
+        });
+        // Trigger update UI
+        document.querySelector('#sdg-checkbox-list input').dispatchEvent(new Event('change'));
+
         newsEventModalTitle.textContent = 'Edit Item';
         newsEventModalSubtitle.textContent = 'Update news or event information';
         submitNewsEventBtn.textContent = 'Update';
@@ -160,17 +189,20 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const deleteNewsEvent = (id) => {
-        if (confirm('Are you sure you want to delete this news/event item?')) {
+        if (confirm('Delete this item?')) {
             newsEventsData = newsEventsData.filter(item => item.id !== id);
             saveData();
             renderNewsEvents();
         }
     };
 
-    // --- Event Listeners ---
     addNewsEventBtn.addEventListener('click', () => {
         editingItemId = null;
         newsEventForm.reset();
+        // Reset SDGs
+        document.querySelectorAll('#sdg-checkbox-list input').forEach(cb => cb.checked = false);
+        document.querySelector('#sdg-checkbox-list input').dispatchEvent(new Event('change'));
+        
         newsEventModalTitle.textContent = 'Add News/Event';
         newsEventModalSubtitle.textContent = 'Create a new news article or event';
         submitNewsEventBtn.textContent = 'Create';
@@ -184,13 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
     newsEventForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // --- NEW: Process SDGs from text input to array ---
-        const sdgString = newsEventSdgsInput.value || '';
-        const sdgs = sdgString
-            .split(',')
-            .map(s => parseInt(s.trim()))
-            .filter(n => !isNaN(n) && n >= 1 && n <= 17);
-        // --- END NEW ---
+        // Collect SDGs
+        const selectedSdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
         
         const formData = {
             title: newsEventTitleInput.value,
@@ -199,15 +226,12 @@ document.addEventListener('DOMContentLoaded', () => {
             date: newsEventDateInput.value,
             tags: newsEventTagsInput.value.split(',').map(tag => tag.trim()).filter(Boolean),
             content: newsEventContentTextarea.value,
-            sdgs: sdgs // <-- NEW: Add the processed array
+            sdgs: selectedSdgs
         };
         
         if (editingItemId !== null) {
             const index = newsEventsData.findIndex(item => item.id === editingItemId);
-            if (index !== -1) {
-                // Preserve existing data like ID
-                newsEventsData[index] = { ...newsEventsData[index], ...formData };
-            }
+            if (index !== -1) newsEventsData[index] = { ...newsEventsData[index], ...formData };
         } else {
             formData.id = newsEventsData.length > 0 ? Math.max(...newsEventsData.map(item => item.id)) + 1 : 1;
             newsEventsData.push(formData);
@@ -226,9 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderNewsEvents();
         }
     });
-
     sortDropdown.addEventListener('change', renderNewsEvents);
-
-    // --- Initial Render ---
     renderNewsEvents();
 });

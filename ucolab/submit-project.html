@@ -10,44 +10,23 @@
 </head>
 <body class="submit-page-body">
 
-    <header class="main-wrapper">
-        <div class="navbar">
+    <header class="submit-page-header">
+        <nav>
             <div class="logo">
-                <a href="index.html">
-                    <img src="/graphics/InTTOLogo.png" alt="UCoLab Logo" class="header-logo">
-                </a>
+                <img src="Logo/InTTO Logo White.png" alt="UCoLab Logo" class="header-logo">
             </div>
-
-            <div class="nav-wrapper">
-                <div class="hamburger-menu" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="nav-links" id="navLinks">
-                    <a href="../index.html">Home</a>
-                    <a href="../aboutUs.html">About</a>
-                    <a href="../services.html">Services</a>
-                    <a href="../startups.html">Startups</a>
-                    <a href="../events.html">Events</a>
-                    <a href="/ucolab/index.html">UCoLab</a>
-                    <a href="/sdgPage.html">SDG</a>
-                </div>
-            </div>
-
             <div class="header-user-info">
-                    <span class="user-status-pill" id="user-display">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        Loading...
-                    </span>
+                <span class="user-status-pill" id="user-display">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Loading...
+                </span>
                 <a href="#" class="btn-signout" id="signout-btn-main">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                     Sign Out
                 </a>
             </div>
-        </div>
+        </nav>
     </header>
-    
+
     <main class="submit-project-main">
         <a href="index.html" class="back-link">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -133,7 +112,7 @@
                                     <input type="checkbox" id="college-cte" name="college-option" value="College of Teacher Education">
                                     <label for="college-cte">College of Teacher Education</label>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         <input type="text" id="college-validation" required style="display: none; height: 0; padding: 0; border: none;">
                     </div>
@@ -155,28 +134,35 @@
                     </div>
                 </div>
                 
+                <!-- UPDATED SDG SECTION -->
                 <div class="form-group full-width">
-                    <label for="project-sdg">Primary Sustainable Development Goal (SDG)</label>
-                    <select id="project-sdg">
-                        <option value="N/A" selected>Select an SDG</option>
-                        <option value="SDG 1">SDG 1: No Poverty</option>
-                        <option value="SDG 2">SDG 2: Zero Hunger</option>
-                        <option value="SDG 3">SDG 3: Good Health and Well-being</option>
-                        <option value="SDG 4">SDG 4: Quality Education</option>
-                        <option value="SDG 5">SDG 5: Gender Equality</option>
-                        <option value="SDG 6">SDG 6: Clean Water and Sanitation</option>
-                        <option value="SDG 7">SDG 7: Affordable and Clean Energy</option>
-                        <option value="SDG 8">SDG 8: Decent Work and Economic Growth</option>
-                        <option value="SDG 9">SDG 9: Industry, Innovation and Infrastructure</option>
-                        <option value="SDG 10">SDG 10: Reduced Inequalities</option>
-                        <option value="SDG 11">SDG 11: Sustainable Cities and Communities</option>
-                        <option value="SDG 12">SDG 12: Responsible Consumption and Production</option>
-                        <option value="SDG 13">SDG 13: Climate Action</option>
-                        <option value="SDG 14">SDG 14: Life Below Water</option>
-                        <option value="SDG 15">SDG 15: Life on Land</option>
-                        <option value="SDG 16">SDG 16: Peace, Justice and Strong Institutions</option>
-                        <option value="SDG 17">SDG 17: Partnerships for the Goals</option>
-                    </select>
+                    <label for="sdg-dropdown-btn">Sustainable Development Goals (SDG)</label>
+                    <div class="multi-select-dropdown" id="sdg-multi-select">
+                        <div class="dropdown-button" id="sdg-dropdown-btn" tabindex="0">
+                            <span class="dropdown-button-text">Select SDGs (Multiple allowed)...</span>
+                            <div class="selected-pills" id="sdg-selected-pills"></div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="checkbox-list" id="sdg-checkbox-list">
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg1" name="sdg-option" value="SDG 1"><label for="sdg1">SDG 1: No Poverty</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg2" name="sdg-option" value="SDG 2"><label for="sdg2">SDG 2: Zero Hunger</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg3" name="sdg-option" value="SDG 3"><label for="sdg3">SDG 3: Good Health and Well-being</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg4" name="sdg-option" value="SDG 4"><label for="sdg4">SDG 4: Quality Education</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg5" name="sdg-option" value="SDG 5"><label for="sdg5">SDG 5: Gender Equality</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg6" name="sdg-option" value="SDG 6"><label for="sdg6">SDG 6: Clean Water and Sanitation</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg7" name="sdg-option" value="SDG 7"><label for="sdg7">SDG 7: Affordable and Clean Energy</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg8" name="sdg-option" value="SDG 8"><label for="sdg8">SDG 8: Decent Work and Economic Growth</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg9" name="sdg-option" value="SDG 9"><label for="sdg9">SDG 9: Industry, Innovation and Infrastructure</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg10" name="sdg-option" value="SDG 10"><label for="sdg10">SDG 10: Reduced Inequalities</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg11" name="sdg-option" value="SDG 11"><label for="sdg11">SDG 11: Sustainable Cities and Communities</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg12" name="sdg-option" value="SDG 12"><label for="sdg12">SDG 12: Responsible Consumption and Production</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg13" name="sdg-option" value="SDG 13"><label for="sdg13">SDG 13: Climate Action</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg14" name="sdg-option" value="SDG 14"><label for="sdg14">SDG 14: Life Below Water</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg15" name="sdg-option" value="SDG 15"><label for="sdg15">SDG 15: Life on Land</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg16" name="sdg-option" value="SDG 16"><label for="sdg16">SDG 16: Peace, Justice and Strong Institutions</label></div>
+                            <div class="checkbox-list-item"><input type="checkbox" id="sdg17" name="sdg-option" value="SDG 17"><label for="sdg17">SDG 17: Partnerships for the Goals</label></div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group full-width">

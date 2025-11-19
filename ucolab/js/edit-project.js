@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const projectType = document.getElementById('project-type');
     const industry = document.getElementById('industry');
     const trlLevel = document.getElementById('trl-level');
-    const projectSdg = document.getElementById('project-sdg');
+    // Note: projectSdg select element is replaced by multi-select div
     const shortDescription = document.getElementById('short-description');
     const shortDescCounter = document.getElementById('short-desc-counter'); 
     const detailedDescription = document.getElementById('detailed-description');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let allProjects = [];
     let projectToEdit = null;
     let projectIndex = -1;
-    let sourceList = ''; // NEW: Tracks if project is in 'ucolabProjects' or 'pendingProjects'
+    let sourceList = ''; // Tracks if project is in 'ucolabProjects' or 'pendingProjects'
 
     // --- 2. Authentication Check (Firebase) ---
     auth.onAuthStateChanged(async function(user) {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // --- Initialize Page Functions ---
             initializeImageUploaders();
-            initializeCollegeDropdown();
+            // Note: College and SDG dropdowns are initialized inside loadAndPopulateData after checking boxes
             initializeCharCounter(); 
             initializeFormSubmit(loggedInUser);
             setupActionButtons();
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- 5. Load and Populate Form (UPDATED) ---
+    // --- 5. Load and Populate Form ---
     function loadAndPopulateData(loggedInUser, isAdmin) {
         const urlParams = new URLSearchParams(window.location.search);
         const projectId = urlParams.get('id');
@@ -152,21 +152,34 @@ document.addEventListener('DOMContentLoaded', function() {
             if(projectType) projectType.value = projectToEdit.type || '';
             if(industry) industry.value = projectToEdit.industry || '';
             if(trlLevel) trlLevel.value = projectToEdit.trl || '';
-            if(projectSdg) projectSdg.value = projectToEdit.sdg || 'N/A';
             
             if(shortDescription) shortDescription.value = projectToEdit.shortDescription || '';
             if(shortDescCounter) shortDescCounter.textContent = `${(projectToEdit.shortDescription || '').length} / 100`;
             
+            // --- Populate College Multi-Select ---
             if (Array.isArray(projectToEdit.college)) {
-                projectToEdit.college.forEach(collegeName => {
-                    const checkbox = document.querySelector(`input[name="college-option"][value="${collegeName}"]`);
-                    if (checkbox) {
-                        checkbox.checked = true;
-                    }
+                projectToEdit.college.forEach(val => {
+                    const cb = document.querySelector(`#college-checkbox-list input[value="${val}"]`);
+                    if (cb) cb.checked = true;
                 });
-                initializeCollegeDropdown(); 
             }
+            // Initialize College Dropdown (Updates pills based on checked boxes)
+            initializeCustomDropdown('college-dropdown-btn', 'college-checkbox-list', 'college-selected-pills', 'college-validation');
+
+            // --- Populate SDG Multi-Select ---
+            // Handle both new array format (sdgs) and old single string format (sdg)
+            const sdgsToLoad = projectToEdit.sdgs || (projectToEdit.sdg ? [projectToEdit.sdg] : []);
             
+            if (Array.isArray(sdgsToLoad)) {
+                sdgsToLoad.forEach(val => {
+                    const cb = document.querySelector(`#sdg-checkbox-list input[value="${val}"]`);
+                    if (cb) cb.checked = true;
+                });
+            }
+            // Initialize SDG Dropdown (Updates pills based on checked boxes)
+            initializeCustomDropdown('sdg-dropdown-btn', 'sdg-checkbox-list', 'sdg-selected-pills', 'sdg-validation');
+
+
             if(detailedDescription) detailedDescription.value = projectToEdit.detailedDescription || '';
             if(problemStatement) problemStatement.value = projectToEdit.problemStatement || '';
             if(solution) solution.value = projectToEdit.solution || '';
@@ -294,6 +307,82 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // --- Generic Multi-Select Dropdown Logic ---
+    function initializeCustomDropdown(btnId, listId, pillsId, validationId) {
+        const dropdownBtn = document.getElementById(btnId);
+        const checkboxList = document.getElementById(listId);
+        const pillsContainer = document.getElementById(pillsId);
+        const defaultText = document.querySelector(`#${btnId} .dropdown-button-text`);
+        const validationInput = document.getElementById(validationId); // Optional
+
+        if (!dropdownBtn || !checkboxList || !pillsContainer) return;
+
+        const checkboxes = checkboxList.querySelectorAll('input[type="checkbox"]');
+
+        function updatePills() {
+            pillsContainer.innerHTML = '';
+            let hasSelection = false;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    hasSelection = true;
+                    const pill = document.createElement('span');
+                    pill.className = 'pill';
+                    pill.textContent = checkbox.value;
+                    const removeBtn = document.createElement('span');
+                    removeBtn.className = 'pill-remove';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        checkbox.checked = false;
+                        updatePills();
+                    };
+                    pill.appendChild(removeBtn);
+                    pillsContainer.appendChild(pill);
+                }
+            });
+
+            if (hasSelection) {
+                defaultText.style.display = 'none';
+                pillsContainer.style.display = 'flex';
+                if (validationInput) validationInput.value = 'selected';
+            } else {
+                defaultText.style.display = 'block';
+                pillsContainer.style.display = 'none';
+                if (validationInput) validationInput.value = '';
+            }
+        }
+        
+        // Call immediately to set initial state from loaded data
+        updatePills(); 
+
+        dropdownBtn.addEventListener('click', () => {
+            checkboxList.classList.toggle('visible');
+            dropdownBtn.classList.toggle('open');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!dropdownBtn.contains(e.target) && !checkboxList.contains(e.target)) {
+                checkboxList.classList.remove('visible');
+                dropdownBtn.classList.remove('open');
+            }
+        });
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updatePills);
+        });
+        
+        checkboxList.querySelectorAll('.checkbox-list-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    updatePills();
+                }
+            });
+        });
+    }
+
+
     // --- 8. Handle Form Submission (Update) ---
     function initializeFormSubmit(loggedInUser) {
         if (form) {
@@ -307,13 +396,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     finalImageUrls.push(`https://via.placeholder.com/500x350.png?text=${projectNameValue.replace(/ /g, '+')}`);
                 }
 
-                const selectedColleges = Array.from(document.querySelectorAll('input[name="college-option"]:checked'))
+                // --- Collect Multi-Select Values ---
+                const selectedColleges = Array.from(document.querySelectorAll('#college-checkbox-list input[type="checkbox"]:checked'))
                                               .map(cb => cb.value);
                 
                 if (selectedColleges.length === 0) {
                     alert("Please select at least one college.");
                     return;
                 }
+
+                // Updated: Collect Multiple SDGs
+                const selectedSdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input[type="checkbox"]:checked'))
+                                            .map(cb => cb.value);
+
 
                 const founderFirstNameValue = document.getElementById('founder-first-name')?.value;
                 const founderLastNameValue = document.getElementById('founder-last-name')?.value;
@@ -326,7 +421,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     industry: industry?.value || projectToEdit.industry,
                     college: selectedColleges,
                     trl: trlLevel?.value || projectToEdit.trl,
-                    sdg: projectSdg?.value || 'N/A',
+                    
+                    // Updated: Save array of SDGs
+                    sdgs: selectedSdgs, 
+                    // Keep 'sdg' for backward compatibility if needed (use first selection or N/A)
+                    sdg: selectedSdgs.length > 0 ? selectedSdgs[0] : 'N/A',
+                    
                     shortDescription: shortDescription?.value || projectToEdit.shortDescription,
                     detailedDescription: detailedDescription?.value || projectToEdit.detailedDescription,
                     problemStatement: problemStatement?.value || projectToEdit.problemStatement,
@@ -362,34 +462,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.warn("Could not reload opener tab:", openerError);
                     }
 
-                    // Show success message
-                    const formElement = document.querySelector('.submit-form');
-                    const successContainer = document.getElementById('success-message');
-                    const successTitle = document.getElementById('success-title');
-                    const successText = document.getElementById('success-text');
-                    const successLinkHome = document.getElementById('success-link-home');
-                    const successLinkProject = document.getElementById('success-link-project');
-                    const successCloseBtn = document.getElementById('success-close-btn');
-                    const pageTitle = document.querySelector('.submit-project-main h1');
-                    const pageSubtitle = document.querySelector('.submit-project-main .page-subtitle');
-                    const backLink = document.querySelector('.submit-project-main .back-link');
+                    // Show success message or simple alert
+                    alert("Project updated successfully!");
+                    window.close();
 
-                    if (formElement && successContainer) {
-                        formElement.style.display = 'none';
-                        if(pageTitle) pageTitle.style.display = 'none';
-                        if(pageSubtitle) pageSubtitle.style.display = 'none';
-                        if(backLink) backLink.style.display = 'none';
-                        
-                        successTitle.textContent = 'Project Updated!';
-                        successText.textContent = `Your project "${updatedProject.title}" has been successfully updated.`;
-                        successLinkHome.href = 'index.html';
-                        successLinkProject.href = `project-detail.html?id=${updatedProject.id}`;
-                        successContainer.style.display = 'block';
-                        successCloseBtn.addEventListener('click', () => window.close());
-                    } else {
-                        alert("Project updated successfully!");
-                        window.close();
-                    }
                 } catch (error) {
                     console.error("Error updating project in localStorage:", error);
                     if (error.name === 'QuotaExceededError') {
@@ -436,80 +512,6 @@ document.addEventListener('DOMContentLoaded', function() {
             circle.style.opacity = Math.random() * 0.4 + 0.3;
             body.prepend(circle);
         }
-    }
-
-    // --- 11. College Dropdown ---
-    function initializeCollegeDropdown() {
-        const dropdownBtn = document.getElementById('college-dropdown-btn');
-        const checkboxList = document.getElementById('college-checkbox-list');
-        const pillsContainer = document.getElementById('college-selected-pills');
-        const defaultText = document.querySelector('#college-dropdown-btn .dropdown-button-text');
-        const validationInput = document.getElementById('college-validation');
-
-        if (!dropdownBtn || !checkboxList) return;
-
-        const checkboxes = checkboxList.querySelectorAll('input[type="checkbox"]');
-
-        function updateCollegePills() {
-            pillsContainer.innerHTML = '';
-            let hasSelection = false;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    hasSelection = true;
-                    const pill = document.createElement('span');
-                    pill.className = 'pill';
-                    pill.textContent = checkbox.value;
-                    const removeBtn = document.createElement('span');
-                    removeBtn.className = 'pill-remove';
-                    removeBtn.innerHTML = '&times;';
-                    removeBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        checkbox.checked = false;
-                        updateCollegePills();
-                    };
-                    pill.appendChild(removeBtn);
-                    pillsContainer.appendChild(pill);
-                }
-            });
-
-            if (hasSelection) {
-                defaultText.style.display = 'none';
-                pillsContainer.style.display = 'flex';
-                validationInput.value = 'selected';
-            } else {
-                defaultText.style.display = 'block';
-                pillsContainer.style.display = 'none';
-                validationInput.value = '';
-            }
-        }
-        
-        updateCollegePills(); 
-
-        dropdownBtn.addEventListener('click', () => {
-            checkboxList.classList.toggle('visible');
-            dropdownBtn.classList.toggle('open');
-        });
-
-        window.addEventListener('click', (e) => {
-            if (!document.getElementById('college-multi-select').contains(e.target)) {
-                checkboxList.classList.remove('visible');
-                dropdownBtn.classList.remove('open');
-            }
-        });
-
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateCollegePills);
-        });
-        
-        checkboxList.querySelectorAll('.checkbox-list-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                if (e.target.type !== 'checkbox') {
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    checkbox.checked = !checkbox.checked;
-                    updateCollegePills();
-                }
-            });
-        });
     }
 
 }); // End DOMContentLoaded

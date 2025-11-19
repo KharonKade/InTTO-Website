@@ -109,11 +109,39 @@
                         <input type="text" id="news-event-tags" name="tags" placeholder="Innovation Week, Event, Workshop">
                     </div>
                     
+                    <!-- UPDATED SDG Multi-Select for Admin Modal -->
                     <div class="form-group full-width">
-                        <label for="news-event-sdgs">SDGs (comma-separated)</label>
-                        <input type="text" id="news-event-sdgs" name="sdgs" placeholder="e.g., 4, 9, 17">
-                        <small>Enter SDG numbers (1-17), separated by commas.</small>
+                        <label for="sdg-dropdown-btn">Sustainable Development Goals (SDG)</label>
+                        <div class="multi-select-dropdown" id="sdg-multi-select">
+                            <div class="dropdown-button" id="sdg-dropdown-btn" tabindex="0">
+                                <span class="dropdown-button-text">Select SDGs (Multiple allowed)...</span>
+                                <div class="selected-pills" id="sdg-selected-pills"></div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="checkbox-list" id="sdg-checkbox-list">
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg1" name="sdg-option" value="SDG 1"><label for="sdg1">SDG 1: No Poverty</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg2" name="sdg-option" value="SDG 2"><label for="sdg2">SDG 2: Zero Hunger</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg3" name="sdg-option" value="SDG 3"><label for="sdg3">SDG 3: Good Health and Well-being</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg4" name="sdg-option" value="SDG 4"><label for="sdg4">SDG 4: Quality Education</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg5" name="sdg-option" value="SDG 5"><label for="sdg5">SDG 5: Gender Equality</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg6" name="sdg-option" value="SDG 6"><label for="sdg6">SDG 6: Clean Water and Sanitation</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg7" name="sdg-option" value="SDG 7"><label for="sdg7">SDG 7: Affordable and Clean Energy</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg8" name="sdg-option" value="SDG 8"><label for="sdg8">SDG 8: Decent Work and Economic Growth</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg9" name="sdg-option" value="SDG 9"><label for="sdg9">SDG 9: Industry, Innovation and Infrastructure</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg10" name="sdg-option" value="SDG 10"><label for="sdg10">SDG 10: Reduced Inequalities</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg11" name="sdg-option" value="SDG 11"><label for="sdg11">SDG 11: Sustainable Cities and Communities</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg12" name="sdg-option" value="SDG 12"><label for="sdg12">SDG 12: Responsible Consumption and Production</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg13" name="sdg-option" value="SDG 13"><label for="sdg13">SDG 13: Climate Action</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg14" name="sdg-option" value="SDG 14"><label for="sdg14">SDG 14: Life Below Water</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg15" name="sdg-option" value="SDG 15"><label for="sdg15">SDG 15: Life on Land</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg16" name="sdg-option" value="SDG 16"><label for="sdg16">SDG 16: Peace, Justice and Strong Institutions</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" id="sdg17" name="sdg-option" value="SDG 17"><label for="sdg17">SDG 17: Partnerships for the Goals</label></div>
+                            </div>
+                        </div>
+                        <!-- Validation input hidden -->
+                        <input type="text" id="sdg-validation" style="display: none; height: 0; padding: 0; border: none;">
                     </div>
+
                     <div class="form-group full-width">
                         <label for="news-event-content">Content *</label>
                         <textarea id="news-event-content" name="content" placeholder="Enter full description or announcement details" required></textarea>
