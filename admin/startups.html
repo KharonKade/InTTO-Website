@@ -83,8 +83,212 @@
         </section>
     </main>
 
-    <!-- No modal needed anymore, using external pages -->
+    <!-- View/Edit Startup Modal -->
+    <div class="modal-overlay" id="startup-modal-overlay" style="display: none;">
+        <div class="startup-modal">
+            <div class="modal-header">
+                <h2 id="modal-title">View Startup</h2>
+                <button class="modal-close" id="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="startup-form">
+                    <!-- Basic Info -->
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Project Name *</label>
+                                <input type="text" id="edit-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Logo Emoji</label>
+                                <input type="text" id="edit-logo" maxlength="2" placeholder="🚀">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Category/Industry *</label>
+                                <select id="edit-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="AI and Data Science">AI & Data Science</option>
+                                    <option value="SaaS and Enterprise Solutions">SaaS & Enterprise</option>
+                                    <option value="Fintech">Fintech</option>
+                                    <option value="E-commerce">E-commerce</option>
+                                    <option value="Health">Health</option>
+                                    <option value="Agriculture and Food">Agriculture & Food</option>
+                                    <option value="Education Technologies">Education Technologies</option>
+                                    <option value="Creative Industries">Creative Industries</option>
+                                    <option value="Criminology, Forensics, and Public Safety">Criminology & Public Safety</option>
+                                    <option value="Sustainability and Cleantech">Sustainability & Cleantech</option>
+                                    <option value="Smart Cities and Mobility">Smart Cities & Mobility</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>TRL Level *</label>
+                                <select id="edit-trl" required>
+                                    <option value="">Select TRL</option>
+                                    <option value="1">TRL 1 - Basic Principles</option>
+                                    <option value="2">TRL 2 - Concept Formulated</option>
+                                    <option value="3">TRL 3 - Proof of Concept</option>
+                                    <option value="4">TRL 4 - Lab Validation</option>
+                                    <option value="5">TRL 5 - Relevant Environment</option>
+                                    <option value="6">TRL 6 - Prototype Demo</option>
+                                    <option value="7">TRL 7 - System Prototype</option>
+                                    <option value="8">TRL 8 - System Complete</option>
+                                    <option value="9">TRL 9 - Proven System</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Status *</label>
+                                <select id="edit-status" required>
+                                    <option value="pending">⏳ Pending Review</option>
+                                    <option value="active">✅ Active</option>
+                                    <option value="graduated">🎓 Graduated</option>
+                                    <option value="inactive">💤 Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="edit-collab">
+                                    Open for Collaboration
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-section">
+                        <h3>Description</h3>
+                        <div class="form-group">
+                            <label>Short Description *</label>
+                            <textarea id="edit-description" rows="2" maxlength="150" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Detailed Description</label>
+                            <textarea id="edit-detailed-description" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Problem Statement</label>
+                            <textarea id="edit-problem-statement" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Solution</label>
+                            <textarea id="edit-solution" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- SDGs -->
+                    <div class="form-section">
+                        <h3>Sustainable Development Goals</h3>
+                        <div class="form-group">
+                            <label>SDGs (Select all that apply)</label>
+                            <div class="sdg-checkboxes" id="edit-sdgs-container">
+                                <label><input type="checkbox" value="SDG 1"> 1 - No Poverty</label>
+                                <label><input type="checkbox" value="SDG 2"> 2 - Zero Hunger</label>
+                                <label><input type="checkbox" value="SDG 3"> 3 - Good Health</label>
+                                <label><input type="checkbox" value="SDG 4"> 4 - Quality Education</label>
+                                <label><input type="checkbox" value="SDG 5"> 5 - Gender Equality</label>
+                                <label><input type="checkbox" value="SDG 6"> 6 - Clean Water</label>
+                                <label><input type="checkbox" value="SDG 7"> 7 - Clean Energy</label>
+                                <label><input type="checkbox" value="SDG 8"> 8 - Economic Growth</label>
+                                <label><input type="checkbox" value="SDG 9"> 9 - Innovation</label>
+                                <label><input type="checkbox" value="SDG 10"> 10 - Reduced Inequalities</label>
+                                <label><input type="checkbox" value="SDG 11"> 11 - Sustainable Cities</label>
+                                <label><input type="checkbox" value="SDG 12"> 12 - Responsible Consumption</label>
+                                <label><input type="checkbox" value="SDG 13"> 13 - Climate Action</label>
+                                <label><input type="checkbox" value="SDG 14"> 14 - Life Below Water</label>
+                                <label><input type="checkbox" value="SDG 15"> 15 - Life on Land</label>
+                                <label><input type="checkbox" value="SDG 16"> 16 - Peace & Justice</label>
+                                <label><input type="checkbox" value="SDG 17"> 17 - Partnerships</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Details -->
+                    <div class="form-section">
+                        <h3>Project Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input type="date" id="edit-start-date">
+                            </div>
+                            <div class="form-group">
+                                <label>Team Size</label>
+                                <input type="number" id="edit-team-size" min="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Website URL</label>
+                            <input type="url" id="edit-website" placeholder="https://">
+                        </div>
+                    </div>
+
+                    <!-- Founder Info -->
+                    <div class="form-section">
+                        <h3>Founder Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Founder Name</label>
+                                <input type="text" id="edit-founder-name">
+                            </div>
+                            <div class="form-group">
+                                <label>Founder Role</label>
+                                <input type="text" id="edit-founder-role">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Founder Email</label>
+                                <input type="email" id="edit-founder-email">
+                            </div>
+                            <div class="form-group">
+                                <label>Founder Phone</label>
+                                <input type="tel" id="edit-founder-phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Founder Affiliation</label>
+                            <input type="text" id="edit-founder-affiliation">
+                        </div>
+                    </div>
+
+                    <!-- Images -->
+                    <div class="form-section">
+                        <h3>Project Images</h3>
+                        <div id="edit-images-preview" class="images-preview-grid">
+                            <!-- Images will be displayed here -->
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-edit-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-edit-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     
-    <script src="js/startups.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log('🔥 Firebase initialized');
+    </script>
+    
+    <script src="js/startups-firestore.js"></script>
 </body>
 </html>

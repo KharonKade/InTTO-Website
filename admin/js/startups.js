@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // *** CRITICAL CHANGE: Use the SAME key as the public website ***
-    const STORAGE_KEY = 'ucolabProjects'; 
+    // *** CRITICAL: Must match the frontend load-startups.js storage key ***
+    const STORAGE_KEY = 'ucInttoStartupsData'; 
     const PENDING_KEY = 'pendingProjects';
 
     // Default data (Used if storage is empty)
@@ -15,7 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Load & Merge Data ---
     const loadData = () => {
         const savedData = localStorage.getItem(STORAGE_KEY);
-        let existingStartups = savedData ? JSON.parse(savedData) : defaultStartups;
+        let existingStartups = [];
+        
+        // If no saved data, use defaults and save them
+        if (!savedData) {
+            existingStartups = defaultStartups;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultStartups));
+            console.log('✅ Default startups loaded and saved to localStorage');
+        } else {
+            existingStartups = JSON.parse(savedData);
+            console.log(`✅ Loaded ${existingStartups.length} startups from localStorage`);
+        }
         
         // CHECK FOR PENDING SUBMISSIONS from the public site
         const pendingProjectsStr = localStorage.getItem(PENDING_KEY);
@@ -181,27 +191,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const attachActionListeners = () => {
         document.querySelectorAll('.approve-btn').forEach(btn => {
             btn.addEventListener('click', e => {
+                e.stopPropagation();
                 const id = e.target.closest('.startup-card').dataset.id;
                 approveStartup(id);
             });
         });
         document.querySelectorAll('.reject-btn').forEach(btn => {
             btn.addEventListener('click', e => {
+                e.stopPropagation();
                 const id = e.target.closest('.startup-card').dataset.id;
                 rejectStartup(id);
             });
         });
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', e => {
+                e.stopPropagation();
                 const id = e.target.closest('.startup-card').dataset.id;
-                editStartup(id);
+                openViewEditModal(id);
             });
         });
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', e => {
+                e.stopPropagation();
                 const id = e.target.closest('.startup-card').dataset.id;
                 deleteStartup(id);
             });
+        });
+        
+        // Make entire card clickable to view
+        document.querySelectorAll('.startup-card').forEach(card => {
+            card.addEventListener('click', e => {
+                // Don't trigger if clicking on action buttons
+                if (!e.target.closest('.startup-actions')) {
+                    const id = card.dataset.id;
+                    openViewEditModal(id);
+                }
+            });
+            card.style.cursor = 'pointer';
         });
     };
 
@@ -256,10 +282,188 @@ document.addEventListener('DOMContentLoaded', () => {
         renderStartups();
     };
 
-    // --- NEW: Open Add/Edit Pages in New Tabs ---
+    // --- View/Edit Modal Functions ---
+    let currentEditingId = null;
+
+    const openViewEditModal = (id) => {
+        console.log('🔵 Opening modal for startup ID:', id);
+        currentEditingId = id;
+        
+        // Find startup in both lists
+        let startup = startupsData.find(s => String(s.id) === String(id));
+        
+        if (!startup) {
+            console.error('❌ Startup not found with ID:', id);
+            alert('Startup not found');
+            return;
+        }
+
+        console.log('✅ Found startup:', startup.name);
+
+        // Populate form
+        document.getElementById('edit-name').value = startup.name || startup.title || '';
+        document.getElementById('edit-logo').value = startup.logo || '🚀';
+        document.getElementById('edit-category').value = startup.category || startup.industry || '';
+        document.getElementById('edit-trl').value = startup.trl || '';
+        document.getElementById('edit-status').value = startup.status || 'pending';
+        document.getElementById('edit-collab').checked = startup.collab || false;
+        document.getElementById('edit-description').value = startup.description || startup.shortDescription || '';
+        document.getElementById('edit-detailed-description').value = startup.detailedDescription || '';
+        document.getElementById('edit-problem-statement').value = startup.problemStatement || '';
+        document.getElementById('edit-solution').value = startup.solution || '';
+        document.getElementById('edit-start-date').value = startup.startDate || '';
+        document.getElementById('edit-team-size').value = startup.teamSize || '';
+        document.getElementById('edit-website').value = startup.website || '';
+        document.getElementById('edit-founder-name').value = startup.founderName || '';
+        document.getElementById('edit-founder-role').value = startup.founderRole || '';
+        document.getElementById('edit-founder-email').value = startup.founderEmail || '';
+        document.getElementById('edit-founder-phone').value = startup.founderPhone || '';
+        document.getElementById('edit-founder-affiliation').value = startup.founderAffiliation || '';
+
+        // Populate SDGs
+        const sdgCheckboxes = document.querySelectorAll('#edit-sdgs-container input[type="checkbox"]');
+        sdgCheckboxes.forEach(cb => cb.checked = false);
+        if (startup.sdgs && Array.isArray(startup.sdgs)) {
+            startup.sdgs.forEach(sdg => {
+                const checkbox = document.querySelector(`#edit-sdgs-container input[value="${sdg}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+        }
+
+        // Display images
+        const imagesPreview = document.getElementById('edit-images-preview');
+        imagesPreview.innerHTML = '';
+        if (startup.imageUrls && Array.isArray(startup.imageUrls) && startup.imageUrls.length > 0) {
+            startup.imageUrls.forEach((url, index) => {
+                if (url) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'preview-image-item';
+                    imgDiv.innerHTML = `
+                        <img src="${url}" alt="Project image ${index + 1}">
+                        <div class="preview-image-label">${index === 0 ? 'Cover Image' : `Image ${index + 1}`}</div>
+                    `;
+                    imagesPreview.appendChild(imgDiv);
+                }
+            });
+        } else {
+            imagesPreview.innerHTML = '<p style="color: var(--text-light); padding: 20px; text-align: center;">No images uploaded</p>';
+        }
+
+        // Show modal
+        const modal = document.getElementById('startup-modal-overlay');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.getElementById('modal-title').textContent = `Edit Startup: ${startup.name || startup.title}`;
+            console.log('✅ Modal displayed');
+        } else {
+            console.error('❌ Modal element not found!');
+        }
+    };
+
+    const closeModal = () => {
+        console.log('🔴 Closing modal');
+        const modal = document.getElementById('startup-modal-overlay');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+        currentEditingId = null;
+    };
+
+    const saveStartupChanges = (e) => {
+        e.preventDefault();
+
+        if (!currentEditingId) return;
+
+        // Collect form data
+        const updatedData = {
+            name: document.getElementById('edit-name').value,
+            title: document.getElementById('edit-name').value, // Keep both for compatibility
+            logo: document.getElementById('edit-logo').value || '🚀',
+            category: document.getElementById('edit-category').value,
+            industry: document.getElementById('edit-category').value, // Keep both for compatibility
+            trl: parseInt(document.getElementById('edit-trl').value) || 0,
+            status: document.getElementById('edit-status').value,
+            collab: document.getElementById('edit-collab').checked,
+            description: document.getElementById('edit-description').value,
+            shortDescription: document.getElementById('edit-description').value, // Keep both
+            detailedDescription: document.getElementById('edit-detailed-description').value,
+            problemStatement: document.getElementById('edit-problem-statement').value,
+            solution: document.getElementById('edit-solution').value,
+            startDate: document.getElementById('edit-start-date').value,
+            teamSize: document.getElementById('edit-team-size').value,
+            website: document.getElementById('edit-website').value,
+            founderName: document.getElementById('edit-founder-name').value,
+            founderRole: document.getElementById('edit-founder-role').value,
+            founderEmail: document.getElementById('edit-founder-email').value,
+            founderPhone: document.getElementById('edit-founder-phone').value,
+            founderAffiliation: document.getElementById('edit-founder-affiliation').value,
+        };
+
+        // Collect SDGs
+        const selectedSdgs = Array.from(document.querySelectorAll('#edit-sdgs-container input[type="checkbox"]:checked'))
+            .map(cb => cb.value);
+        updatedData.sdgs = selectedSdgs;
+
+        // Find and update in appropriate storage
+        let active = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        let pending = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+
+        const activeIndex = active.findIndex(s => String(s.id) === String(currentEditingId));
+        const pendingIndex = pending.findIndex(s => String(s.id) === String(currentEditingId));
+
+        if (activeIndex !== -1) {
+            // Update in active list, preserve existing data
+            active[activeIndex] = { ...active[activeIndex], ...updatedData };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(active));
+        } else if (pendingIndex !== -1) {
+            // Update in pending list, preserve existing data
+            pending[pendingIndex] = { ...pending[pendingIndex], ...updatedData };
+            localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
+        }
+
+        closeModal();
+        renderStartups();
+        
+        alert('Startup updated successfully!');
+    };
+
+    // --- Initialize Modal Event Listeners ---
+    const initializeModalListeners = () => {
+        const closeBtn = document.getElementById('close-modal-btn');
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        const form = document.getElementById('startup-form');
+        const overlay = document.getElementById('startup-modal-overlay');
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+            console.log('✅ Close button listener attached');
+        }
+        
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeModal);
+            console.log('✅ Cancel button listener attached');
+        }
+        
+        if (form) {
+            form.addEventListener('submit', saveStartupChanges);
+            console.log('✅ Form submit listener attached');
+        }
+        
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (e.target.id === 'startup-modal-overlay') {
+                    closeModal();
+                }
+            });
+            console.log('✅ Modal overlay listener attached');
+        }
+    };
+
+    // --- OLD: Open Add/Edit Pages in New Tabs (kept for Add button) ---
 
     const editStartup = (id) => {
-        // Open the UCoLab edit page in a new tab
+        // This function is no longer used for editing, but kept for compatibility
+        // Now we use openViewEditModal instead
         window.open(`../ucolab/edit-project.html?id=${id}`, '_blank');
     };
 
@@ -286,6 +490,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderStartups();
     });
 
+    // --- Initialize Everything ---
+    initializeModalListeners();
+    
     // Initial Render
     renderStartups();
+    
+    console.log('✅ Startups management initialized');
 });

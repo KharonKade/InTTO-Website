@@ -211,14 +211,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const founderFullName = `${founderFirstName} ${founderLastName}`;
 
                 const newProject = {
-                    id: Date.now(),
+                    name: projectNameValue,
                     title: projectNameValue,
                     type: document.getElementById('project-type')?.value || 'N/A',
                     industry: document.getElementById('industry')?.value || 'N/A',
+                    category: document.getElementById('industry')?.value || 'N/A',
                     college: selectedColleges,
                     trl: document.getElementById('trl-level')?.value || 'TRL ?',
-                    sdgs: selectedSdgs, // Using array now
+                    sdgs: selectedSdgs,
                     shortDescription: document.getElementById('short-description')?.value || '',
+                    description: document.getElementById('short-description')?.value || '',
                     detailedDescription: document.getElementById('detailed-description')?.value || '',
                     problemStatement: document.getElementById('problem-statement')?.value || '',
                     solution: document.getElementById('solution')?.value || '',
@@ -240,16 +242,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     inquiries: 0,
                     userId: loggedInUser,
                     status: 'pending',
-                    createdAt: new Date().toISOString().split('T')[0],
+                    createdAt: firebase.firestore.Timestamp.now(),
+                    updatedAt: firebase.firestore.Timestamp.now(),
                     logo: '🚀',
                     tags: [],
                     collab: false
                 };
 
                 try {
-                    const existingProjects = JSON.parse(localStorage.getItem('pendingProjects') || '[]');
-                    existingProjects.push(newProject);
-                    localStorage.setItem('pendingProjects', JSON.stringify(existingProjects));
+                    console.log('💾 Saving project to Firestore...');
+                    const docRef = await db.collection('startups').add(newProject);
+                    console.log('✅ Project saved with ID:', docRef.id);
 
                     try { if (window.opener && !window.opener.closed && window.opener.location) window.opener.location.reload(); } catch (e) {}
 
@@ -272,12 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.close();
                     }
                 } catch (error) {
-                    console.error("Error saving project:", error);
-                    if (error.name === 'QuotaExceededError') {
-                        alert("Error: Storage full. Please reduce image sizes.");
-                    } else {
-                        alert("Error saving project.");
-                    }
+                    console.error("❌ Error saving project:", error);
+                    alert("Error saving project: " + error.message);
                 }
             });
         }

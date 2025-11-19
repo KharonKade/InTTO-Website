@@ -1,17 +1,75 @@
 import { db } from "../index-incubation-back/api.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
+// EmailJS Configuration
+const EMAILJS_SERVICE_ID = 'service_4k3exau';
+const EMAILJS_TEMPLATE_ID = 'template_f9j1pde';
+const EMAILJS_PUBLIC_KEY = '5_58lLK_G13DczpUQ'; // Replace with your EmailJS public key
+
 export async function saveApplication(data) {
     try {
+        // 1. Save to Firestore
         const collectionRef = collection(db, "incubation_applications");
         const docRef = await addDoc(collectionRef, {
             ...data,
             submittedAt: serverTimestamp()
         });
-        console.log("Document successfully written with ID:", docRef.id);
+        console.log("✅ Document successfully written with ID:", docRef.id);
+        
+        // 2. Send email notification via EmailJS
+        await sendEmailNotification(data, docRef.id);
+        
         return docRef.id;
     } catch (e) {
-        console.error("Error adding document:", e);
+        console.error("❌ Error adding document:", e);
         throw e;
+    }
+}
+
+/**
+ * Send email notification with application details
+ */
+async function sendEmailNotification(data, applicationId) {
+    // Check if EmailJS is loaded
+    if (typeof emailjs === 'undefined') {
+        console.warn('⚠️ EmailJS library not loaded. Skipping email notification.');
+        return;
+    }
+    
+    // Initialize EmailJS (only needed once, but safe to call multiple times)
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    
+    // Prepare template parameters
+    const templateParams = {
+        application_id: applicationId,
+        full_name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        student_id: data.studentId,
+        year_level: data.yearLevel,
+        submitted_at: new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        }),
+        // Additional fields if your form has more data
+        to_name: 'UC InTTO Admin', // Can be customized
+        reply_to: data.email
+    };
+    
+    try {
+        console.log('📧 Sending email notification...');
+        const response = await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            templateParams
+        );
+        console.log('✅ Email sent successfully:', response.status, response.text);
+    } catch (error) {
+        console.error('❌ Failed to send email:', error);
+        // Don't throw error - we still want the application to be saved even if email fails
     }
 }

@@ -1,6 +1,5 @@
-// Load approved startups from admin data
-document.addEventListener('DOMContentLoaded', () => {
-    const STORAGE_KEY = 'ucInttoStartupsData';
+// Load approved startups from Firestore
+document.addEventListener('DOMContentLoaded', async () => {
     const cardsGrid = document.getElementById('cardsGrid');
     
     if (!cardsGrid) {
@@ -8,27 +7,43 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Load startups data from localStorage
-    function loadStartups() {
-        const savedData = localStorage.getItem(STORAGE_KEY);
-        if (!savedData) {
-            console.log('No startups data found in localStorage');
+    // Initialize Firebase if not already initialized
+    if (!window.db) {
+        console.error('Firebase not initialized! Make sure Firebase scripts are loaded before this script.');
+        return;
+    }
+
+    // Load startups data from Firestore
+    async function loadStartups() {
+        try {
+            console.log('📥 Loading startups from Firestore...');
+            const snapshot = await db.collection('startups')
+                .where('status', 'in', ['active', 'graduated'])
+                .get();
+            
+            const startups = [];
+            snapshot.forEach(doc => {
+                startups.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+            
+            console.log(`✅ Loaded ${startups.length} approved startups`);
+            return startups;
+        } catch (error) {
+            console.error('❌ Error loading startups:', error);
             return [];
         }
-        
-        const allStartups = JSON.parse(savedData);
-        // Only return active and graduated startups (approved ones)
-        return allStartups.filter(startup => 
-            startup.status === 'active' || startup.status === 'graduated'
-        );
     }
 
     // Render startup cards
-    function renderStartupCards() {
-        const startups = loadStartups();
+    async function renderStartupCards() {
+        const startups = await loadStartups();
         
         if (startups.length === 0) {
             console.log('No approved startups to display');
+            cardsGrid.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No startups available yet.</p>';
             return;
         }
 
@@ -65,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add SDG badge if available
             if (startup.sdgs && Array.isArray(startup.sdgs) && startup.sdgs.length > 0) {
-                tagsHTML += `<span class="tag sdg-tag">SDG ${startup.sdgs[0]}</span>`;
+                tagsHTML += `<span class="tag sdg-tag">${startup.sdgs[0]}</span>`;
             }
 
             card.innerHTML = `
@@ -85,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardsGrid.appendChild(card);
         });
 
-        console.log(`✅ Loaded ${startups.length} approved startups`);
+        console.log(`✅ Rendered ${startups.length} startup cards`);
 
         // Re-apply any existing filters
         if (typeof applyCurrentFilter === 'function') {
@@ -94,13 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initial render
-    renderStartupCards();
+    await renderStartupCards();
 
-    // Re-render when storage changes (if user approves in another tab)
-    window.addEventListener('storage', (e) => {
-        if (e.key === STORAGE_KEY) {
-            console.log('Startups data updated, re-rendering...');
+    // Optional: Listen for real-time updates
+    db.collection('startups')
+        .where('status', 'in', ['active', 'graduated'])
+        .onSnapshot(() => {
+            console.log('📡 Startups updated in Firestore, re-rendering...');
             renderStartupCards();
-        }
-    });
+        });
 });
