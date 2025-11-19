@@ -10,7 +10,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CRITICAL LAYOUT FIXES */
+        /* FORCE Layout Reset */
         body { 
             display: block !important; 
             background-color: #f8f9fa;
@@ -18,7 +18,7 @@
             padding: 0;
         }
 
-        /* Header Styling */
+        /* Admin Header */
         .admin-form-header {
             background: #1a5d3d;
             padding: 15px 5%;
@@ -53,14 +53,14 @@
             color: white;
         }
 
-        /* Center the form */
+        /* Form Container */
         .submit-project-main {
             margin: 40px auto 60px;
             max-width: 800px;
             padding: 0 20px;
         }
         
-        /* Checkbox List Styling Fix for Admin */
+        /* Fix Dropdown z-index */
         .checkbox-list {
             max-height: 200px;
             overflow-y: auto;
@@ -175,7 +175,7 @@
                 <div class="form-group full-width">
                     <label>Sustainable Development Goals (SDG)</label>
                     <div class="multi-select-dropdown" id="sdg-multi-select">
-                        <div class="dropdown-button" id="sdg-dropdown-btn">
+                        <div class="dropdown-button" id="sdg-dropdown-btn" tabindex="0">
                             <span class="dropdown-button-text">Select SDGs...</span>
                             <span style="font-size: 12px;">▼</span> 
                         </div>
@@ -213,167 +213,176 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("News Event Form Logic Loaded");
-            
             const STORAGE_KEY = 'ucInttoNewsEventsData';
             const urlParams = new URLSearchParams(window.location.search);
             const editId = urlParams.get('id');
             
             let uploadedImageUrls = ["", "", "", "", ""];
 
-            // 1. Load Data if Editing
-            if (editId) {
-                document.getElementById('page-title').textContent = "Edit News/Event";
-                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                const item = data.find(d => String(d.id) === String(editId));
-                
-                if (item) {
-                    document.getElementById('news-title').value = item.title || '';
-                    document.getElementById('news-type').value = item.type || 'news';
-                    document.getElementById('news-status').value = item.status || 'draft';
-                    document.getElementById('news-date').value = item.date || '';
-                    document.getElementById('news-content').value = item.content || '';
-                    document.getElementById('news-tags').value = (item.tags || []).join(', ');
+            // --- 1. SUBMIT HANDLER (Placed FIRST to ensure it attaches) ---
+            const newsForm = document.getElementById('news-form');
+            if(newsForm) {
+                newsForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // CRITICAL: Prevents reload
+                    console.log("Form submitting...");
                     
-                    // Images
-                    uploadedImageUrls = item.images || ["", "", "", "", ""];
-                    uploadedImageUrls.forEach((url, i) => {
-                        if(url && i < 5) {
-                            const preview = document.getElementById(`image-preview-${i+1}`);
-                            const removeBtn = document.querySelector(`.remove-image-btn[data-index="${i}"]`);
-                            if(preview && removeBtn) {
-                                preview.src = url;
-                                preview.classList.add('visible');
-                                preview.style.opacity = 1;
-                                removeBtn.style.display = 'block';
-                            }
+                    try {
+                        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                        const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
+                        const finalImages = uploadedImageUrls.filter(u => u && u !== "");
+
+                        const newItem = {
+                            id: editId ? parseInt(editId) : Date.now(),
+                            title: document.getElementById('news-title').value,
+                            type: document.getElementById('news-type').value,
+                            status: document.getElementById('news-status').value,
+                            date: document.getElementById('news-date').value,
+                            content: document.getElementById('news-content').value,
+                            tags: document.getElementById('news-tags').value.split(',').map(t => t.trim()).filter(t => t),
+                            sdgs: sdgs,
+                            images: finalImages
+                        };
+
+                        if (editId) {
+                            const idx = data.findIndex(d => String(d.id) === String(editId));
+                            if(idx !== -1) data[idx] = newItem;
+                            else data.push(newItem);
+                        } else {
+                            data.push(newItem);
                         }
-                    });
+
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                        
+                        // Refresh Admin List
+                        if(window.opener && !window.opener.closed) {
+                            try { window.opener.location.reload(); } catch(e) { console.error(e); }
+                        }
+                        
+                        alert('Saved successfully!');
+                        window.close(); // Close tab
+                        
+                    } catch (error) {
+                        console.error("Save error:", error);
+                        alert("Error saving data. Check console.");
+                    }
+                });
+            } else {
+                console.error("Form element #news-form not found!");
+            }
+
+
+            // --- 2. Load Data if Editing ---
+            if (editId) {
+                try {
+                    document.getElementById('page-title').textContent = "Edit News/Event";
+                    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                    const item = data.find(d => String(d.id) === String(editId));
                     
-                    // SDGs
-                    (item.sdgs || []).forEach(sdg => {
-                        const cleanSdg = String(sdg).replace('SDG ', '');
-                        const cb = document.querySelector(`#sdg-checkbox-list input[value="${cleanSdg}"]`);
-                        if(cb) cb.checked = true;
-                    });
-                    updateDropdownText();
+                    if (item) {
+                        document.getElementById('news-title').value = item.title || '';
+                        document.getElementById('news-type').value = item.type || 'news';
+                        document.getElementById('news-status').value = item.status || 'draft';
+                        document.getElementById('news-date').value = item.date || '';
+                        document.getElementById('news-content').value = item.content || '';
+                        document.getElementById('news-tags').value = (item.tags || []).join(', ');
+                        
+                        // Images
+                        uploadedImageUrls = item.images || ["", "", "", "", ""];
+                        uploadedImageUrls.forEach((url, i) => {
+                            if(url && i < 5) {
+                                const preview = document.getElementById(`image-preview-${i+1}`);
+                                const removeBtn = document.querySelector(`.remove-image-btn[data-index="${i}"]`);
+                                if(preview && removeBtn) {
+                                    preview.src = url;
+                                    preview.classList.add('visible');
+                                    preview.style.opacity = 1;
+                                    removeBtn.style.display = 'block';
+                                }
+                            }
+                        });
+                        
+                        // SDGs
+                        (item.sdgs || []).forEach(sdg => {
+                            const cleanSdg = String(sdg).replace('SDG ', '');
+                            const cb = document.querySelector(`#sdg-checkbox-list input[value="${cleanSdg}"]`);
+                            if(cb) cb.checked = true;
+                        });
+                        updateDropdownText();
+                    }
+                } catch (err) {
+                    console.error("Error loading data:", err);
                 }
             }
 
-            // 2. Image Upload Logic
-            const inputs = document.querySelectorAll('.hidden-file-input');
-            inputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if(file) {
-                        const reader = new FileReader();
-                        // Determine index from ID (image-upload-1 -> index 0)
-                        const idx = parseInt(this.id.split('-')[2]) - 1;
-                        reader.onload = (e) => {
-                            const preview = document.getElementById(`image-preview-${idx+1}`);
-                            const removeBtn = document.querySelector(`.remove-image-btn[data-index="${idx}"]`);
-                            preview.src = e.target.result;
-                            preview.classList.add('visible');
-                            preview.style.opacity = 1;
-                            removeBtn.style.display = 'block';
-                            
-                            // Save base64 string immediately (simplest for local storage)
-                            uploadedImageUrls[idx] = e.target.result; 
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            });
+            // --- 3. Image Logic ---
+             const inputs = document.querySelectorAll('.hidden-file-input');
+             inputs.forEach(input => {
+                 input.addEventListener('change', function() {
+                     const file = this.files[0];
+                     if(file) {
+                         const reader = new FileReader();
+                         const idx = parseInt(this.id.split('-')[2]) - 1;
+                         reader.onload = (e) => {
+                             const preview = document.getElementById(`image-preview-${idx+1}`);
+                             const removeBtn = document.querySelector(`.remove-image-btn[data-index="${idx}"]`);
+                             preview.src = e.target.result;
+                             preview.classList.add('visible');
+                             preview.style.opacity = 1;
+                             removeBtn.style.display = 'block';
+                             uploadedImageUrls[idx] = e.target.result; 
+                         };
+                         reader.readAsDataURL(file);
+                     }
+                 });
+             });
              
-            // Remove Image Logic
-            document.querySelectorAll('.remove-image-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const idx = this.getAttribute('data-index');
-                    uploadedImageUrls[idx] = "";
-                    const preview = document.getElementById(`image-preview-${parseInt(idx)+1}`);
-                    preview.src = "";
-                    preview.classList.remove('visible');
-                    preview.style.opacity = 0;
-                    this.style.display = 'none';
-                    const fileInput = document.getElementById(`image-upload-${parseInt(idx)+1}`);
-                    if(fileInput) fileInput.value = "";
-                });
-            });
+             // Remove Image Logic
+             document.querySelectorAll('.remove-image-btn').forEach(btn => {
+                 btn.addEventListener('click', function() {
+                     const idx = this.getAttribute('data-index');
+                     uploadedImageUrls[idx] = "";
+                     const preview = document.getElementById(`image-preview-${parseInt(idx)+1}`);
+                     preview.src = "";
+                     preview.classList.remove('visible');
+                     preview.style.opacity = 0;
+                     this.style.display = 'none';
+                     const fileInput = document.getElementById(`image-upload-${parseInt(idx)+1}`);
+                     if(fileInput) fileInput.value = "";
+                 });
+             });
 
-            // 3. SDG Dropdown Toggle
+            // --- 4. SDG Dropdown Logic ---
             const btn = document.getElementById('sdg-dropdown-btn');
             const list = document.getElementById('sdg-checkbox-list');
             
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                list.classList.toggle('visible');
-            });
-            
-            document.addEventListener('click', (e) => {
-                if(!btn.contains(e.target) && !list.contains(e.target)) {
-                    list.classList.remove('visible');
-                }
-            });
-            
-            function updateDropdownText() {
-                const checked = document.querySelectorAll('#sdg-checkbox-list input:checked');
-                const textSpan = btn.querySelector('.dropdown-button-text');
-                if (checked.length > 0) {
-                    textSpan.textContent = `${checked.length} SDG(s) selected`;
-                    textSpan.style.color = '#333';
-                } else {
-                    textSpan.textContent = "Select SDGs...";
-                    textSpan.style.color = '#aaa';
-                }
-            }
-            
-            list.querySelectorAll('input').forEach(input => {
-                input.addEventListener('change', updateDropdownText);
-            });
-
-            // 4. SUBMIT HANDLER
-            document.getElementById('news-form').addEventListener('submit', (e) => {
-                e.preventDefault(); // CRITICAL: Prevents page reload
+            if(btn && list) {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    list.classList.toggle('visible');
+                });
                 
-                const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                document.addEventListener('click', (e) => {
+                    if(!btn.contains(e.target) && !list.contains(e.target)) {
+                        list.classList.remove('visible');
+                    }
+                });
                 
-                const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
-                const finalImages = uploadedImageUrls.filter(u => u && u !== "");
-
-                const newItem = {
-                    id: editId ? parseInt(editId) : Date.now(),
-                    title: document.getElementById('news-title').value,
-                    type: document.getElementById('news-type').value,
-                    status: document.getElementById('news-status').value,
-                    date: document.getElementById('news-date').value,
-                    content: document.getElementById('news-content').value,
-                    tags: document.getElementById('news-tags').value.split(',').map(t => t.trim()).filter(t => t),
-                    sdgs: sdgs,
-                    images: finalImages
-                };
-
-                if (editId) {
-                    const idx = data.findIndex(d => String(d.id) === String(editId));
-                    if(idx !== -1) data[idx] = newItem;
-                    else data.push(newItem);
-                } else {
-                    data.push(newItem);
-                }
-
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                
-                // 5. Refresh the Parent Window (Admin List)
-                if(window.opener && !window.opener.closed) {
-                    try {
-                        window.opener.location.reload();
-                    } catch (err) {
-                        console.warn("Could not reload opener:", err);
+                function updateDropdownText() {
+                    const checked = document.querySelectorAll('#sdg-checkbox-list input:checked');
+                    const textSpan = btn.querySelector('.dropdown-button-text');
+                    if (checked.length > 0) {
+                        textSpan.textContent = `${checked.length} SDG(s) selected`;
+                        textSpan.style.color = '#333';
+                    } else {
+                        textSpan.textContent = "Select SDGs...";
+                        textSpan.style.color = '#aaa';
                     }
                 }
                 
-                // 6. Close THIS tab immediately
-                window.close();
-            });
+                list.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('change', updateDropdownText);
+                });
+            }
         });
     </script>
 </body>
