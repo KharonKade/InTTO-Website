@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-refresh when tab comes back into focus
     // This ensures updates made in the form tab appear here immediately
     window.addEventListener('focus', () => {
-        console.log("Window focused, refreshing list...");
         renderNewsEvents();
     });
 

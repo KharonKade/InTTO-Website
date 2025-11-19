@@ -211,88 +211,131 @@
 
     <script src="../ucolab/js/cloudinary.js"></script>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const STORAGE_KEY = 'ucInttoNewsEventsData';
+            
+            const NEWS_EVENTS_COLLECTION = 'newsEvents';
             const urlParams = new URLSearchParams(window.location.search);
-            const editId = urlParams.get('id');
+            const editId = urlParams.get('id'); // This is the Firestore document ID
             
             let uploadedImageUrls = ["", "", "", "", ""];
+            let uploadingImages = [false, false, false, false, false];
 
-            // --- 1. SUBMIT HANDLER (Placed FIRST to ensure it attaches) ---
-            const newsForm = document.getElementById('news-form');
-            if(newsForm) {
-                newsForm.addEventListener('submit', (e) => {
-                    e.preventDefault(); // CRITICAL: Prevents reload
-                    console.log("Form submitting...");
-                    
-                    try {
-                        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                        const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
-                        const finalImages = uploadedImageUrls.filter(u => u && u !== "");
-
-                        const newItem = {
-                            id: editId ? parseInt(editId) : Date.now(),
-                            title: document.getElementById('news-title').value,
-                            type: document.getElementById('news-type').value,
-                            status: document.getElementById('news-status').value,
-                            date: document.getElementById('news-date').value,
-                            content: document.getElementById('news-content').value,
-                            tags: document.getElementById('news-tags').value.split(',').map(t => t.trim()).filter(t => t),
-                            sdgs: sdgs,
-                            images: finalImages
-                        };
-
-                        if (editId) {
-                            const idx = data.findIndex(d => String(d.id) === String(editId));
-                            if(idx !== -1) data[idx] = newItem;
-                            else data.push(newItem);
-                        } else {
-                            data.push(newItem);
-                        }
-
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                        
-                        // Refresh Admin List
-                        if(window.opener && !window.opener.closed) {
-                            try { window.opener.location.reload(); } catch(e) { console.error(e); }
-                        }
-                        
-                        alert('Saved successfully!');
-                        window.close(); // Close tab
-                        
-                    } catch (error) {
-                        console.error("Save error:", error);
-                        alert("Error saving data. Check console.");
-                    }
-                });
-            } else {
-                console.error("Form element #news-form not found!");
-            }
-
-
-            // --- 2. Load Data if Editing ---
-            if (editId) {
+            // --- 1. IMAGE UPLOAD WITH CLOUDINARY ---
+            async function handleImageUpload(fileInput, previewElement, index) {
+                const file = fileInput.files[0];
+                const slot = previewElement.closest('.image-upload-slot');
+                const removeBtn = slot ? slot.querySelector('.remove-image-btn') : null;
+                
+                if (!file || !slot || !previewElement || !removeBtn) return;
+                
+                // Show preview immediately
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewElement.src = e.target.result;
+                    previewElement.classList.add('visible');
+                    previewElement.style.opacity = 1;
+                    removeBtn.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+                
+                // Upload to Cloudinary
+                uploadingImages[index] = true;
                 try {
-                    document.getElementById('page-title').textContent = "Edit News/Event";
-                    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                    const item = data.find(d => String(d.id) === String(editId));
+                    const imageUrl = await CloudinaryUploader.uploadImage(file, index);
+                    uploadedImageUrls[index] = imageUrl;
+                } catch (error) {
+                    console.error(`❌ Error uploading image ${index + 1}:`, error);
+                    alert(`Error uploading image ${index + 1}: ${error.message}`);
+                } finally {
+                    uploadingImages[index] = false;
+                }
+            }
+            
+            // Attach image upload handlers
+            for (let i = 1; i <= 5; i++) {
+                const input = document.getElementById(`image-upload-${i}`);
+                const preview = document.getElementById(`image-preview-${i}`);
+                if (input && preview) {
+                    (function(currentIndex) {
+                        input.addEventListener('change', () => handleImageUpload(input, preview, currentIndex - 1));
+                    })(i);
+                }
+            }
+            
+            // Remove image handlers
+            document.querySelectorAll('.remove-image-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(this.getAttribute('data-index'));
+                    uploadedImageUrls[idx] = "";
+                    const preview = document.getElementById(`image-preview-${idx + 1}`);
+                    const fileInput = document.getElementById(`image-upload-${idx + 1}`);
                     
-                    if (item) {
+                    if (preview) {
+                        preview.src = "";
+                        preview.classList.remove('visible');
+                        preview.style.opacity = 0;
+                    }
+                    if (fileInput) fileInput.value = "";
+                    this.style.display = 'none';
+                });
+            });
+
+            // --- 2. LOAD DATA IF EDITING (FROM FIRESTORE) ---
+            if (editId) {
+                document.getElementById('page-title').textContent = "Edit News/Event";
+                
+                db.collection(NEWS_EVENTS_COLLECTION).doc(editId).get()
+                    .then(doc => {
+                        if (!doc.exists) {
+                            alert('News/Event not found');
+                            window.close();
+                            return;
+                        }
+                        
+                        const item = doc.data();
+                        
+                        // Populate form fields
                         document.getElementById('news-title').value = item.title || '';
                         document.getElementById('news-type').value = item.type || 'news';
                         document.getElementById('news-status').value = item.status || 'draft';
-                        document.getElementById('news-date').value = item.date || '';
+                        
+                        // Handle date (Firestore Timestamp or string)
+                        if (item.date) {
+                            if (typeof item.date === 'string') {
+                                document.getElementById('news-date').value = item.date;
+                            } else if (item.date.toDate) {
+                                document.getElementById('news-date').value = item.date.toDate().toISOString().split('T')[0];
+                            }
+                        }
+                        
                         document.getElementById('news-content').value = item.content || '';
                         document.getElementById('news-tags').value = (item.tags || []).join(', ');
                         
-                        // Images
-                        uploadedImageUrls = item.images || ["", "", "", "", ""];
+                        // Load images from Cloudinary URLs
+                        uploadedImageUrls = [...(item.images || ["", "", "", "", ""])];
                         uploadedImageUrls.forEach((url, i) => {
-                            if(url && i < 5) {
-                                const preview = document.getElementById(`image-preview-${i+1}`);
+                            if (url && i < 5) {
+                                const preview = document.getElementById(`image-preview-${i + 1}`);
                                 const removeBtn = document.querySelector(`.remove-image-btn[data-index="${i}"]`);
-                                if(preview && removeBtn) {
+                                if (preview && removeBtn) {
                                     preview.src = url;
                                     preview.classList.add('visible');
                                     preview.style.opacity = 1;
@@ -301,68 +344,90 @@
                             }
                         });
                         
-                        // SDGs
+                        // Load SDGs
                         (item.sdgs || []).forEach(sdg => {
                             const cleanSdg = String(sdg).replace('SDG ', '');
                             const cb = document.querySelector(`#sdg-checkbox-list input[value="${cleanSdg}"]`);
-                            if(cb) cb.checked = true;
+                            if (cb) cb.checked = true;
                         });
                         updateDropdownText();
-                    }
-                } catch (err) {
-                    console.error("Error loading data:", err);
-                }
+                    })
+                    .catch(error => {
+                        console.error('❌ Error loading data:', error);
+                        alert('Error loading data: ' + error.message);
+                    });
             }
 
-            // --- 3. Image Logic ---
-             const inputs = document.querySelectorAll('.hidden-file-input');
-             inputs.forEach(input => {
-                 input.addEventListener('change', function() {
-                     const file = this.files[0];
-                     if(file) {
-                         const reader = new FileReader();
-                         const idx = parseInt(this.id.split('-')[2]) - 1;
-                         reader.onload = (e) => {
-                             const preview = document.getElementById(`image-preview-${idx+1}`);
-                             const removeBtn = document.querySelector(`.remove-image-btn[data-index="${idx}"]`);
-                             preview.src = e.target.result;
-                             preview.classList.add('visible');
-                             preview.style.opacity = 1;
-                             removeBtn.style.display = 'block';
-                             uploadedImageUrls[idx] = e.target.result; 
-                         };
-                         reader.readAsDataURL(file);
-                     }
-                 });
-             });
-             
-             // Remove Image Logic
-             document.querySelectorAll('.remove-image-btn').forEach(btn => {
-                 btn.addEventListener('click', function() {
-                     const idx = this.getAttribute('data-index');
-                     uploadedImageUrls[idx] = "";
-                     const preview = document.getElementById(`image-preview-${parseInt(idx)+1}`);
-                     preview.src = "";
-                     preview.classList.remove('visible');
-                     preview.style.opacity = 0;
-                     this.style.display = 'none';
-                     const fileInput = document.getElementById(`image-upload-${parseInt(idx)+1}`);
-                     if(fileInput) fileInput.value = "";
-                 });
-             });
+            // --- 3. FORM SUBMISSION (SAVE TO FIRESTORE) ---
+            const newsForm = document.getElementById('news-form');
+            if (newsForm) {
+                newsForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    // Check if images are still uploading
+                    if (uploadingImages.some(status => status === true)) {
+                        alert('Please wait for all images to finish uploading before submitting.');
+                        return;
+                    }
+                    
+                    // Collect form data
+                    const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
+                    const finalImages = uploadedImageUrls.filter(u => u && u !== "");
+                    const dateValue = document.getElementById('news-date').value;
+                    
+                    const newsEventData = {
+                        title: document.getElementById('news-title').value,
+                        type: document.getElementById('news-type').value,
+                        status: document.getElementById('news-status').value,
+                        date: dateValue,
+                        content: document.getElementById('news-content').value,
+                        tags: document.getElementById('news-tags').value.split(',').map(t => t.trim()).filter(t => t),
+                        sdgs: sdgs,
+                        images: finalImages,
+                        updatedAt: firebase.firestore.Timestamp.now()
+                    };
+                    
+                    try {
+                        if (editId) {
+                            // Update existing document
+                            await db.collection(NEWS_EVENTS_COLLECTION).doc(editId).update(newsEventData);
+                        } else {
+                            // Create new document
+                            newsEventData.createdAt = firebase.firestore.Timestamp.now();
+                            const docRef = await db.collection(NEWS_EVENTS_COLLECTION).add(newsEventData);
+                        }
+                        
+                        // Refresh parent window (admin page)
+                        if (window.opener && !window.opener.closed) {
+                            try {
+                                window.opener.location.reload();
+                            } catch (e) {
+                                console.error('Could not reload parent window:', e);
+                            }
+                        }
+                        
+                        alert('Saved successfully!');
+                        window.close();
+                        
+                    } catch (error) {
+                        console.error('❌ Error saving:', error);
+                        alert('Error saving: ' + error.message);
+                    }
+                });
+            }
 
             // --- 4. SDG Dropdown Logic ---
             const btn = document.getElementById('sdg-dropdown-btn');
             const list = document.getElementById('sdg-checkbox-list');
             
-            if(btn && list) {
+            if (btn && list) {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     list.classList.toggle('visible');
                 });
                 
                 document.addEventListener('click', (e) => {
-                    if(!btn.contains(e.target) && !list.contains(e.target)) {
+                    if (!btn.contains(e.target) && !list.contains(e.target)) {
                         list.classList.remove('visible');
                     }
                 });
@@ -382,6 +447,9 @@
                 list.querySelectorAll('input').forEach(input => {
                     input.addEventListener('change', updateDropdownText);
                 });
+                
+                // Make function available globally for load
+                window.updateDropdownText = updateDropdownText;
             }
         });
     </script>

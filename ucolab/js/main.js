@@ -1,14 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed. Running main.js");
     
     // Get Firebase instances from global scope (initialized in index.html)
     const auth = window.auth || firebase.auth();
     const db = window.db || firebase.firestore();
-    
-    console.log("Main.js - Auth available:", auth ? "✅" : "❌");
-    console.log("Main.js - Firestore available:", db ? "✅" : "❌");
-
-    // --- 1. DEFAULT PROJECT DATA (FIXED) ---
     const defaultProjects = [
         {
             id: 15, views: 204, inquiries: 15, title: "FarmConnect", type: "Thesis", industry: "Agritech", college: ["College of Business"], trl: "TRL 4",
@@ -787,29 +781,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadProjects() {
-        console.log("Attempting to load public projects...");
         try {
             const storedProjects = localStorage.getItem('ucolabProjects'); 
             if (!storedProjects || storedProjects === '[]' || storedProjects === 'null' || !storedProjects.startsWith('[')) {
-                console.log("No valid public projects found. Loading default projects.");
                 localStorage.setItem('ucolabProjects', JSON.stringify(defaultProjects));
                 allProjectsData = [...defaultProjects];
             } else {
                 allProjectsData = JSON.parse(storedProjects);
                 if (!Array.isArray(allProjectsData)) {
-                    console.warn("Parsed data is not an array. Falling back to defaults.");
                     localStorage.setItem('ucolabProjects', JSON.stringify(defaultProjects));
                     allProjectsData = [...defaultProjects];
                 }
             }
             if (!Array.isArray(allProjectsData)) {
-                console.error("allProjectsData is still not an array after loading!");
                 allProjectsData = [];
             }
-            console.log("Finished loading public projects. Count:", allProjectsData.length);
         } catch (error) {
-            console.error("Error loading or initializing projects from localStorage:", error);
-            console.log("Falling back to default projects due to error.");
             allProjectsData = [...defaultProjects];
             try {
                 localStorage.setItem('ucolabProjects', JSON.stringify(defaultProjects));
@@ -1154,32 +1141,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            console.log('🔍 Checking admin status for user:', user.uid);
             const userDocRef = db.collection('Registered Accounts').doc(user.uid);
             const userDoc = await userDocRef.get();
             
             if (userDoc.exists) {
                 const userData = userDoc.data();
                 const isAdmin = userData.isAdmin === true;
-                
-                console.log('📄 User data retrieved');
-                console.log('🛡️  isAdmin field value:', userData.isAdmin);
-                console.log('🛡️  isAdmin type:', typeof userData.isAdmin);
-                console.log('🛡️  isAdmin === true:', isAdmin);
-                
                 if (isAdmin) {
-                    console.log('👑 ADMIN DETECTED - Showing admin button');
                     adminBtn.style.display = '';
                 } else {
                     console.log('👤 Regular user - Hiding admin button');
                     adminBtn.style.display = 'none';
                 }
             } else {
-                console.log('⚠️  User document not found in Firestore');
                 adminBtn.style.display = 'none';
             }
         } catch (error) {
-            console.error('❌ Error checking admin status:', error);
             adminBtn.style.display = 'none';
         }
     }
@@ -1187,7 +1164,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- CRITICAL: FIREBASE AUTH STATE LISTENER ---
     auth.onAuthStateChanged((user) => {
-        console.log("Auth state changed, user:", user);
         updateUI(user);
         checkAdminStatus(user); // <-- Check admin status whenever auth state changes
         
@@ -1200,10 +1176,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- INITIAL PAGE LOAD ---
-    console.log("Running initial load sequence...");
     loadProjects();
     createRandomCircles();
-    console.log("Initial load sequence complete. Waiting for auth state change.");
 
 }); // --- END OF DOMCONTENTLOADED ---
 

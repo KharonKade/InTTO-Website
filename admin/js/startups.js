@@ -21,10 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!savedData) {
             existingStartups = defaultStartups;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultStartups));
-            console.log('✅ Default startups loaded and saved to localStorage');
         } else {
             existingStartups = JSON.parse(savedData);
-            console.log(`✅ Loaded ${existingStartups.length} startups from localStorage`);
         }
         
         // CHECK FOR PENDING SUBMISSIONS from the public site
@@ -286,7 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditingId = null;
 
     const openViewEditModal = (id) => {
-        console.log('🔵 Opening modal for startup ID:', id);
         currentEditingId = id;
         
         // Find startup in both lists
@@ -298,7 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        console.log('✅ Found startup:', startup.name);
 
         // Populate form
         document.getElementById('edit-name').value = startup.name || startup.title || '';
@@ -354,14 +350,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) {
             modal.style.display = 'flex';
             document.getElementById('modal-title').textContent = `Edit Startup: ${startup.name || startup.title}`;
-            console.log('✅ Modal displayed');
         } else {
             console.error('❌ Modal element not found!');
         }
     };
 
     const closeModal = () => {
-        console.log('🔴 Closing modal');
         const modal = document.getElementById('startup-modal-overlay');
         if (modal) {
             modal.style.display = 'none';
@@ -436,17 +430,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (closeBtn) {
             closeBtn.addEventListener('click', closeModal);
-            console.log('✅ Close button listener attached');
         }
         
         if (cancelBtn) {
             cancelBtn.addEventListener('click', closeModal);
-            console.log('✅ Cancel button listener attached');
         }
         
         if (form) {
             form.addEventListener('submit', saveStartupChanges);
-            console.log('✅ Form submit listener attached');
         }
         
         if (overlay) {
@@ -455,7 +446,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     closeModal();
                 }
             });
-            console.log('✅ Modal overlay listener attached');
         }
     };
 
@@ -486,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Auto-Reload on Window Focus ---
     // This ensures that if the user saves changes in the other tab, this list updates when they come back.
     window.addEventListener('focus', () => {
-        console.log("Window focused, refreshing list...");
         renderStartups();
     });
 
@@ -496,5 +485,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Render
     renderStartups();
     
-    console.log('✅ Startups management initialized');
 });

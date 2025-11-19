@@ -14,7 +14,6 @@ export async function saveApplication(data) {
             ...data,
             submittedAt: serverTimestamp()
         });
-        console.log("✅ Document successfully written with ID:", docRef.id);
         
         // 2. Send email notification via EmailJS
         await sendEmailNotification(data, docRef.id);
@@ -61,13 +60,11 @@ async function sendEmailNotification(data, applicationId) {
     };
     
     try {
-        console.log('📧 Sending email notification...');
         const response = await emailjs.send(
             EMAILJS_SERVICE_ID,
             EMAILJS_TEMPLATE_ID,
             templateParams
         );
-        console.log('✅ Email sent successfully:', response.status, response.text);
     } catch (error) {
         console.error('❌ Failed to send email:', error);
         // Don't throw error - we still want the application to be saved even if email fails

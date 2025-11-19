@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('🚀 Startups Management - Firestore Version');
-    
     // Firestore collections
     const STARTUPS_COLLECTION = 'startups';
     
@@ -17,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Firestore Functions ---
     const loadStartupsFromFirestore = async () => {
         try {
-            console.log('📥 Loading startups from Firestore...');
             const snapshot = await db.collection(STARTUPS_COLLECTION).get();
             
             startupsData = [];
@@ -28,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
             
-            console.log(`✅ Loaded ${startupsData.length} startups from Firestore`);
             return startupsData;
         } catch (error) {
             console.error('❌ Error loading startups:', error);
@@ -39,14 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const saveStartupToFirestore = async (startupData) => {
         try {
-            console.log('💾 Saving startup to Firestore...');
             
             // Add timestamp
             startupData.createdAt = startupData.createdAt || firebase.firestore.Timestamp.now();
             startupData.updatedAt = firebase.firestore.Timestamp.now();
             
             const docRef = await db.collection(STARTUPS_COLLECTION).add(startupData);
-            console.log('✅ Startup saved with ID:', docRef.id);
             return docRef.id;
         } catch (error) {
             console.error('❌ Error saving startup:', error);
@@ -56,13 +50,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const updateStartupInFirestore = async (firestoreId, updatedData) => {
         try {
-            console.log('🔄 Updating startup in Firestore:', firestoreId);
+
             
             // Add update timestamp
             updatedData.updatedAt = firebase.firestore.Timestamp.now();
             
             await db.collection(STARTUPS_COLLECTION).doc(firestoreId).update(updatedData);
-            console.log('✅ Startup updated successfully');
         } catch (error) {
             console.error('❌ Error updating startup:', error);
             throw error;
@@ -71,9 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const deleteStartupFromFirestore = async (firestoreId) => {
         try {
-            console.log('🗑️ Deleting startup from Firestore:', firestoreId);
             await db.collection(STARTUPS_COLLECTION).doc(firestoreId).delete();
-            console.log('✅ Startup deleted successfully');
         } catch (error) {
             console.error('❌ Error deleting startup:', error);
             throw error;
@@ -277,7 +268,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- View/Edit Modal Functions ---
     const openViewEditModal = (firestoreId) => {
-        console.log('🔵 Opening modal for startup:', firestoreId);
         currentEditingId = firestoreId;
         
         const startup = startupsData.find(s => s.firestoreId === firestoreId);
@@ -288,7 +278,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        console.log('✅ Found startup:', startup.name);
 
         // Populate form
         document.getElementById('edit-name').value = startup.name || '';
@@ -344,12 +333,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (modal) {
             modal.style.display = 'flex';
             document.getElementById('modal-title').textContent = `Edit Startup: ${startup.name}`;
-            console.log('✅ Modal displayed');
         }
     };
 
     const closeModal = () => {
-        console.log('🔴 Closing modal');
         const modal = document.getElementById('startup-modal-overlay');
         if (modal) {
             modal.style.display = 'none';
@@ -439,5 +426,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadStartupsFromFirestore();
     await renderStartups();
     
-    console.log('✅ Startups management initialized (Firestore)');
 });

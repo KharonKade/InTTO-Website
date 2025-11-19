@@ -13,13 +13,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Load startups data from Firestore
-    async function loadStartups() {
+    // Configuration
+    const ITEMS_PER_PAGE = 20; // Limit items per load for performance
+    let lastVisible = null;
+    let allStartups = [];
+    let isLoading = false;
+
+    // Load startups data from Firestore with pagination
+    async function loadStartups(loadMore = false) {
+        if (isLoading) return [];
+        
         try {
-            console.log('📥 Loading startups from Firestore...');
-            const snapshot = await db.collection('startups')
+            isLoading = true;
+            
+            // Build query with pagination
+            let query = db.collection('startups')
                 .where('status', 'in', ['active', 'graduated'])
-                .get();
+                .limit(ITEMS_PER_PAGE);
+            
+            // If loading more, start after last document
+            if (loadMore && lastVisible) {
+                query = query.startAfter(lastVisible);
+            }
+            
+            const snapshot = await query.get();
+            
+            // Store last visible document for pagination
+            if (snapshot.docs.length > 0) {
+                lastVisible = snapshot.docs[snapshot.docs.length - 1];
+            }
             
             const startups = [];
             snapshot.forEach(doc => {
@@ -29,26 +51,35 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
             
-            console.log(`✅ Loaded ${startups.length} approved startups`);
             return startups;
         } catch (error) {
-            console.error('❌ Error loading startups:', error);
             return [];
+        } finally {
+            isLoading = false;
         }
     }
 
     // Render startup cards
-    async function renderStartupCards() {
-        const startups = await loadStartups();
+    async function renderStartupCards(loadMore = false) {
+        if (!loadMore && window.LoadingScreen) {
+            window.LoadingScreen.show('Loading startups');
+        }
         
-        if (startups.length === 0) {
-            console.log('No approved startups to display');
+        const startups = await loadStartups(loadMore);
+        
+        if (startups.length === 0 && !loadMore) {
             cardsGrid.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No startups available yet.</p>';
+            if (window.LoadingScreen) window.LoadingScreen.hide();
             return;
         }
 
-        // Clear existing cards
-        cardsGrid.innerHTML = '';
+        // Add to all startups
+        allStartups = loadMore ? [...allStartups, ...startups] : startups;
+
+        // Clear existing cards only if not loading more
+        if (!loadMore) {
+            cardsGrid.innerHTML = '';
+        }
 
         startups.forEach(startup => {
             // Get the logo image (use first image URL if available, otherwise use emoji)
@@ -100,7 +131,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             cardsGrid.appendChild(card);
         });
 
-        console.log(`✅ Rendered ${startups.length} startup cards`);
+        // Hide loading screen
+        if (window.LoadingScreen) window.LoadingScreen.hide();
+
+        // Show/hide load more button
+        const loadMoreBtn = document.getElementById('load-more-startups');
+        if (loadMoreBtn) {
+            // Show button if we got full page of results (might be more)
+            loadMoreBtn.style.display = startups.length === ITEMS_PER_PAGE ? 'block' : 'none';
+        }
 
         // Re-apply any existing filters
         if (typeof applyCurrentFilter === 'function') {
@@ -111,11 +150,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initial render
     await renderStartupCards();
 
-    // Optional: Listen for real-time updates
+    // Load more button handler
+    const loadMoreBtn = document.getElementById('load-more-startups');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', async () => {
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = 'Loading...';
+            await renderStartupCards(true);
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = 'Load More';
+        });
+    }
+
+    // Optional: Listen for real-time updates (only for first page)
     db.collection('startups')
         .where('status', 'in', ['active', 'graduated'])
+        .limit(ITEMS_PER_PAGE)
         .onSnapshot(() => {
-            console.log('📡 Startups updated in Firestore, re-rendering...');
+            lastVisible = null;
+            allStartups = [];
             renderStartupCards();
         });
 });

@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (emailResult.status === 'fulfilled' && dbResult.status === 'fulfilled') {
                     // Both succeeded
-                    console.log('Email and DB save succeeded.');
                     showSuccessPage();
                 } else if (emailResult.status === 'rejected') {
                     // Email failed

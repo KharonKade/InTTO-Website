@@ -8,7 +8,6 @@ export async function saveApplication(data) {
             ...data,
             submittedAt: serverTimestamp()
         });
-        console.log("Document successfully written with ID:", docRef.id);
         return docRef.id;
     } catch (e) {
         console.error("Error adding document:", e);

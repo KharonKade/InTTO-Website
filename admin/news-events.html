@@ -211,7 +211,25 @@
         </div>
     </div>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+    
+    <!-- Cloudinary Upload Module -->
     <script src="../ucolab/js/cloudinary.js"></script>
-    <script src="js/news-events.js"></script>
+    <script src="js/news-events-firestore.js"></script>
 </body>
 </html>

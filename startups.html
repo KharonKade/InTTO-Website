@@ -72,95 +72,7 @@
           <p class="results-count">Showing 6 of 8 startups</p>
         <div class="startups-container">
             <div class="cards-grid" id="cardsGrid">
-            <article class="startup-card" data-category="cleantech">
-                <div class="card-head">
-                <img src="graphics/sunshare.png" alt="Sunshare logo" class="startup-logo">
-                <div class="card-meta">
-                    <h3 class="startup-name">Sunshare</h3>
-                    <div class="tags">
-                    <span class="tag">CleanTech</span>
-                    <span class="tag small">TRL 7</span>
-                    </div>
-                </div>
-                </div>
-                <p class="startup-desc">A blockchain marketplace for community to exchange solar-energy.</p>
-                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
-            </article>
-
-            <article class="startup-card" data-category="agritech">
-                <div class="card-head">
-                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
-                <div class="card-meta">
-                    <h3 class="startup-name">AgroPulse</h3>
-                    <div class="tags">
-                    <span class="tag">AgriTech</span>
-                    <span class="tag small">TRL 5</span>
-                    </div>
-                </div>
-                </div>
-                <p class="startup-desc">Smart sensors and forecasting tools for smallholder farms.</p>
-                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
-            </article>
-
-            <article class="startup-card" data-category="healthtech">
-                <div class="card-head">
-                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
-                <div class="card-meta">
-                    <h3 class="startup-name">MediTrack</h3>
-                    <div class="tags">
-                    <span class="tag">HealthTech</span>
-                    <span class="tag small">TRL 6</span>
-                    </div>
-                </div>
-                </div>
-                <p class="startup-desc">A telehealth toolkit for remote clinics and students.</p>
-                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
-            </article>
-
-            <article class="startup-card" data-category="tourism">
-                <div class="card-head">
-                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
-                <div class="card-meta">
-                    <h3 class="startup-name">Tourify</h3>
-                    <div class="tags">
-                    <span class="tag">Tourism &amp; Mobility</span>
-                    <span class="tag small">TRL 4</span>
-                    </div>
-                </div>
-                </div>
-                <p class="startup-desc">Platform for community-led local tourism experiences.</p>
-                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
-            </article>
-
-            <article class="startup-card" data-category="cleantech fintech">
-                <div class="card-head">
-                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
-                <div class="card-meta">
-                    <h3 class="startup-name">EcoPay</h3>
-                    <div class="tags">
-                    <span class="tag">CleanTech</span>
-                    <span class="tag small">TRL 7</span>
-                    </div>
-                </div>
-                </div>
-                <p class="startup-desc">Incentive payments for verified carbon-saving actions.</p>
-                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
-            </article>
-
-            <article class="startup-card" data-category="crimintech">
-                <div class="card-head">
-                <img src="graphics/sunshare.png" alt="logo" class="startup-logo">
-                <div class="card-meta">
-                    <h3 class="startup-name">SafeCity</h3>
-                    <div class="tags">
-                    <span class="tag">CriminTech</span>
-                    <span class="tag small">TRL 6</span>
-                    </div>
-                </div>
-                </div>
-                <p class="startup-desc">Community reporting + analytics for safer neighborhoods.</p>
-                <a href="#" class="card-cta">View More <span class="cta-circle">➜</span></a>
-            </article>
+                <!-- Startups will be loaded dynamically from Firestore via load-startups.js -->
             </div> 
         </div> 
     </section>
@@ -268,7 +180,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         window.db = db;
-        console.log('🔥 Firebase initialized for startups display');
     </script>
     
     <!-- Load approved startups dynamically -->
