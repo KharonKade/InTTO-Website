@@ -12,8 +12,8 @@ body {
 
 /* --- NAVBAR WRAPPER --- */
 .main-wrapper {
- width: 85%;             
- max-width: 1200px;      
+ width: 95%;
+ max-width: 95%;
  margin: 20px auto;
  background: none;
  border-radius: 25px;
@@ -184,7 +184,7 @@ body {
   width: 85%;           
   max-width: 1200px;    
   height: auto;
-  margin: 60px auto;
+  margin: 100px auto;
   text-align: center;
 }
 

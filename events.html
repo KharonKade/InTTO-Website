@@ -52,14 +52,15 @@
         <div class="filter-bar">
             <div class="filter-item search">
                 <i class="fa fa-search"></i>
-                <input type="text" placeholder="Search event/news">
+                <input type="text" placeholder="Search event/news" id="search-input">
             </div>
 
-            <button class="filter-btn">All</button>
-            <button class="filter-btn">News</button>
-            <button class="filter-btn">Events</button>
+            <button class="filter-btn active" id="filter-all">All</button> 
+            <button class="filter-btn" id="filter-news">News</button> 
+            <button class="filter-btn" id="filter-events">Events</button> 
         </div>
 
+<<<<<<< Updated upstream
         <div class="main-content-wrap">
             <main class="news-list-area">
                 <div class="news-cards">
@@ -136,8 +137,14 @@
                         </div>
                     </div>
                 </div>
+=======
+           <div class="main-content-wrap">
+        <main class="news-list-area">
+            <div class="news-cards" id="news-cards-container">
+            </div>
+>>>>>>> Stashed changes
 
-                <div class="pagination">
+                <div class="pagination" id="pagination-container">
                     <a href="#" class="page-btn arrow disabled"><i class="fa-solid fa-chevron-left"></i></a>
                     <a href="#" class="page-btn active">1</a>
                     <a href="#" class="page-btn">2</a>
@@ -279,7 +286,6 @@
       </div>
     </footer>
     
-    <!-- Firebase SDK for Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
@@ -304,8 +310,6 @@
             this.classList.toggle('open');
         });
     </script>
-    
-    <!-- Load news & events dynamically -->
     <script src="js/load-news-events.js"></script>
     
 </body>
