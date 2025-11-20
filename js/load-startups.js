@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             cardsGrid.innerHTML = '<p style="text-align:center; width:100%;">Loading startups...</p>';
             
-            // Fetch ALL startups (No status filter to ensure data shows)
+            // Fetch ALL startups
             const snapshot = await db.collection('startups').get();
 
             allStartupsData = [];
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Category
         if (categorySelect) {
             const cat = categorySelect.value;
-            if (cat) {
+            if (cat && cat !== 'all') {
                 filtered = filtered.filter(s => 
                     (s.industry === cat) || (s.category === cat)
                 );
@@ -192,7 +192,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
                     onClick();
-                    document.querySelector('.startups-section').scrollIntoView({behavior: 'smooth'});
+                    // Scroll only if on specific page, optional for homepage
+                    if(document.querySelector('.startups-section')) {
+                        document.querySelector('.startups-section').scrollIntoView({behavior: 'smooth'});
+                    }
                 });
             }
             return a;
@@ -220,13 +223,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         cardsGrid.innerHTML = '';
 
         if (startups.length === 0) {
-            cardsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No startups match your search.</p>';
+            cardsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No startups match criteria.</p>';
             return;
         }
 
         startups.forEach(startup => {
             const card = document.createElement('article');
             card.className = 'startup-card';
+
+            // CRITICAL FIX: Add Category Data Attribute so Filter works
+            const category = (startup.category || startup.industry || '').toLowerCase();
+            card.dataset.category = category;
 
             // Logo
             let logoHTML;
