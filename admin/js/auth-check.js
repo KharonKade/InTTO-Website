@@ -1,11 +1,12 @@
 // ===================================
 // ADMIN AUTHENTICATION CHECK
+// Block unauthorized access to admin pages
 // ===================================
 
-// Hide page content immediately until auth is verified
+// Hide page immediately until verification complete
 document.documentElement.style.visibility = 'hidden';
 
-// Firebase configuration (use your existing config)
+// Firebase imports
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -20,88 +21,74 @@ const firebaseConfig = {
     measurementId: "G-ETY9E0F1K6"
 };
 
-// Initialize Firebase (avoid duplicate initialization)
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+// Initialize Firebase
+let app;
+if (getApps().length === 0) {
+    app = initializeApp(firebaseConfig);
+} else {
+    app = getApps()[0];
+}
+
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Check authentication and admin status
-async function checkAdminAuth() {
+// Redirect to homepage
+function redirectToHome() {
+    window.location.replace('/index.html');
+}
+
+// Check admin access
+async function checkAdminAccess() {
     return new Promise((resolve) => {
-        // Timeout after 5 seconds if auth doesn't respond
+        // Set timeout - if auth doesn't respond in 5 seconds, deny access
         const timeout = setTimeout(() => {
-            console.error('Auth check timeout - showing page anyway');
-            document.documentElement.style.visibility = 'visible';
+            redirectToHome();
             resolve(false);
         }, 5000);
 
         onAuthStateChanged(auth, async (user) => {
             clearTimeout(timeout);
             
+            // LOGIC 1: If user is not logged in, deny access
             if (!user) {
-                console.log('No user logged in');
-                window.location.replace('/index.html');
+                redirectToHome();
                 resolve(false);
                 return;
             }
 
-            console.log('User logged in:', user.email, 'UID:', user.uid);
-
             try {
-                // Check if user is admin
-                console.log('Attempting to fetch user document...');
-                const userDocRef = doc(db, 'users', user.uid);
+                // Get user document from Firestore - using "Registered Accounts" collection as shown in your screenshot
+                const userDocRef = doc(db, 'Registered Accounts', user.uid);
                 const userDoc = await getDoc(userDocRef);
                 
+                // LOGIC 2: If user document doesn't exist or isAdmin is false, deny access
                 if (!userDoc.exists()) {
-                    console.error('❌ User document does not exist in Firestore');
-                    console.log('📍 Looking for document at path: users/' + user.uid);
-                    console.log('🔍 Please verify this document exists in Firebase Console');
-                    
-                    // Try alternate path or show page anyway for debugging
-                    console.warn('⚠️ Showing page for debugging - check console');
-                    document.documentElement.style.visibility = 'visible';
+                    redirectToHome();
                     resolve(false);
                     return;
                 }
 
                 const userData = userDoc.data();
-                console.log('📄 User document found!');
-                console.log('📊 Full user data:', JSON.stringify(userData, null, 2));
-                console.log('🔑 isAdmin field type:', typeof userData.isAdmin);
-                console.log('🔑 isAdmin field value:', userData.isAdmin);
+                const isAdmin = userData.isAdmin === true;
                 
-                const isAdmin = userData.isAdmin === true || userData.isAdmin === 'true' || userData.isAdmin === 1;
-                
-                if (!isAdmin) {
-                    console.error('❌ Access denied: User is not admin');
-                    console.log('Current isAdmin value:', userData.isAdmin);
-                    console.log('Expected: true (boolean) or "true" (string)');
-                    window.location.replace('/index.html');
+                // LOGIC 3: If isAdmin === true, grant access
+                if (isAdmin) {
+                    document.documentElement.style.visibility = 'visible';
+                    resolve(true);
+                } else {
+                    // User is logged in but isAdmin === false, deny access
+                    redirectToHome();
                     resolve(false);
-                    return;
                 }
-
-                // User is authenticated and is admin - show page
-                console.log('✅ SUCCESS: Admin access granted!');
-                console.log('👤 User:', user.email);
-                document.documentElement.style.visibility = 'visible';
-                resolve(true);
-            } catch (error) {
-                console.error('❌ Auth check error:', error);
-                console.error('Error details:', error.message);
-                console.error('Error stack:', error.stack);
                 
-                // For debugging, show page anyway
-                console.warn('⚠️ Error occurred - showing page for debugging');
-                document.documentElement.style.visibility = 'visible';
+            } catch (error) {
+                // On any error, deny access
+                redirectToHome();
                 resolve(false);
             }
         });
     });
 }
 
-// Run check immediately
-checkAdminAuth();
-
-export { checkAdminAuth };
+// Run the access check
+checkAdminAccess();
