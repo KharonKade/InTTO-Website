@@ -8,44 +8,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchInput = document.getElementById('search-input');
     const categorySelect = document.getElementById('filter-category');
     const sortSelect = document.getElementById('sort-order');
-    
-    // SDG Elements
+
+    // SDG Multi-Select Elements
     const sdgWrapper = document.getElementById('sdg-wrapper');
     const sdgBtn = document.getElementById('sdg-btn');
     const sdgBtnText = document.getElementById('sdg-btn-text');
     const sdgCheckboxes = document.querySelectorAll('.item input[type="checkbox"]');
 
     if (!window.db) {
-        console.error('Firebase is NOT initialized. Check your HTML script order.');
+        console.error('Firebase not initialized!');
         if(cardsGrid) cardsGrid.innerHTML = '<p>Error: Database not connected.</p>';
         return;
     }
 
-    // --- PAGINATION CONFIGURATION ---
-    const ITEMS_PER_PAGE = 6; // Limit to 6 items per page
+    // --- CONFIGURATION ---
+    const ITEMS_PER_PAGE = 6; 
     let currentPage = 1;
-    let allStartupsData = []; // Stores ALL data from DB
-    let currentFilteredData = []; // Stores data after Search/Filters are applied
+    let allStartupsData = []; 
+    let currentFilteredData = []; 
     let selectedSDGs = []; 
 
-    // --- 1. SDG Dropdown Logic ---
-    sdgBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        sdgWrapper.classList.toggle('open');
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!sdgWrapper.contains(e.target)) {
-            sdgWrapper.classList.remove('open');
-        }
-    });
-
-    sdgCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            updateSelectedSDGs();
-            applyFilters(); // Trigger filter immediately
+    // --- 1. EVENT LISTENERS ---
+    
+    // SDG Dropdown Toggle
+    if(sdgBtn && sdgWrapper) {
+        sdgBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sdgWrapper.classList.toggle('open');
         });
-        
+
         document.addEventListener('click', (e) => {
             if (!sdgWrapper.contains(e.target)) {
                 sdgWrapper.classList.remove('open');
@@ -53,45 +44,49 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // SDG Checkboxes
     if(sdgCheckboxes.length > 0) {
         sdgCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
                 updateSelectedSDGs();
-                applyFilters();
+                applyFilters(); 
             });
         });
     }
 
+    // Other Filters
     if(searchInput) searchInput.addEventListener('input', applyFilters);
     if(categorySelect) categorySelect.addEventListener('change', applyFilters);
     if(sortSelect) sortSelect.addEventListener('change', applyFilters);
 
 
-    // --- HELPER FUNCTIONS ---
+    // --- 2. HELPER FUNCTIONS ---
     function updateSelectedSDGs() {
         selectedSDGs = Array.from(sdgCheckboxes)
             .filter(box => box.checked)
             .map(box => box.value);
 
-        if (selectedSDGs.length > 0) {
-            sdgBtnText.textContent = `${selectedSDGs.length} SDG${selectedSDGs.length > 1 ? 's' : ''} Selected`;
-            sdgBtnText.style.color = '#1C7F56';
-            sdgBtnText.style.fontWeight = 'bold';
-        } else {
-            sdgBtnText.textContent = 'Select SDGs';
-            sdgBtnText.style.color = '#555';
-            sdgBtnText.style.fontWeight = 'normal';
+        if (sdgBtnText) {
+            if (selectedSDGs.length > 0) {
+                sdgBtnText.textContent = `${selectedSDGs.length} SDG${selectedSDGs.length > 1 ? 's' : ''} Selected`;
+                sdgBtnText.style.color = '#1C7F56';
+                sdgBtnText.style.fontWeight = 'bold';
+            } else {
+                sdgBtnText.textContent = 'Select SDGs';
+                sdgBtnText.style.color = '#555';
+                sdgBtnText.style.fontWeight = 'normal';
+            }
         }
     }
 
-    // --- MAIN LOAD FUNCTION ---
+    // --- 3. FETCH DATA ---
     async function fetchStartups() {
         if(!cardsGrid) return;
 
         try {
             cardsGrid.innerHTML = '<p style="text-align:center; width:100%;">Loading startups...</p>';
             
-            // FETCH ALL STARTUPS (Removed 'status' filter to ensure data shows)
+            // Fetch ALL startups (No status filter to ensure data shows)
             const snapshot = await db.collection('startups').get();
 
             allStartupsData = [];
@@ -103,151 +98,68 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error("Error fetching startups:", error);
-            cardsGrid.innerHTML = '<p style="text-align:center;">Error loading data. Check console.</p>';
+            cardsGrid.innerHTML = '<p style="text-align:center;">Error loading data.</p>';
         }
     }
 
-    // --- 3. Filter Logic ---
+    // --- 4. FILTER LOGIC ---
     function applyFilters() {
         let filtered = [...allStartupsData];
 
-        // A. Search
-        const searchTerm = searchInput.value.toLowerCase();
-        if (searchTerm) {
-            filtered = filtered.filter(s => 
-                (s.name && s.name.toLowerCase().includes(searchTerm)) ||
-                (s.industry && s.industry.toLowerCase().includes(searchTerm))
-            );
+        // Search
+        if (searchInput) {
+            const term = searchInput.value.toLowerCase();
+            if (term) {
+                filtered = filtered.filter(s => 
+                    (s.name && s.name.toLowerCase().includes(term)) ||
+                    (s.industry && s.industry.toLowerCase().includes(term))
+                );
+            }
         }
 
-        // B. Category
-        const categoryValue = categorySelect.value;
-        if (categoryValue) {
-            filtered = filtered.filter(s => 
-                (s.industry === categoryValue) || (s.category === categoryValue)
-            );
+        // Category
+        if (categorySelect) {
+            const cat = categorySelect.value;
+            if (cat) {
+                filtered = filtered.filter(s => 
+                    (s.industry === cat) || (s.category === cat)
+                );
+            }
         }
 
-        // C. SDGs
+        // SDGs
         if (selectedSDGs.length > 0) {
             filtered = filtered.filter(s => {
-                if (!s.sdgs) return false;
-                return s.sdgs.some(startupSdg => selectedSDGs.includes(startupSdg));
+                const sData = s.sdgs || s.SDGs || s.sdg; 
+                if (!sData) return false;
+                
+                if(Array.isArray(sData)) {
+                    return sData.some(item => selectedSDGs.includes(item));
+                }
+                return selectedSDGs.includes(sData);
             });
         }
 
-        // D. Sort
-        const sortValue = sortSelect.value;
-        filtered.sort((a, b) => {
-            if (sortValue === 'newest') {
-                return (b.dateStarted || '').localeCompare(a.dateStarted || '');
-            } else if (sortValue === 'oldest') {
-                return (a.dateStarted || '').localeCompare(b.dateStarted || '');
-            } else if (sortValue === 'a-z') {
-                return (a.name || '').localeCompare(b.name || '');
-            }
-        });
-
-        // Save results and reset to Page 1
-        currentFilteredData = filtered;
-        currentPage = 1;
-        
-        updateDisplay();
-    }
-
-    // --- 4. Pagination & Display Logic ---
-    function updateDisplay() {
-        const totalItems = currentFilteredData.length;
-        const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-
-        // Safety check
-        if (currentPage > totalPages) currentPage = totalPages || 1;
-
-        // Calculate slice (e.g., Items 0-6 for Page 1)
-        const start = (currentPage - 1) * ITEMS_PER_PAGE;
-        const end = start + ITEMS_PER_PAGE;
-        const pageItems = currentFilteredData.slice(start, end);
-
-        // Update UI
-        renderCards(pageItems);
-        renderPaginationControls(totalPages);
-        
-        // Update Results Count Text
-        if (resultsCount) {
-            resultsCount.textContent = `Showing ${pageItems.length} of ${totalItems} startups`;
+        // Sort
+        if (sortSelect) {
+            const sortVal = sortSelect.value;
+            filtered.sort((a, b) => {
+                if (sortVal === 'newest') return (b.dateStarted || '').localeCompare(a.dateStarted || '');
+                if (sortVal === 'oldest') return (a.dateStarted || '').localeCompare(b.dateStarted || '');
+                if (sortVal === 'a-z') return (a.name || '').localeCompare(b.name || '');
+            });
         }
-    }
-
-    function renderPaginationControls(totalPages) {
-        // Clear existing buttons
-        paginationContainer.innerHTML = '';
-
-        // If we have 1 page or less, hide pagination entirely
-        if (totalPages <= 1) {
-            return; 
-        }
-
-        // Helper to create buttons
-        const createBtn = (content, onClick, isActive = false, isDisabled = false) => {
-            const a = document.createElement('a');
-            a.href = "#";
-            a.className = 'page-btn';
-            if (isActive) a.classList.add('active');
-            if (isDisabled) a.classList.add('disabled');
-            a.innerHTML = content;
-            
-            if (!isDisabled && !isActive) {
-                a.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    onClick();
-                    // Scroll to top of grid for better UX
-                    document.querySelector('.startups-section').scrollIntoView({behavior: 'smooth'});
-                });
-            }
-            return a;
-        };
-
-        // 1. Prev Button
-        const prevBtn = createBtn('<i class="fa-solid fa-chevron-left"></i>', 
-            () => { currentPage--; updateDisplay(); }, 
-            false, 
-            currentPage === 1 // Disabled if on page 1
-        );
-        prevBtn.classList.add('arrow');
-        paginationContainer.appendChild(prevBtn);
-
-        // 2. Number Buttons
-        for (let i = 1; i <= totalPages; i++) {
-            const btn = createBtn(i, 
-                () => { currentPage = i; updateDisplay(); }, 
-                currentPage === i // Active if current page
-            );
-            paginationContainer.appendChild(btn);
-        }
-
-        // 3. Next Button
-        const nextBtn = createBtn('<i class="fa-solid fa-chevron-right"></i>', 
-            () => { currentPage++; updateDisplay(); }, 
-            false, 
-            currentPage === totalPages // Disabled if on last page
-        );
-        nextBtn.classList.add('arrow');
-        paginationContainer.appendChild(nextBtn);
-    }
-
-    // --- 5. Render Cards ---
-    function renderCards(startups) {
-        cardsGrid.innerHTML = '';
 
         currentFilteredData = filtered;
         currentPage = 1;
         updateDisplay();
     }
 
-    // --- PAGINATION & RENDER ---
+    // --- 5. PAGINATION & DISPLAY ---
     function updateDisplay() {
         const totalItems = currentFilteredData.length;
         const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+        
         if (currentPage > totalPages) currentPage = totalPages || 1;
 
         const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -275,6 +187,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (isActive) a.classList.add('active');
             if (isDisabled) a.classList.add('disabled');
             a.innerHTML = content;
+            
             if (!isDisabled && !isActive) {
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -286,7 +199,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         // Prev
-        paginationContainer.appendChild(createBtn('<i class="fa-solid fa-chevron-left"></i>', () => { currentPage--; updateDisplay(); }, false, currentPage === 1));
+        const prevBtn = createBtn('<i class="fa-solid fa-chevron-left"></i>', () => { currentPage--; updateDisplay(); }, false, currentPage === 1);
+        prevBtn.classList.add('arrow');
+        paginationContainer.appendChild(prevBtn);
 
         // Numbers
         for (let i = 1; i <= totalPages; i++) {
@@ -294,15 +209,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Next
-        paginationContainer.appendChild(createBtn('<i class="fa-solid fa-chevron-right"></i>', () => { currentPage++; updateDisplay(); }, false, currentPage === totalPages));
+        const nextBtn = createBtn('<i class="fa-solid fa-chevron-right"></i>', () => { currentPage++; updateDisplay(); }, false, currentPage === totalPages);
+        nextBtn.classList.add('arrow');
+        paginationContainer.appendChild(nextBtn);
     }
 
+    // --- 6. RENDER CARDS ---
     function renderCards(startups) {
         if(!cardsGrid) return;
         cardsGrid.innerHTML = '';
 
         if (startups.length === 0) {
-            cardsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No startups match criteria.</p>';
+            cardsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">No startups match your search.</p>';
             return;
         }
 
@@ -310,6 +228,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const card = document.createElement('article');
             card.className = 'startup-card';
 
+            // Logo
             let logoHTML;
             if (startup.imageUrls && startup.imageUrls.length > 0 && (startup.imageUrls[0].startsWith('http') || startup.imageUrls[0].startsWith('data:'))) {
                 logoHTML = `<img src="${startup.imageUrls[0]}" alt="logo" class="startup-logo">`;
@@ -317,13 +236,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 logoHTML = `<div class="startup-logo-emoji">${startup.logo || '🚀'}</div>`;
             }
 
+            // Tags
             let tagsHTML = `<span class="tag">${startup.industry || startup.category || 'Startup'}</span>`;
+            const sSDGs = startup.sdgs || startup.sdg;
             
-            if (startup.sdgs && startup.sdgs.length > 0) {
-                tagsHTML += `<span class="tag small">${startup.sdgs[0]}</span>`;
-            }
-            if (startup.sdgs && startup.sdgs.length > 1) {
-                tagsHTML += `<span class="tag small">+${startup.sdgs.length - 1}</span>`;
+            if (sSDGs && Array.isArray(sSDGs) && sSDGs.length > 0) {
+                tagsHTML += `<span class="tag small">${sSDGs[0]}</span>`;
+                if (sSDGs.length > 1) {
+                    tagsHTML += `<span class="tag small">+${sSDGs.length - 1}</span>`;
+                }
             }
 
             card.innerHTML = `
@@ -341,11 +262,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Listeners
-    searchInput.addEventListener('input', applyFilters);
-    categorySelect.addEventListener('change', applyFilters);
-    sortSelect.addEventListener('change', applyFilters);
-
-    // Initialize
+    // Start
     fetchStartups();
 });
