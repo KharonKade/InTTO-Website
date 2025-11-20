@@ -41,7 +41,7 @@ body {
     margin-top: -2px;
 }
 
-/* --- 4. HERO SECTION (SunShare Look) --- */
+/* --- 4. HERO SECTION --- */
 .project-hero {
     display: flex;
     gap: 3rem;
@@ -56,7 +56,7 @@ body {
     justify-content: center;
 }
 
-/* Logo and Name Side-by-Side */
+/* Logo and Name Row */
 .hero-header-row {
     display: flex;
     align-items: center;
@@ -64,7 +64,6 @@ body {
     margin-bottom: 15px;
 }
 
-/* Circular Logo */
 .hero-left .card-icon {
     width: 90px;
     height: 90px;
@@ -84,16 +83,16 @@ body {
     object-fit: cover;
 }
 
-/* Title */
 .hero-left h1 {
     font-size: 3rem;
     font-weight: 700;
     color: var(--text-dark);
     margin: 0;
     line-height: 1.1;
+    word-break: break-word; /* Prevents long titles from breaking layout */
 }
 
-/* Tag Container */
+/* Tags */
 .hero-tags {
     display: flex;
     flex-wrap: wrap;
@@ -101,8 +100,6 @@ body {
     margin-top: 5px;
 }
 
-/* SPECIFIC TAG STYLES */
-/* Cohort = Solid Green */
 .tag-cohort {
     background-color: #1C7F56; 
     color: white;
@@ -113,7 +110,6 @@ body {
     border: 1px solid #1C7F56;
 }
 
-/* SDG = White with Outline */
 .tag-sdg {
     background-color: transparent;
     color: #333;
@@ -124,7 +120,7 @@ body {
     font-weight: 500;
 }
 
-/* Hero Image Slider */
+/* Hero Slider */
 .hero-right {
     flex-basis: 45%;
     flex-shrink: 0;
@@ -159,7 +155,7 @@ body {
 .hero-slide-btn.prev { left: 1rem; }
 .hero-slide-btn.next { right: 1rem; }
 
-/* --- 5. LAYOUT --- */
+/* --- 5. LAYOUT GRID --- */
 .detail-content-area {
     display: flex;
     gap: 2rem;
@@ -170,6 +166,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    min-width: 0; /* Crucial for allowing flex items to shrink */
 }
 .detail-sidebar {
     flex-basis: 320px;
@@ -179,7 +176,7 @@ body {
     gap: 1.5rem;
 }
 
-/* --- 6. CARDS --- */
+/* --- 6. CARDS & TEXT FIXES --- */
 .detail-section-card, .sidebar-card {
     background-color: #ffffff;
     border: 1px solid var(--border-color);
@@ -187,6 +184,7 @@ body {
     padding: 2rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
+
 .detail-section-card h2, .sidebar-card h4 {
     font-size: 1.5rem;
     font-weight: 600;
@@ -199,10 +197,18 @@ body {
 .detail-section-card h2 svg, .sidebar-card h4 svg {
     color: var(--primary-green);
 }
-.detail-section-card p {
+
+/* --- FIX: TEXT WRAPPING --- */
+.detail-section-card p, .text-content, .prob-sol-block p {
     line-height: 1.7;
     color: var(--text-light);
+    
+    /* These lines fix the overflow issue: */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
+
 .detail-section-card h3 {
     font-size: 1.2rem;
     color: var(--text-dark);
@@ -224,7 +230,13 @@ body {
     color: var(--primary-green);
     margin: 0 0 0.5rem 0;
 }
-.feature-item p { margin: 0; font-size: 0.9rem; }
+.feature-item p { 
+    margin: 0; 
+    font-size: 0.9rem; 
+    /* Fix for features text overflow */
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
 
 .gallery-grid {
     display: grid;
@@ -243,13 +255,26 @@ body {
 .gallery-image:hover { transform: scale(1.05); }
 
 /* --- 8. SIDEBAR ITEMS --- */
+.trl-text-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+}
+.trl-percentage {
+    color: #1C7F56;
+    font-weight: 700;
+}
 .trl-bar {
     width: 100%;
     height: 8px;
     background-color: #e0e0e0;
     border-radius: 4px;
     overflow: hidden;
-    margin: 0.5rem 0;
+    margin-bottom: 15px;
 }
 .trl-progress { height: 100%; border-radius: 4px; }
 .trl-label {
@@ -260,6 +285,7 @@ body {
     font-weight: 600;
     margin-top: 5px;
 }
+
 .info-item {
     display: flex;
     flex-direction: column;
@@ -302,27 +328,4 @@ body {
     .detail-sidebar { width: 100%; order: -1; }
     .hero-right { width: 100%; }
     .features-grid { grid-template-columns: 1fr; }
-}
-/* --- TRL Card Specific Styles --- */
-
-/* Flex container to push text apart */
-.trl-text-row {
-    display: flex;
-    justify-content: space-between; /* Pushes items to edges */
-    align-items: center;
-    margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #444;
-}
-
-/* The percentage text color */
-.trl-percentage {
-    color: #1C7F56; /* Green to match theme */
-    font-weight: 700;
-}
-
-/* Ensure the progress bar has space */
-.trl-bar {
-    margin-bottom: 15px;
 }
