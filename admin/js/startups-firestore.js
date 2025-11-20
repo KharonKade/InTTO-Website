@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    <script type="module" src="js/auth-check.js"></script>
     // Firestore collections
     const STARTUPS_COLLECTION = 'startups';
     

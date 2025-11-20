@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    <script type="module" src="js/auth-check.js"></script>
     const STORAGE_KEY = 'ucInttoIpData';
-
     const defaultIpData = [
         { id: 1, title: "Smart Irrigation Control System", status: "granted", type: "Utility Model", number: "UM-2023-001234", startup: "AgroTech Solutions", description: "An IoT-based automated irrigation control system using soil moisture sensors and weather data integration.", inventors: "Dr. Juan Dela Cruz, Eng. Maria Santos, Dr. Pedro Reyes", appDate: "2023-05-10", grantDate: "2024-08-20", keywords: ["Agriculture", "IoT", "Automation"] },
         { id: 2, title: "UC InTTO Logo and Branding", status: "granted", type: "Trademark", number: "TM-2024-567890", startup: null, description: "Official Trademark registration for University of the Cordilleras Innovation and Technology Transfer Office logo and brand identity.", inventors: "UC Marketing Team", appDate: "2024-02-08", grantDate: "2024-07-15", keywords: ["Branding", "Logo"] },

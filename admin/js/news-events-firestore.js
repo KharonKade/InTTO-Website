@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     
-    
+    <script type="module" src="js/auth-check.js"></script>
     // Firestore collection
     const NEWS_EVENTS_COLLECTION = 'newsEvents';
     

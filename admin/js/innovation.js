@@ -2,7 +2,7 @@
  * Innovation Applications Management
  * Manages incubation program applications with Firestore
  */
-
+<script type="module" src="js/auth-check.js"></script>
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const applicationsContainer = document.getElementById('applications-container');

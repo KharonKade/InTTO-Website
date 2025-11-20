@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // *** CRITICAL: Must match the frontend load-startups.js storage key ***
+    <script type="module" src="js/auth-check.js"></script>
     const STORAGE_KEY = 'ucInttoStartupsData'; 
     const PENDING_KEY = 'pendingProjects';
 

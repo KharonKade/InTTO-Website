@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+    <script type="module" src="js/auth-check.js"></script>
     // --- Chart.js Instance ---
     let sdgChart = null;
 

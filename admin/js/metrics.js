@@ -1,7 +1,7 @@
 // ===================================
 // LIVE GOOGLE SHEETS METRICS DASHBOARD
 // ===================================
-
+<script type="module" src="js/auth-check.js"></script>
 const CONFIG = {
     API_KEY: 'AIzaSyAzUTxdA5Dqgyj-ZqUB5YHDfnZDU7gLTg8',
     SHEET_ID: '15MutTSdpR-1-iQcuFsMnuTD52vkfLaWwQgdDsBdYdRg'
@@ -20,7 +20,6 @@ const TABS_CONFIG = [
 
 // Load data for all tabs
 async function loadAllTabsData() {
-    console.log('📊 Loading all tabs data...');
     updateLastUpdateTime();
     
     for (const tab of TABS_CONFIG) {
@@ -36,8 +35,6 @@ async function loadTabData(tab) {
     const countBadge = document.getElementById(countId);
     
     try {
-        console.log(`🔄 Loading ${tab.sheetName}...`);
-        
         // Show loading state
         table.innerHTML = `
             <thead><tr><th>Loading...</th></tr></thead>
@@ -65,7 +62,6 @@ async function loadTabData(tab) {
                 <tbody><tr><td class="empty-state"><i class="fa-solid fa-inbox"></i><br>No data available in this sheet</td></tr></tbody>
             `;
             countBadge.textContent = '0';
-            console.log(`⚠️ No data found for ${tab.sheetName}`);
             return;
         }
         
@@ -75,8 +71,6 @@ async function loadTabData(tab) {
         // Update count (rows minus header)
         const rowCount = data.length - 1;
         countBadge.textContent = rowCount > 0 ? rowCount : '0';
-        
-        console.log(`✅ Loaded ${tab.sheetName}: ${rowCount} rows`);
         
     } catch (error) {
         console.error(`❌ Error loading ${tab.sheetName}:`, error);
@@ -116,7 +110,6 @@ function renderTable(tableElement, data, tabId = '') {
         if (secondRow && secondRow.some(cell => cell && (cell.includes('Goal') || cell.includes('Target') || cell.includes('Total')))) {
             headers = secondRow;
             rows = data.slice(2);
-            console.log('📋 KRA: Using row 2 as headers');
         }
     }
     
@@ -126,7 +119,6 @@ function renderTable(tableElement, data, tabId = '') {
         if (secondRow && secondRow.some(cell => cell && (cell.includes('Incubation Program') || cell.includes('Industry Summary')))) {
             headers = secondRow;
             rows = data.slice(2);
-            console.log('📋 Incubation Metrics: Using row 2 as headers');
         }
     }
     
@@ -141,11 +133,7 @@ function renderTable(tableElement, data, tabId = '') {
         const notesIndex = headers.findIndex(h => h && h.toLowerCase().includes('notes'));
         
         columnsToShow = [targetIndex, totalIndex, percentIndex, notesIndex].filter(i => i !== -1);
-        console.log('📋 KRA Columns to Show:', columnsToShow);
     }
-    
-    // For Incubation Metrics, show all columns (no filtering)
-    console.log(`📋 ${tabId} Headers:`, headers);
     
     // Build table HTML
     let html = '<thead><tr>';
@@ -268,22 +256,16 @@ function setupCollapsibleTabs() {
 // Auto-refresh every 5 minutes
 function setupAutoRefresh() {
     setInterval(() => {
-        console.log('🔄 Auto-refreshing data...');
         loadAllTabsData();
     }, 5 * 60 * 1000); // 5 minutes
 }
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Initializing Metrics Dashboard...');
-    console.log('📝 Sheet ID:', CONFIG.SHEET_ID);
-    console.log('🔑 API Key:', CONFIG.API_KEY.substring(0, 10) + '...');
-    
     // Setup refresh button
     const refreshBtn = document.getElementById('refresh-data-btn');
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => {
-            console.log('🔄 Manual refresh triggered');
             loadAllTabsData();
         });
     }
@@ -299,5 +281,3 @@ document.addEventListener('DOMContentLoaded', () => {
         loadAllTabsData();
     }, 500); // Small delay to ensure DOM is ready
 });
-
-console.log('✅ Metrics.js loaded successfully');
