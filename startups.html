@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Startups - InTTO</title>
   <link rel="stylesheet" href="css/startups.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,9 +19,7 @@
                     </a>
                 </div>
                 <div class="hamburger-menu" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
             </div>
 
@@ -34,11 +32,8 @@
                     <a href="events.html">Events</a>
                     <a href="ucolab/index.html">UColab</a>
                     <a href="sdgPage.html">SDG</a>
-                    
-                    <a href="incubation.html" class="mobile-btn">Apply for Incubation</a>
                 </div>
             </div>
-            
             <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
         </div>
     </div>
@@ -47,55 +42,81 @@
         <div class="section-label">Our Startups</div>
         <h2 class="service-title">Meet Our Startups</h2>
 
-          <div class="filter-bar">
-              <div class="filter-item search">
-                  <i class="fa fa-search"></i>
-                  <input type="text" placeholder="Enter your Name">
-              </div>
+        <div class="filter-bar">
+            <div class="filter-item search">
+                <i class="fa fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search Name...">
+            </div>
 
-              <div class="filter-item dropdown">
-                  <span>Industry</span>
-                  <i class="fa fa-chevron-down"></i>
-              </div>
+            <div class="filter-item dropdown-wrapper">
+                <select id="filter-category">
+                    <option value="">All Categories</option>
+                    <option value="AI and Data Science">AI and Data Science</option>
+                    <option value="SaaS and Enterprise Solutions">SaaS and Enterprise Solutions</option>
+                    <option value="Fintech">Fintech</option>
+                    <option value="E-Commerce">E-Commerce</option>
+                    <option value="Health">Health</option>
+                    <option value="Agriculture and Food">Agriculture and Food</option>
+                    <option value="Education Technologies">Education Technologies</option>
+                    <option value="Creative Industries">Creative Industries</option>
+                    <option value="Sustainability and Cleantech">Sustainability and Cleantech</option>
+                    <option value="Smart Cities and Mobility">Smart Cities and Mobility</option>
+                </select>
+                <i class="fa fa-chevron-down arrow-icon"></i>
+            </div>
 
-              <div class="filter-item dropdown">
-                  <span>All TRLs</span>
-                  <i class="fa fa-chevron-down"></i>
-              </div>
+            <div class="filter-item dropdown-wrapper multi-select" id="sdg-wrapper">
+                <div class="select-btn" id="sdg-btn">
+                    <span id="sdg-btn-text">Select SDGs</span>
+                    <i class="fa fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="list-items">
+                    <label class="item"><input type="checkbox" value="SDG 1"> SDG 1: No Poverty</label>
+                    <label class="item"><input type="checkbox" value="SDG 2"> SDG 2: Zero Hunger</label>
+                    <label class="item"><input type="checkbox" value="SDG 3"> SDG 3: Good Health</label>
+                    <label class="item"><input type="checkbox" value="SDG 4"> SDG 4: Quality Education</label>
+                    <label class="item"><input type="checkbox" value="SDG 5"> SDG 5: Gender Equality</label>
+                    <label class="item"><input type="checkbox" value="SDG 6"> SDG 6: Clean Water</label>
+                    <label class="item"><input type="checkbox" value="SDG 7"> SDG 7: Clean Energy</label>
+                    <label class="item"><input type="checkbox" value="SDG 8"> SDG 8: Decent Work</label>
+                    <label class="item"><input type="checkbox" value="SDG 9"> SDG 9: Industry</label>
+                    <label class="item"><input type="checkbox" value="SDG 10"> SDG 10: Reduced Inequalities</label>
+                    <label class="item"><input type="checkbox" value="SDG 11"> SDG 11: Sustainable Cities</label>
+                    <label class="item"><input type="checkbox" value="SDG 12"> SDG 12: Consumption</label>
+                    <label class="item"><input type="checkbox" value="SDG 13"> SDG 13: Climate Action</label>
+                    <label class="item"><input type="checkbox" value="SDG 14"> SDG 14: Life Below Water</label>
+                    <label class="item"><input type="checkbox" value="SDG 15"> SDG 15: Life on Land</label>
+                    <label class="item"><input type="checkbox" value="SDG 16"> SDG 16: Peace & Justice</label>
+                    <label class="item"><input type="checkbox" value="SDG 17"> SDG 17: Partnerships</label>
+                </div>
+            </div>
 
-              <div class="filter-item dropdown">
-                  <span>Newest First</span>
-                  <i class="fa fa-chevron-down"></i>
-              </div>
-          </div>
+            <div class="filter-item dropdown-wrapper">
+                <select id="sort-order">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="a-z">Name (A-Z)</option>
+                </select>
+                <i class="fa fa-chevron-down arrow-icon"></i>
+            </div>
+        </div>
 
-          <p class="results-count">Showing 6 of 8 startups</p>
+        <p class="results-count">Loading...</p>
         <div class="startups-container">
             <div class="cards-grid" id="cardsGrid">
-                <!-- Startups will be loaded dynamically from Firestore via load-startups.js -->
-            </div> 
+                </div> 
         </div> 
+
+        <div class="pagination"></div>
     </section>
-    
-      <div class="pagination">
-          <a href="#" class="page-btn arrow disabled"><i class="fa-solid fa-chevron-left"></i></a>
-          <a href="#" class="page-btn active">1</a>
-          <a href="#" class="page-btn">2</a>
-          <a href="#" class="page-btn">3</a>
-          <a href="#" class="page-btn arrow"><i class="fa-solid fa-chevron-right"></i></a>
-      </div>
-
-
 
     <section class="closing-section">
       <div class="cta-box">
-        <div class="cta-box-content">
-          <h2>Have a Startup or Idea?</h2>
-          <p>Join UC InTTO's incubation program and become part of the <br>region's growing innovation ecosystem.</p>
-          <div class="cta-buttons">
-            <a href="incubation.html" class="cta-btn">Apply for Incubation</a>
-            <a href="#" class="cta-btn">Join a Startup Team</a>
-          </div>
+        <h2>Have a Startup or Idea?</h2>
+        <p>Join UC InTTO's incubation program and become part of the <br>region's growing innovation ecosystem.</p>
+        <div class="cta-buttons">
+          <a href="incubation.html" class="cta-btn">Apply for Incubation</a>
+          <a href="#" class="cta-btn">Join a Startup Team</a>
         </div>
       </div>
 
@@ -103,10 +124,7 @@
         <div class="footer-logo">
           <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
         </div>
-
-        <div class="footer-tagline">
-          Driving the Culture of Innovation
-        </div>
+        <div class="footer-tagline">Driving the Culture of Innovation</div>
       </div>
     </section>
 
@@ -124,7 +142,6 @@
               <li><a href="internship.html">Internship</a></li>
           </ul>
       </div>
-
       <div class="footer-column">
           <h4>Startups</h4>
           <ul>
@@ -133,23 +150,21 @@
               <li><a href="mentor.html">Be a Mentor</a></li>
           </ul>
       </div>
-
-        <div class="footer-column">
+      <div class="footer-column">
           <h4>Contact Info</h4>
           <div class="social-links">
             <a href="https://www.facebook.com/UCInTTO" class="social-icon"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
             <a href="intto@uc-bcf.edu.ph" class="social-icon"><i class="fas fa-envelope"></i></a>
           </div>
-        </div>
-        <div class="footer-column">
+      </div>
+      <div class="footer-column">
           <h4>Visit Us</h4>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d537.8547548220233!2d120.59130577428844!3d16.4101724118376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a10062bd2aaf%3A0x4a6a895d930a3b3b!2sUniversity%20of%20the%20Cordilleras%20Innovation%20and%20Technology%20Transfer%20Office!5e1!3m2!1sen!2sph!4v1760499396401!5m2!1sen!2sph" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d537.8547548220233!2d120.59130577428844!3d16.4101724118376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3391a10062bd2aaf%3A0x4a6a895d930a3b3b!2sUniversity%20of%20the%20Cordilleras%20Innovation%20and%20Technology%20Transfer%20Office!5e1!3m2!1sen!2sph!4v1760499396401!5m2!1sen!2sph" width="388" height="224" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
           </div>
-        </div>
       </div>
-
+      </div>
       <div class="footer-divider bottom-line"></div>
       <div class="footer-bottom">
         <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
@@ -158,13 +173,10 @@
 
     <script>
       document.getElementById('hamburger').addEventListener('click', function() {
-        const navLinks = document.getElementById('navLinks');
-        navLinks.classList.toggle('open');
-        this.classList.toggle('open');
-    });
+        document.getElementById('navLinks').classList.toggle('open');
+      });
     </script>
     
-    <!-- Firebase SDK for Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
@@ -182,7 +194,6 @@
         window.db = db;
     </script>
     
-    <!-- Load approved startups dynamically -->
     <script src="js/load-startups.js"></script>
-    </body>
-    </html>
+</body>
+</html>
