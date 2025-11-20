@@ -10,8 +10,8 @@ body {
 }
 
 .main-wrapper {
- width: 90%;
- max-width: 1280px;
+ width: 95%;
+ max-width: 95%;
  margin: 20px auto;
  background: none;
  border-radius: 25px;
@@ -432,7 +432,7 @@ height: 64px;
   width: 90%;
   max-width: 1280px;
   height: auto;
-  margin: 60px auto;
+  margin: 100px auto;
   text-align: center;
 }
 

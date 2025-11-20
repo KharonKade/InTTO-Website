@@ -428,8 +428,7 @@ height: 64px;
 }
 
 .news-section {
-    width: 100%; 
-    max-width: none;
+    width: 90%; 
     height: auto;
     margin: 100px auto;
     text-align: center;
