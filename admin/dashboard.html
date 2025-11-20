@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script type="module" src="js/auth-check.js"></script>
+    
 </head>
 
 <body>
@@ -95,16 +96,19 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
-            authDomain: "uc-intto.firebaseapp.com",
-            projectId: "uc-intto",
-            storageBucket: "uc-intto.firebasestorage.app",
-            messagingSenderId: "156771180433",
-            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
-            measurementId: "G-ETY9E0F1K6"
-        };
-        firebase.initializeApp(firebaseConfig);
+        // Use existing Firebase instance if already initialized
+        if (!firebase.apps.length) {
+            const firebaseConfig = {
+                apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+                authDomain: "uc-intto.firebaseapp.com",
+                projectId: "uc-intto",
+                storageBucket: "uc-intto.firebasestorage.app",
+                messagingSenderId: "156771180433",
+                appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+                measurementId: "G-ETY9E0F1K6"
+            };
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.firestore();
     </script>
     

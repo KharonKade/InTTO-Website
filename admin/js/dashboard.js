@@ -2,7 +2,6 @@
  * Dashboard Admin Panel
  * Real-time statistics and activity from Firestore
  */
-<script type="module" src="js/auth-check.js"></script>
 document.addEventListener('DOMContentLoaded', function() {
     loadDashboardData();
 });

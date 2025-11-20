@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    <script type="module" src="js/auth-check.js"></script>
     const STORAGE_KEY = 'ucInttoNewsEventsData';
 
     // --- Global State for Images ---

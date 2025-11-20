@@ -1,7 +1,6 @@
 // ===================================
 // LIVE GOOGLE SHEETS METRICS DASHBOARD
 // ===================================
-<script type="module" src="js/auth-check.js"></script>
 const CONFIG = {
     API_KEY: 'AIzaSyAzUTxdA5Dqgyj-ZqUB5YHDfnZDU7gLTg8',
     SHEET_ID: '15MutTSdpR-1-iQcuFsMnuTD52vkfLaWwQgdDsBdYdRg'

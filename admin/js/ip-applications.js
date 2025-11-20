@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    <script type="module" src="js/auth-check.js"></script>
     const STORAGE_KEY = 'ucInttoIpData';
     const defaultIpData = [
         { id: 1, title: "Smart Irrigation Control System", status: "granted", type: "Utility Model", number: "UM-2023-001234", startup: "AgroTech Solutions", description: "An IoT-based automated irrigation control system using soil moisture sensors and weather data integration.", inventors: "Dr. Juan Dela Cruz, Eng. Maria Santos, Dr. Pedro Reyes", appDate: "2023-05-10", grantDate: "2024-08-20", keywords: ["Agriculture", "IoT", "Automation"] },
