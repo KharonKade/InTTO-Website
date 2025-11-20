@@ -3,19 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Home - InTTO</title>
   <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="module" src="./Contact-Us-DB/scriptC.js"></script>
-    <script type="module" src="./Contact-Us-DB/infoC.js"></script>
-    <script type="module" src="./Contact-Us-DB/saveInfoC.js"></script>
-    <script type="text/javascript"
-    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-    </script>
     <script type="text/javascript">
     (function(){
         emailjs.init({
@@ -35,9 +29,7 @@
 
             <div class="nav-wrapper">
                 <div class="hamburger-menu" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
                 <div class="nav-links" id="navLinks">
                     <a href="index.html" class="active">Home</a>
@@ -47,6 +39,7 @@
                     <a href="events.html">Events</a>
                     <a href="ucolab/index.html">UColab</a>
                     <a href="sdgPage.html">SDG</a>
+                    <a href="incubation.html" class="mobile-btn">Apply for Incubation</a>
                 </div>
             </div>
             <a href="incubation.html" class="nav-btn desktop-only">Apply for Incubation <span class="arrow-icon">➜</span></a>
@@ -63,7 +56,6 @@
 
   <section class="about-section">
     <div class="section-label">About UC TBI</div>
-
     <h2 class="section-title">
         <b>We are the University of the Cordilleras’ Technology Business Incubator,</b>
         helping founders and researchers transform innovative ideas into
@@ -93,101 +85,68 @@
     <div class="section-label">Our Services</div>
     <h2 class="service-title">For Startups & Intellectual Property</h2>
     <div class="services">
-
         <div class="service-card">
             <img src="graphics/services1.png" alt="">
             <h3>Incubation Program</h3>
             <p>This is the main service of the UCIANS TBI designed to help idea stage startups from ideation to commercialization.</p>
             <a href="incubationProgram.html" class="service-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
         </div>
-
         <div class="service-card">
             <img src="graphics/services2.png" alt="">
             <h3>Startup Capacity Building</h3>
             <p>We empower startups with customized programs, coaching, and resources to foster growth, innovation, and success.</p>
             <a href="incubationProgram.html" class="service-btn">View More <span class="arrow-icon">➜</span></a>
         </div>
-
         <div class="service-card">
             <img src="graphics/services3.png" alt="">
             <h3>Technopreneurship Training</h3>
             <p>Our Technopreneurship Training equips faculty with the skills and knowledge to deliver effective Technopreneurship courses.</p>
             <a href="incubationProgram.html" class="service-btn">View More <span class="arrow-icon">➜</span></a>
         </div>
-
-        <div class="service-card">
-            <img src="graphics/services1.png" alt="">
-            <h3>Incubation Program</h3>
-            <p>This is the main service of the UCIANS TBI designed to help idea stage startups from ideation to commercialization.</p>
-            <a href="incubationProgram.html" class="service-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
-        </div>
-
-        <div class="service-card">
-            <img src="graphics/services2.png" alt="">
-            <h3>Startup Capacity Building</h3>
-            <p>We empower startups with customized programs, coaching, and resources to foster growth, innovation, and success.</p>
-            <a href="incubationProgram.html" class="service-btn">View More <span class="arrow-icon">➜</span></a>
-        </div>
-
-        <div class="service-card">
-            <img src="graphics/services3.png" alt="">
-            <h3>Technopreneurship Training</h3>
-            <p>Our Technopreneurship Training equips faculty with the skills and knowledge to deliver effective Technopreneurship courses.</p>
-            <a href="incubationProgram.html" class="service-btn">View More <span class="arrow-icon">➜</span></a>
-        </div>
-
     </div>
     </section>
 
     <section class="startups-section">
-    <div class="section-label">Our Startups</div>
-    <h2 class="service-title">Meet Our Startups</h2>
+        <div class="section-label">Our Startups</div>
+        <h2 class="service-title">Meet Our Startups</h2>
 
-    <div class="filters-wrap">
-    <div class="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="agritech">AgriTech</button>
-        <button class="filter-btn" data-filter="tourism">Tourism &amp; Mobility</button>
-        <button class="filter-btn" data-filter="healthtech">HealthTech</button>
-        <button class="filter-btn" data-filter="crimintech">CriminTech</button>
-        <button class="filter-btn" data-filter="cleantech">CleanTech</button>
-        <button class="filter-btn" data-filter="fintech">FinTech</button>
-    </div>
-    
-    <div class="custom-dropdown-wrap">
-        <div class="custom-select-trigger" data-value="all">All</div>
-        <div class="custom-options">
-            <div class="custom-option" data-value="all">All</div>
-            <div class="custom-option" data-value="agritech">AgriTech</div>
-            <div class="custom-option" data-value="tourism">Tourism &amp; Mobility</div>
-            <div class="custom-option" data-value="healthtech">HealthTech</div>
-            <div class="custom-option" data-value="crimintech">CriminTech</div>
-            <div class="custom-option" data-value="cleantech">CleanTech</div>
-            <div class="custom-option" data-value="fintech">FinTech</div>
+        <div class="filters-wrap">
+            
+            <div class="home-dropdown-wrapper">
+                <select id="home-category-filter">
+                    <option value="all">All Categories</option>
+                    <option value="ai and data science">AI and Data Science</option>
+                    <option value="saas and enterprise solutions">SaaS and Enterprise Solutions</option>
+                    <option value="fintech">Fintech</option>
+                    <option value="e-commerce">E-Commerce</option>
+                    <option value="health">Health</option>
+                    <option value="agriculture and food">Agriculture and Food</option>
+                    <option value="education technologies">Education Technologies</option>
+                    <option value="creative industries">Creative Industries</option>
+                    <option value="sustainability and cleantech">Sustainability and Cleantech</option>
+                    <option value="smart cities and mobility">Smart Cities and Mobility</option>
+                </select>
+                <i class="fa fa-chevron-down arrow-icon"></i>
+            </div>
+            
+            <a href="startups.html" class="view-all-link">
+                <button class="view-all-btn">View all <span class="btn-arrow">➜</span></button>
+            </a>
         </div>
-    </div>
 
-    <a href="startups.html" class="button-link">
-        <button class="view-all-btn">
-            View all <span class="btn-arrow">➜</span>
-        </button>
-        </a>
-</div>
+        <div class="startups-container">
+            <div class="cards-grid" id="cardsGrid">
+                </div> 
+        </div> 
 
-    <div class="startups-container">
-        <div class="cards-grid" id="cardsGrid">
-            <!-- Startups will be loaded dynamically from Firestore via load-startups.js -->
-            </div> 
-    </div> 
-
-    <div class="join-cta">
-        <div class="cta-content">
-        <h3>Want to join a Startup?</h3>
-        <p>Connect with student founders and contribute your skills to real innovation projects.</p>
+        <div class="join-cta">
+            <div class="cta-content">
+            <h3>Want to join a Startup?</h3>
+            <p>Connect with student founders and contribute your skills to real innovation projects.</p>
+            </div>
+            <a href="startups.html" class="primary-cta">View Active Projects <span class="cta-arrow">➜</span></a>
         </div>
-        <a href="startups.html" class="primary-cta">View Active Projects <span class="cta-arrow">➜</span></a>
-    </div>
-</section>
+    </section>
 
     <section class="news-section">
       <div class="news-container">
@@ -196,28 +155,23 @@
             <h2 class="section-title-news">News & Events</h2>
             <a href="events.html" class="news-nav-btn">View More<span class="arrow-icon">➜</span></a>
         </div>
-
         <div class="news-cards">
-          <!-- News & Events will be loaded dynamically from Firestore via load-news-events.js -->
-        </div>
+          </div>
       </div>
     </section>
 
     <section class="contact-section">
       <h2 class="contact-title">Contact Us</h2>
-
       <div class="contact-wrapper">
           <div class="contact-info">
               <div class="info-block">
                   <h3>Address</h3>
                   <p>UCIANS TBI, Basement 1, UC Legarda Campus,<br>Legarda Road, Baguio City</p>
               </div>
-
               <div class="info-block">
                   <h3>Email</h3>
                   <p>intto@uc-bcf.edu.ph</p>
               </div>
-
               <div class="info-block">
                   <h3>Social Media</h3>
                   <div class="social-icons">
@@ -233,22 +187,18 @@
                   <label for="name">Full Name</label>
                   <input type="text" id="name" placeholder="Enter your Name" autocomplete="given-name">
               </div>
-
               <div class="form-group">
                   <label for="email">Email</label>
                   <input type="email" id="email" placeholder="Enter your Email" >
               </div>
-
               <div class="form-group">
                   <label for="subject">Subject</label>
                   <input type="text" id="subject" placeholder="Enter the subject of your message">
               </div>
-
               <div class="form-group">
                   <label for="message">Message</label>
-                  <textarea id="message" placeholder="Write your message here (e.g., I'd like to collaborate on a startup project or ask about incubation programs.)""></textarea>
+                  <textarea id="message" placeholder="Write your message here..."></textarea>
               </div>
-
               <button type="submit" class="contact-btn">
                   Send Message <span class="arrow-contact">➜</span>
               </button>
@@ -271,7 +221,6 @@
         <div class="footer-logo">
           <img src="graphics/InTTOLogoGreen.png" alt="Logo" class="footer-logo-img">
         </div>
-
         <div class="footer-tagline">
           Driving the Culture of Innovation
         </div>
@@ -292,7 +241,6 @@
               <li><a href="internship.html">Internship</a></li>
           </ul>
       </div>
-
       <div class="footer-column">
           <h4>Startups</h4>
           <ul>
@@ -301,8 +249,7 @@
               <li><a href="mentor.html">Be a Mentor</a></li>
           </ul>
       </div>
-
-        <div class="footer-column">
+      <div class="footer-column">
           <h4>Contact Info</h4>
           <div class="social-links">
             <a href="https://www.facebook.com/UCInTTO" class="social-icon"><i class="fab fa-facebook-f"></i></a>
@@ -317,178 +264,75 @@
           </div>
         </div>
       </div>
-
       <div class="footer-divider bottom-line"></div>
       <div class="footer-bottom">
         <p>© 2025 University of the Cordilleras Innovation & Technology Transfer Office. All rights reserved.</p>
       </div>
     </footer>
-  
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-    const filtersWrap = document.querySelector('.filters-wrap');
-    const cardsGrid = document.getElementById('cardsGrid');
-    const filterButtons = filtersWrap.querySelectorAll('.filter-btn');
-    
-    if (!cardsGrid) return;
+      document.getElementById('hamburger').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+      });
+    </script>
 
-    function applyFilter(category) {
-        const startupCards = cardsGrid.querySelectorAll('.startup-card');
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const categorySelect = document.getElementById('home-category-filter');
+        const cardsGrid = document.getElementById('cardsGrid');
+        
+        if (!cardsGrid || !categorySelect) return;
 
-        startupCards.forEach(card => {
-            const cardCategories = card.getAttribute('data-category').split(' ');
-
-            if (category === 'all' || cardCategories.includes(category)) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const selectedCategory = button.getAttribute('data-filter');
+        // Function to filter cards
+        function applyFilter(category) {
+            const startupCards = cardsGrid.querySelectorAll('.startup-card');
             
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            const customTrigger = filtersWrap.querySelector('.custom-select-trigger');
-            if (customTrigger) {
-                const matchingOption = filtersWrap.querySelector(`.custom-option[data-value="${selectedCategory}"]`);
-                if (matchingOption) {
-                    customTrigger.textContent = matchingOption.textContent;
-                    customTrigger.setAttribute('data-value', selectedCategory);
-                }
-            }
-
-            applyFilter(selectedCategory);
-        });
-    });
-
-    const dropdownWrap = filtersWrap.querySelector('.custom-dropdown-wrap');
-    const trigger = filtersWrap.querySelector('.custom-select-trigger');
-    const customOptions = filtersWrap.querySelectorAll('.custom-option');
-
-    if (dropdownWrap && trigger && customOptions.length > 0) {
-        trigger.addEventListener('click', () => {
-            dropdownWrap.classList.toggle('open');
-        });
-
-        customOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const newValue = this.getAttribute('data-value');
-                const newText = this.textContent;
-
-                trigger.textContent = newText;
-                trigger.setAttribute('data-value', newValue);
-                dropdownWrap.classList.remove('open');
+            startupCards.forEach(card => {
+                // Get category string safely
+                const cardCatString = (card.getAttribute('data-category') || '').toLowerCase();
                 
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                const matchingButton = filtersWrap.querySelector(`.filter-btn[data-filter="${newValue}"]`);
-                if (matchingButton) {
-                    matchingButton.classList.add('active');
-                } else if (newValue === 'all') {
-                    filtersWrap.querySelector(`.filter-btn[data-filter="all"]`).classList.add('active');
+                // Check match
+                if (category === 'all' || cardCatString.includes(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
                 }
-
-                applyFilter(newValue);
             });
+        }
+
+        // Listen for Dropdown Change
+        categorySelect.addEventListener('change', (e) => {
+            applyFilter(e.target.value);
         });
 
-        document.addEventListener('click', (e) => {
-            if (!dropdownWrap.contains(e.target)) {
-                dropdownWrap.classList.remove('open');
-            }
+        // Watch for new cards loading (Firebase) and re-apply filter if needed
+        const observer = new MutationObserver(() => {
+            applyFilter(categorySelect.value);
         });
-    }
-
-    if (filtersWrap.querySelector('.filter-btn.active')) {
-        applyFilter(filtersWrap.querySelector('.filter-btn.active').getAttribute('data-filter'));
-    } else {
-        applyFilter('all');
-    }
-});
-  </script>
-  <script>
-
-   document.getElementById('hamburger').addEventListener('click', function() {
-      const navLinks = document.getElementById('navLinks');
-      navLinks.classList.toggle('open');
-      this.classList.toggle('open');
-  });
-
-  const navLinks = document.querySelectorAll('.nav-links a');
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', function () {
-      navLinks.forEach(nav => nav.classList.remove('active'));
-      this.classList.add('active');
+        
+        observer.observe(cardsGrid, { childList: true });
     });
-  });
-</script>
-<script>
-  (function(){
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.startup-card');
+    </script>
 
-    function setActiveBtn(btn){
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    function filterCards(category){
-      cards.forEach(card => {
-        const categories = (card.dataset.category || '').toLowerCase().split(/\s+/);
-        if(category === 'all' || categories.includes(category)){
-          card.style.display = ''; 
-        } else {
-          card.style.display = 'none'; 
-        }
-      });
-    }
-
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cat = btn.dataset.filter;
-        setActiveBtn(btn);
-        filterCards(cat);
-      });
-      btn.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    });
-    filterCards('all');
-  })();
-</script>
-
-<!-- Firebase SDK for Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
-        authDomain: "uc-intto.firebaseapp.com",
-        projectId: "uc-intto",
-        storageBucket: "uc-intto.firebasestorage.app",
-        messagingSenderId: "156771180433",
-        appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
-        measurementId: "G-ETY9E0F1K6"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    window.db = db;
-</script>
-
-<!-- Load approved startups dynamically -->
-<script src="js/load-startups.js"></script>
-
-<!-- Load news & events dynamically -->
-<script src="js/load-news-events.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        window.db = db;
+    </script>
+    
+    <script src="js/load-startups.js"></script>
+    <script src="js/load-news-events.js"></script>
 
 </body>
 </html>
