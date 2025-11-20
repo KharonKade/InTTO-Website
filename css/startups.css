@@ -37,8 +37,6 @@ body {
  font-family: poppins;
 }
 
-/* --- MISSING CLASS RESTORED HERE --- */
-/* This fixes the alignment issue */
 .navbar-header {
   display: flex;
   align-items: center;
@@ -71,7 +69,6 @@ body {
  display: block;
 }
 
-/* Nav Wrapper */
 .nav-wrapper {
  background: rgba(255, 255, 255, 0.07);
  backdrop-filter: blur(14px);
@@ -260,7 +257,6 @@ body {
     pointer-events: none; color: #1C7F56; font-size: 12px; z-index: 1;
 }
 
-/* Multi-Select SDG */
 .multi-select { cursor: pointer; position: relative; }
 .select-btn {
     display: flex; height: 100%; width: 100%; align-items: center;
@@ -278,6 +274,8 @@ body {
 }
 .item:hover { background-color: #E5FAEA; }
 .item input { margin-right: 10px; accent-color: #1C7F56; width: 16px; height: 16px; cursor: pointer; }
+.list-items::-webkit-scrollbar { width: 6px; }
+.list-items::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
 .results-count { text-align: left; font-size: 16px; color: #555; margin: 0 0 10px 0; }
 
@@ -301,7 +299,6 @@ body {
   margin: 30px auto 0;
 }
 
-/* --- STARTUP CARD --- */
 .startup-card {
   background: #fff; padding: 18px; border-radius: 20px; text-align: left;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08); display: flex; flex-direction: column;
@@ -350,7 +347,6 @@ body {
 }
 .card-cta:hover { background: #166c41; }
 
-/* --- PAGINATION --- */
 .pagination {
   display: flex; justify-content: center; align-items: center; gap: 12px;
   margin-top: 40px; margin-bottom: 60px; flex-wrap: wrap;
@@ -365,10 +361,11 @@ body {
 .page-btn.disabled { opacity: 0.3; cursor: default; pointer-events: none; }
 .page-btn.arrow { font-weight: bold; }
 
-/* --- FOOTER SECTION --- */
+/* --- FOOTER SECTION (Services.html Style) --- */
 .closing-section {
   width: 85%; max-width: 1200px; padding: 60px 0; box-sizing: border-box; margin: 0 auto;
 }
+
 .cta-box {
   color: white; text-align: center; padding: 60px 40px; border-radius: 48px;
   margin-bottom: 60px; min-height: 459px; display: flex; flex-direction: column;
@@ -376,9 +373,15 @@ body {
   background: linear-gradient(40deg, rgba(0,0,0,0) 0%, rgba(20, 102, 82, 0.58) 50%, #297B68 100%), url('/graphics/ctaCover.png'); 
   background-size: cover; background-position: center; 
 }
+/* This centers content inside CTA box */
+.cta-box-content {
+  width: 100%; display: flex; flex-direction: column; align-items: center;
+}
+
 .cta-box h2 { font-size: 48px; font-weight: bold; margin-bottom: 15px; }
 .cta-box p { font-size: 24px; opacity: 0.9; margin-bottom: 30px; }
 .cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+
 .cta-btn {
   background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.3); padding: 12px 32px;
@@ -386,6 +389,13 @@ body {
   min-width: 200px; height: 64px; display: flex; justify-content: center; align-items: center;
 }
 .cta-btn:hover { background: rgba(255, 255, 255, 0.15); }
+
+.footer-row {
+  display: flex; justify-content: space-between; align-items: center; padding: 0 20px; flex-wrap: wrap;
+}
+.footer-logo { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 15px; }
+.footer-logo-img { width: 198px; height: 96px; display: block; margin-bottom: 6px; }
+.footer-tagline { font-size: 24px; font-weight: 500; opacity: 0.7; margin-right: 20px; text-align: right; flex-grow: 1; }
 
 .footer-section { width: 100%; background: white; padding: 60px 0; }
 .footer-top {
@@ -412,19 +422,23 @@ body {
 
 /* --- RESPONSIVE --- */
 @media (max-width: 1024px) {
-  .navbar-header { width: 100%; justify-content: space-between; margin-bottom: 10px; } /* Ensure header spans full width */
+  .navbar-header { width: 100%; justify-content: space-between; margin-bottom: 10px; }
   .navbar { flex-direction: column; gap: 0; padding: 15px 20px; height: auto; }
   .nav-wrapper { max-width: 100%; margin: 0; background: transparent; backdrop-filter: none; display: none; flex-direction: column; }
   .nav-links { flex-direction: column; width: 100%; }
   .nav-links.open { display: flex; background: #1C7F56; padding: 20px; border-radius: 20px; }
   .nav-btn { display: none; }
-  .nav-links .mobile-btn { display: flex; }
+  .nav-links .mobile-btn { display: flex; justify-content: center; background: rgba(255,255,255,0.1); margin-top: 10px; }
   .hamburger-menu { display: block; }
   .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 768px) {
+  .join-cta { flex-direction: column; text-align: center; padding: 30px 20px; }
+  .join-cta .cta-content h3 { font-size: 36px; }
   .footer-top { flex-direction: column; align-items: center; text-align: center; }
+  .footer-row { flex-direction: column; text-align: center; }
+  .footer-tagline { text-align: center; margin-right: 0; }
 }
 
 @media (max-width: 600px) {
