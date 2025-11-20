@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const db = firebase.firestore();
 
-    // 2. Get Startup ID
+    // 2. Get Startup ID from URL
     const urlParams = new URLSearchParams(window.location.search);
     const startupId = urlParams.get('id');
 
@@ -42,16 +42,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // --- POPULATE HERO SECTION ---
         
-        // Title
+        // Title & Tab Name
         document.title = `${data.name || 'Details'} - InTTO`;
         document.getElementById('detail-title').textContent = data.name || 'Unnamed Startup';
         
-        // Circular Logo
+        // Circular Logo Logic
         const iconContainer = document.getElementById('detail-icon');
-        // Use first image if it's a URL, otherwise Emoji
+        // Check if logo is a URL (http) or Base64 (data:)
         if (data.imageUrls && data.imageUrls.length > 0 && (data.imageUrls[0].startsWith('http') || data.imageUrls[0].startsWith('data:'))) {
              iconContainer.innerHTML = `<img src="${data.imageUrls[0]}" alt="Logo">`;
         } else {
+             // Use Emoji fallback
              iconContainer.textContent = data.logo || "🚀";
         }
 
@@ -59,14 +60,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tagsContainer = document.getElementById('detail-tags');
         let tagsHtml = '';
 
-        // 1. Cohort (Green) - Check both 'cohort' and 'Cohort' just in case
+        // 1. Cohort (Green Tag)
+        // Checks 'cohort' or 'Cohort' in case of capitalization differences in DB
         const cohortVal = data.cohort || data.Cohort;
         if (cohortVal) {
             tagsHtml += `<span class="tag-cohort">${cohortVal}</span>`;
         }
 
-        // 2. SDGs (White Outline)
-        const sdgList = data.sdgs || data.sdg; // handle array or string
+        // 2. SDGs (White Outline Tags)
+        const sdgList = data.sdgs || data.sdg; // Handle array or string
         if (sdgList) {
             if (Array.isArray(sdgList)) {
                 sdgList.forEach(sdg => {
@@ -76,7 +78,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 tagsHtml += `<span class="tag-sdg">${sdgList}</span>`;
             }
         }
-
         tagsContainer.innerHTML = tagsHtml;
 
         // --- SLIDER LOGIC ---
@@ -125,19 +126,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         if(!hasFeatures) featuresGrid.innerHTML = '<p>Features not listed.</p>';
 
-        // --- SIDEBAR ---
-        const trlValue = data.trl || 1;
-        document.getElementById('trl-num-text').textContent = trlValue;
-        document.getElementById('detail-trl-percent').textContent = `${Math.round((trlValue/9)*100)}%`;
-        document.getElementById('detail-trl-progress').style.width = `${(trlValue/9)*100}%`;
+        // --- SIDEBAR (TRL FIX) ---
         
+        // 1. Clean the TRL data (Handle string vs number)
+        let rawTrl = data.trl; 
+        let trlNumber = 1; // Default fallback
+
+        if (typeof rawTrl === 'number') {
+            trlNumber = rawTrl;
+        } else if (typeof rawTrl === 'string') {
+            // Extract the first number found in the string (e.g. "TRL 6" -> 6)
+            const match = rawTrl.match(/\d+/); 
+            if (match) {
+                trlNumber = parseInt(match[0]);
+            }
+        }
+
+        // Ensure it stays between 1 and 9
+        if (trlNumber < 1) trlNumber = 1;
+        if (trlNumber > 9) trlNumber = 9;
+
+        // 2. Update the number text
+        const trlNumText = document.getElementById('trl-num-text');
+        if(trlNumText) trlNumText.textContent = trlNumber;
+        
+        // 3. Calculate Percentage
+        const percentage = Math.round((trlNumber / 9) * 100);
+        document.getElementById('detail-trl-percent').textContent = `${percentage}%`;
+        document.getElementById('detail-trl-progress').style.width = `${percentage}%`;
+        
+        // 4. Update Status Label
         const trlStatuses = {
             1: "Basic Principles", 2: "Concept Formulated", 3: "Proof of Concept",
             4: "Laboratory Testing", 5: "Relevant Environment", 6: "Demonstrated",
             7: "System Prototype", 8: "System Complete", 9: "Successful Operations"
         };
-        document.getElementById('detail-trl-label').textContent = trlStatuses[trlValue] || "Concept Phase";
+        document.getElementById('detail-trl-label').textContent = trlStatuses[trlNumber] || "Concept Phase";
 
+
+        // --- SIDEBAR (INFO & PUBLISHER) ---
         document.getElementById('detail-start-date').textContent = data.dateStarted || "2025";
         document.getElementById('detail-team-size').textContent = data.teamSize || "Unknown";
         document.getElementById('detail-college').textContent = data.college || "UC";
@@ -160,7 +187,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function updateHeroImage() {
         const imgElement = document.getElementById('detail-image');
-        // If we have images, use the first one (or index)
+        // If we have images, use the first one (or current index)
         if (imageUrls.length > 0) {
             imgElement.src = imageUrls[currentImageIndex];
         } else {
@@ -169,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         
-        // Show/Hide buttons
+        // Show/Hide buttons based on number of images
         if(imageUrls.length <= 1) {
             document.getElementById('hero-prev-btn').style.display = 'none';
             document.getElementById('hero-next-btn').style.display = 'none';
@@ -194,6 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+// Lightbox Logic (Global)
 function openLightbox(src) {
     const overlay = document.getElementById('lightbox-overlay');
     const img = document.getElementById('lightbox-image');

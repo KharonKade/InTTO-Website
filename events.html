@@ -52,20 +52,92 @@
         <div class="filter-bar">
             <div class="filter-item search">
                 <i class="fa fa-search"></i>
-                <input type="text" placeholder="Search event/news" id="search-input">
+                <input type="text" placeholder="Search event/news">
             </div>
 
-            <button class="filter-btn active" id="filter-all">All</button> 
-            <button class="filter-btn" id="filter-news">News</button> 
-            <button class="filter-btn" id="filter-events">Events</button> 
+            <button class="filter-btn">All</button>
+            <button class="filter-btn">News</button>
+            <button class="filter-btn">Events</button>
         </div>
 
-           <div class="main-content-wrap">
-        <main class="news-list-area">
-            <div class="news-cards" id="news-cards-container">
-            </div>
+        <div class="main-content-wrap">
+            <main class="news-list-area">
+                <div class="news-cards">
+                    <div class="news-card">
+                        <img src="graphics/news.png" alt="News Image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="tag">Competition</span>
+                                <span class="date">October 1, 2025</span>
+                            </div>
+                            <h3 class="news-title">Philippine Startup Challenge 10</h3>
+                            <p class="news-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                            <a href="newsEventPage.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="graphics/news.png" alt="News Image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="tag">Competition</span>
+                                <span class="date">October 1, 2025</span>
+                            </div>
+                            <h3 class="news-title">Philippine Startup Challenge 10</h3>
+                            <p class="news-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                            <a href="newsEventPage.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="graphics/news.png" alt="News Image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="tag">Competition</span>
+                                <span class="date">October 1, 2025</span>
+                            </div>
+                            <h3 class="news-title">Philippine Startup Challenge 10</h3>
+                            <p class="news-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                            <a href="newsEventPage.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="graphics/news.png" alt="News Image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="tag">Competition</span>
+                                <span class="date">October 1, 2025</span>
+                            </div>
+                            <h3 class="news-title">Philippine Startup Challenge 10</h3>
+                            <p class="news-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                            <a href="newsEventPage.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="graphics/news.png" alt="News Image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="tag">Competition</span>
+                                <span class="date">October 1, 2025</span>
+                            </div>
+                            <h3 class="news-title">Philippine Startup Challenge 10</h3>
+                            <p class="news-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                            <a href="newsEventPage.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="graphics/news.png" alt="News Image">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="tag">Competition</span>
+                                <span class="date">October 1, 2025</span>
+                            </div>
+                            <h3 class="news-title">Philippine Startup Challenge 10</h3>
+                            <p class="news-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                            <a href="newsEventPage.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="pagination" id="pagination-container">
+                <div class="pagination">
                     <a href="#" class="page-btn arrow disabled"><i class="fa-solid fa-chevron-left"></i></a>
                     <a href="#" class="page-btn active">1</a>
                     <a href="#" class="page-btn">2</a>
@@ -207,6 +279,7 @@
       </div>
     </footer>
     
+    <!-- Firebase SDK for Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
@@ -231,6 +304,8 @@
             this.classList.toggle('open');
         });
     </script>
+    
+    <!-- Load news & events dynamically -->
     <script src="js/load-news-events.js"></script>
     
 </body>
