@@ -45,32 +45,24 @@
                     <div class="stat-icon blue"><i class="fa-solid fa-rocket"></i></div>
                     <div class="stat-info">
                         <p class="stat-title">Total Startups</p>
-                        <p class="stat-number">5</p>
-                        <p class="stat-subtitle">4 active</p>
+                        <p class="stat-number" id="total-startups">0</p>
+                        <p class="stat-subtitle" id="active-startups">0 active</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon purple"><i class="fa-solid fa-newspaper"></i></div>
                     <div class="stat-info">
                         <p class="stat-title">Published Events</p>
-                        <p class="stat-number">2</p>
-                        <p class="stat-subtitle">1 drafts</p>
+                        <p class="stat-number" id="published-events">0</p>
+                        <p class="stat-subtitle" id="draft-events">0 drafts</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon orange"><i class="fa-solid fa-users"></i></div>
                     <div class="stat-info">
                         <p class="stat-title">Team Members</p>
-                        <p class="stat-number">3</p>
-                        <p class="stat-subtitle">Active staff</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green"><i class="fa-solid fa-handshake-angle"></i></div>
-                    <div class="stat-info">
-                        <p class="stat-title">Open for Collab</p>
-                        <p class="stat-number">3</p>
-                        <p class="stat-subtitle">Startups seeking partners</p>
+                        <p class="stat-number" id="total-team">0</p>
+                        <p class="stat-subtitle" id="active-team">0 active staff</p>
                     </div>
                 </div>
             </div>
@@ -78,70 +70,43 @@
             <div class="content-grid">
                 <div class="content-card">
                     <h2>Recent Startups</h2>
-                    <ul>
-                        <li>
-                            <div class="item-info">
-                                <img src="https://placehold.co/40x40/a2e5c2/333333?text=A" alt="Agritech Logo">
-                                <div>
-                                    <p class="item-title">AgroTech Solutions</p>
-                                    <p class="item-subtitle">Agritech</p>
-                                </div>
-                            </div>
-                            <span class="tag trl">TRL 7</span>
-                        </li>
-                        <li>
-                            <div class="item-info">
-                                <img src="https://placehold.co/40x40/f0b9b9/333333?text=H" alt="HealthHub Logo">
-                                <div>
-                                    <p class="item-title">HealthHub PH</p>
-                                    <p class="item-subtitle">Healthtech</p>
-                                </div>
-                            </div>
-                            <span class="tag trl">TRL 6</span>
-                        </li>
-                         <li>
-                            <div class="item-info">
-                                <img src="https://placehold.co/40x40/e08c8c/333333?text=S" alt="SafeCity Logo">
-                                <div>
-                                    <p class="item-title">SafeCity Monitor</p>
-                                    <p class="item-subtitle">CriminTech</p>
-                                </div>
-                            </div>
-                            <span class="tag trl">TRL 5</span>
-                        </li>
+                    <ul id="recent-startups-list">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
                     </ul>
                 </div>
 
                 <div class="content-card">
                     <h2>Recent Activity</h2>
-                     <ul>
-                        <li>
-                            <div>
-                                <p class="item-title">InTTO Hosts Innovation Week 2024</p>
-                                <p class="item-subtitle">Nov 1, 2024</p>
-                            </div>
-                            <span class="tag event">event</span>
-                        </li>
-                        <li>
-                            <div>
-                                <p class="item-title">New Partnership with DOST Region CAR</p>
-                                <p class="item-subtitle">Oct 15, 2024</p>
-                            </div>
-                            <span class="tag news">news</span>
-                        </li>
-                         <li>
-                            <div>
-                                <p class="item-title">IP Protection Workshop</p>
-                                <p class="item-subtitle">Nov 15, 2024</p>
-                            </div>
-                            <span class="tag event">event</span>
-                        </li>
+                    <ul id="recent-activity-list">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
                     </ul>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+    
+    <script src="js/dashboard.js"></script>
+
 </body>
 </html>
-
