@@ -169,7 +169,7 @@ const CloudinaryUploader = (function() {
     }
 
     /**
-     * Upload image with automatic fallback to base64
+     * Upload image with automatic compression and fallback to base64
      * @param {File} file - The file to upload
      * @param {number} index - The index of the image
      * @returns {Promise<string>} - The image URL (Cloudinary or base64)
@@ -181,20 +181,34 @@ const CloudinaryUploader = (function() {
             throw new Error(validation.error);
         }
 
+        // Compress image before upload if ImageCompressor is available
+        let fileToUpload = file;
+        if (typeof ImageCompressor !== 'undefined') {
+            try {
+                const originalSize = (file.size / 1024).toFixed(2);
+                fileToUpload = await ImageCompressor.compressImage(file);
+                const compressedSize = (fileToUpload.size / 1024).toFixed(2);
+                
+                if (fileToUpload.size < file.size) {
+                    const saved = ((file.size - fileToUpload.size) / 1024).toFixed(2);
+                }
+            } catch (compressionError) {
+                // If compression fails, continue with original file
+                fileToUpload = file;
+            }
+        }
+
         try {
             // Try Cloudinary first
-            const cloudinaryUrl = await uploadToCloudinary(file, index);
+            const cloudinaryUrl = await uploadToCloudinary(fileToUpload, index);
             return cloudinaryUrl;
         } catch (cloudinaryError) {
-            console.warn(`⚠️ [Cloudinary] Upload failed, using base64 fallback:`, cloudinaryError.message);
             
             // Fallback to base64
             try {
-                const base64String = await convertToBase64(file);
-                console.log(`✅ [Fallback] Image ${index + 1} stored as base64 (${(base64String.length / 1024).toFixed(2)} KB)`);
+                const base64String = await convertToBase64(fileToUpload);
                 return base64String;
             } catch (base64Error) {
-                console.error(`❌ [Fallback] Base64 conversion failed:`, base64Error);
                 throw new Error(`Failed to process image: ${base64Error.message}`);
             }
         }
