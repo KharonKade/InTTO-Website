@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Details - InTTO</title>
+    <link rel="stylesheet" href="css/startups.css"> <link rel="stylesheet" href="css/startup-details.css"> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="navbar">
+            <div class="navbar-header">
+                <div class="logo">
+                    <a href="index.html"><img src="graphics/InTTOLogo.png" alt="logo"></a>
+                </div>
+                <div class="hamburger-menu" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="nav-wrapper">
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="aboutUs.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="startups.html" class="active">Startups</a>
+                    <a href="events.html">Events</a>
+                    <a href="ucolab/index.html">UColab</a>
+                    <a href="sdgPage.html">SDG</a>
+                </div>
+            </div>
+            <a href="incubation.html" class="nav-btn">Apply for Incubation <span class="arrow-icon">➜</span></a>
+        </div>
+    </div>
+
+    <main class="project-detail-page">
+        
+        <a href="startups.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Startups
+        </a>
+
+        <section class="project-hero">
+            <div class="hero-left">
+                <div class="hero-header-row">
+                    <div class="card-icon" id="detail-icon"></div>
+                    <h1 id="detail-title">...</h1>
+                </div>
+                
+                <div class="hero-tags" id="detail-tags">
+                    </div>
+            </div>
+            
+            <div class="hero-right">
+                <img id="detail-image" src="https://via.placeholder.com/500x350.png?text=Loading+Image" alt="Project Image">
+                <button class="hero-slide-btn prev" id="hero-prev-btn" style="display:none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="hero-slide-btn next" id="hero-next-btn" style="display:none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+        </section>
+
+        <div class="detail-content-area">
+            <div class="detail-main-column">
+                
+                <section class="detail-section-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Project Overview
+                    </h2>
+                    <p id="detail-long-desc">Loading information...</p> 
+                </section>
+
+                <section class="detail-section-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        Project Gallery
+                    </h2>
+                    <div class="gallery-grid" id="detail-gallery-grid">
+                        </div>
+                </section>
+
+                <section class="detail-section-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        Problem & Solution
+                    </h2>
+                    <h3>The Problem</h3>
+                    <p id="detail-problem">Loading...</p> 
+                    <h3>Our Solution</h3>
+                    <p id="detail-solution">Loading...</p> 
+                </section>
+
+                <section class="detail-section-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-9 9-4 1 1-4Z"></path><path d="M3 21v-4l9.5-9.5"></path></svg>
+                        Key Features & Impact
+                    </h2>
+                    <div class="features-grid" id="detail-features-grid"> 
+                        <p>Loading features...</p>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="detail-sidebar">
+                <div class="sidebar-card">
+                    <h4>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Technology Readiness
+                    </h4>
+                    <p id="detail-trl-text">TRL <span id="trl-num-text">1</span> <span class="trl-percentage" id="detail-trl-percent">10%</span></p> 
+                    <div class="trl-bar">
+                        <div class="trl-progress" id="detail-trl-progress" style="width: 10%; background: #1C7F56;"></div> 
+                    </div>
+                    <p class="trl-label" id="detail-trl-label" style="background:#E5FAEA; color:#1C7F56;">Concept Phase</p> 
+                </div>
+
+                <div class="sidebar-card">
+                    <h4>Project Information</h4>
+                    <div class="info-item">
+                        <span class="info-label">Started</span>
+                        <span class="info-value" id="detail-start-date">2025</span> 
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Team Size</span>
+                        <span class="info-value" id="detail-team-size">Unknown</span> 
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">College</span>
+                        <span class="info-value" id="detail-college">UC</span> 
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Industry</span>
+                        <span class="info-value" id="detail-industry">Tech</span> 
+                    </div>
+                </div>
+
+                <div class="sidebar-card sidebar-card-dark" id="publisher-info">
+                    <h4>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Publisher Information
+                    </h4>
+                    <div class="info-item">
+                        <span class="info-label">Name</span>
+                        <span class="info-value" id="detail-founder-name">Admin</span> 
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Role</span>
+                        <span class="info-value" id="detail-founder-role">Project Lead</span> 
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Affiliation</span>
+                        <span class="info-value" id="detail-founder-affiliation">University of the Cordilleras</span> 
+                    </div>
+                    <hr class="card-separator">
+                    <h4 class="contact-heading">Contact</h4>
+                    <p class="contact-info" id="detail-founder-email-container">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <span id="detail-founder-email">intto@uc-bcf.edu.ph</span> 
+                    </p>
+                    <p class="contact-info" id="detail-founder-phone-container"> 
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <span id="detail-founder-phone">--</span> 
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <section class="closing-section">
+        <div class="footer-bottom">
+            <p>© 2025 University of the Cordilleras InTTO. All rights reserved.</p>
+        </div>
+    </section>
+
+    <div class="lightbox-overlay" id="lightbox-overlay" style="display: none;">
+      <img src="" alt="Lightbox image" id="lightbox-image">
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="js/startup-details.js"></script>
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+            this.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
