@@ -303,3 +303,26 @@ body {
     .hero-right { width: 100%; }
     .features-grid { grid-template-columns: 1fr; }
 }
+/* --- TRL Card Specific Styles --- */
+
+/* Flex container to push text apart */
+.trl-text-row {
+    display: flex;
+    justify-content: space-between; /* Pushes items to edges */
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+/* The percentage text color */
+.trl-percentage {
+    color: #1C7F56; /* Green to match theme */
+    font-weight: 700;
+}
+
+/* Ensure the progress bar has space */
+.trl-bar {
+    margin-bottom: 15px;
+}
