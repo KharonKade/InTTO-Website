@@ -1,115 +1,96 @@
-// Load published news & events from Firestore
 document.addEventListener('DOMContentLoaded', async () => {
-    const newsCardsContainer = document.querySelector('.news-cards');
+    const mainNewsCardsContainer = document.getElementById('news-cards-container');
+    const simpleNewsCardsContainer = document.querySelector('.news-section .news-cards');
     
-    if (!newsCardsContainer) {
-        console.warn('News cards container not found on this page');
-        return;
-    }
-
-    // Initialize Firebase if not already initialized
     if (!window.db) {
-        console.error('Firebase not initialized! Make sure Firebase scripts are loaded before this script.');
         return;
     }
 
-    // Configuration
-    const ITEMS_PER_PAGE = 20; // Limit items per load for performance
-    let lastVisible = null;
-    let allNewsEvents = [];
-    let isLoading = false;
+    // --- Logic for the Main Events Page (Pagination) ---
+    if (mainNewsCardsContainer) {
+        const paginationContainer = document.getElementById('pagination-container');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('search-input');
 
-    // Load news & events from Firestore with pagination
-    async function loadNewsEvents(loadMore = false) {
-        if (isLoading) return;
-        
-        try {
-            isLoading = true;
-            
-            // Build query with pagination
-            let query = db.collection('newsEvents')
-                .where('status', '==', 'published')
-                .limit(ITEMS_PER_PAGE);
-            
-            // If loading more, start after last document
-            if (loadMore && lastVisible) {
-                query = query.startAfter(lastVisible);
-            }
-            
-            const snapshot = await query.get();
-            
-            if (snapshot.empty && !loadMore) {
-                return [];
-            }
-            
-            // Store last visible document for pagination
-            lastVisible = snapshot.docs[snapshot.docs.length - 1];
-            
-            const newsEvents = [];
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                newsEvents.push({
-                    id: doc.id,
-                    ...data
+        const PAGE_SIZE = 6;
+        let allNewsEvents = [];
+        let currentPage = 1;
+        let currentFilter = 'all';
+        let currentSearchTerm = '';
+        let filteredNewsEvents = [];
+
+        async function loadAllNewsEvents() {
+            try {
+                if (window.LoadingScreen) {
+                    window.LoadingScreen.show('Loading news & events');
+                }
+                
+                const snapshot = await db.collection('newsEvents')
+                    .where('status', '==', 'published')
+                    .get();
+                
+                const newsEvents = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    newsEvents.push({
+                        id: doc.id,
+                        ...data
+                    });
                 });
+                
+                newsEvents.sort((a, b) => {
+                    const dateA = a.date ? (typeof a.date === 'string' ? new Date(a.date) : a.date.toDate()) : new Date(0);
+                    const dateB = b.date ? (typeof b.date === 'string' ? new Date(b.date) : b.date.toDate()) : new Date(0);
+                    return dateB - dateA;
+                });
+                
+                allNewsEvents = newsEvents;
+                
+                if (window.LoadingScreen) window.LoadingScreen.hide();
+                
+            } catch (error) {
+                if (window.LoadingScreen) window.LoadingScreen.hide();
+            }
+        }
+
+        function applyFiltersAndSearch() {
+            filteredNewsEvents = allNewsEvents.filter(item => {
+                const itemType = item.type || 'news'; 
+                
+                const matchesFilter = currentFilter === 'all' || itemType === currentFilter;
+                
+                if (currentSearchTerm) {
+                    const title = (item.title || '').toLowerCase();
+                    const content = (item.content || '').toLowerCase();
+                    const tags = (item.tags || []).join(' ').toLowerCase();
+                    
+                    const matchesSearch = title.includes(currentSearchTerm) || content.includes(currentSearchTerm) || tags.includes(currentSearchTerm);
+                    return matchesFilter && matchesSearch;
+                }
+                
+                return matchesFilter;
             });
             
-            // Sort manually by date (descending - newest first)
-            newsEvents.sort((a, b) => {
-                const dateA = a.date ? (typeof a.date === 'string' ? new Date(a.date) : a.date.toDate()) : new Date(0);
-                const dateB = b.date ? (typeof b.date === 'string' ? new Date(b.date) : b.date.toDate()) : new Date(0);
-                return dateB - dateA;
-            });
-            
-            return newsEvents;
-        } catch (error) {
-            return [];
-        } finally {
-            isLoading = false;
-        }
-    }
-
-    // Render news & events cards
-    async function renderNewsEventsCards(loadMore = false) {
-        if (!loadMore && window.LoadingScreen) {
-            window.LoadingScreen.show('Loading news & events');
-        }
-        
-        const newsEvents = await loadNewsEvents(loadMore);
-        
-        if (newsEvents.length === 0 && !loadMore) {
-            newsCardsContainer.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No news or events available yet.</p>';
-            if (window.LoadingScreen) window.LoadingScreen.hide();
-            return;
+            currentPage = 1;
+            renderNewsEventsCards(mainNewsCardsContainer);
+            renderPagination(paginationContainer);
         }
 
-        // Add to all news events
-        allNewsEvents = loadMore ? [...allNewsEvents, ...newsEvents] : newsEvents;
-
-        // Clear existing cards only if not loading more
-        if (!loadMore) {
-            newsCardsContainer.innerHTML = '';
-        }
-
-        newsEvents.forEach((item, index) => {
-            // Get the cover image (first image)
+        function createNewsCard(item) {
             const coverImage = (item.images && item.images.length > 0) 
                 ? item.images[0] 
-                : 'graphics/news.png'; // Fallback image
+                : 'graphics/news.png';
 
-            // Format date
             let displayDate = 'N/A';
             if (item.date) {
+                let dateObj;
                 if (typeof item.date === 'string') {
-                    // Format: YYYY-MM-DD to "Month DD, YYYY"
-                    const dateObj = new Date(item.date);
-                    displayDate = dateObj.toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                    });
+                    dateObj = new Date(item.date);
                 } else if (item.date.toDate) {
-                    displayDate = item.date.toDate().toLocaleDateString('en-US', { 
+                    dateObj = item.date.toDate();
+                }
+                if (dateObj) {
+                    displayDate = dateObj.toLocaleDateString('en-US', { 
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric' 
@@ -117,17 +98,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
 
-            // Get first tag or type
             const tagText = (item.tags && item.tags.length > 0) 
                 ? item.tags[0] 
                 : item.type === 'event' ? 'Event' : 'News';
 
-            // Create card
             const card = document.createElement('div');
             card.className = 'news-card';
             card.dataset.newsId = item.id;
             card.dataset.type = item.type || 'news';
-
+            
             card.innerHTML = `
                 <img src="${coverImage}" alt="${item.title}" onerror="this.src='graphics/news.png'">
                 <div class="news-content">
@@ -140,101 +119,212 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <a href="newsEventPage.html?id=${item.id}" class="read-more">Read More →</a>
                 </div>
             `;
-
-            newsCardsContainer.appendChild(card);
-        });
-
-        // Hide loading screen
-        if (window.LoadingScreen) window.LoadingScreen.hide();
-
-        // Show/hide load more button
-        const loadMoreBtn = document.getElementById('load-more-news');
-        if (loadMoreBtn) {
-            // Show button if we got full page of results (might be more)
-            loadMoreBtn.style.display = newsEvents.length === ITEMS_PER_PAGE ? 'block' : 'none';
+            return card;
         }
 
-        // Re-apply any existing filters if function exists
-        if (typeof applyCurrentFilter === 'function') {
-            applyCurrentFilter();
-        }
-    }
+        function renderNewsEventsCards(container) {
+            container.innerHTML = '';
+            
+            const totalItems = filteredNewsEvents.length;
+            const totalPages = Math.ceil(totalItems / PAGE_SIZE);
 
-    // Initial render
-    await renderNewsEventsCards();
+            if (totalItems === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No news or events match your current selection.</p>';
+                return;
+            }
 
-    // Load more button handler
-    const loadMoreBtn = document.getElementById('load-more-news');
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', async () => {
-            loadMoreBtn.disabled = true;
-            loadMoreBtn.textContent = 'Loading...';
-            await renderNewsEventsCards(true);
-            loadMoreBtn.disabled = false;
-            loadMoreBtn.textContent = 'Load More';
-        });
-    }
+            const startIndex = (currentPage - 1) * PAGE_SIZE;
+            const endIndex = startIndex + PAGE_SIZE;
+            const itemsToDisplay = filteredNewsEvents.slice(startIndex, endIndex);
 
-    // Optional: Listen for real-time updates (only for first page)
-    try {
-        db.collection('newsEvents')
-            .where('status', '==', 'published')
-            .limit(ITEMS_PER_PAGE)
-            .onSnapshot(() => {
-                lastVisible = null;
-                allNewsEvents = [];
-                renderNewsEventsCards();
+            itemsToDisplay.forEach(item => {
+                container.appendChild(createNewsCard(item));
             });
-    } catch (error) {
-        // Real-time updates won't work but initial load will still function
-    }
 
-    // Add filter functionality
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const searchInput = document.querySelector('.filter-item.search input');
-
-    if (filterButtons.length > 0) {
-        filterButtons.forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const cards = document.querySelectorAll('.news-card');
-                const filterType = index === 0 ? 'all' : (index === 1 ? 'news' : 'event');
-
-                cards.forEach(card => {
-                    if (filterType === 'all' || card.dataset.type === filterType) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Set first button as active
-        if (filterButtons[0]) {
-            filterButtons[0].classList.add('active');
+            if (currentPage > totalPages) {
+                currentPage = 1; 
+                renderNewsEventsCards(container);
+            }
         }
-    }
 
-    // Search functionality
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.news-card');
+        function renderPagination(container) {
+            container.innerHTML = '';
+            
+            const totalItems = filteredNewsEvents.length;
+            const totalPages = Math.ceil(totalItems / PAGE_SIZE);
 
-            cards.forEach(card => {
-                const title = card.querySelector('.news-title').textContent.toLowerCase();
-                const desc = card.querySelector('.news-desc').textContent.toLowerCase();
+            if (totalPages <= 1) {
+                container.style.display = 'none';
+                return;
+            }
 
-                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
+            container.style.display = 'flex';
+            
+            const prevButton = document.createElement('a');
+            prevButton.href = '#';
+            prevButton.className = `page-btn arrow prev ${currentPage === 1 ? 'disabled' : ''}`;
+            prevButton.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+            prevButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderNewsEventsCards(mainNewsCardsContainer);
+                    renderPagination(container);
                 }
             });
-        });
+            container.appendChild(prevButton);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('a');
+                pageButton.href = '#';
+                pageButton.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (i !== currentPage) {
+                        currentPage = i;
+                        renderNewsEventsCards(mainNewsCardsContainer);
+                        renderPagination(container);
+                    }
+                });
+                container.appendChild(pageButton);
+            }
+
+            const nextButton = document.createElement('a');
+            nextButton.href = '#';
+            nextButton.className = `page-btn arrow next ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextButton.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+            nextButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderNewsEventsCards(mainNewsCardsContainer);
+                    renderPagination(container);
+                }
+            });
+            container.appendChild(nextButton);
+        }
+        
+        if (filterButtons.length > 0) {
+            filterButtons.forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filterId = btn.id;
+                    
+                    let selectedType = filterId.replace('filter-', '');
+                    if (selectedType === 'news') {
+                        selectedType = 'news';
+                    } else if (selectedType === 'events') {
+                        selectedType = 'event'; 
+                    } else {
+                        selectedType = 'all';
+                    }
+                    
+                    currentFilter = selectedType;
+                    
+                    applyFiltersAndSearch();
+                });
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value.toLowerCase();
+                applyFiltersAndSearch();
+            });
+        }
+        
+        await loadAllNewsEvents();
+        applyFiltersAndSearch();
+
+        try {
+            db.collection('newsEvents')
+                .where('status', '==', 'published')
+                .onSnapshot(() => {
+                    loadAllNewsEvents().then(applyFiltersAndSearch);
+                });
+        } catch (error) {
+        }
+    } 
+    
+    // --- Logic for the Home Page Section (3 Latest Items) ---
+    else if (simpleNewsCardsContainer) {
+        
+        // Helper function for creating a card (reused from above)
+        function createNewsCard(item) {
+            const coverImage = (item.images && item.images.length > 0) 
+                ? item.images[0] 
+                : 'graphics/news.png';
+
+            let displayDate = 'N/A';
+            if (item.date) {
+                let dateObj;
+                if (typeof item.date === 'string') {
+                    dateObj = new Date(item.date);
+                } else if (item.date.toDate) {
+                    dateObj = item.date.toDate();
+                }
+                if (dateObj) {
+                    displayDate = dateObj.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                }
+            }
+
+            const tagText = (item.tags && item.tags.length > 0) 
+                ? item.tags[0] 
+                : item.type === 'event' ? 'Event' : 'News';
+
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            card.dataset.newsId = item.id;
+            card.dataset.type = item.type || 'news';
+            
+            card.innerHTML = `
+                <img src="${coverImage}" alt="${item.title}" onerror="this.src='graphics/news.png'">
+                <div class="news-content">
+                    <div class="news-meta">
+                        <span class="tag">${tagText}</span>
+                        <span class="date">${displayDate}</span>
+                    </div>
+                    <h3 class="news-title">${item.title || 'Untitled'}</h3>
+                    <p class="news-desc">${(item.content || '').substring(0, 100)}...</p>
+                    <a href="newsEventPage.html?id=${item.id}" class="read-more">Read More →</a>
+                </div>
+            `;
+            return card;
+        }
+
+        async function loadLatestNewsEvents() {
+            try {
+                const snapshot = await db.collection('newsEvents')
+                    .where('status', '==', 'published')
+                    .orderBy('date', 'desc')
+                    .limit(3)
+                    .get();
+                
+                if (snapshot.empty) {
+                    simpleNewsCardsContainer.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No recent news or events available.</p>';
+                    return;
+                }
+
+                simpleNewsCardsContainer.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    item.id = doc.id;
+                    simpleNewsCardsContainer.appendChild(createNewsCard(item));
+                });
+
+            } catch (error) {
+                simpleNewsCardsContainer.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading news.</p>';
+            }
+        }
+
+        await loadLatestNewsEvents();
     }
 });
