@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 </div>
                 <p class="startup-desc">${startup.description || startup.shortDescription || 'No description available.'}</p>
-                <a href="#" class="card-cta" data-startup-id="${startup.id}">View More <span class="cta-circle">➜</span></a>
+                <a href="startup-details.html?id=${startup.id}" class="card-cta">View More <span class="cta-circle">➜</span></a>
             `;
 
             cardsGrid.appendChild(card);
