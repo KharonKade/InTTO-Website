@@ -34,72 +34,175 @@
 
     <main class="main-content">
         <header class="main-header">
-            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            <div class="header-left">
+                <h1>Live Metrics Dashboard</h1>
+                <p class="last-updated">Last updated: <span id="last-update-time">Loading...</span></p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-refresh" id="refresh-data-btn">
+                    <i class="fa-solid fa-rotate"></i> Refresh Data
+                </button>
+                <a href="index.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
         </header>
 
         <section class="page-content">
-            <div class="page-header">
-                <div>
-                    <h1>Metrics & Impact</h1>
-                    <p class="subtitle">Track and manage key performance indicators</p>
+            <!-- Active Startups -->
+            <div class="tab-section" id="active-startups-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-rocket"></i>
+                        <h2>Active Startups</h2>
+                    </div>
+                    <span class="tab-count" id="active-startups-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="active-startups-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="intro-banner">
-                <p>We are the University of the Cordilleras' Technology Business Incubator, helping founders and researchers transform innovative ideas into sustainable startups and technologies that serve the Cordillera region and beyond.</p>
+            <!-- KRA -->
+            <div class="tab-section" id="kra-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <h2>Key Results & Accomplishments</h2>
+                    </div>
+                    <span class="tab-count" id="kra-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="kra-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="metrics-grid" id="metrics-grid">
+            <!-- Cohort Information -->
+            <div class="tab-section" id="cohort-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <h2>Cohort Information</h2>
+                    </div>
+                    <span class="tab-count" id="cohort-count">0</span>
                 </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="cohort-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <div class="metrics-actions">
-                <input type="file" id="import-csv-input" accept=".csv" style="display: none;">
-                <button class="btn btn-secondary" id="import-metrics-btn"><i class="fa-solid fa-file-import"></i> Import from CSV</button>
-                <button class="btn btn-secondary" id="export-metrics-btn"><i class="fa-solid fa-file-excel"></i> Export to Excel (CSV)</button>
+            <!-- TBI Metrics -->
+            <div class="tab-section" id="tbi-metrics-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h2>TBI Metrics</h2>
+                    </div>
+                    <span class="tab-count" id="tbi-metrics-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="tbi-metrics-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investments Received -->
+            <div class="tab-section" id="investment-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        <h2>Investments Received</h2>
+                    </div>
+                    <span class="tab-count" id="investment-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="investment-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Generated -->
+            <div class="tab-section" id="revenue-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-money-bill-trend-up"></i>
+                        <h2>Revenue Generated</h2>
+                    </div>
+                    <span class="tab-count" id="revenue-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="revenue-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Incubation KPI -->
+            <div class="tab-section" id="incubation-kpi-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <h2>Incubation KPI</h2>
+                    </div>
+                    <span class="tab-count" id="incubation-kpi-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="incubation-kpi-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Incubation Metrics -->
+            <div class="tab-section" id="incubation-metrics-section">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <i class="fa-solid fa-building"></i>
+                        <h2>Incubation Metrics</h2>
+                    </div>
+                    <span class="tab-count" id="incubation-metrics-count">0</span>
+                </div>
+                <div class="tab-content">
+                    <div class="data-table-wrapper">
+                        <table class="data-table" id="incubation-metrics-table">
+                            <thead><tr><th>Loading...</th></tr></thead>
+                            <tbody><tr><td>Loading data...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
     
-    <div id="metric-modal-overlay" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="metric-modal-title">Edit Metric</h2>
-                <button class="close-modal-btn" id="close-metric-modal-btn">&times;</button>
-            </div>
-            <p id="metric-modal-subtitle">Update metric information</p>
-            
-            <form id="metric-form" class="metric-form">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="metric-name">Metric Name *</label>
-                        <input type="text" id="metric-name" name="name" placeholder="e.g., Startups Incubated" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="metric-value">Metric Value *</label>
-                        <input type="text" id="metric-value" name="value" placeholder="The value shown on the dashboard" required>
-                        <small>e.g., 77, ₱11.6M+, 30+</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="metric-color">Color (Hex) *</label>
-                        <div class="color-input-wrapper">
-                            <input type="text" id="metric-color" name="color" placeholder="#1C7F56" required pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$">
-                            <div class="color-preview" id="metric-color-preview" style="background-color: #1C7F56;"></div>
-                        </div>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="metric-description">Description *</label>
-                        <textarea id="metric-description" name="description" placeholder="Brief description of what this metric represents" required></textarea>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancel-metric-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="submit-metric-btn">Update Metric</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <script src="js/metrics.js"></script> 
+    <script src="js/metrics.js"></script>
 </body>
 </html>
