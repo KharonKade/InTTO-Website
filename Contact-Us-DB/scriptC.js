@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+=======
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
+>>>>>>> Stashed changes
 
 // Initialize Firebase (replace with your config)
 const firebaseConfig = { 

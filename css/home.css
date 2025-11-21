@@ -1279,8 +1279,7 @@ body {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
-    align-items: start;
-    grid-auto-rows: minmax(314px, auto);
+    align-items: stretch;
     max-width: 100%;
     margin: 30px auto 0;
 }
@@ -1295,7 +1294,8 @@ body {
     flex-direction:column;
     justify-content:space-between;
     width: 100%;
-    height: 100%;
+    height: auto;
+    min-height: 314px;
     transition: transform .18s, box-shadow .18s;
     position: relative;
 }
@@ -2179,70 +2179,4 @@ textarea {
 .home-dropdown-wrapper select option {
     color: #333;
     background: #fff;
-}
-/* Force the specific container ID to behave as a grid */
-#startup-container {
-    display: grid;
-    /* This magic line creates responsive columns that wrap automatically */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    gap: 30px;
-    width: 100%;
-    max-width: 1300px; /* Matches your other sections */
-    margin: 0 auto;
-    padding: 20px 0;
-    overflow: visible !important; /* Critical: stops the container from cutting off content */
-}
-
-/* Ensure the injected cards fill their grid cells */
-#startup-container .startup-card {
-    width: 100%;
-    height: 100%;
-    margin: 0; /* Reset any default margins */
-}
-
-/* Mobile Layout: Stack cards vertically */
-@media (max-width: 768px) {
-    #startup-container {
-        grid-template-columns: 1fr; /* Single column */
-        padding: 0 20px;
-        gap: 20px;
-    }
-}
-/* =========================================
-   FIX: "Meet Our Startups" Grid Layout
-   ========================================= */
-
-/* 1. Fix the green background container */
-.startups-container {
-    height: auto !important;       /* Allow height to grow with content */
-    min-height: unset !important;  /* Remove fixed height constraint */
-    overflow: visible !important;  /* Stop scrollbars/clipping */
-    padding-bottom: 40px;          /* Add spacing at bottom */
-}
-
-/* 2. Fix the grid itself (Targeting the correct ID: cardsGrid) */
-#cardsGrid {
-    display: grid !important;
-    /* This makes it responsive: fits as many 300px cards as possible per row */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-    gap: 25px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto !important;
-}
-
-/* 3. Ensure cards fill the space properly */
-#cardsGrid .startup-card {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-}
-
-/* 4. Mobile adjustments */
-@media (max-width: 768px) {
-    #cardsGrid {
-        grid-template-columns: 1fr !important; /* 1 card per row on mobile */
-        padding: 0 10px;
-    }
 }
