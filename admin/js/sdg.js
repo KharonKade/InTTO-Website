@@ -1,4 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // --- Firestore Collections ---
+    const STARTUPS_COLLECTION = 'startups';
+    const NEWS_EVENTS_COLLECTION = 'newsEvents';
+    
     // --- Chart.js Instance ---
     let sdgChart = null;
 
@@ -51,18 +55,51 @@ document.addEventListener('DOMContentLoaded', () => {
         17: 'SDG 17: Partnerships'
     };
 
+    // --- Load Data from Firestore ---
+    const loadStartupsFromFirestore = async () => {
+        try {
+            const snapshot = await db.collection(STARTUPS_COLLECTION).get();
+            const startups = [];
+            snapshot.forEach(doc => {
+                startups.push({
+                    firestoreId: doc.id,
+                    ...doc.data()
+                });
+            });
+            return startups;
+        } catch (error) {
+            console.error('❌ Error loading startups:', error);
+            return [];
+        }
+    };
 
-    // --- Load Data from LocalStorage ---
-    const loadData = (key) => {
-        const savedData = localStorage.getItem(key);
-        return savedData ? JSON.parse(savedData) : [];
+    const loadNewsEventsFromFirestore = async () => {
+        try {
+            const snapshot = await db.collection(NEWS_EVENTS_COLLECTION).get();
+            const newsEvents = [];
+            snapshot.forEach(doc => {
+                newsEvents.push({
+                    firestoreId: doc.id,
+                    ...doc.data()
+                });
+            });
+            return newsEvents;
+        } catch (error) {
+            console.error('❌ Error loading news & events:', error);
+            return [];
+        }
     };
 
     // --- Main Function to Update Dashboard ---
-    const updateDashboard = (filter) => {
-        // Load all data
-        const startups = loadData('ucInttoStartupsData');
-        const newsEvents = loadData('ucInttoNewsEventsData');
+    const updateDashboard = async (filter) => {
+        // Show loading state
+        totalUsageEl.textContent = '...';
+        uniqueSdgsEl.textContent = '...';
+        itemCountEl.textContent = '...';
+
+        // Load all data from Firestore
+        const startups = await loadStartupsFromFirestore();
+        const newsEvents = await loadNewsEventsFromFirestore();
 
         let itemsToProcess = [];
         let itemCountLabel = 'Items';
@@ -85,13 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const sdgFrequency = {};
 
         itemsToProcess.forEach(item => {
-            // =================================================================
-            // !!! IMPORTANT ASSUMPTION !!!
-            // This code assumes your startup/news items will have an array
-            // called 'sdgs' like this: item.sdgs = [9, 11, 17]
-            // We need to add this field to the modals in startups.js and news-events.js
-            // =================================================================
-            const itemSDGs = item.sdgs || []; 
+            // Get SDGs from item (handle both array of numbers and array of strings)
+            let itemSDGs = item.sdgs || [];
+            
+            // Convert string SDGs to numbers if needed
+            if (Array.isArray(itemSDGs)) {
+                itemSDGs = itemSDGs.map(sdg => {
+                    const num = typeof sdg === 'string' ? parseInt(sdg, 10) : sdg;
+                    return isNaN(num) ? null : num;
+                }).filter(sdg => sdg !== null);
+            }
 
             if (itemSDGs.length > 0) {
                 itemCount++;
@@ -117,11 +157,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Prepare Chart Data ---
         const sortedSdgs = Object.keys(sdgFrequency).sort((a, b) => sdgFrequency[b] - sdgFrequency[a]);
         
+        if (sortedSdgs.length === 0) {
+            // No data - show empty chart or message
+            renderPieChart({ labels: [], datasets: [{ data: [] }] });
+            return;
+        }
+
         const chartData = {
-            labels: sortedSdgs.map(sdg => SDG_NAMES[sdg] || `SDG ${sdg}`),
+            labels: sortedSdgs.map(sdg => SDG_NAMES[parseInt(sdg)] || `SDG ${sdg}`),
             datasets: [{
                 data: sortedSdgs.map(sdg => sdgFrequency[sdg]),
-                backgroundColor: sortedSdgs.map(sdg => SDG_COLORS[sdg] || '#cccccc'),
+                backgroundColor: sortedSdgs.map(sdg => SDG_COLORS[parseInt(sdg)] || '#cccccc'),
                 borderColor: '#ffffff',
                 borderWidth: 2
             }]
@@ -133,16 +179,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Function to Render Pie Chart ---
     const renderPieChart = (data) => {
-        if (!chartCanvas) return;
+        if (!chartCanvas) {
+            console.error('❌ Chart canvas not found');
+            return;
+        }
+
+        // Check if Chart.js is loaded
+        if (typeof Chart === 'undefined') {
+            console.error('❌ Chart.js not loaded');
+            return;
+        }
 
         // If a chart instance exists, destroy it first
         if (sdgChart) {
             sdgChart.destroy();
         }
 
+        // Handle empty data
+        if (!data.labels || data.labels.length === 0) {
+            // Create a placeholder chart with a message
+            const ctx = chartCanvas.getContext('2d');
+            ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+            ctx.font = '16px Inter, sans-serif';
+            ctx.fillStyle = '#999';
+            ctx.textAlign = 'center';
+            ctx.fillText('No SDG data available', chartCanvas.width / 2, chartCanvas.height / 2);
+            return;
+        }
+
         // Create new chart
         sdgChart = new Chart(chartCanvas, {
-            type: 'doughnut', // Pie chart (doughnut has the hole in the middle like screenshots)
+            type: 'doughnut',
             data: data,
             options: {
                 responsive: true,
@@ -154,6 +221,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             font: {
                                 family: "'Inter', sans-serif",
                                 size: 12
+                            },
+                            padding: 15,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${label}: ${value} (${percentage}%)`;
                             }
                         }
                     }
@@ -176,5 +256,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Initial Load ---
-    updateDashboard('all'); // Load the 'All' tab by default
+    console.log('🎯 SDG Dashboard initializing...');
+    console.log('Firebase DB:', db ? '✅ Connected' : '❌ Not connected');
+    console.log('Chart.js:', typeof Chart !== 'undefined' ? '✅ Loaded' : '❌ Not loaded');
+    
+    await updateDashboard('all'); // Load the 'All' tab by default
+    
+    console.log('✅ SDG Dashboard initialized');
 });

@@ -27,7 +27,7 @@
                 <li><a href="metrics.html"><i class="fa-solid fa-chart-line"></i> Metrics</a></li>
                 <li><a href="news-events.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
                 <li><a href="team.html"><i class="fa-solid fa-users"></i> Team</a></li>
-                <li><a href="innovation.html"><i class="fa-solid fa-person"></i> Innovation</a></li> </ul>
+                <li><a href="innovation.html"><i class="fa-solid fa-person"></i> Innovation</a></li>
                 <li><a href="sdg.html" class="active"><i class="fa-solid fa-bullseye"></i> SDG</a></li>
             </ul>
         </nav>
@@ -80,6 +80,26 @@
         </section>
     </main>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Firebase Config -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
+            authDomain: "uc-intto.firebaseapp.com",
+            projectId: "uc-intto",
+            storageBucket: "uc-intto.firebasestorage.app",
+            messagingSenderId: "156771180433",
+            appId: "1:156771180433:web:4f9d57eb6b0e7882ef0430",
+            measurementId: "G-ETY9E0F1K6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/sdg.js"></script> </body>
+    <script src="js/sdg.js"></script>
+</body>
 </html>
