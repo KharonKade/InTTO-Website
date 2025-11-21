@@ -2,7 +2,7 @@ import { db } from "../index-incubation-back/api.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 // EmailJS Configuration
-const EMAILJS_SERVICE_ID = 'service_s839npy';
+const EMAILJS_SERVICE_ID = 'service_3pa2mna';
 const EMAILJS_TEMPLATE_ID = 'template_8cby16k';
 const EMAILJS_PUBLIC_KEY = 'jtgfZ8_TmLu3KT1Kx'; // Replace with your EmailJS public key
 

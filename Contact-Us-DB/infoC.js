@@ -6,7 +6,9 @@ const RECAPTCHA_SITE_KEY = '6LcfuRMsAAAAAGP--lIdDS3_olzVmXNiEJ6Wh3Fw'; // Replac
 const RECAPTCHA_MIN_SCORE = 0.5; // Minimum score to accept (0.0 = bot, 1.0 = human)
 
 document.addEventListener('DOMContentLoaded', () => {
-    emailjs.init("jtgfZ8_TmLu3KT1Kx");
+    // EmailJS is already initialized in the HTML file, no need to init again
+    console.log('✅ EmailJS ready:', typeof emailjs !== 'undefined');
+    
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.querySelector('.contact-btn');
     
@@ -195,8 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const dbResult = await saveApplication(formData);
             
             // If database save succeeded (passed all security checks), send email
-            const serviceID = "service_s839npy";     
+            const serviceID = "service_3pa2mna";     
             const templateID = "template_8cby16k";
+            
+            // Log what we're sending to EmailJS for debugging
+            console.log('📧 Sending to EmailJS:', {
+                service: serviceID,
+                template: templateID,
+                data: formData
+            });
             
             await emailjs.send(serviceID, templateID, formData);
             
@@ -204,7 +213,14 @@ document.addEventListener('DOMContentLoaded', () => {
             showSuccessPage(dbResult.remainingSubmissions);
             
         } catch (error) {
-            console.error('Submission error:', error);
+            console.error('❌ Submission error:', error);
+            console.error('Error details:', {
+                message: error?.message,
+                text: error?.text,
+                status: error?.status,
+                name: error?.name,
+                stack: error?.stack
+            });
             
             // Get error message safely
             const errorMessage = error?.message || error?.text || String(error) || 'Unknown error';
@@ -213,8 +229,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (errorMessage.includes('wait') || 
                 errorMessage.includes('maximum') || 
                 errorMessage.includes('rejected') ||
-                errorMessage.includes('Gmail_API')) {
-                showErrorModal(errorMessage, 'Submission Blocked');
+                errorMessage.includes('Gmail_API') ||
+                errorMessage.includes('Invalid grant')) {
+                showErrorModal(
+                    errorMessage.includes('Gmail_API') || errorMessage.includes('Invalid grant') 
+                        ? '⚠️ Email service configuration error. Please contact the administrator.\n\nYour message was saved but email notification failed.'
+                        : errorMessage,
+                    'Submission Blocked'
+                );
             } else {
                 showErrorModal('Failed to send message. Please try again later.\n\n' + errorMessage, 'Submission Failed');
             }
