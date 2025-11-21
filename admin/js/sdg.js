@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Main Function to Update Dashboard ---
     const updateDashboard = async (filter) => {
+        console.log('🔄 Updating dashboard with filter:', filter);
+        
         // Show loading state
         totalUsageEl.textContent = '...';
         uniqueSdgsEl.textContent = '...';
@@ -100,6 +102,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Load all data from Firestore
         const startups = await loadStartupsFromFirestore();
         const newsEvents = await loadNewsEventsFromFirestore();
+
+        console.log('📊 Loaded data:', { startups: startups.length, newsEvents: newsEvents.length });
 
         let itemsToProcess = [];
         let itemCountLabel = 'Items';
@@ -115,6 +119,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             itemsToProcess = newsEvents;
             itemCountLabel = 'News & Events';
         }
+
+        console.log('📋 Processing', itemsToProcess.length, 'items for filter:', filter);
 
         // Process the data
         let totalUsage = 0;
@@ -148,6 +154,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const uniqueSdgs = Object.keys(sdgFrequency).length;
 
+        console.log('📈 Results:', { totalUsage, uniqueSdgs, itemCount, sdgFrequency });
+
         // --- Update Stat Cards ---
         totalUsageEl.textContent = totalUsage;
         uniqueSdgsEl.textContent = uniqueSdgs;
@@ -158,8 +166,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const sortedSdgs = Object.keys(sdgFrequency).sort((a, b) => sdgFrequency[b] - sdgFrequency[a]);
         
         if (sortedSdgs.length === 0) {
+            console.log('⚠️ No SDG data to display');
             // No data - show empty chart or message
-            renderPieChart({ labels: [], datasets: [{ data: [] }] });
+            renderPieChart({ labels: [], datasets: [{ data: [] }] }, filter);
             return;
         }
 
@@ -173,12 +182,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             }]
         };
 
+        console.log('📊 Chart data prepared:', { 
+            labels: chartData.labels.length, 
+            dataPoints: chartData.datasets[0].data.length 
+        });
+
         // --- Render the Chart ---
-        renderPieChart(chartData);
+        renderPieChart(chartData, filter);
     };
 
     // --- Function to Render Pie Chart ---
-    const renderPieChart = (data) => {
+    const renderPieChart = (data, filter) => {
+        console.log('🎨 Rendering chart for filter:', filter);
+        
         if (!chartCanvas) {
             console.error('❌ Chart canvas not found');
             return;
@@ -192,11 +208,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // If a chart instance exists, destroy it first
         if (sdgChart) {
+            console.log('🗑️ Destroying previous chart instance');
             sdgChart.destroy();
+            sdgChart = null;
         }
 
         // Handle empty data
         if (!data.labels || data.labels.length === 0) {
+            console.log('⚠️ No data available for chart');
             // Create a placeholder chart with a message
             const ctx = chartCanvas.getContext('2d');
             ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
@@ -206,6 +225,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             ctx.fillText('No SDG data available', chartCanvas.width / 2, chartCanvas.height / 2);
             return;
         }
+
+        console.log('✅ Creating new chart with', data.labels.length, 'data points');
 
         // Create new chart
         sdgChart = new Chart(chartCanvas, {
@@ -240,6 +261,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         });
+
+        console.log('✅ Chart rendered successfully');
     };
 
     // --- Tab Event Listeners ---

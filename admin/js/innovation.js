@@ -388,6 +388,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Normalize status to lowercase
         const normalizedStatus = status.toLowerCase();
         
+        // Get the application data before updating
+        const app = applications.find(a => a.id === id);
+        
         // Show loading or disable buttons while updating
         db.collection('incubation_applications').doc(id).update({
             status: normalizedStatus,
@@ -405,9 +408,57 @@ document.addEventListener('DOMContentLoaded', function() {
             // Force re-render
             updateStats();
             renderApplications();
+            
+            // If approved, open Gmail to send notification email
+            if (normalizedStatus === 'approve' || normalizedStatus === 'approved') {
+                if (app && app.email) {
+                    sendApprovalEmail(app);
+                }
+            }
         }).catch((error) => {
             showError('Failed to update status: ' + error.message);
         });
+    }
+    
+    /**
+     * Open Gmail to send approval email
+     */
+    function sendApprovalEmail(app) {
+        const recipientEmail = app.email;
+        const applicantName = app.fullName || 'Applicant';
+        const startupName = app.startupName || 'your startup';
+        
+        // Email template
+        const subject = encodeURIComponent(`Congratulations! Your Innovation Program Application has been Approved`);
+        const body = encodeURIComponent(
+`Dear ${applicantName},
+
+Congratulations! We are pleased to inform you that your application for the UC InTTO Innovation Program has been APPROVED.
+
+Application Details:
+- Startup Name: ${startupName}
+- Application ID: ${app.id || 'N/A'}
+- Date Applied: ${app.submittedAt ? app.submittedAt.toDate().toLocaleDateString() : 'N/A'}
+
+Next Steps:
+1. We will contact you shortly to discuss the onboarding process
+2. Please prepare any additional documentation that may be required
+3. Join our orientation session (details to follow)
+
+If you have any questions or need immediate assistance, please don't hesitate to reach out to us.
+
+We look forward to working with you and supporting your innovation journey!
+
+Best regards,
+UC InTTO Team
+University of Cebu - Innovation, Technology Transfer Office`
+        );
+        
+        // Open Gmail compose with pre-filled content
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipientEmail}&su=${subject}&body=${body}`;
+        
+        // Open in new tab
+        window.open(gmailUrl, '_blank');
     }
     
     /**
