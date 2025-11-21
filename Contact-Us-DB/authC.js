@@ -90,55 +90,179 @@ const showAuthModal = (mode = 'login') => {
     
     const modal = document.createElement('div');
     modal.id = 'auth-modal';
-    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 10000;';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 10000; font-family: "Poppins", sans-serif;';
     
     const modalContent = document.createElement('div');
-    modalContent.style.cssText = 'background: white; padding: 40px; border-radius: 16px; max-width: 450px; width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.2);';
+    modalContent.style.cssText = 'background: white; padding: 40px; border-radius: 24px; max-width: 480px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative;';
     
-    modalContent.innerHTML = `
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="margin: 0 0 10px 0; color: #1C7F56; font-size: 28px;">${isLogin ? 'Login' : 'Sign Up'}</h2>
-            <p style="color: #666; margin: 0; font-size: 14px;">${isLogin ? 'Welcome back! Please login to continue.' : 'Create an account to use the contact form.'}</p>
-        </div>
-        
-        <form id="auth-form" style="display: flex; flex-direction: column; gap: 20px;">
-            <div>
-                <label style="display: block; margin-bottom: 5px; color: #333; font-size: 14px; font-weight: 600;">Email</label>
-                <input type="email" id="auth-email" required 
-                    style="width: 100%; padding: 12px; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 14px; box-sizing: border-box;"
-                    placeholder="your.email@example.com">
+    if (isLogin) {
+        // Login Modal Design
+        modalContent.innerHTML = `
+            <button id="close-auth-modal" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 24px; color: #999; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; padding: 0;">×</button>
+            
+            <div style="margin-bottom: 32px;">
+                <h2 style="margin: 0 0 8px 0; color: #000; font-size: 32px; font-weight: 700; font-family: 'Poppins', sans-serif;">Welcome Back</h2>
+                <p style="color: #666; margin: 0; font-size: 16px; font-family: 'Poppins', sans-serif;">Sign in to submit and manage your projects</p>
             </div>
             
-            <div>
-                <label style="display: block; margin-bottom: 5px; color: #333; font-size: 14px; font-weight: 600;">Password</label>
-                <input type="password" id="auth-password" required 
-                    style="width: 100%; padding: 12px; border: 2px solid #E5E5E5; border-radius: 8px; font-size: 14px; box-sizing: border-box;"
-                    placeholder="Enter your password">
-                <small style="color: #999; font-size: 12px; display: block; margin-top: 5px;">
-                    ${isLogin ? '' : 'Password must be at least 6 characters'}
-                </small>
+            <form id="auth-form" style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Email Address <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">✉</span>
+                        <input type="email" id="auth-email" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="your.email@uc-bcf.edu.ph"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Password <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">🔒</span>
+                        <input type="password" id="auth-password" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="Enter your password"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                    <div style="text-align: right; margin-top: 8px;">
+                        <a href="#" style="color: #1C7F56; font-size: 13px; text-decoration: none; font-family: 'Poppins', sans-serif;">Forgot Password?</a>
+                    </div>
+                </div>
+                
+                <div id="auth-error" style="display: none; background: #FEE; color: #C33; padding: 12px; border-radius: 8px; font-size: 14px; border: 1px solid #FCC; font-family: 'Poppins', sans-serif;"></div>
+                
+                <button type="submit" id="auth-submit-btn" 
+                    style="background: #1C7F56; color: white; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; transition: background 0.2s; margin-top: 8px;"
+                    onmouseover="this.style.background='#166c41'" 
+                    onmouseout="this.style.background='#1C7F56'">
+                    Sign In
+                </button>
+                
+                <div style="text-align: center; margin: 16px 0;">
+                    <span style="color: #999; font-size: 14px; font-family: 'Poppins', sans-serif;">OR</span>
+                </div>
+                
+                <button type="button" id="google-signin-btn" 
+                    style="background: #1C7F56; color: white; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.2s;"
+                    onmouseover="this.style.background='#166c41'" 
+                    onmouseout="this.style.background='#1C7F56'">
+                    <span style="font-size: 18px;">G</span> Sign in with Google
+                </button>
+                
+                <div style="text-align: center; font-size: 15px; color: #666; margin-top: 8px; font-family: 'Poppins', sans-serif;">
+                    Don't have an account? <a href="#" id="toggle-auth-mode" style="color: #1C7F56; text-decoration: none; font-weight: 600;">Sign Up</a>
+                </div>
+            </form>
+        `;
+    } else {
+        // Sign Up Modal Design
+        modalContent.innerHTML = `
+            <button id="close-auth-modal" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 24px; color: #999; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; padding: 0;">×</button>
+            
+            <div style="margin-bottom: 32px;">
+                <h2 style="margin: 0 0 8px 0; color: #000; font-size: 32px; font-weight: 700; font-family: 'Poppins', sans-serif;">Create Account</h2>
+                <p style="color: #666; margin: 0; font-size: 16px; font-family: 'Poppins', sans-serif;">Join the UC innovation community</p>
             </div>
             
-            <div id="auth-error" style="display: none; background: #FEE; color: #C33; padding: 12px; border-radius: 8px; font-size: 14px; border: 1px solid #FCC;"></div>
-            
-            <button type="submit" id="auth-submit-btn" 
-                style="background: #1C7F56; color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: background 0.2s;">
-                ${isLogin ? 'Login' : 'Sign Up'}
-            </button>
-            
-            <div style="text-align: center; font-size: 14px; color: #666;">
-                ${isLogin ? "Don't have an account?" : "Already have an account?"}
-                <a href="#" id="toggle-auth-mode" style="color: #1C7F56; text-decoration: none; font-weight: 600; margin-left: 5px;">
-                    ${isLogin ? 'Sign Up' : 'Login'}
-                </a>
-            </div>
-            
-            <button type="button" id="close-auth-modal" 
-                style="background: transparent; color: #999; border: none; cursor: pointer; font-size: 14px; text-decoration: underline;">
-                Cancel
-            </button>
-        </form>
-    `;
+            <form id="auth-form" style="display: flex; flex-direction: column; gap: 18px;">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">First Name <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">👤</span>
+                        <input type="text" id="auth-firstname" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="Enter your first name"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Last Name <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">👤</span>
+                        <input type="text" id="auth-lastname" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="Enter your last name"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Email Address <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">✉</span>
+                        <input type="email" id="auth-email" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="your.email@uc-bcf.edu.ph"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Affiliation <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">🏢</span>
+                        <input type="text" id="auth-affiliation" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="e.g., College of Business"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Password <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">🔒</span>
+                        <input type="password" id="auth-password" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="Enter your password"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #000; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif;">Repeat Password <span style="color: #d9534f;">*</span></label>
+                    <div style="position: relative;">
+                        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #999; font-size: 18px;">🔒</span>
+                        <input type="password" id="auth-password-confirm" required 
+                            style="width: 100%; padding: 14px 14px 14px 48px; border: 2px solid #E5E5E5; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: border-color 0.2s;"
+                            placeholder="Repeat your password"
+                            onfocus="this.style.borderColor='#1C7F56'" 
+                            onblur="this.style.borderColor='#E5E5E5'">
+                    </div>
+                </div>
+                
+                <div id="auth-error" style="display: none; background: #FEE; color: #C33; padding: 12px; border-radius: 8px; font-size: 14px; border: 1px solid #FCC; font-family: 'Poppins', sans-serif;"></div>
+                
+                <button type="submit" id="auth-submit-btn" 
+                    style="background: #1C7F56; color: white; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; transition: background 0.2s; margin-top: 8px;"
+                    onmouseover="this.style.background='#166c41'" 
+                    onmouseout="this.style.background='#1C7F56'">
+                    Create Account
+                </button>
+                
+                <button type="button" id="google-signup-btn" 
+                    style="background: white; color: #666; border: 2px solid #E5E5E5; padding: 16px; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 600; font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s;"
+                    onmouseover="this.style.borderColor='#1C7F56'; this.style.color='#1C7F56'" 
+                    onmouseout="this.style.borderColor='#E5E5E5'; this.style.color='#666'">
+                    <span style="font-size: 18px;">G</span> Sign Up with Google
+                </button>
+                
+                <div style="text-align: center; font-size: 15px; color: #666; margin-top: 8px; font-family: 'Poppins', sans-serif;">
+                    Already have an account? <a href="#" id="toggle-auth-mode" style="color: #1C7F56; text-decoration: none; font-weight: 600;">Sign In</a>
+                </div>
+            </form>
+        `;
+    }
     
     modal.appendChild(modalContent);
     document.body.appendChild(modal);
@@ -154,9 +278,29 @@ const showAuthModal = (mode = 'login') => {
         const email = document.getElementById('auth-email').value;
         const password = document.getElementById('auth-password').value;
         
+        // Validate signup fields
+        if (!isLogin) {
+            const passwordConfirm = document.getElementById('auth-password-confirm').value;
+            const firstname = document.getElementById('auth-firstname').value;
+            const lastname = document.getElementById('auth-lastname').value;
+            const affiliation = document.getElementById('auth-affiliation').value;
+            
+            if (password !== passwordConfirm) {
+                errorDiv.textContent = 'Passwords do not match.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            if (!firstname || !lastname || !affiliation) {
+                errorDiv.textContent = 'Please fill in all required fields.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+        }
+        
         errorDiv.style.display = 'none';
         submitBtn.disabled = true;
-        submitBtn.textContent = isLogin ? 'Logging in...' : 'Creating account...';
+        submitBtn.textContent = isLogin ? 'Signing in...' : 'Creating account...';
         
         try {
             if (isLogin) {
@@ -190,9 +334,18 @@ const showAuthModal = (mode = 'login') => {
             errorDiv.textContent = errorMessage;
             errorDiv.style.display = 'block';
             submitBtn.disabled = false;
-            submitBtn.textContent = isLogin ? 'Login' : 'Sign Up';
+            submitBtn.textContent = isLogin ? 'Sign In' : 'Create Account';
         }
     });
+    
+    // Google Sign In button (placeholder)
+    const googleBtn = document.getElementById(isLogin ? 'google-signin-btn' : 'google-signup-btn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', () => {
+            errorDiv.textContent = 'Google Sign-In is not configured yet. Please use email/password.';
+            errorDiv.style.display = 'block';
+        });
+    }
     
     // Toggle between login/signup
     document.getElementById('toggle-auth-mode').addEventListener('click', (e) => {
