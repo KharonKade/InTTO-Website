@@ -103,11 +103,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         itemsToProcess.forEach(item => {
             let itemSDGs = item.sdgs || [];
             
-            // Normalize SDG data to numbers
+            // --- FIX: Normalize SDG data to numbers correctly ---
+            // Handles ["SDG 1", "SDG 2"] AND ["1", "2"] AND [1, 2]
             if (Array.isArray(itemSDGs)) {
                 itemSDGs = itemSDGs.map(sdg => {
-                    const num = typeof sdg === 'string' ? parseInt(sdg, 10) : sdg;
-                    return isNaN(num) ? null : num;
+                    let num = sdg;
+                    if (typeof sdg === 'string') {
+                        // Extract digits from string (e.g., "SDG 1" -> 1)
+                        const match = sdg.match(/\d+/);
+                        num = match ? parseInt(match[0], 10) : NaN;
+                    }
+                    return (isNaN(num) || num === null) ? null : parseInt(num, 10);
                 }).filter(sdg => sdg !== null);
             }
 
@@ -133,7 +139,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         itemCountLabelEl.textContent = itemCountLabel;
 
         // --- Prepare Data for Visualization (Strictly 1-17) ---
-        // We map the SDG_CONSTANTS array to ensure the order is always 1 to 17
         const preparedData = SDG_CONSTANTS.map(sdg => ({
             ...sdg,
             count: sdgCounts[sdg.id] || 0
@@ -157,9 +162,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Filter labels/data for chart:
-        // Note: Even if we filter out 0s for the chart visualization (to hide empty segments),
-        // we sort them by ID to maintain the "1 to 17" logical order.
-        // If you want to show 0-value segments in the legend, remove the .filter()
         const activeData = data.filter(item => item.count > 0); 
 
         // If no data at all
@@ -169,7 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             ctx.font = '14px Poppins, sans-serif';
             ctx.fillStyle = '#999';
             ctx.textAlign = 'center';
-            ctx.fillText('No SDG data found', chartCanvas.width / 2, chartCanvas.height / 2);
+            ctx.fillText('No SDG data found for this category', chartCanvas.width / 2, chartCanvas.height / 2);
             return;
         }
 
@@ -221,6 +223,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Set the left border color dynamically
             card.style.borderLeftColor = item.color;
 
+            // Fade out cards with 0 count for better visual hierarchy (optional, remove opacity line if unwanted)
+            if (item.count === 0) {
+                card.style.opacity = '0.6'; 
+            }
+
             card.innerHTML = `
                 <div class="sdg-item-info">
                     <h4 style="color: ${item.color}">${item.code}</h4>
@@ -244,5 +251,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // --- Init ---
+    // Load default tab
     await updateDashboard('all');
 });
