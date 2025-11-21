@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Your Project - UCoLab</title>
+    <title>Edit Project - UCoLab</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/submit-project.css?v=1.2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,344 +17,305 @@
             </div>
             <div class="header-user-info">
                 <span class="user-status-pill" id="user-display">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     Loading...
                 </span>
-                <a href="#" class="btn-signout" id="signout-btn">
-                    Sign Out
-                </a>
             </div>
         </nav>
     </header>
 
     <main class="submit-project-main">
-        <a href="index.html" class="back-link" id="back-to-home">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Back to Home
-        </a>
+        <div id="loading-overlay" style="text-align: center; padding: 40px;">
+            <h2 style="color: var(--primary-green);">Loading project data...</h2>
+        </div>
 
-        <h1>Edit Your Project</h1>
-        <p class="page-subtitle">Update your project information</p>
+        <div id="edit-content" style="display: none;">
+            <h1>Edit Project</h1>
+            <p class="page-subtitle">Update your project details</p>
 
-        <form class="submit-form">
-            <!-- Form content injected by JS but structure required -->
-            <div class="form-section">
-                <h2>Basic Information</h2>
-                <div class="form-group full-width">
-                    <label for="project-name">Project Name <span class="required">*</span></label>
-                    <input type="text" id="project-name" placeholder="Enter your project name" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="project-type">Project Type <span class="required">*</span></label>
-                        <select id="project-type" required>
-                            <option value="" disabled selected>Select a project type</option>
-                            <option value="Startup">Startup</option>
-                            <option value="Research">Research</option>
-                            <option value="Capstone">Capstone</option>
-                            <option value="Thesis">Thesis</option>
-                        </select>
+            <form class="submit-form">
+                <div class="form-section">
+                    <h2>Basic Information</h2>
+                    <div class="form-group full-width">
+                        <label for="project-name">Project Name <span class="required">*</span></label>
+                        <input type="text" id="project-name" placeholder="Enter your project name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="project-type">Project Type <span class="required">*</span></label>
+                            <select id="project-type" required>
+                                <option value="" disabled>Select a project type</option>
+                                <option value="Startup">Startup</option>
+                                <option value="Research">Research</option>
+                                <option value="Capstone">Capstone</option>
+                                <option value="Thesis">Thesis</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industry">Startup Category <span class="required">*</span></label>
+                            <select id="industry" required>
+                                <option value="" disabled>Select a Startup Category</option>
+                                <option value="AI and Data Science">AI and Data Science</option>
+                                <option value="SaaS and Enterprise Solutions">SaaS and Enterprise Solutions</option>
+                                <option value="Fintech">Fintech</option>
+                                <option value="E-commerce">E-commerce</option>
+                                <option value="Health">Health</option>
+                                <option value="Agriculture and Food">Agriculture and Food</option>
+                                <option value="Education Technologies">Education Technologies</option>
+                                <option value="Creative Industries">Creative Industries</option>
+                                <option value="Criminology, Forensics, and Public Safety">Criminology, Forensics, and Public Safety</option>
+                                <option value="Sustainability and Cleantech">Sustainability and Cleantech</option>
+                                <option value="Smart Cities and Mobility">Smart Cities and Mobility</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="college-dropdown-btn">College <span class="required">*</span></label>
+                            <div class="multi-select-dropdown" id="college-multi-select">
+                                <div class="dropdown-button" id="college-dropdown-btn" tabindex="0">
+                                    <span class="dropdown-button-text">Select one or more colleges...</span>
+                                    <div class="selected-pills" id="college-selected-pills"></div>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div class="checkbox-list" id="college-checkbox-list">
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Business"><label>College of Business</label></div>
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Computer Studies"><label>College of Computer Studies</label></div>
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Nursing"><label>College of Nursing</label></div>
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Architecture"><label>College of Architecture</label></div>
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Arts & Sciences"><label>College of Arts & Sciences</label></div>
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Engineering"><label>College of Engineering</label></div>
+                                    <div class="checkbox-list-item"><input type="checkbox" value="College of Teacher Education"><label>College of Teacher Education</label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trl-level">TRL Level <span class="required">*</span></label>
+                            <select id="trl-level" required>
+                                <option value="" disabled>Select a TRL</option>
+                                <option value="TRL 1">TRL 1 - Basic Principles Observed</option>
+                                <option value="TRL 2">TRL 2 - Technology Concept Formulated</option>
+                                <option value="TRL 3">TRL 3 - Experimental Proof of Concept</option>
+                                <option value="TRL 4">TRL 4 - Lab-scale Validation</option>
+                                <option value="TRL 5">TRL 5 - Environment Validation</option>
+                                <option value="TRL 6">TRL 6 - Environment Demonstration</option>
+                                <option value="TRL 7">TRL 7 - System Prototype Demonstration</option>
+                                <option value="TRL 8">TRL 8 - System Complete and Qualified</option>
+                                <option value="TRL 9">TRL 9 - System Proven in Operation</option>
+                            </select>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="industry">Startup Category <span class="required">*</span></label>
-                        <select id="industry" required>
-                            <option value="" disabled selected>Select a Startup Category</option>
-                            <option value="AI and Data Science">AI and Data Science</option>
-                            <option value="SaaS and Enterprise Solutions">SaaS and Enterprise Solutions</option>
-                            <option value="Fintech">Fintech</option>
-                            <option value="E-commerce">E-commerce</option>
-                            <option value="Health">Health</option>
-                            <option value="Agriculture and Food">Agriculture and Food</option>
-                            <option value="Education Technologies">Education Technologies</option>
-                            <option value="Creative Industries">Creative Industries</option>
-                            <option value="Criminology, Forensics, and Public Safety">Criminology, Forensics, and Public Safety</option>
-                            <option value="Sustainability and Cleantech">Sustainability and Cleantech</option>
-                            <option value="Smart Cities and Mobility">Smart Cities and Mobility</option>
-                        </select>
-                    </div>
-                    </div>
-                <div class="form-row">
-                    
-                    <div class="form-group">
-                        <label for="college-dropdown-btn">College <span class="required">*</span></label>
-                        <div class="multi-select-dropdown" id="college-multi-select">
-                            <div class="dropdown-button" id="college-dropdown-btn" tabindex="0">
-                                <span class="dropdown-button-text">Select one or more colleges...</span>
-                                <div class="selected-pills" id="college-selected-pills"></div>
+                    <div class="form-group full-width">
+                        <label for="sdg-dropdown-btn">Sustainable Development Goals (SDG)</label>
+                        <div class="multi-select-dropdown" id="sdg-multi-select">
+                            <div class="dropdown-button" id="sdg-dropdown-btn" tabindex="0">
+                                <span class="dropdown-button-text">Select SDGs (Multiple allowed)...</span>
+                                <div class="selected-pills" id="sdg-selected-pills"></div>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                             </div>
-                            <div class="checkbox-list" id="college-checkbox-list">
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-cbis" name="college-option" value="College of Business">
-                                    <label for="college-cbis">College of Business</label>
-                                </div>
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-ccs" name="college-option" value="College of Computer Studies">
-                                    <label for="college-ccs">College of Computer Studies</label>
-                                </div>
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-con" name="college-option" value="College of Nursing">
-                                    <label for="college-con">College of Nursing</label>
-                                </div>
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-coa" name="college-option" value="College of Architecture">
-                                    <label for="college-coa">College of Architecture</label>
-                                </div>
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-cas" name="college-option" value="College of Arts & Sciences">
-                                    <label for="college-cas">College of Arts & Sciences</label>
-                                </div>
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-coe" name="college-option" value="College of Engineering">
-                                    <label for="college-coe">College of Engineering</label>
-                                </div>
-                                <div class="checkbox-list-item">
-                                    <input type="checkbox" id="college-cte" name="college-option" value="College of Teacher Education">
-                                    <label for="college-cte">College of Teacher Education</label>
-                                </div>
-                                </div>
+                            <div class="checkbox-list" id="sdg-checkbox-list">
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 1"><label>SDG 1: No Poverty</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 2"><label>SDG 2: Zero Hunger</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 3"><label>SDG 3: Good Health and Well-being</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 4"><label>SDG 4: Quality Education</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 5"><label>SDG 5: Gender Equality</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 6"><label>SDG 6: Clean Water and Sanitation</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 7"><label>SDG 7: Affordable and Clean Energy</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 8"><label>SDG 8: Decent Work and Economic Growth</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 9"><label>SDG 9: Industry, Innovation and Infrastructure</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 10"><label>SDG 10: Reduced Inequalities</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 11"><label>SDG 11: Sustainable Cities and Communities</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 12"><label>SDG 12: Responsible Consumption and Production</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 13"><label>SDG 13: Climate Action</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 14"><label>SDG 14: Life Below Water</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 15"><label>SDG 15: Life on Land</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 16"><label>SDG 16: Peace, Justice and Strong Institutions</label></div>
+                                <div class="checkbox-list-item"><input type="checkbox" value="SDG 17"><label>SDG 17: Partnerships for the Goals</label></div>
+                            </div>
                         </div>
-                        <input type="text" id="college-validation" required style="display: none; height: 0; padding: 0; border: none;">
                     </div>
-
-                    <div class="form-group">
-                        <label for="trl-level">TRL Level <span class="required">*</span></label>
-                        <select id="trl-level" required>
-                            <option value="" disabled selected>Select a TRL</option>
-                            <option value="TRL 1">TRL 1 - Basic Principles Observed</option>
-                            <option value="TRL 2">TRL 2 - Technology Concept Formulated</option>
-                            <option value="TRL 3">TRL 3 - Experimental Proof of Concept</option>
-                            <option value="TRL 4">TRL 4 - Lab-scale Validation</option>
-                            <option value="TRL 5">TRL 5 - Environment Validation</option>
-                            <option value="TRL 6">TRL 6 - Environment Demonstration</option>
-                            <option value="TRL 7">TRL 7 - System Prototype Demonstration</option>
-                            <option value="TRL 8">TRL 8 - System Complete and Qualified</option>
-                            <option value="TRL 9">TRL 9 - System Proven in Operation</option>
-                        </select>
+                    
+                    <div class="form-group full-width">
+                        <label for="short-description">Short Description <span class="required">*</span></label>
+                        <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 100 Characters)" required maxlength="100"></textarea>
+                        <div class="char-counter" id="short-desc-counter">0 / 100</div>
                     </div>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label for="project-sdg">Primary Sustainable Development Goal (SDG)</label>
-                    <select id="project-sdg">
-                        <option value="N/A" selected>Select an SDG</option>
-                        <option value="SDG 1">SDG 1: No Poverty</option>
-                        <option value="SDG 2">SDG 2: Zero Hunger</option>
-                        <option value="SDG 3">SDG 3: Good Health and Well-being</option>
-                        <option value="SDG 4">SDG 4: Quality Education</option>
-                        <option value="SDG 5">SDG 5: Gender Equality</option>
-                        <option value="SDG 6">SDG 6: Clean Water and Sanitation</option>
-                        <option value="SDG 7">SDG 7: Affordable and Clean Energy</option>
-                        <option value="SDG 8">SDG 8: Decent Work and Economic Growth</option>
-                        <option value="SDG 9">SDG 9: Industry, Innovation and Infrastructure</option>
-                        <option value="SDG 10">SDG 10: Reduced Inequalities</option>
-                        <option value="SDG 11">SDG 11: Sustainable Cities and Communities</option>
-                        <option value="SDG 12">SDG 12: Responsible Consumption and Production</option>
-                        <option value="SDG 13">SDG 13: Climate Action</option>
-                        <option value="SDG 14">SDG 14: Life Below Water</option>
-                        <option value="SDG 15">SDG 15: Life on Land</option>
-                        <option value="SDG 16">SDG 16: Peace, Justice and Strong Institutions</option>
-                        <option value="SDG 17">SDG 17: Partnerships for the Goals</option>
-                    </select>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label for="short-description">Short Description <span class="required">*</span></label>
-                    <textarea id="short-description" rows="2" placeholder="Brief description for the project card (max 100 Characters)" required maxlength="100"></textarea>
-                    <div class="char-counter" id="short-desc-counter">0 / 100</div>
-                </div>
                 </div>
 
-            <div class="form-section">
-                <h2>Project Details</h2>
-                <div class="form-group full-width">
-                    <label for="detailed-description">Detailed Description <span class="required">*</span></label>
-                    <textarea id="detailed-description" rows="5" placeholder="Comprehensive project overview" required></textarea>
+                <div class="form-section">
+                    <h2>Project Details</h2>
+                    <div class="form-group full-width">
+                        <label for="detailed-description">Detailed Description <span class="required">*</span></label>
+                        <textarea id="detailed-description" rows="5" placeholder="Comprehensive project overview" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="problem-statement">Problem Statement <span class="required">*</span></label>
+                        <textarea id="problem-statement" rows="3" placeholder="What problem does your project address?" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="solution">Solution <span class="required">*</span></label>
+                        <textarea id="solution" rows="3" placeholder="How does your project solve this problem?" required></textarea>
+                    </div>
                 </div>
-                <div class="form-group full-width">
-                    <label for="problem-statement">Problem Statement <span class="required">*</span></label>
-                    <textarea id="problem-statement" rows="3" placeholder="What problem does your project address?" required></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label for="solution">Solution <span class="required">*</span></label>
-                    <textarea id="solution" rows="3" placeholder="How does your project solve this problem?" required></textarea>
-                </div>
-            </div>
 
-            <div class="form-section">
-                <h2>Key Features (At least 1 required)</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="feature1-title">Feature 1 Title <span class="required">*</span></label>
-                        <input type="text" id="feature1-title" placeholder="Feature title" required>
+                <div class="form-section">
+                    <h2>Key Features (At least 1 required)</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="feature1-title">Feature 1 Title <span class="required">*</span></label>
+                            <input type="text" id="feature1-title" placeholder="Feature title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="feature1-desc">Feature 1 Description <span class="required">*</span></label>
+                            <input type="text" id="feature1-desc" placeholder="Feature description" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="feature1-desc">Feature 1 Description <span class="required">*</span></label>
-                        <input type="text" id="feature1-desc" placeholder="Feature description" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="feature2-title">Feature 2 Title</label>
+                            <input type="text" id="feature2-title" placeholder="Feature title">
+                        </div>
+                        <div class="form-group">
+                            <label for="feature2-desc">Feature 2 Description</label>
+                            <input type="text" id="feature2-desc" placeholder="Feature description">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="feature3-title">Feature 3 Title</label>
+                            <input type="text" id="feature3-title" placeholder="Feature title">
+                        </div>
+                        <div class="form-group">
+                            <label for="feature3-desc">Feature 3 Description</label>
+                            <input type="text" id="feature3-desc" placeholder="Feature description">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="feature4-title">Feature 4 Title</label>
+                            <input type="text" id="feature4-title" placeholder="Feature title">
+                        </div>
+                        <div class="form-group">
+                            <label for="feature4-desc">Feature 4 Description</label>
+                            <input type="text" id="feature4-desc" placeholder="Feature description">
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="feature2-title">Feature 2 Title</label>
-                        <input type="text" id="feature2-title" placeholder="Feature title">
-                    </div>
-                    <div class="form-group">
-                        <label for="feature2-desc">Feature 2 Description</label>
-                        <input type="text" id="feature2-desc" placeholder="Feature description">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="feature3-title">Feature 3 Title</label>
-                        <input type="text" id="feature3-title" placeholder="Feature title">
-                    </div>
-                    <div class="form-group">
-                        <label for="feature3-desc">Feature 3 Description</label>
-                        <input type="text" id="feature3-desc" placeholder="Feature description">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="feature4-title">Feature 4 Title</label>
-                        <input type="text" id="feature4-title" placeholder="Feature title">
-                    </div>
-                    <div class="form-group">
-                        <label for="feature4-desc">Feature 4 Description</label>
-                        <input type="text" id="feature4-desc" placeholder="Feature description">
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-section">
-                <h2>Project Images</h2>
-                <p class="image-note">Upload up to 5 images (max 2MB each). The first image will be the cover. You can click a preview to replace an image.</p>
-                <div class="image-upload-grid">
-                    <div class="image-upload-slot">
-                        <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
-                        <img src="" alt="Image preview 1" class="image-preview" id="image-preview-1">
-                        <label for="image-upload-1" class="upload-label">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Slot 1 (Cover)</div>
-                        </label>
-                        <button type="button" class="remove-image-btn" aria-label="Remove image 1" data-index="0" style="display: none;">×</button>
-                    </div>
-                    <div class="image-upload-slot">
-                        <input type="file" id="image-upload-2" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
-                        <img src="" alt="Image preview 2" class="image-preview" id="image-preview-2">
-                        <label for="image-upload-2" class="upload-label">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Slot 2</div>
-                        </label>
-                        <button type="button" class="remove-image-btn" aria-label="Remove image 2" data-index="1" style="display: none;">×</button>
-                    </div>
-                    <div class="image-upload-slot">
-                        <input type="file" id="image-upload-3" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
-                        <img src="" alt="Image preview 3" class="image-preview" id="image-preview-3">
-                        <label for="image-upload-3" class="upload-label">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Slot 3</div>
-                        </label>
-                        <button type="button" class="remove-image-btn" aria-label="Remove image 3" data-index="2" style="display: none;">×</button>
-                    </div>
-                    <div class="image-upload-slot">
-                        <input type="file" id="image-upload-4" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
-                        <img src="" alt="Image preview 4" class="image-preview" id="image-preview-4">
-                        <label for="image-upload-4" class="upload-label">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Slot 4</div>
-                        </label>
-                        <button type="button" class="remove-image-btn" aria-label="Remove image 4" data-index="3" style="display: none;">×</button>
-                    </div>
-                    <div class="image-upload-slot">
-                        <input type="file" id="image-upload-5" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
-                        <img src="" alt="Image preview 5" class="image-preview" id="image-preview-5">
-                        <label for="image-upload-5" class="upload-label">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div>Slot 5</div>
-                        </label>
-                        <button type="button" class="remove-image-btn" aria-label="Remove image 5" data-index="4" style="display: none;">×</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2>Project Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="start-date">Start Date <span class="required">*</span></label>
-                        <input type="date" id="start-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="team-size">Team Size <span class="required">*</span></label>
-                        <input type="text" id="team-size" placeholder="e.g., 4-6 members" required>
+                <div class="form-section">
+                    <h2>Project Images</h2>
+                    <p class="image-note">Click an existing image to replace it.</p>
+                    <div class="image-upload-grid">
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Image preview 1" class="image-preview" id="image-preview-1">
+                            <label for="image-upload-1" class="upload-label">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>Slot 1 (Cover)</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" aria-label="Remove image 1" data-index="0" style="display: none;">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-2" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Image preview 2" class="image-preview" id="image-preview-2">
+                            <label for="image-upload-2" class="upload-label">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>Slot 2</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" aria-label="Remove image 2" data-index="1" style="display: none;">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-3" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Image preview 3" class="image-preview" id="image-preview-3">
+                            <label for="image-upload-3" class="upload-label">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>Slot 3</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" aria-label="Remove image 3" data-index="2" style="display: none;">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-4" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Image preview 4" class="image-preview" id="image-preview-4">
+                            <label for="image-upload-4" class="upload-label">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>Slot 4</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" aria-label="Remove image 4" data-index="3" style="display: none;">×</button>
+                        </div>
+                        <div class="image-upload-slot">
+                            <input type="file" id="image-upload-5" class="hidden-file-input" accept="image/png, image/jpeg, image/webp">
+                            <img src="" alt="Image preview 5" class="image-preview" id="image-preview-5">
+                            <label for="image-upload-5" class="upload-label">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div>Slot 5</div>
+                            </label>
+                            <button type="button" class="remove-image-btn" aria-label="Remove image 5" data-index="4" style="display: none;">×</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-section">
-                <h2>Founder Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="founder-first-name">First Name <span class="required">*</span></label>
-                        <input type="text" id="founder-first-name" placeholder="Enter founder's first name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="founder-last-name">Last Name <span class="required">*</span></label>
-                        <input type="text" id="founder-last-name" placeholder="Enter founder's last name" required>
+                <div class="form-section">
+                    <h2>Project Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="start-date">Start Date <span class="required">*</span></label>
+                            <input type="date" id="start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="team-size">Team Size <span class="required">*</span></label>
+                            <input type="text" id="team-size" placeholder="e.g., 4-6 members" required>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="founder-role">Role <span class="required">*</span></label>
-                        <input type="text" id="founder-role" placeholder="e.g., Project Lead" required>
+
+                <div class="form-section">
+                    <h2>Founder Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="founder-first-name">First Name <span class="required">*</span></label>
+                            <input type="text" id="founder-first-name" placeholder="Enter founder's first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="founder-last-name">Last Name <span class="required">*</span></label>
+                            <input type="text" id="founder-last-name" placeholder="Enter founder's last name" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
-                        <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="founder-role">Role <span class="required">*</span></label>
+                            <input type="text" id="founder-role" placeholder="e.g., Project Lead" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="founder-affiliation">Affiliation <span class="required">*</span></label>
+                            <input type="text" id="founder-affiliation" placeholder="e.g., University of the Cordilleras" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="founder-email">Email <span class="required">*</span></label>
+                            <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="founder-phone">Phone (Optional)</label>
+                            <input type="tel" id="founder-phone" placeholder="+63 917 123 4567">
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="founder-email">Email <span class="required">*</span></label>
-                        <input type="email" id="founder-email" placeholder="founder.email@uc-bcf.edu.ph" required readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="founder-phone">Phone (Optional)</label>
-                        <input type="tel" id="founder-phone" placeholder="+63 917 123 4567">
-                    </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel">Close</button>
+                    <button type="submit" class="btn-submit">Save Changes</button>
                 </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="button" class="btn-cancel" id="cancel-edit-btn">Cancel</button>
-                <button type="submit" class="btn-submit">Update Project</button>
-            </div>
-
-        </form>
-
-        <div class="success-message-container" id="success-message" style="display: none;">
-            <div class="success-icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="var(--primary-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            </div>
-            <h2 id="success-title">Success!</h2>
-            <p id="success-text">Your project has been processed.</p>
-            <div class="success-actions">
-                <a href="index.html" class="btn btn-secondary" id="success-link-home">Back to Home</a>
-                <a href="#" class="btn btn-primary" id="success-link-project">View Project</a>
-            </div>
-            <button type="button" class="btn-close-window" id="success-close-btn">Close this window</button>
+            </form>
         </div>
     </main>
-
-    <footer>
-    </footer>
-
-    <script src="js/edit-project.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAXNIo4h3Uv7Z8IGdm01zQ8K4WY4G8VLzE",
@@ -367,7 +328,11 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore(); // CRITICAL: Enable Firestore
+        const db = firebase.firestore();
     </script>
+
+    <script src="js/image-compressor.js"></script>
+    <script src="js/cloudinary.js"></script>
+    <script src="js/edit-project.js"></script>
 </body>
 </html>

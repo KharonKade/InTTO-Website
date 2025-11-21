@@ -14,6 +14,9 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--background-gray);
     color: var(--text-dark);
+    /* Prevent double scrollbars on the body */
+    height: 100vh;
+    overflow: hidden; 
 }
 * {
     box-sizing: border-box;
@@ -71,12 +74,38 @@ body {
     width: 20px;
     text-align: center;
 }
+
+/* --- SCROLLING FIX START --- */
 .main-content {
     flex-grow: 1;
     padding: 30px;
-    overflow-y: auto;
     width: 100%;
+    
+    /* Fixes the "Cut Off" issue by forcing the container to fit the screen */
+    height: 100vh; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    
+    /* Adds space at bottom so last item isn't flush with screen edge */
+    padding-bottom: 80px; 
 }
+
+/* Cleaner Scrollbar Style */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+.main-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.main-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+}
+/* --- SCROLLING FIX END --- */
+
 .main-header {
     display: flex;
     justify-content: flex-end;
@@ -92,7 +121,7 @@ body {
     border: 1px solid var(--border-gray);
     border-radius: 8px;
     transition: background-color 0.2s;
-    font-size: 0; /* Hide original text */
+    font-size: 0;
 }
 .logout-btn:hover,
 .uColab-btn:hover {
@@ -101,12 +130,12 @@ body {
 .logout-btn i,
 .uColab-btn i {
     margin-right: 8px;
-    font-size: 16px; /* Restore icon size */
+    font-size: 16px;
 }
 .logout-btn::after,
 .uColab-btn::after {
     content: 'uColab';
-    font-size: 16px; /* Restore text size */
+    font-size: 16px;
     font-weight: 600;
 }
 .dashboard-overview h1 {
@@ -238,6 +267,8 @@ body {
 @media (max-width: 768px) {
     body {
         flex-direction: column;
+        height: auto; /* Allow body to grow on mobile */
+        overflow: visible;
     }
     .sidebar {
         width: 100%;
@@ -246,10 +277,11 @@ body {
     }
     .main-content {
         padding: 20px;
+        height: auto; /* Let content grow naturally on mobile */
+        overflow: visible;
     }
 }
 
-/* --- UPDATED Dropdown Filter Styles --- */
 .sort-container {
     display: flex;
     align-items: center;
@@ -263,13 +295,10 @@ body {
     color: var(--text-light);
 }
 .sort-dropdown {
-    /* Reset browser default styles */
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-
-    /* Custom Styling */
-    padding: 10px 35px 10px 15px; /* Extra padding on the right for the arrow */
+    padding: 10px 35px 10px 15px;
     border: 1px solid var(--border-gray);
     border-radius: 8px;
     background-color: var(--white);
@@ -278,18 +307,16 @@ body {
     color: var(--text-dark);
     cursor: pointer;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-    /* Custom Arrow using an SVG background image */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3E%3Cpath d='M8 11L2 5h12L8 11z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 12px;
 }
 .sort-dropdown:hover {
-    border-color: #adb5bd; /* A slightly darker gray on hover */
+    border-color: #adb5bd;
 }
 .sort-dropdown:focus {
     outline: none;
     border-color: var(--primary-green);
-    box-shadow: 0 0 0 3px rgba(24, 99, 75, 0.1); /* Subtle green glow */
+    box-shadow: 0 0 0 3px rgba(24, 99, 75, 0.1);
 }

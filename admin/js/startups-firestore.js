@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const STARTUPS_COLLECTION = 'startups';
     
     let startupsData = [];
-    let currentEditingId = null;
-
+    
     // --- DOM Elements ---
     const startupList = document.querySelector('.startup-list');
     const addStartupBtn = document.getElementById('add-startup-btn');
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loadStartupsFromFirestore = async () => {
         try {
             const snapshot = await db.collection(STARTUPS_COLLECTION).get();
-            
             startupsData = [];
             snapshot.forEach(doc => {
                 startupsData.push({
@@ -24,37 +22,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ...doc.data()
                 });
             });
-            
             return startupsData;
         } catch (error) {
             console.error('❌ Error loading startups:', error);
-            alert('Error loading startups from database');
             return [];
-        }
-    };
-
-    const saveStartupToFirestore = async (startupData) => {
-        try {
-            
-            // Add timestamp
-            startupData.createdAt = startupData.createdAt || firebase.firestore.Timestamp.now();
-            startupData.updatedAt = firebase.firestore.Timestamp.now();
-            
-            const docRef = await db.collection(STARTUPS_COLLECTION).add(startupData);
-            return docRef.id;
-        } catch (error) {
-            console.error('❌ Error saving startup:', error);
-            throw error;
         }
     };
 
     const updateStartupInFirestore = async (firestoreId, updatedData) => {
         try {
-
-            
-            // Add update timestamp
             updatedData.updatedAt = firebase.firestore.Timestamp.now();
-            
             await db.collection(STARTUPS_COLLECTION).doc(firestoreId).update(updatedData);
         } catch (error) {
             console.error('❌ Error updating startup:', error);
@@ -136,13 +113,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 statusText = '🎓 Graduated';
             }
 
-            // Only show Approve/Reject buttons for Pending items
             const approvalButtonsHTML = startup.status === 'pending' ? `
                 <button class="icon-btn approve-btn" title="Approve & Publish"><i class="fa-solid fa-check"></i></button>
                 <button class="icon-btn reject-btn" title="Reject"><i class="fa-solid fa-xmark"></i></button>
             ` : '';
 
-            // Safe tag rendering
             const tagsArray = Array.isArray(startup.tags) ? startup.tags : [];
             
             const tagsHTML = `
@@ -154,7 +129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ${sdgTagsHTML}
             `;
             
-            // Generate a safe class for the logo background
             const logoClass = `logo-${(startup.category || 'other').toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
 
             card.innerHTML = `
@@ -166,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="startup-actions">
                     ${approvalButtonsHTML}
-                    <button class="icon-btn edit-btn" title="Edit Startup"><i class="fa-solid fa-pencil"></i></button>
+                    <button class="icon-btn edit-btn" title="Edit in New Tab"><i class="fa-solid fa-pencil"></i></button>
                     <button class="icon-btn delete-btn" title="Delete"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `;
@@ -186,7 +160,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 const firestoreId = e.target.closest('.startup-card').dataset.firestoreId;
-                await approveStartup(firestoreId);
+                if (!confirm("Approve this project?")) return;
+                await updateStartupInFirestore(firestoreId, { status: 'active' });
+                await loadStartupsFromFirestore();
+                renderStartups();
             });
         });
         
@@ -194,15 +171,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 const firestoreId = e.target.closest('.startup-card').dataset.firestoreId;
-                await rejectStartup(firestoreId);
+                if (!confirm("Reject this project?")) return;
+                await updateStartupInFirestore(firestoreId, { status: 'rejected' });
+                await loadStartupsFromFirestore();
+                renderStartups();
             });
         });
         
+        // --- THIS IS THE KEY EDIT LOGIC ---
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const firestoreId = e.target.closest('.startup-card').dataset.firestoreId;
-                openViewEditModal(firestoreId);
+                // Open the new edit page in a new tab
+                window.open(`../ucolab/edit-project.html?id=${firestoreId}`, '_blank');
             });
         });
         
@@ -210,199 +192,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 const firestoreId = e.target.closest('.startup-card').dataset.firestoreId;
-                await deleteStartup(firestoreId);
+                if (!confirm('Delete this startup?')) return;
+                await deleteStartupFromFirestore(firestoreId);
+                await loadStartupsFromFirestore();
+                renderStartups();
             });
         });
-        
-        // Make entire card clickable to view
-        document.querySelectorAll('.startup-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                if (!e.target.closest('.startup-actions')) {
-                    const firestoreId = card.dataset.firestoreId;
-                    openViewEditModal(firestoreId);
-                }
-            });
-            card.style.cursor = 'pointer';
-        });
-    };
-
-    // --- Actions ---
-    const approveStartup = async (firestoreId) => {
-        if (!confirm("Approve this project? It will become visible on the public website.")) return;
-        
-        try {
-            await updateStartupInFirestore(firestoreId, { status: 'active' });
-            await loadStartupsFromFirestore();
-            await renderStartups();
-            alert('Startup approved and published!');
-        } catch (error) {
-            alert('Error approving startup: ' + error.message);
-        }
-    };
-
-    const rejectStartup = async (firestoreId) => {
-        if (!confirm("Reject this project? Status will be changed to rejected.")) return;
-
-        try {
-            await updateStartupInFirestore(firestoreId, { status: 'rejected' });
-            await loadStartupsFromFirestore();
-            await renderStartups();
-            alert('Startup rejected');
-        } catch (error) {
-            alert('Error rejecting startup: ' + error.message);
-        }
-    };
-
-    const deleteStartup = async (firestoreId) => {
-        if (!confirm('Are you sure you want to permanently delete this startup?')) return;
-
-        try {
-            await deleteStartupFromFirestore(firestoreId);
-            await loadStartupsFromFirestore();
-            await renderStartups();
-            alert('Startup deleted successfully');
-        } catch (error) {
-            alert('Error deleting startup: ' + error.message);
-        }
-    };
-
-    // --- View/Edit Modal Functions ---
-    const openViewEditModal = (firestoreId) => {
-        currentEditingId = firestoreId;
-        
-        const startup = startupsData.find(s => s.firestoreId === firestoreId);
-        
-        if (!startup) {
-            console.error('❌ Startup not found');
-            alert('Startup not found');
-            return;
-        }
-
-
-        // Populate form
-        document.getElementById('edit-name').value = startup.name || '';
-        document.getElementById('edit-logo').value = startup.logo || '🚀';
-        document.getElementById('edit-category').value = startup.category || '';
-        document.getElementById('edit-trl').value = startup.trl || '';
-        document.getElementById('edit-status').value = startup.status || 'pending';
-        document.getElementById('edit-collab').checked = startup.collab || false;
-        document.getElementById('edit-description').value = startup.description || '';
-        document.getElementById('edit-detailed-description').value = startup.detailedDescription || '';
-        document.getElementById('edit-problem-statement').value = startup.problemStatement || '';
-        document.getElementById('edit-solution').value = startup.solution || '';
-        document.getElementById('edit-start-date').value = startup.startDate || '';
-        document.getElementById('edit-team-size').value = startup.teamSize || '';
-        document.getElementById('edit-website').value = startup.website || '';
-        document.getElementById('edit-founder-name').value = startup.founderName || '';
-        document.getElementById('edit-founder-role').value = startup.founderRole || '';
-        document.getElementById('edit-founder-email').value = startup.founderEmail || '';
-        document.getElementById('edit-founder-phone').value = startup.founderPhone || '';
-        document.getElementById('edit-founder-affiliation').value = startup.founderAffiliation || '';
-
-        // Populate SDGs
-        const sdgCheckboxes = document.querySelectorAll('#edit-sdgs-container input[type="checkbox"]');
-        sdgCheckboxes.forEach(cb => cb.checked = false);
-        if (startup.sdgs && Array.isArray(startup.sdgs)) {
-            startup.sdgs.forEach(sdg => {
-                const checkbox = document.querySelector(`#edit-sdgs-container input[value="${sdg}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-
-        // Display images
-        const imagesPreview = document.getElementById('edit-images-preview');
-        imagesPreview.innerHTML = '';
-        if (startup.imageUrls && Array.isArray(startup.imageUrls) && startup.imageUrls.length > 0) {
-            startup.imageUrls.forEach((url, index) => {
-                if (url) {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.className = 'preview-image-item';
-                    imgDiv.innerHTML = `
-                        <img src="${url}" alt="Project image ${index + 1}">
-                        <div class="preview-image-label">${index === 0 ? 'Cover Image' : `Image ${index + 1}`}</div>
-                    `;
-                    imagesPreview.appendChild(imgDiv);
-                }
-            });
-        } else {
-            imagesPreview.innerHTML = '<p style="color: var(--text-light); padding: 20px; text-align: center;">No images uploaded</p>';
-        }
-
-        // Show modal
-        const modal = document.getElementById('startup-modal-overlay');
-        if (modal) {
-            modal.style.display = 'flex';
-            document.getElementById('modal-title').textContent = `Edit Startup: ${startup.name}`;
-        }
-    };
-
-    const closeModal = () => {
-        const modal = document.getElementById('startup-modal-overlay');
-        if (modal) {
-            modal.style.display = 'none';
-        }
-        currentEditingId = null;
-    };
-
-    const saveStartupChanges = async (e) => {
-        e.preventDefault();
-
-        if (!currentEditingId) return;
-
-        // Collect form data
-        const updatedData = {
-            name: document.getElementById('edit-name').value,
-            logo: document.getElementById('edit-logo').value || '🚀',
-            category: document.getElementById('edit-category').value,
-            trl: parseInt(document.getElementById('edit-trl').value) || 0,
-            status: document.getElementById('edit-status').value,
-            collab: document.getElementById('edit-collab').checked,
-            description: document.getElementById('edit-description').value,
-            detailedDescription: document.getElementById('edit-detailed-description').value,
-            problemStatement: document.getElementById('edit-problem-statement').value,
-            solution: document.getElementById('edit-solution').value,
-            startDate: document.getElementById('edit-start-date').value,
-            teamSize: document.getElementById('edit-team-size').value,
-            website: document.getElementById('edit-website').value,
-            founderName: document.getElementById('edit-founder-name').value,
-            founderRole: document.getElementById('edit-founder-role').value,
-            founderEmail: document.getElementById('edit-founder-email').value,
-            founderPhone: document.getElementById('edit-founder-phone').value,
-            founderAffiliation: document.getElementById('edit-founder-affiliation').value,
-        };
-
-        // Collect SDGs
-        const selectedSdgs = Array.from(document.querySelectorAll('#edit-sdgs-container input[type="checkbox"]:checked'))
-            .map(cb => cb.value);
-        updatedData.sdgs = selectedSdgs;
-
-        try {
-            await updateStartupInFirestore(currentEditingId, updatedData);
-            closeModal();
-            await loadStartupsFromFirestore();
-            await renderStartups();
-            alert('Startup updated successfully!');
-        } catch (error) {
-            alert('Error updating startup: ' + error.message);
-        }
-    };
-
-    // --- Initialize Modal Event Listeners ---
-    const initializeModalListeners = () => {
-        const closeBtn = document.getElementById('close-modal-btn');
-        const cancelBtn = document.getElementById('cancel-edit-btn');
-        const form = document.getElementById('startup-form');
-        const overlay = document.getElementById('startup-modal-overlay');
-
-        if (closeBtn) closeBtn.addEventListener('click', closeModal);
-        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
-        if (form) form.addEventListener('submit', saveStartupChanges);
-        
-        if (overlay) {
-            overlay.addEventListener('click', (e) => {
-                if (e.target.id === 'startup-modal-overlay') closeModal();
-            });
-        }
     };
 
     // --- Add Startup Button ---
@@ -421,9 +216,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     sortDropdown.addEventListener('change', renderStartups);
 
-    // --- Initialize Everything ---
-    initializeModalListeners();
+    // --- Auto-Reload on Window Focus (Refreshes list after you close edit tab) ---
+    window.addEventListener('focus', async () => {
+        await loadStartupsFromFirestore();
+        renderStartups();
+    });
+
+    // --- Init ---
     await loadStartupsFromFirestore();
     await renderStartups();
-    
 });

@@ -11,12 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="module" src="js/auth-check.js"></script>
     <style>
-        /* FORCE Layout Reset */
-        body { 
+        /* --- CRITICAL SCROLL FIX --- */
+        /* Override dashboard-style.css body locks */
+        html, body { 
             display: block !important; 
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+            height: auto !important;      /* Allow page to grow */
+            overflow-y: auto !important;  /* Force scrollbar */
+            overflow-x: hidden;
         }
 
         /* Admin Header */
@@ -59,6 +63,8 @@
             margin: 40px auto 60px;
             max-width: 800px;
             padding: 0 20px;
+            /* Ensure container doesn't get hidden */
+            overflow: visible !important;
         }
         
         /* Fix Dropdown z-index */
@@ -132,7 +138,7 @@
                     <div class="image-upload-slot">
                         <input type="file" id="image-upload-1" class="hidden-file-input" accept="image/*">
                         <img src="" class="image-preview" id="image-preview-1">
-                        <label for="image-upload-1" class="upload-label">Slot 1</label>
+                        <label for="image-upload-1" class="upload-label">Slot 1 (Cover)</label>
                         <button type="button" class="remove-image-btn" data-index="0">×</button>
                     </div>
                     <div class="image-upload-slot">
@@ -166,7 +172,7 @@
                 <h2>Content Details</h2>
                 <div class="form-group full-width">
                     <label for="news-content">Content <span class="required">*</span></label>
-                    <textarea id="news-content" rows="8" required placeholder="Enter full details..."></textarea>
+                    <textarea id="news-content" rows="12" required placeholder="Enter full details..."></textarea>
                 </div>
                 <div class="form-group full-width">
                     <label for="news-tags">Tags (comma separated)</label>
@@ -210,13 +216,10 @@
         </form>
     </main>
 
-    <!-- Image Compressor (must load FIRST) -->
     <script src="../ucolab/js/image-compressor.js"></script>
     
-    <!-- Cloudinary Upload Module -->
     <script src="../ucolab/js/cloudinary.js"></script>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script>
@@ -238,12 +241,12 @@
             
             const NEWS_EVENTS_COLLECTION = 'newsEvents';
             const urlParams = new URLSearchParams(window.location.search);
-            const editId = urlParams.get('id'); // This is the Firestore document ID
+            const editId = urlParams.get('id');
             
             let uploadedImageUrls = ["", "", "", "", ""];
             let uploadingImages = [false, false, false, false, false];
 
-            // --- 1. IMAGE UPLOAD WITH CLOUDINARY ---
+            // --- 1. IMAGE UPLOAD ---
             async function handleImageUpload(fileInput, previewElement, index) {
                 const file = fileInput.files[0];
                 const slot = previewElement.closest('.image-upload-slot');
@@ -251,7 +254,6 @@
                 
                 if (!file || !slot || !previewElement || !removeBtn) return;
                 
-                // Show preview immediately
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewElement.src = e.target.result;
@@ -261,7 +263,6 @@
                 }
                 reader.readAsDataURL(file);
                 
-                // Upload to Cloudinary
                 uploadingImages[index] = true;
                 try {
                     const imageUrl = await CloudinaryUploader.uploadImage(file, index);
@@ -274,7 +275,6 @@
                 }
             }
             
-            // Attach image upload handlers
             for (let i = 1; i <= 5; i++) {
                 const input = document.getElementById(`image-upload-${i}`);
                 const preview = document.getElementById(`image-preview-${i}`);
@@ -285,7 +285,6 @@
                 }
             }
             
-            // Remove image handlers
             document.querySelectorAll('.remove-image-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const idx = parseInt(this.getAttribute('data-index'));
@@ -303,7 +302,7 @@
                 });
             });
 
-            // --- 2. LOAD DATA IF EDITING (FROM FIRESTORE) ---
+            // --- 2. LOAD DATA ---
             if (editId) {
                 document.getElementById('page-title').textContent = "Edit News/Event";
                 
@@ -317,12 +316,10 @@
                         
                         const item = doc.data();
                         
-                        // Populate form fields
                         document.getElementById('news-title').value = item.title || '';
                         document.getElementById('news-type').value = item.type || 'news';
                         document.getElementById('news-status').value = item.status || 'draft';
                         
-                        // Handle date (Firestore Timestamp or string)
                         if (item.date) {
                             if (typeof item.date === 'string') {
                                 document.getElementById('news-date').value = item.date;
@@ -334,7 +331,6 @@
                         document.getElementById('news-content').value = item.content || '';
                         document.getElementById('news-tags').value = (item.tags || []).join(', ');
                         
-                        // Load images from Cloudinary URLs
                         uploadedImageUrls = [...(item.images || ["", "", "", "", ""])];
                         uploadedImageUrls.forEach((url, i) => {
                             if (url && i < 5) {
@@ -349,7 +345,6 @@
                             }
                         });
                         
-                        // Load SDGs
                         (item.sdgs || []).forEach(sdg => {
                             const cleanSdg = String(sdg).replace('SDG ', '');
                             const cb = document.querySelector(`#sdg-checkbox-list input[value="${cleanSdg}"]`);
@@ -359,32 +354,32 @@
                     })
                     .catch(error => {
                         console.error('❌ Error loading data:', error);
-                        alert('Error loading data: ' + error.message);
                     });
             }
 
-            // --- 3. FORM SUBMISSION (SAVE TO FIRESTORE) ---
+            // --- 3. SAVE ---
             const newsForm = document.getElementById('news-form');
             if (newsForm) {
                 newsForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     
-                    // Check if images are still uploading
                     if (uploadingImages.some(status => status === true)) {
-                        alert('Please wait for all images to finish uploading before submitting.');
+                        alert('Please wait for images to upload.');
                         return;
                     }
                     
-                    // Collect form data
+                    const submitBtn = document.querySelector('.btn-submit');
+                    submitBtn.textContent = 'Saving...';
+                    submitBtn.disabled = true;
+
                     const sdgs = Array.from(document.querySelectorAll('#sdg-checkbox-list input:checked')).map(cb => cb.value);
                     const finalImages = uploadedImageUrls.filter(u => u && u !== "");
-                    const dateValue = document.getElementById('news-date').value;
                     
                     const newsEventData = {
                         title: document.getElementById('news-title').value,
                         type: document.getElementById('news-type').value,
                         status: document.getElementById('news-status').value,
-                        date: dateValue,
+                        date: document.getElementById('news-date').value,
                         content: document.getElementById('news-content').value,
                         tags: document.getElementById('news-tags').value.split(',').map(t => t.trim()).filter(t => t),
                         sdgs: sdgs,
@@ -394,34 +389,28 @@
                     
                     try {
                         if (editId) {
-                            // Update existing document
                             await db.collection(NEWS_EVENTS_COLLECTION).doc(editId).update(newsEventData);
                         } else {
-                            // Create new document
                             newsEventData.createdAt = firebase.firestore.Timestamp.now();
-                            const docRef = await db.collection(NEWS_EVENTS_COLLECTION).add(newsEventData);
+                            await db.collection(NEWS_EVENTS_COLLECTION).add(newsEventData);
                         }
                         
-                        // Refresh parent window (admin page)
                         if (window.opener && !window.opener.closed) {
-                            try {
-                                window.opener.location.reload();
-                            } catch (e) {
-                                console.error('Could not reload parent window:', e);
-                            }
+                            try { window.opener.location.reload(); } catch (e) {}
                         }
                         
                         alert('Saved successfully!');
                         window.close();
-                        
                     } catch (error) {
-                        console.error('❌ Error saving:', error);
+                        console.error('Error:', error);
                         alert('Error saving: ' + error.message);
+                        submitBtn.textContent = 'Save News/Event';
+                        submitBtn.disabled = false;
                     }
                 });
             }
 
-            // --- 4. SDG Dropdown Logic ---
+            // --- 4. SDG Dropdown ---
             const btn = document.getElementById('sdg-dropdown-btn');
             const list = document.getElementById('sdg-checkbox-list');
             
@@ -452,8 +441,6 @@
                 list.querySelectorAll('input').forEach(input => {
                     input.addEventListener('change', updateDropdownText);
                 });
-                
-                // Make function available globally for load
                 window.updateDropdownText = updateDropdownText;
             }
         });
