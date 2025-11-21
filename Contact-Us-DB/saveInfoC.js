@@ -190,11 +190,16 @@ export function detectSpam(data) {
 
 export async function saveApplication(data) {
     try {
+        // Verify user authentication data is present
+        if (!data.userId || !data.userEmail) {
+            throw new Error('Authentication required. Please login or sign up first.');
+        }
+        
         // Generate fingerprint
         const fingerprint = generateFingerprint();
         
-        // Check rate limits (server-side via Firestore)
-        const rateLimitCheck = await checkRateLimit(data.email, fingerprint);
+        // Check rate limits using authenticated user's email
+        const rateLimitCheck = await checkRateLimit(data.userEmail, fingerprint);
         if (!rateLimitCheck.allowed) {
             throw new Error(rateLimitCheck.message);
         }
@@ -205,15 +210,17 @@ export async function saveApplication(data) {
             throw new Error(`Submission rejected: ${spamCheck.reason}`);
         }
         
-        // Save to Firestore
+        // Save to Firestore with user authentication info
         const collectionRef = collection(db, "Contact-us Messages");
         const docRef = await addDoc(collectionRef, {
             ...data,
             fingerprint: fingerprint,
             submittedAt: serverTimestamp(),
             userAgent: navigator.userAgent,
+            authenticatedUserId: data.userId,
+            authenticatedUserEmail: data.userEmail,
             isSpam: false,
-            verified: false
+            verified: true // Mark as verified since user is authenticated
         });
         
         return { 

@@ -1,4 +1,5 @@
 import { saveApplication } from "../Contact-Us-DB/saveInfoC.js"; 
+import { getCurrentUser } from "../Contact-Us-DB/authC.js";
 
 // reCAPTCHA Configuration
 const RECAPTCHA_SITE_KEY = '6LcfuRMsAAAAAGP--lIdDS3_olzVmXNiEJ6Wh3Fw'; // Replace with your actual site key
@@ -127,6 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Check if user is authenticated
+        const user = getCurrentUser();
+        if (!user) {
+            showErrorModal('Please login or sign up to submit the contact form.', 'Authentication Required');
+            return;
+        }
+        
         // Check honeypot field (if filled, it's a bot)
         if (honeypot.value) {
             console.warn('Bot detected via honeypot');
@@ -142,6 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const formData = collectFormData(contactForm);
+        
+        // Add user email from authentication
+        formData.userEmail = user.email;
+        formData.userId = user.uid;
         
         // Basic client-side validation
         if (!formData.email || !formData.name || !formData.message) {
