@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 1. EVENT LISTENERS ---
     
-    // SDG Dropdown Toggle
     if(sdgBtn && sdgWrapper) {
         sdgBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -44,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // SDG Checkboxes
     if(sdgCheckboxes.length > 0) {
         sdgCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
@@ -54,7 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Other Filters
     if(searchInput) searchInput.addEventListener('input', applyFilters);
     if(categorySelect) categorySelect.addEventListener('change', applyFilters);
     if(sortSelect) sortSelect.addEventListener('change', applyFilters);
@@ -86,7 +83,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             cardsGrid.innerHTML = '<p style="text-align:center; width:100%;">Loading startups...</p>';
             
-            // Fetch ALL startups
             const snapshot = await db.collection('startups').get();
 
             allStartupsData = [];
@@ -94,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 allStartupsData.push({ id: doc.id, ...doc.data() });
             });
 
-            applyFilters(); // Initial Render
+            applyFilters(); 
 
         } catch (error) {
             console.error("Error fetching startups:", error);
@@ -106,7 +102,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     function applyFilters() {
         let filtered = [...allStartupsData];
 
-        // Search
         if (searchInput) {
             const term = searchInput.value.toLowerCase();
             if (term) {
@@ -117,7 +112,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Category
         if (categorySelect) {
             const cat = categorySelect.value;
             if (cat && cat !== 'all') {
@@ -127,12 +121,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // SDGs
         if (selectedSDGs.length > 0) {
             filtered = filtered.filter(s => {
                 const sData = s.sdgs || s.SDGs || s.sdg; 
                 if (!sData) return false;
-                
                 if(Array.isArray(sData)) {
                     return sData.some(item => selectedSDGs.includes(item));
                 }
@@ -140,7 +132,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        // Sort
         if (sortSelect) {
             const sortVal = sortSelect.value;
             filtered.sort((a, b) => {
@@ -192,7 +183,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
                     onClick();
-                    // Scroll only if on specific page, optional for homepage
                     if(document.querySelector('.startups-section')) {
                         document.querySelector('.startups-section').scrollIntoView({behavior: 'smooth'});
                     }
@@ -201,23 +191,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             return a;
         };
 
-        // Prev
         const prevBtn = createBtn('<i class="fa-solid fa-chevron-left"></i>', () => { currentPage--; updateDisplay(); }, false, currentPage === 1);
         prevBtn.classList.add('arrow');
         paginationContainer.appendChild(prevBtn);
 
-        // Numbers
         for (let i = 1; i <= totalPages; i++) {
             paginationContainer.appendChild(createBtn(i, () => { currentPage = i; updateDisplay(); }, currentPage === i));
         }
 
-        // Next
         const nextBtn = createBtn('<i class="fa-solid fa-chevron-right"></i>', () => { currentPage++; updateDisplay(); }, false, currentPage === totalPages);
         nextBtn.classList.add('arrow');
         paginationContainer.appendChild(nextBtn);
     }
 
-    // --- 6. RENDER CARDS ---
+    // --- 6. RENDER CARDS (UPDATED WITH STATUS) ---
     function renderCards(startups) {
         if(!cardsGrid) return;
         cardsGrid.innerHTML = '';
@@ -230,12 +217,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         startups.forEach(startup => {
             const card = document.createElement('article');
             card.className = 'startup-card';
-
-            // CRITICAL FIX: Add Category Data Attribute so Filter works
+            
+            // Filter Category Attribute
             const category = (startup.category || startup.industry || '').toLowerCase();
             card.dataset.category = category;
 
-            // Logo
+            // Logo Logic
             let logoHTML;
             if (startup.imageUrls && startup.imageUrls.length > 0 && (startup.imageUrls[0].startsWith('http') || startup.imageUrls[0].startsWith('data:'))) {
                 logoHTML = `<img src="${startup.imageUrls[0]}" alt="logo" class="startup-logo">`;
@@ -243,15 +230,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                 logoHTML = `<div class="startup-logo-emoji">${startup.logo || '🚀'}</div>`;
             }
 
-            // Tags
+            // Tags Logic
             let tagsHTML = `<span class="tag">${startup.industry || startup.category || 'Startup'}</span>`;
             const sSDGs = startup.sdgs || startup.sdg;
-            
             if (sSDGs && Array.isArray(sSDGs) && sSDGs.length > 0) {
                 tagsHTML += `<span class="tag small">${sSDGs[0]}</span>`;
                 if (sSDGs.length > 1) {
                     tagsHTML += `<span class="tag small">+${sSDGs.length - 1}</span>`;
                 }
+            }
+
+            // --- NEW STATUS BADGE LOGIC ---
+            let statusBadgeHTML = '';
+            // Check status field. Default to 'active' if missing.
+            const status = (startup.status || 'active').toLowerCase();
+            
+            if (status === 'graduated') {
+                // Show Green Checkmark
+                statusBadgeHTML = `<i class="fa-solid fa-circle-check status-icon"></i>`;
+            } else {
+                // Show "Incubated" Text
+                statusBadgeHTML = `<span class="status-text">Incubated</span>`;
             }
 
             card.innerHTML = `
@@ -260,6 +259,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="card-meta">
                         <h3 class="startup-name">${startup.name || 'Unnamed'}</h3>
                         <div class="tags">${tagsHTML}</div>
+                    </div>
+                    <div class="card-status">
+                        ${statusBadgeHTML}
                     </div>
                 </div>
                 <p class="startup-desc">${startup.description ? startup.description.substring(0, 120) + '...' : 'No description.'}</p>
