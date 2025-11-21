@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home - InTTO</title>
   <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/contact-auth.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
@@ -12,12 +13,13 @@
   <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY_HERE"></script>
 </head>
 <body>
+    <!-- Authentication Check Module (loads first) -->
+    <script type="module" src="./Contact-Us-DB/auth-check-contact.js"></script>
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="module" src="./Contact-Us-DB/scriptC.js"></script>
     <script type="module" src="./Contact-Us-DB/infoC.js"></script>
     <script type="module" src="./Contact-Us-DB/saveInfoC.js"></script>
-    <!-- Contact Form Authentication Guard -->
-    <script type="module" src="./js/contact-auth.js"></script>
     <script type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>

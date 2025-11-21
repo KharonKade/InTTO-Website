@@ -1,4 +1,5 @@
 import { saveApplication } from "../Contact-Us-DB/saveInfoC.js"; 
+import { auth } from "../Contact-Us-DB/auth-check-contact.js";
 
 // reCAPTCHA Configuration
 const RECAPTCHA_SITE_KEY = '6LcfuRMsAAAAAGP--lIdDS3_olzVmXNiEJ6Wh3Fw'; // Replace with your actual site key
@@ -127,6 +128,16 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Check if user is authenticated
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            showErrorModal(
+                'You must be logged in to submit the contact form. Please log in through uColab first.',
+                'Authentication Required'
+            );
+            return;
+        }
+        
         // Check honeypot field (if filled, it's a bot)
         if (honeypot.value) {
             console.warn('Bot detected via honeypot');
@@ -142,6 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const formData = collectFormData(contactForm);
+        
+        // Add authenticated user data
+        formData.userId = currentUser.uid;
+        formData.userEmail = currentUser.email;
+        if (currentUser.displayName) {
+            formData.userName = currentUser.displayName;
+        }
         
         // Basic client-side validation
         if (!formData.email || !formData.name || !formData.message) {
