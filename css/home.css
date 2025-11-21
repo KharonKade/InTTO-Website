@@ -1279,8 +1279,7 @@ body {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
-    align-items: start;
-    grid-auto-rows: minmax(314px, auto);
+    align-items: stretch;
     max-width: 100%;
     margin: 30px auto 0;
 }
@@ -1295,7 +1294,8 @@ body {
     flex-direction:column;
     justify-content:space-between;
     width: 100%;
-    height: 100%;
+    height: auto;
+    min-height: 314px;
     transition: transform .18s, box-shadow .18s;
     position: relative;
 }

@@ -1,5 +1,5 @@
 import { saveApplication } from "../Contact-Us-DB/saveInfoC.js"; 
-import { getCurrentUser } from "../Contact-Us-DB/authC.js";
+import { auth } from "../Contact-Us-DB/auth-check-contact.js";
 
 // reCAPTCHA Configuration
 const RECAPTCHA_SITE_KEY = '6LcfuRMsAAAAAGP--lIdDS3_olzVmXNiEJ6Wh3Fw'; // Replace with your actual site key
@@ -129,9 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         
         // Check if user is authenticated
-        const user = getCurrentUser();
-        if (!user) {
-            showErrorModal('Please login or sign up to submit the contact form.', 'Authentication Required');
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            showErrorModal(
+                'You must be logged in to submit the contact form. Please log in through uColab first.',
+                'Authentication Required'
+            );
             return;
         }
         
@@ -151,9 +154,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = collectFormData(contactForm);
         
-        // Add user email from authentication
-        formData.userEmail = user.email;
-        formData.userId = user.uid;
+        // Add authenticated user data
+        formData.userId = currentUser.uid;
+        formData.userEmail = currentUser.email;
+        if (currentUser.displayName) {
+            formData.userName = currentUser.displayName;
+        }
         
         // Basic client-side validation
         if (!formData.email || !formData.name || !formData.message) {
