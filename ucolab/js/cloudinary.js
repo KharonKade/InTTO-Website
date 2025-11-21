@@ -3,12 +3,12 @@
  * Handles image uploads to Cloudinary with fallback to base64
  * 
  * Configuration:
- * - Cloud Name: dy9tkp58u (FIXED - removed extra 'y')
+ * - Cloud Name: dwq7bbem0
  * - Upload Preset: ucolab_project (must be created as UNSIGNED in Cloudinary dashboard)
  * - Folder: ucolab_project (singular - matches preset configuration)
  * 
  * IMPORTANT: The upload preset MUST be configured as "Unsigned" in Cloudinary
- * Go to: https://cloudinary.com/console/dy9tkp58u/settings/upload
+ * Go to: https://cloudinary.com/console/dwq7bbem0/settings/upload
  * Create preset named "ucolab_project" with Signing Mode set to "Unsigned"
  */
 
@@ -17,7 +17,7 @@ const CloudinaryUploader = (function() {
 
     // --- Configuration ---
     const CONFIG = {
-        CLOUD_NAME: 'dy9tkp58u', // FIXED: Correct cloud name (no 'y' after 't')
+        CLOUD_NAME: 'dwq7bbem0',
         UPLOAD_PRESET: 'ucolab_project',
         FOLDER: 'ucolab_project', // FIXED: Matches Cloudinary preset (no 's')
         MAX_FILE_SIZE: 2 * 1024 * 1024, // 2MB in bytes
