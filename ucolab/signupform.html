@@ -62,13 +62,6 @@
         // Global References
         const auth = firebase.auth();
         const db = firebase.firestore();
-
-        /**
-         * Saves or updates user data in the Firestore 'users' collection.
-         * @param {firebase.User} user - The authenticated Firebase user object.
-         * @param {string} loginType - The method used to sign in ('Email/Password', 'Google').
-         * @param {Object} [extraData={}] - Any extra data like first/last name for email signup.
-         */
         async function saveUserToFirestore(user, loginType, extraData = {}) {
             const userRef = db.collection('users').doc(user.uid);
             

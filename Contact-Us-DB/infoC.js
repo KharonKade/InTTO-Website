@@ -6,7 +6,7 @@ const RECAPTCHA_SITE_KEY = '6LcfuRMsAAAAAGP--lIdDS3_olzVmXNiEJ6Wh3Fw'; // Replac
 const RECAPTCHA_MIN_SCORE = 0.5; // Minimum score to accept (0.0 = bot, 1.0 = human)
 
 document.addEventListener('DOMContentLoaded', () => {
-    emailjs.init("5_58lLK_G13DczpUQ");
+    emailjs.init("jtgfZ8_TmLu3KT1Kx");
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.querySelector('.contact-btn');
     
@@ -195,8 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const dbResult = await saveApplication(formData);
             
             // If database save succeeded (passed all security checks), send email
-            const serviceID = "service_4k3exau";     
-            const templateID = "template_ojczsmj";
+            const serviceID = "service_s839npy";     
+            const templateID = "template_8cby16k";
             
             await emailjs.send(serviceID, templateID, formData);
             
@@ -206,13 +206,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Submission error:', error);
             
+            // Get error message safely
+            const errorMessage = error?.message || error?.text || String(error) || 'Unknown error';
+            
             // Check if it's a rate limit or spam detection error
-            if (error.message.includes('wait') || 
-                error.message.includes('maximum') || 
-                error.message.includes('rejected')) {
-                showErrorModal(error.message, 'Submission Blocked');
+            if (errorMessage.includes('wait') || 
+                errorMessage.includes('maximum') || 
+                errorMessage.includes('rejected') ||
+                errorMessage.includes('Gmail_API')) {
+                showErrorModal(errorMessage, 'Submission Blocked');
             } else {
-                showErrorModal('Failed to send message. Please try again later.', 'Submission Failed');
+                showErrorModal('Failed to send message. Please try again later.\n\n' + errorMessage, 'Submission Failed');
             }
         } finally {
             submitButton.disabled = false;
