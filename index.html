@@ -330,40 +330,48 @@
                 return;
             }
 
-            let allStartups = [];
+            // 2. Filter for INCUBATED Only
+            let incubatedStartups = [];
             snapshot.forEach(doc => {
-                allStartups.push({ id: doc.id, ...doc.data() });
+                const data = doc.data();
+                // Only keep projects marked as 'incubated'
+                if (data.incubationStatus === 'incubated') {
+                    incubatedStartups.push({ id: doc.id, ...data });
+                }
             });
 
-            // 2. Render Function
+            // 3. Render Function (With LIMIT 6)
             function renderStartups(filterCategory = 'all') {
                 cardsGrid.innerHTML = '';
                 
-                const filtered = allStartups.filter(data => {
+                // Filter by Category
+                let filtered = incubatedStartups.filter(data => {
                     return filterCategory === 'all' || 
                            (data.category || '').toLowerCase() === filterCategory.toLowerCase();
                 });
 
-                if (filtered.length === 0) {
-                    cardsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #fff;">No startups match this category.</p>';
+                // Limit to 6
+                const displayList = filtered.slice(0, 6);
+
+                if (displayList.length === 0) {
+                    cardsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #fff;">No incubated startups match this category.</p>';
                     return;
                 }
 
                 let html = '';
-                filtered.forEach(data => {
-                    // Badge Logic: Check for incubation status
-                    let badgeHTML = '';
-                    if (data.incubationStatus === 'incubated') {
-                        badgeHTML = `<div class="incubated-badge" title="Verified / Incubated Project"><i class="fa-solid fa-check"></i></div>`;
-                    }
-
+                displayList.forEach(data => {
+                    // Badge is always present since we filtered for incubated
+                    const badgeHTML = `<div class="incubated-badge" title="Verified / Incubated Project"><i class="fa-solid fa-check"></i></div>`;
+                    
                     const imgUrl = (data.imageUrls && data.imageUrls.length > 0) ? data.imageUrls[0] : 'ucolab/Logo/No image.png';
                     const category = data.category || 'Innovation';
                     const trl = data.trl || 'TRL ?';
 
                     html += `
                         <div class="startup-card" data-category="${category.toLowerCase()}">
-                            ${badgeHTML} <div class="card-head">
+                            ${badgeHTML}
+                            
+                            <div class="card-head">
                                 <img src="${imgUrl}" class="startup-logo" alt="Logo">
                                 <div class="card-meta">
                                     <h3 class="startup-name">${data.name}</h3>
