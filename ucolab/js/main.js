@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const forgotPasswordForm = document.getElementById('forgot-password-form');
     const forgotPasswordEmailInput = document.getElementById('forgot-password-email-input');
 
-    // --- 4. FIREBASE PROVIDER ---
     const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     // --- HELPER UI FUNCTIONS ---
@@ -110,11 +109,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (profileModalOverlay) profileModalOverlay.classList.add('modal-hidden');
     }
     
-    // --- Forgot Password Modal Functions ---
     function openForgotPasswordModal() {
         if (authModalOverlay) authModalOverlay.classList.add('modal-hidden');
         if (forgotPasswordModalOverlay) {
             forgotPasswordModalOverlay.classList.remove('modal-hidden');
+            clearFormErrors(); 
             clearFormErrors(); 
         }
     }
@@ -150,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.form-error-message').forEach(el => el.remove());
     }
 
-    // --- 6. PROJECT AUTH ALERT ---
     function handleSubmitProjectClick(e) {
         e.preventDefault();
         const currentUser = auth.currentUser;
@@ -164,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 7. MAIN UI UPDATE FUNCTION ---
     function updateUI(user) {
         if (user) {
-            // --- User is SIGNED IN ---
             if (openSigninBtn) openSigninBtn.classList.add('hidden');
             if (userInfoContainer) userInfoContainer.classList.remove('hidden');
             if (userDisplayMain) {
@@ -176,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 userDisplayMain.onclick = () => { openProfileModal(); };
             }
         } else {
-            // --- User is SIGNED OUT ---
             if (openSigninBtn) openSigninBtn.classList.remove('hidden');
             if (userInfoContainer) userInfoContainer.classList.add('hidden');
             if (userDisplayMain) { userDisplayMain.onclick = null; }
@@ -319,8 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 9. PROJECT RENDERING FUNCTIONS ---
-
     function createProjectCardHTML(project) {
         if (!project || typeof project !== 'object') return '';
         
@@ -388,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </article>`;
     }
 
+    async function loadProjects() {
     async function loadProjects() {
         try {
             // Fetch ALL active projects from Firestore
