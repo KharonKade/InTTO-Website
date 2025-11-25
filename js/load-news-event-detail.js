@@ -1,9 +1,8 @@
-// Load News/Event Detail Page from Firestore
 document.addEventListener('DOMContentLoaded', () => {
-    // Get ID from URL parameter
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('id');
     
+<<<<<<< Updated upstream
     // Lightbox elements
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -15,13 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentImages = [];
     let currentImageIndex = 0;
     
+=======
+    const skeleton = document.getElementById('loading-skeleton');
+    const realContent = document.getElementById('real-content');
+
+>>>>>>> Stashed changes
     if (!eventId) {
         console.error('No event ID provided');
         showError('No event ID provided');
         return;
     }
     
-    // Load event from Firestore
     db.collection('newsEvents').doc(eventId).get()
         .then((doc) => {
             if (!doc.exists) {
@@ -33,6 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const event = { id: doc.id, ...doc.data() };
             displayEventDetails(event);
             loadRelatedPosts(event);
+
+            setTimeout(() => {
+                skeleton.style.display = 'none';
+                realContent.style.display = 'block';
+            }, 300);
         })
         .catch((error) => {
             console.error('Error loading event:', error);
@@ -40,17 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
     function showError(message) {
-        const eventShowcase = document.querySelector('.event-showcase');
-        if (eventShowcase) {
-            eventShowcase.innerHTML = `<p style="color: white; text-align: center; padding: 40px;">${message}</p>`;
+        const skeleton = document.getElementById('loading-skeleton');
+        const mainWrapper = document.querySelector('.main-wrapper');
+        
+        if (skeleton) skeleton.style.display = 'none';
+        
+        if (mainWrapper) {
+            mainWrapper.innerHTML = `<p style="color: black; text-align: center; padding: 100px; font-family: 'Poppins';">${message}</p>`;
         }
     }
     
     function displayEventDetails(event) {
-        // Update page title
         document.title = event.title + ' - UC InTTO';
         
-        // Update hero section
         const eventShowcase = document.querySelector('.event-showcase');
         if (eventShowcase) {
             const categoryDateDiv = eventShowcase.querySelector('.event-category-date');
@@ -68,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Update hero background if image exists
         const heroSection = document.querySelector('.hero');
         if (heroSection && event.images && event.images.length > 0) {
             heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${event.images[0]}')`;
@@ -76,22 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
             heroSection.style.backgroundPosition = 'center';
         }
         
-        // Update info cards
         const infoCards = document.querySelector('.info-cards-grid');
         if (infoCards) {
-            // Date Published
             const dateValue = infoCards.querySelector('.info-card:nth-child(1) .info-value');
             if (dateValue) {
                 dateValue.textContent = formatDate(event.date);
             }
             
-            // Author (always UC InTTO)
             const authorValue = infoCards.querySelector('.info-card:nth-child(2) .info-value');
             if (authorValue) {
                 authorValue.textContent = 'UC InTTO';
             }
             
-            // SDG Icons
             const sdgIconsContainer = infoCards.querySelector('.sdg-icons');
             if (sdgIconsContainer && event.sdgs && event.sdgs.length > 0) {
                 sdgIconsContainer.innerHTML = '';
@@ -108,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Update main content
         const aboutTitle = document.querySelector('.about-title');
         if (aboutTitle) {
             aboutTitle.textContent = `About This ${event.type === 'event' ? 'Event' : 'News'}`;
@@ -119,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
             aboutDescription.textContent = event.content || event.description || '';
         }
         
-        // Update photo gallery
         const eventGallery = document.querySelector('.event-gallery');
         if (eventGallery && event.images && event.images.length > 0) {
             currentImages = event.images; // Store images for lightbox
@@ -135,10 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (thumbnailContainer) {
                 thumbnailContainer.innerHTML = '';
                 
-                // Show up to 4 images (or 3 + view more)
-                const imagesToShow = Math.min(event.images.length, 4);
-                
-                for (let i = 1; i < imagesToShow; i++) {
+                for (let i = 1; i < event.images.length; i++) {
                     const img = document.createElement('img');
                     img.src = event.images[i];
                     img.alt = `${event.title} - Image ${i + 1}`;
@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                     thumbnailContainer.appendChild(img);
                 }
+<<<<<<< Updated upstream
                 
                 // Add "View More" if there are more than 4 images
                 if (event.images.length > 4) {
@@ -161,16 +162,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     thumbnailContainer.appendChild(viewMoreDiv);
                 }
+=======
+>>>>>>> Stashed changes
             }
         } else {
-            // Hide gallery if no images
             const galleryTitle = document.querySelector('.gallery-title');
             if (galleryTitle) galleryTitle.style.display = 'none';
             if (eventGallery) eventGallery.style.display = 'none';
         }
     }
     
-    // Helper function to format date
     function formatDate(dateString) {
         if (!dateString) return 'Date not available';
         const date = new Date(dateString);
@@ -178,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return date.toLocaleDateString('en-US', options);
     }
     
-    // Load related posts from Firestore
     function loadRelatedPosts(currentEvent) {
         db.collection('newsEvents')
             .where('type', '==', currentEvent.type)
@@ -220,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         newsCardsContainer.appendChild(card);
                     });
                 } else if (newsCardsContainer) {
-                    // Hide related posts section if no related posts
                     const relatedSection = document.querySelector('.related-posts-section');
                     if (relatedSection) relatedSection.style.display = 'none';
                 }
@@ -229,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error loading related posts:', error);
             });
     }
+<<<<<<< Updated upstream
     
     // Lightbox Functions
     function openLightbox(index) {
@@ -281,3 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'ArrowRight') showNextImage();
     });
 });
+=======
+});
+>>>>>>> Stashed changes
