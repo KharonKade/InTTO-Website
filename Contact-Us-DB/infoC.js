@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const executeRecaptcha = async () => {
         try {
             if (typeof grecaptcha === 'undefined') {
-                console.warn('reCAPTCHA not loaded, skipping verification');
                 return { success: true, score: null, skipVerification: true };
             }
 
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return { success: true, token: token, score: null };
             
         } catch (error) {
-            console.error('reCAPTCHA error:', error);
             // If reCAPTCHA fails, allow submission but log the error
             return { success: true, error: error.message };
         }
@@ -140,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Check honeypot field (if filled, it's a bot)
         if (honeypot.value) {
-            console.warn('Bot detected via honeypot');
             // Pretend success to bot, but don't actually submit
             setTimeout(() => {
                 showSuccessPage(null);
@@ -198,28 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const serviceID = "service_3pa2mna";     
             const templateID = "template_8cby16k";
             
-            // Log what we're sending to EmailJS for debugging
-            console.log('📧 Sending to EmailJS:', {
-                service: serviceID,
-                template: templateID,
-                data: formData
-            });
-            
             await emailjs.send(serviceID, templateID, formData);
             
             // Both succeeded
             showSuccessPage(dbResult.remainingSubmissions);
             
         } catch (error) {
-            console.error('❌ Submission error:', error);
-            console.error('Error details:', {
-                message: error?.message,
-                text: error?.text,
-                status: error?.status,
-                name: error?.name,
-                stack: error?.stack
-            });
-            
             // Get error message safely
             const errorMessage = error?.message || error?.text || String(error) || 'Unknown error';
             

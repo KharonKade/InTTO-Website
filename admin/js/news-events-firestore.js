@@ -34,9 +34,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
             
-            return newsEventsData;
+            return newsEvents;
         } catch (error) {
-            console.error('❌ Error loading news & events:', error);
             alert('Error loading news & events from database');
             return [];
         }
