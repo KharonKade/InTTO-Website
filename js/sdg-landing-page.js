@@ -62,7 +62,6 @@ async function fetchAllData() {
         allNewsEvents = newsEventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     } catch (error) {
-        console.error("Error fetching data:", error);
         projectsContainer.innerHTML = `<p style="font-family: Poppins, sans-serif; text-align: center; width: 100%;">Error loading projects from database.</p>`;
         newsContainer.innerHTML = `<p style="font-family: Poppins, sans-serif; text-align: center; width: 100%;">Error loading news and events from database.</p>`;
     }

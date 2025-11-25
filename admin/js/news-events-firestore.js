@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const docRef = await db.collection(NEWS_EVENTS_COLLECTION).add(newsEventData);
             return docRef.id;
         } catch (error) {
-            console.error('❌ Error saving news/event:', error);
             throw error;
         }
     };
@@ -71,7 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             await db.collection(NEWS_EVENTS_COLLECTION).doc(firestoreId).delete();
         } catch (error) {
-            console.error('❌ Error deleting news/event:', error);
             throw error;
         }
     };
@@ -387,8 +385,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         addNewsEventBtn.addEventListener('click', () => {
             openAddModal();
         });
-    } else {
-        console.error('❌ Add News/Event button not found!');
     }
     // Modal event listeners removed - using new tab navigation instead
     if (searchInput) searchInput.addEventListener('input', renderNewsEvents);

@@ -7,13 +7,11 @@ const RECAPTCHA_MIN_SCORE = 0.5; // Minimum score to accept (0.0 = bot, 1.0 = hu
 
 document.addEventListener('DOMContentLoaded', () => {
     // EmailJS is already initialized in the HTML file, no need to init again
-    console.log('✅ EmailJS ready:', typeof emailjs !== 'undefined');
     
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.querySelector('.contact-btn');
     
     if (!contactForm || !submitButton) {
-        console.error("Contact form or submit button not found.");
         return;
     }
 
