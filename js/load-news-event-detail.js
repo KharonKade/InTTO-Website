@@ -4,6 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('id');
     
+    // Lightbox elements
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.querySelector('.lightbox-caption');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
+    
+    let currentImages = [];
+    let currentImageIndex = 0;
+    
     if (!eventId) {
         console.error('No event ID provided');
         showError('No event ID provided');
@@ -111,10 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update photo gallery
         const eventGallery = document.querySelector('.event-gallery');
         if (eventGallery && event.images && event.images.length > 0) {
+            currentImages = event.images; // Store images for lightbox
+            
             const mainImage = eventGallery.querySelector('.main-image img');
             if (mainImage) {
                 mainImage.src = event.images[0];
                 mainImage.alt = event.title;
+                mainImage.onclick = () => openLightbox(0);
             }
             
             const thumbnailContainer = eventGallery.querySelector('.thumbnail-images');
@@ -131,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     img.className = 'gallery-img thumbnail';
                     img.onclick = () => {
                         mainImage.src = event.images[i];
+                        openLightbox(i);
                     };
                     thumbnailContainer.appendChild(img);
                 }
@@ -139,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (event.images.length > 4) {
                     const viewMoreDiv = document.createElement('div');
                     viewMoreDiv.className = 'view-more-thumbnail thumbnail';
+                    viewMoreDiv.onclick = () => openLightbox(4);
                     viewMoreDiv.innerHTML = `
                         <img src="${event.images[4]}" alt="View More Thumbnail" class="gallery-img view-more-img">
                         <div class="view-more-overlay">+${event.images.length - 4} More</div>
@@ -213,4 +229,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error loading related posts:', error);
             });
     }
+    
+    // Lightbox Functions
+    function openLightbox(index) {
+        if (!currentImages || currentImages.length === 0) return;
+        
+        currentImageIndex = index;
+        lightboxImg.src = currentImages[index];
+        lightboxCaption.textContent = `Image ${index + 1} of ${currentImages.length}`;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+    
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    }
+    
+    function showPrevImage() {
+        currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+        lightboxImg.src = currentImages[currentImageIndex];
+        lightboxCaption.textContent = `Image ${currentImageIndex + 1} of ${currentImages.length}`;
+    }
+    
+    function showNextImage() {
+        currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+        lightboxImg.src = currentImages[currentImageIndex];
+        lightboxCaption.textContent = `Image ${currentImageIndex + 1} of ${currentImages.length}`;
+    }
+    
+    // Event listeners for lightbox
+    if (closeBtn) closeBtn.onclick = closeLightbox;
+    if (prevBtn) prevBtn.onclick = showPrevImage;
+    if (nextBtn) nextBtn.onclick = showNextImage;
+    
+    // Close lightbox when clicking outside the image
+    if (lightbox) {
+        lightbox.onclick = (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        };
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showPrevImage();
+        if (e.key === 'ArrowRight') showNextImage();
+    });
 });
