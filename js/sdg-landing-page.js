@@ -120,13 +120,29 @@ function renderProjects(projects) {
         projectCard.className = 'startup-card';
         projectCard.setAttribute('data-category', (project.category || '').toLowerCase());
         
+        // --- START OF NEW IMAGE LOGIC (Matches startups.html) ---
+        let imgUrl = 'ucolab/Logo/No image.png';
+        
+        // 1. Check for imageUrls array (Standard method)
+        if (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0) {
+            const firstImg = project.imageUrls[0];
+            if (firstImg && (firstImg.startsWith('http') || firstImg.startsWith('data:image'))) {
+                imgUrl = firstImg;
+            }
+        } 
+        // 2. Fallback to logoUrl (Legacy method)
+        else if (project.logoUrl) {
+            imgUrl = project.logoUrl;
+        }
+        // --- END OF NEW IMAGE LOGIC ---
+
         const sdgTags = (project.sdgs && Array.isArray(project.sdgs))
             ? project.sdgs.map(s => `<span class="tag small" style="font-family: Poppins, sans-serif;">SDG ${s}</span>`).join('')
             : (project.sdg ? `<span class="tag small" style="font-family: Poppins, sans-serif;">SDG ${project.sdg}</span>` : '');
 
         projectCard.innerHTML = `
             <div class="card-head">
-                <img src="${project.logoUrl || 'graphics/sunshare.png'}" alt="${project.name || 'Startup'} logo" class="startup-logo">
+                <img src="${imgUrl}" alt="${project.name || 'Startup'} logo" class="startup-logo" onerror="this.src='ucolab/Logo/No image.png';">
                 <div class="card-meta">
                     <h3 class="startup-name" style="font-family: Poppins, sans-serif;">${project.name || 'Untitled Project'}</h3>
                     <div class="tags">
@@ -137,7 +153,7 @@ function renderProjects(projects) {
                 </div>
             </div>
             <p class="startup-desc" style="font-family: Poppins, sans-serif;">${project.description || 'No description available.'}</p>
-            <a href="${project.website || '#'}" class="card-cta" style="font-family: Poppins, sans-serif;">View More <span class="cta-circle">➜</span></a>
+            <a href="ucolab/project-detail.html?id=${project.id}" class="card-cta" style="font-family: Poppins, sans-serif;">View More <span class="cta-circle">➜</span></a>
         `;
         projectsContainer.appendChild(projectCard);
     });
