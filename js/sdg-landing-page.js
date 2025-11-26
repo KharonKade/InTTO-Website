@@ -64,8 +64,8 @@ async function fetchAllData() {
         allNewsEvents = newsEventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     } catch (error) {
-        if (projectsContainer) projectsContainer.innerHTML = `<p style="font-family: Poppins, sans-serif; text-align: center; width: 100%;">Error loading projects.</p>`;
-        if (newsContainer) newsContainer.innerHTML = `<p style="font-family: Poppins, sans-serif; text-align: center; width: 100%;">Error loading news.</p>`;
+        if (projectsContainer) projectsContainer.innerHTML = <p style="font-family: Poppins, sans-serif; text-align: center; width: 100%;">Error loading projects.</p>;
+        if (newsContainer) newsContainer.innerHTML = <p style="font-family: Poppins, sans-serif; text-align: center; width: 100%;">Error loading news.</p>;
     }
 }
 
@@ -112,8 +112,8 @@ function filterAndDisplay(sdg, searchTerm) {
         return matchesSdg && matchesSearch;
     });
 
-    if (projectResultsInfo) projectResultsInfo.textContent = `Showing ${filteredProjects.length} related projects`;
-    if (newsResultsInfo) newsResultsInfo.textContent = `Showing ${filteredNewsEvents.length} related news & events`;
+    if (projectResultsInfo) projectResultsInfo.textContent = 'Showing ${filteredProjects.length} related projects';
+    if (newsResultsInfo) newsResultsInfo.textContent = 'Showing ${filteredNewsEvents.length} related news & events';
     
     currentFilteredProjects = filteredProjects;
     currentFilteredNews = filteredNewsEvents;
@@ -130,7 +130,7 @@ function renderProjects() {
     projectsContainer.innerHTML = ''; 
 
     if (currentFilteredProjects.length === 0) {
-        projectsContainer.innerHTML = `<p style="font-family: Poppins, sans-serif; text-align: center; width: 100%; margin-top: 20px;">No projects found for the selected criteria.</p>`;
+        projectsContainer.innerHTML = <p style="font-family: Poppins, sans-serif; text-align: center; width: 100%; margin-top: 20px;">No projects found for the selected criteria.</p>;
         togglePagination('project-pagination', false);
         return;
     }
@@ -161,7 +161,7 @@ function renderProjects() {
         
         // Added incubation badge logic to match startups.html
         const badgeHTML = (project.incubationStatus === 'incubated') 
-            ? `<div class="incubated-badge" title="Verified / Incubated Project"><i class="fa-solid fa-check"></i></div>`
+            ? <div class="incubated-badge" title="Verified / Incubated Project"><i class="fa-solid fa-check"></i></div>
             : '';
 
         // EXACT HTML STRUCTURE FROM STARTUPS.HTML
@@ -199,7 +199,7 @@ function renderNews() {
     newsContainer.innerHTML = ''; 
     
     if (currentFilteredNews.length === 0) {
-        newsContainer.innerHTML = `<p style="font-family: Poppins, sans-serif; text-align: center; width: 100%; margin-top: 20px;">No news or events found for the selected criteria.</p>`;
+        newsContainer.innerHTML = <p style="font-family: Poppins, sans-serif; text-align: center; width: 100%; margin-top: 20px;">No news or events found for the selected criteria.</p>;
         togglePagination('news-pagination', false);
         return;
     }
@@ -221,8 +221,8 @@ function renderNews() {
             <img src="${imageUrl}" alt="News Image" onerror="this.src='graphics/news.png'">
             <div class="news-content">
                 <div class="news-meta">
-                    ${tag ? `<span class="tag" style="font-family: Poppins, sans-serif;">${tag}</span>` : ''}
-                    ${displayDate ? `<span class="date" style="font-family: Poppins, sans-serif;">${displayDate}</span>` : ''}
+                    ${tag ? <span class="tag" style="font-family: Poppins, sans-serif;">${tag}</span> : ''}
+                    ${displayDate ? <span class="date" style="font-family: Poppins, sans-serif;">${displayDate}</span> : ''}
                 </div>
                 <h3 class="news-title" style="font-family: Poppins, sans-serif;">${event.title || 'Untitled Event'}</h3>
                 <p class="news-desc" style="font-family: Poppins, sans-serif;">${event.content ? event.content.substring(0, 150) + '...' : 'No description available.'}</p>
