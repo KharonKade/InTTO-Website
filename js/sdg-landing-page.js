@@ -8,7 +8,7 @@ let currentProjectPage = 1;
 let currentNewsPage = 1;
 
 const ITEMS_PER_PAGE = 6;
-const MAX_VISIBLE_PAGES = 10; // User limitation: Show max 10 numbers
+const MAX_VISIBLE_PAGES = 10;
 
 const projectsContainer = document.getElementById('cardsGrid');
 const newsContainer = document.querySelector('.news-cards');
@@ -141,9 +141,10 @@ function renderProjects() {
     const projectsToShow = currentFilteredProjects.slice(startIndex, endIndex);
 
     projectsToShow.forEach(project => {
-        const projectCard = document.createElement('article');
+        // CHANGED: Use div instead of article to match startups.html structure exactly
+        const projectCard = document.createElement('div');
         projectCard.className = 'startup-card';
-        projectCard.setAttribute('data-category', (project.category || '').toLowerCase());
+        // Note: data-category attribute is not in startups.html, but harmless to keep
         
         let imgUrl = 'ucolab/Logo/No image.png';
         if (project.imageUrls && Array.isArray(project.imageUrls) && project.imageUrls.length > 0) {
@@ -155,24 +156,33 @@ function renderProjects() {
             imgUrl = project.logoUrl;
         }
 
-        const sdgTags = (project.sdgs && Array.isArray(project.sdgs))
-            ? project.sdgs.map(s => `<span class="tag small" style="font-family: Poppins, sans-serif;">SDG ${s}</span>`).join('')
-            : (project.sdg ? `<span class="tag small" style="font-family: Poppins, sans-serif;">SDG ${project.sdg}</span>` : '');
+        const category = project.category || 'Innovation';
+        const trl = project.trl || 'TRL ?';
+        
+        // Added incubation badge logic to match startups.html
+        const badgeHTML = (project.incubationStatus === 'incubated') 
+            ? `<div class="incubated-badge" title="Verified / Incubated Project"><i class="fa-solid fa-check"></i></div>`
+            : '';
 
+        // EXACT HTML STRUCTURE FROM STARTUPS.HTML
         projectCard.innerHTML = `
+            ${badgeHTML}
             <div class="card-head">
-                <img src="${imgUrl}" alt="${project.name || 'Startup'} logo" class="startup-logo" onerror="this.src='ucolab/Logo/No image.png';">
+                <img src="${imgUrl}" class="startup-logo" alt="${project.name || 'Startup'} Logo" onerror="this.src='ucolab/Logo/No image.png';">
                 <div class="card-meta">
-                    <h3 class="startup-name" style="font-family: Poppins, sans-serif;">${project.name || 'Untitled Project'}</h3>
+                    <h3 class="startup-name">${project.name || 'Untitled Project'}</h3>
                     <div class="tags">
-                        ${project.category ? `<span class="tag" style="font-family: Poppins, sans-serif;">${project.category}</span>` : ''}
-                        ${project.trl ? `<span class="tag small" style="font-family: Poppins, sans-serif;">TRL ${project.trl}</span>` : ''}
-                        ${sdgTags}
+                        <span class="tag">${category}</span>
+                        <span class="tag small">${trl}</span>
                     </div>
                 </div>
             </div>
-            <p class="startup-desc" style="font-family: Poppins, sans-serif;">${project.description || 'No description available.'}</p>
-            <a href="ucolab/project-detail.html?id=${project.id}" class="card-cta" style="font-family: Poppins, sans-serif;">View More <span class="cta-circle">➜</span></a>
+            <p class="startup-desc">
+                ${project.shortDescription || project.description || 'No description available.'}
+            </p>
+            <a href="ucolab/project-detail.html?id=${project.id}" class="card-cta">
+                View Details <span class="cta-circle">➜</span>
+            </a>
         `;
         projectsContainer.appendChild(projectCard);
     });
@@ -229,8 +239,6 @@ function renderNews() {
     });
 }
 
-// --- SHARED PAGINATION LOGIC (FIXED FOR 10-PAGE AUTO-SCROLL) ---
-
 function togglePagination(id, show) {
     const el = document.getElementById(id);
     if (el) el.style.display = show ? 'flex' : 'none';
@@ -261,35 +269,26 @@ function renderPaginationControls(containerId, targetElement, totalPages, curren
     }
     pagContainer.style.display = 'flex';
 
-    // --- LOGIC TO AUTO-SCROLL NUMBERS WHEN HITTING 10 ---
+    // Auto-scroll logic
     let startPage, endPage;
 
-    // If total pages are less than limit, show all
     if (totalPages <= MAX_VISIBLE_PAGES) {
         startPage = 1;
         endPage = totalPages;
     } else {
-        // If current page is less than 10 (1-9), stick to 1-10 range
-        // This ensures the list doesn't shift constantly while browsing early pages
         if (currentPage < MAX_VISIBLE_PAGES) {
             startPage = 1;
             endPage = MAX_VISIBLE_PAGES;
-        } 
-        // If near the very end, show the last chunk
-        else if (currentPage + 4 >= totalPages) {
+        } else if (currentPage + 4 >= totalPages) {
             startPage = totalPages - MAX_VISIBLE_PAGES + 1;
             endPage = totalPages;
-        } 
-        // OTHERWISE (e.g., clicking 10, 11, 12...), sliding window
-        // This makes 11 appear when you click 10.
-        else {
+        } else {
             startPage = currentPage - 5;
             endPage = currentPage + 4;
         }
     }
-    // -----------------------------------------------------
 
-    // Previous Arrow
+    // Prev Button
     const prevBtn = createPageBtn('<i class="fa-solid fa-chevron-left"></i>', currentPage > 1);
     prevBtn.onclick = () => {
         if (currentPage > 1) onPageChange(currentPage - 1);
@@ -299,20 +298,18 @@ function renderPaginationControls(containerId, targetElement, totalPages, curren
     // Number Buttons
     for (let i = startPage; i <= endPage; i++) {
         const btn = createPageBtn(i, true); 
-        
         if (i === currentPage) {
             btn.style.backgroundColor = '#1C7F56';
             btn.style.color = '#fff';
             btn.style.borderColor = '#1C7F56';
         }
-
         btn.onclick = () => {
             if (i !== currentPage) onPageChange(i);
         };
         pagContainer.appendChild(btn);
     }
 
-    // Next Arrow
+    // Next Button
     const nextBtn = createPageBtn('<i class="fa-solid fa-chevron-right"></i>', currentPage < totalPages);
     nextBtn.onclick = () => {
         if (currentPage < totalPages) onPageChange(currentPage + 1);
