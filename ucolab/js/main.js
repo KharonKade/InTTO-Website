@@ -370,16 +370,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadProjects() {
         try {
-            const snapshot = await db.collection('startups')
-                                     .where('status', '==', 'active')
-                                     .get();
+            // Load all projects from Firestore
+            const snapshot = await db.collection('startups').get();
             
             allProjectsData = [];
             
             snapshot.forEach(doc => {
                 const data = doc.data();
                 
-                if (data.incubationStatus === 'incubated') {
+                // Exclude only pending status, show both incubated and non-incubated
+                if (data.status === 'pending') {
                     return; 
                 }
 
