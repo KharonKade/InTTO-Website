@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalCloseBtn = document.getElementById('modal-close-btn');
     const showSignupLink = document.getElementById('show-signup-link');
     const showSigninLink = document.getElementById('show-signin-link');
-    const signoutBtnMain = document.getElementById('signout-btn-main');
+    const signoutBtnModal = document.getElementById('signout-btn-modal');
     const userInfoContainer = document.getElementById('user-info-container');
     const userDisplayMain = document.getElementById('user-display-main');
     const submitProjectBtn = document.getElementById('submit-project-btn');
@@ -292,7 +292,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function handleSignOut() {
-        try { await auth.signOut(); } catch (error) { showAlertModal('Error signing out.', 'Error'); }
+        try {
+            await auth.signOut();
+            closeProfileModal(); // Close the modal after signing out
+            // Optional: Show a quick alert
+            // showAlertModal('You have been signed out.', 'Signed Out');
+        } catch (error) {
+            showAlertModal('Error signing out.', 'Error');
+        }
     }
 
     async function handleForgotPassword(email) {
@@ -670,7 +677,12 @@ document.addEventListener('DOMContentLoaded', function() {
         handleSignUp(signupEmailInput.value, signupPasswordInput.value, signupFirstNameInput.value, signupLastNameInput.value);
     });
     
-    if (signoutBtnMain) signoutBtnMain.addEventListener('click', (e) => { e.preventDefault(); handleSignOut(); });
+    if (signoutBtnModal) {
+    signoutBtnModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleSignOut();
+    });
+}
     if (googleSigninBtn) googleSigninBtn.addEventListener('click', handleGoogleSignIn);
     if (googleSignupBtn) googleSignupBtn.addEventListener('click', handleGoogleSignIn);
 
