@@ -1,4 +1,101 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Admin Helpers: Lazy loading & notifications ---
+    const _lazy = { imageCompressor: false, cropper: false, cloudinary: false };
+
+    function loadScript(url, id) {
+        return new Promise((resolve, reject) => {
+            if (id && document.getElementById(id)) return resolve();
+            const s = document.createElement('script');
+            if (id) s.id = id;
+            s.src = url;
+            s.async = true;
+            s.onload = () => resolve();
+            s.onerror = () => reject(new Error('Failed to load script: ' + url));
+            document.head.appendChild(s);
+        });
+    }
+
+    function loadStyle(url, id) {
+        return new Promise((resolve, reject) => {
+            if (id && document.getElementById(id)) return resolve();
+            const l = document.createElement('link');
+            if (id) l.id = id;
+            l.rel = 'stylesheet';
+            l.href = url;
+            l.onload = () => resolve();
+            l.onerror = () => reject(new Error('Failed to load style: ' + url));
+            document.head.appendChild(l);
+        });
+    }
+
+    function notify(msg, type = 'info', seconds = 4) {
+        // Minimal toast - non-blocking feedback for admin actions
+        let container = document.getElementById('admin-notice-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'admin-notice-container';
+            container.style.position = 'fixed';
+            container.style.top = '20px';
+            container.style.right = '20px';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+        }
+        const el = document.createElement('div');
+        el.className = `admin-notice admin-notice-${type}`;
+        el.textContent = msg;
+        el.style.marginBottom = '8px';
+        el.style.padding = '8px 12px';
+        el.style.borderRadius = '8px';
+        el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+        el.style.background = type === 'error' ? '#f8d7da' : (type === 'success' ? '#d1e7dd' : '#e2e3e5');
+        el.style.color = type === 'error' ? '#842029' : (type === 'success' ? '#0f5132' : '#333');
+        container.appendChild(el);
+        setTimeout(() => { el.remove(); }, seconds * 1000);
+    }
+
+    async function loadImageCompressorIfNeeded() {
+        if (_lazy.imageCompressor) return;
+        try {
+            // If image-compressor is globally available, mark as loaded
+            if (typeof window.ImageCompressor !== 'undefined') {
+                _lazy.imageCompressor = true;
+                return;
+            }
+            await loadScript('../ucolab/js/image-compressor.js', 'image-compressor-js');
+            _lazy.imageCompressor = true;
+        } catch (err) {
+            // Graceful fallback: compressor not critical; allow original file
+            notify('Could not load client-side compressor; proceeding without compression', 'error');
+            _lazy.imageCompressor = false;
+        }
+    }
+
+    async function loadCropperIfNeeded() {
+        if (_lazy.cropper) return;
+        try {
+            if (typeof window.Cropper !== 'undefined') { _lazy.cropper = true; return; }
+            await loadStyle('https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css', 'cropper-css');
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js', 'cropper-js');
+            _lazy.cropper = true;
+        } catch (err) {
+            notify('Could not load Cropper.js; cropping will be unavailable', 'error');
+            _lazy.cropper = false;
+        }
+    }
+
+    async function loadCloudinaryIfNeeded() {
+        if (_lazy.cloudinary) return;
+        try {
+            // Widget script may already be present in HTML; otherwise load
+            if (typeof window.cloudinary !== 'undefined') { _lazy.cloudinary = true; return; }
+            await loadScript('https://widget.cloudinary.com/v2.0/global/all.js', 'cloudinary-widget-js');
+            _lazy.cloudinary = true;
+        } catch (err) {
+            notify('Could not load Cloudinary widget; uploading may fail', 'error');
+            _lazy.cloudinary = false;
+        }
+    }
+
     // *** CRITICAL: Must match the frontend load-startups.js storage key ***
     const STORAGE_KEY = 'ucInttoStartupsData'; 
     const PENDING_KEY = 'pendingProjects';
@@ -471,6 +568,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let i = 0; i < files.length; i++) {
                     const f = files[i];
                     try {
+                        // Lazy-load heavy resources only when needed
+                        await Promise.all([loadImageCompressorIfNeeded(), loadCloudinaryIfNeeded()]);
                         const compressed = await compressImageToTarget(f, 50);
                         const url = await uploadCompressedImageToCloudinary(compressed);
                         uploadedUrls.push(url);
@@ -480,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         div.innerHTML = `<img src="${url}" alt="Image ${i+1}"><div class="preview-image-label">Image ${i+1}</div>`;
                         imagesPreview.appendChild(div);
                     } catch (err) {
-                        console.error('Image upload error', err);
+                        notify('Image upload failed: ' + (err.message || err), 'error');
                     }
                 }
                 if (editImageUrlsHidden) editImageUrlsHidden.value = JSON.stringify(uploadedUrls);
@@ -492,6 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const file = e.target.files[0];
                 if (!file) return;
                 try {
+                    await Promise.all([loadImageCompressorIfNeeded(), loadCloudinaryIfNeeded()]);
                     const compressed = await compressImageToTarget(file, 50);
                     const url = await uploadCompressedImageToCloudinary(compressed);
                     // Update hidden and preview (update text input as well)
@@ -509,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     logoPreview.src = url;
                 } catch (err) {
-                    console.error('Logo upload error', err);
+                    notify('Logo upload failed: ' + (err.message || err), 'error');
                 }
             });
         }
