@@ -250,6 +250,16 @@
                 
                 if (!file || !slot || !previewElement || !removeBtn) return;
                 
+                // Compress image before preview and upload (target ~50KB)
+                let compressedFile = file;
+                try {
+                    if (typeof ImageCompressor?.compressImage === 'function') {
+                        compressedFile = await ImageCompressor.compressImage(file, 50);
+                    }
+                } catch (err) {
+                    console.warn('Compression failed (form):', err);
+                    compressedFile = file;
+                }
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewElement.src = e.target.result;
@@ -257,11 +267,11 @@
                     previewElement.style.opacity = 1;
                     removeBtn.style.display = 'block';
                 }
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(compressedFile);
                 
                 uploadingImages[index] = true;
                 try {
-                    const imageUrl = await CloudinaryUploader.uploadImage(file, index);
+                    const imageUrl = await CloudinaryUploader.uploadImage(compressedFile, index);
                     uploadedImageUrls[index] = imageUrl;
                 } catch (error) {
                     alert(`Error uploading image ${index + 1}: ${error.message}`);

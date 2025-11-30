@@ -124,21 +124,130 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeImageUploaders() {
+        async function blobFromCanvas(canvas, mimeType, quality) {
+            if (typeof OffscreenCanvas !== 'undefined' && canvas instanceof OffscreenCanvas) {
+                // OffscreenCanvas uses convertToBlob
+                return await canvas.convertToBlob({ type: mimeType, quality });
+            }
+            return await new Promise((resolve) => {
+                canvas.toBlob((b) => resolve(b), mimeType, quality);
+            });
+        }
+
+        async function compressImageToTarget(file, targetKB = 50, options = { maxWidth: 1200, minQuality: 0.12, qualityStep: 0.07, scaleStep: 0.9 }) {
+            if (!file) return file;
+            // Skip GIFs and SVGs (animated or vector) and very small files
+            if (file.type === 'image/gif' || file.type === 'image/svg+xml' || file.size <= targetKB * 1024) return file;
+
+            // Determine if image has alpha - if so, try webp to preserve transparency
+            const useWebP = file.type === 'image/png' || file.type === 'image/webp';
+            const targetType = useWebP ? 'image/webp' : 'image/jpeg';
+
+            // Create an image bitmap for drawing where possible, else use an Image element
+            let bitmap = null;
+            let imgEl = null;
+            const supportsCreateImageBitmap = typeof createImageBitmap === 'function';
+            if (supportsCreateImageBitmap) {
+                try {
+                    bitmap = await createImageBitmap(file);
+                } catch (err) {
+                    // ignore and fall back to Image element
+                    bitmap = null;
+                }
+            }
+            let tmpObjectUrl = null;
+            if (!bitmap) {
+                tmpObjectUrl = URL.createObjectURL(file);
+                imgEl = await new Promise((resolve, reject) => {
+                    const i = new Image();
+                    i.onload = () => resolve(i);
+                    i.onerror = reject;
+                    i.src = tmpObjectUrl;
+                });
+            }
+
+            let width = Math.min(options.maxWidth, bitmap.width);
+            let height = Math.round((bitmap.height / bitmap.width) * width);
+            let quality = 0.92;
+            let bestBlob = null;
+
+            while (true) {
+                // Canvas creation: use OffscreenCanvas if available to avoid layout thrash
+                let canvas;
+                if (typeof OffscreenCanvas !== 'undefined') {
+                    canvas = new OffscreenCanvas(Math.max(1, width), Math.max(1, height));
+                } else {
+                    canvas = document.createElement('canvas');
+                    canvas.width = Math.max(1, width);
+                    canvas.height = Math.max(1, height);
+                }
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (bitmap) {
+                    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+                } else if (imgEl) {
+                    ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+                }
+
+                const blob = await blobFromCanvas(canvas, targetType, quality);
+                if (blob) {
+                    bestBlob = blob; // store last produced blob in case we can't reach target
+                    if (blob.size <= targetKB * 1024) {
+                        // build file
+                        const ext = targetType === 'image/webp' ? '.webp' : '.jpg';
+                        bitmap && bitmap.close && bitmap.close();
+                        tmpObjectUrl && URL.revokeObjectURL(tmpObjectUrl);
+                        return new File([blob], file.name.replace(/\.[^/.]+$/, ext), { type: targetType });
+                    }
+                }
+
+                // If quality can be reduced more, try reducing quality first
+                if (quality > options.minQuality + 0.01) {
+                    quality = Math.max(options.minQuality, quality - options.qualityStep);
+                    continue; // try again with same dimensions, lower quality
+                }
+
+                // Quality floor reached, try scale down
+                const newWidth = Math.round(width * options.scaleStep);
+                if (newWidth < 64) {
+                    // Can't scale more - stop and return best attempt
+                    bitmap && bitmap.close && bitmap.close();
+                    tmpObjectUrl && URL.revokeObjectURL(tmpObjectUrl);
+                    if (bestBlob) return new File([bestBlob], file.name.replace(/\.[^/.]+$/, targetType === 'image/webp' ? '.webp' : '.jpg'), { type: targetType });
+                    return file; // fallback to original
+                }
+
+                width = newWidth;
+                height = Math.max(1, Math.round((bitmap ? bitmap.height : imgEl.height) / (bitmap ? bitmap.width : imgEl.width) * width));
+                // reset quality for next pass
+                quality = 0.9;
+            }
+        }
+
         async function handleImageUpload(fileInput, previewElement, index) {
             const file = fileInput.files[0];
             const slot = previewElement.closest('.image-upload-slot');
             const removeBtn = slot ? slot.querySelector('.remove-image-btn') : null;
             if (file) {
+                // Compress the image client-side (target ~50KB)
+                let compressedFile = file;
+                try {
+                    compressedFile = await compressImageToTarget(file, 50);
+                } catch (err) {
+                    console.warn('Compression error, will use original file', err);
+                    compressedFile = file;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewElement.src = e.target.result;
                     previewElement.classList.add('visible');
                     if(removeBtn) removeBtn.style.display = 'block';
                 }
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(compressedFile);
                 uploadingImages[index] = true;
                 try {
-                    const imageUrl = await CloudinaryUploader.uploadImage(file, index);
+                    const imageUrl = await CloudinaryUploader.uploadImage(compressedFile, index);
                     uploadedImageUrls[index] = imageUrl;
                 } catch (error) {
                     alert(`Error uploading image ${index + 1}`);

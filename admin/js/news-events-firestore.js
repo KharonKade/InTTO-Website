@@ -62,6 +62,70 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    // --- Image compression helpers ---
+    async function blobFromCanvas(canvas, mimeType, quality) {
+        if (typeof OffscreenCanvas !== 'undefined' && canvas instanceof OffscreenCanvas) {
+            return await canvas.convertToBlob({ type: mimeType, quality });
+        }
+        return await new Promise((resolve) => canvas.toBlob((b) => resolve(b), mimeType, quality));
+    }
+
+    async function compressImageToTarget(file, targetKB = 50, options = { maxWidth: 1200, minQuality: 0.12, qualityStep: 0.07, scaleStep: 0.9 }) {
+        if (!file) return file;
+        if (file.type === 'image/gif' || file.type === 'image/svg+xml' || file.size <= targetKB * 1024) return file;
+        const useWebP = file.type === 'image/png' || file.type === 'image/webp';
+        const targetType = useWebP ? 'image/webp' : 'image/jpeg';
+
+        let bitmap = null;
+        let imgEl = null;
+        if (typeof createImageBitmap === 'function') {
+            try { bitmap = await createImageBitmap(file); } catch (e) { bitmap = null; }
+        }
+        let tmpObjectUrl = null;
+        if (!bitmap) {
+            tmpObjectUrl = URL.createObjectURL(file);
+            imgEl = await new Promise((resolve, reject) => {
+                const i = new Image(); i.onload = () => resolve(i); i.onerror = reject; i.src = tmpObjectUrl;
+            });
+        }
+
+        let width = Math.min(options.maxWidth, bitmap ? bitmap.width : imgEl.width);
+        let height = Math.round((bitmap ? bitmap.height : imgEl.height) / (bitmap ? bitmap.width : imgEl.width) * width);
+        let quality = 0.92;
+        let bestBlob = null;
+
+        while (true) {
+            let canvas;
+            if (typeof OffscreenCanvas !== 'undefined') canvas = new OffscreenCanvas(Math.max(1, width), Math.max(1, height));
+            else { canvas = document.createElement('canvas'); canvas.width = Math.max(1, width); canvas.height = Math.max(1, height); }
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (bitmap) ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+            else if (imgEl) ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
+
+            const blob = await blobFromCanvas(canvas, targetType, quality);
+            if (blob) {
+                bestBlob = blob;
+                if (blob.size <= targetKB * 1024) {
+                    const ext = targetType === 'image/webp' ? '.webp' : '.jpg';
+                    bitmap && bitmap.close && bitmap.close();
+                    tmpObjectUrl && URL.revokeObjectURL(tmpObjectUrl);
+                    return new File([blob], file.name.replace(/\.[^/.]+$/, ext), { type: targetType });
+                }
+            }
+            if (quality > options.minQuality + 0.01) { quality = Math.max(options.minQuality, quality - options.qualityStep); continue; }
+            const newWidth = Math.round(width * options.scaleStep);
+            if (newWidth < 64) {
+                bitmap && bitmap.close && bitmap.close(); tmpObjectUrl && URL.revokeObjectURL(tmpObjectUrl);
+                if (bestBlob) return new File([bestBlob], file.name.replace(/\.[^/.]+$/, targetType === 'image/webp' ? '.webp' : '.jpg'), { type: targetType });
+                return file;
+            }
+            width = newWidth;
+            height = Math.max(1, Math.round((bitmap ? bitmap.height : imgEl.height) / (bitmap ? bitmap.width : imgEl.width) * width));
+            quality = 0.9;
+        }
+    }
+
     const saveNewsEventToFirestore = async (newsEventData) => {
         try {
             newsEventData.createdAt = newsEventData.createdAt || firebase.firestore.Timestamp.now();
@@ -235,6 +299,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const label = slot.querySelector('.upload-label');
                     const removeBtn = slot.querySelector('.remove-image-btn');
 
+                    // Compress the image before preview and upload
+                    let compressedFile = file;
+                    try {
+                        compressedFile = await compressImageToTarget(file, 50);
+                    } catch (err) {
+                        console.warn('Image compression failed, using original', err);
+                        compressedFile = file;
+                    }
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         preview.src = e.target.result;
@@ -242,11 +314,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         label.style.display = 'none';
                         if (removeBtn) removeBtn.style.display = 'flex';
                     };
-                    reader.readAsDataURL(file);
-
+                    reader.readAsDataURL(compressedFile);
                     uploadingImages[index] = true;
                     try {
-                        const cloudinaryUrl = await CloudinaryUploader.uploadImage(file);
+                        const cloudinaryUrl = await CloudinaryUploader.uploadImage(compressedFile);
                         uploadedImageUrls[index] = cloudinaryUrl;
                     } catch (error) {
                         alert(`Failed to upload image ${i}: ${error.message}`);
