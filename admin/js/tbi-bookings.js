@@ -253,11 +253,11 @@ function setupEventListeners() {
     if (e.target.id === 'manualRescheduleModal') closeManualRescheduleModal();
   });
   
-  // Set minimum date for reschedule to tomorrow
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  document.getElementById('newDate').min = tomorrow.toISOString().split('T')[0];
-  document.getElementById('closeDateStart').min = new Date().toISOString().split('T')[0];
+  // Set minimum date for close day form to today
+  const closeDateInput = document.getElementById('closeDateStart');
+  if (closeDateInput) {
+    closeDateInput.min = new Date().toISOString().split('T')[0];
+  }
 }
 
 // Apply filters
