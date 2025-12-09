@@ -168,7 +168,6 @@ function updateStats() {
 }
 
 function setupEventListeners() {
-  // Use optional chaining (?.) so one missing ID doesn't crash the script
   document.getElementById('statusFilter')?.addEventListener('change', applyFilters);
   document.getElementById('serviceFilter')?.addEventListener('change', applyFilters);
   document.getElementById('dateFilter')?.addEventListener('change', applyFilters);
@@ -179,7 +178,6 @@ function setupEventListeners() {
   document.getElementById('cancelReschedule')?.addEventListener('click', closeRescheduleModal);
   document.getElementById('closeViewModal')?.addEventListener('click', closeViewModal);
   
-  // Close Day / Time Modal Listeners
   document.getElementById('openCloseDayModal')?.addEventListener('click', openCloseDayModal);
   document.getElementById('closeCloseDayModal')?.addEventListener('click', closeCloseDayModal);
   document.getElementById('cancelCloseDay')?.addEventListener('click', closeCloseDayModal);
@@ -627,7 +625,8 @@ function closeManualRescheduleModal() {
   currentRescheduleBookingIndex = null;
   temporaryAssignments = []; 
   
-  document.getElementById('closeDayForm').reset();
+  const form = document.getElementById('closeDayForm');
+  if(form) form.reset();
   const timeSlotGroup = document.getElementById('timeSlotGroup');
   if (timeSlotGroup) timeSlotGroup.style.display = 'none';
 }
@@ -1114,6 +1113,9 @@ function closeCloseDayModal() {
 async function handleCloseDay(e) {
   e.preventDefault();
   
+  // Use e.target directly to reference the form, avoiding reference errors.
+  const form = e.target;
+  
   const closeTypeInput = document.getElementById('closeType');
   const closeDateInput = document.getElementById('closeDateStart');
   const closeReasonInput = document.getElementById('closeReason');
@@ -1138,7 +1140,7 @@ async function handleCloseDay(e) {
     }
   }
   
-  const submitBtn = e.target.querySelector('.btn-primary');
+  const submitBtn = form.querySelector('.btn-primary');
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Processing...';
@@ -1179,11 +1181,19 @@ async function handleCloseDay(e) {
     
     await saveScheduleClosure(closeType, closeDate, timeSlots, closeReason);
     
+    // Success: Alert first
     alert('Schedule closed successfully!');
-    loadClosedSchedules();
-    if (form) form.reset(); // Assuming form variable is available or re-select
-    const tsGroup = document.getElementById('timeSlotGroup');
-    if (tsGroup) tsGroup.style.display = 'none';
+    
+    // UI Cleanup logic separated into safe blocks
+    try {
+        if(typeof loadClosedSchedules === 'function') loadClosedSchedules();
+        if(form && typeof form.reset === 'function') form.reset();
+        const tsGroup = document.getElementById('timeSlotGroup');
+        if (tsGroup) tsGroup.style.display = 'none';
+    } catch(uiError) {
+        console.warn('UI update failed after successful save:', uiError);
+        // Do NOT alert failure here, as the save worked.
+    }
     
   } catch (error) {
     console.error('Error closing schedule:', error);
